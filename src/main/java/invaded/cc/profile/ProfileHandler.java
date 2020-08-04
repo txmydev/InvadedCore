@@ -1,21 +1,22 @@
 package invaded.cc.profile;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import invaded.cc.Core;
 import invaded.cc.grant.GrantHandler;
+import invaded.cc.manager.RequestHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.util.SkinParser;
+import jodd.http.HttpResponse;
 import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.ChatColor;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
@@ -25,6 +26,37 @@ public class ProfileHandler {
 
     public ProfileHandler() {
         this.profiles = new ConcurrentHashMap<>();
+    }
+
+    public Profile newLoad(UUID uuid, String name){
+        profiles.putIfAbsent(uuid, new Profile(uuid, name));
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("uuid", uuid.toString());
+        body.put("name", name);
+
+        HttpResponse response = RequestHandler.post("/users", body);
+        Profile profile = profiles.get(uuid);
+
+        JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
+
+        if (jsonObject.has("color")) profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
+        if (jsonObject.has("italic")) profile.setItalic(jsonObject.get("italic").getAsBoolean());
+        if (jsonObject.has("bold")) profile.setBold(jsonObject.get("bold").getAsBoolean());
+        if (jsonObject.has("privateMessages")) profile.setMessages(jsonObject.get("privateMessages").getAsBoolean());
+        if (jsonObject.has("privateMessagesSound")) profile.setMessagesSound(jsonObject.get("privateMessagesSound").getAsBoolean());
+
+        if (jsonObject.has("ignoreList")) {
+            List<String> list = new ArrayList<>();
+            jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> list.add(element.getAsString()));
+
+            profile.setIgnoreList(list);
+        }
+
+        if (jsonObject.has("allowDisguise")) profile.setAllowDisguise(jsonObject.get("allowDisguise").getAsBoolean());
+
+        response.close();
+        return profile;
     }
 
     public Profile load(UUID uuid, String name) {
@@ -38,13 +70,11 @@ public class ProfileHandler {
         Document find = collection.find(Filters.eq("uuid", uuid.toString())).first();
 
         if (find != null) {
-            if (find.containsKey("color"))
-                profile.setChatColor(find.getString("color").equals("none") ? null : ChatColor.valueOf(find.getString("color")));
+            if (find.containsKey("color")) profile.setChatColor(find.getString("color").equals("none") ? null : ChatColor.valueOf(find.getString("color")));
             if (find.containsKey("italic")) profile.setItalic(find.getBoolean("italic"));
             if (find.containsKey("bold")) profile.setBold(find.getBoolean("bold"));
             if (find.containsKey("privateMessages")) profile.setMessages(find.getBoolean("privateMessages"));
-            if (find.containsKey("privateMessagesSound"))
-                profile.setMessagesSound(find.getBoolean("privateMessagesSound"));
+            if (find.containsKey("privateMessagesSound")) profile.setMessagesSound(find.getBoolean("privateMessagesSound"));
             if (find.containsKey("ignoreList")) profile.setIgnoreList(find.getList("ignoreList", String.class));
             if (find.containsKey("allowDisguise")) profile.setAllowDisguise(find.getBoolean("allowDisguise"));
 
@@ -65,13 +95,32 @@ public class ProfileHandler {
         profile.setHighestRank(grantHandler.getHighestGrant(profile.getGrants()));
 
         if (profile.getPermissions() == null) profile.setPermissions(new HashSet<>());
-        profile.getGrants().forEach(grant ->
-        {
+
+        profile.getGrants().forEach(grant -> {
+            if(!grant.isUse()) return;
+
             Core.getInstance().getRankHandler().getRankOrDefault(grant.getRank()).getPermissions().forEach(permission -> profile.getPermissions().add(permission));
         });
 
         profile.setLoaded(true);
         return profile;
+    }
+
+    public void newSave(Profile profile) {
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("uuid", profile.getId().toString());
+        body.put("name", profile.getName());
+        body.put("color", profile.getChatColor() == null ? "none" : profile.getChatColor().name());
+        body.put("bold", profile.isBold());
+        body.put("italic", profile.isItalic());
+        body.put("privateMessages", profile.isMessages());
+        body.put("privateMessagesSound", profile.isMessagesSound());
+        body.put("allowDisguise", profile.isAllowDisguise());
+        body.put("ignoreList", profile.getIgnoreList());
+
+        HttpResponse response = RequestHandler.put("/users/uuid/" + profile.getId().toString(), body);
+        response.close();
     }
 
     public void save(Profile profile) {

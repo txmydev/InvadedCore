@@ -55,8 +55,15 @@ public class GrantHandler {
             Grant grant = new Grant(profile, doc.getLong("addedAt"),
                     doc.getString("rank"), doc.getString("addedBy"));
 
-            if (doc.containsKey("removedBy")) grant.setRemovedBy(doc.getString("removedBy"));
-            if(doc.containsKey("removedAt")) grant.setRemovedAt(doc.getLong("removedAt"));
+            if (doc.containsKey("removedBy")) {
+                grant.setRemovedBy(doc.getString("removedBy"));
+                grant.setUse(false);
+            }
+
+            if(doc.containsKey("removedAt")) {
+                grant.setRemovedAt(doc.getLong("removedAt"));
+                grant.setUse(false);
+            }
 
             grants.add(grant);
         });
@@ -69,6 +76,6 @@ public class GrantHandler {
     }
 
     public Rank getHighestGrant(List<Grant> grants) {
-        return grants.stream().filter(grant -> grant.getRemovedAt() == 0L).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
+        return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
     }
 }

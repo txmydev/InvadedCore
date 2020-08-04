@@ -20,6 +20,8 @@ public class Grant {
     private String addedBy;
     private String removedBy;
 
+    private boolean use = true;
+
     public Grant(Profile profile, long grantedAt, String rank, String addedBy) {
         this.profile = profile;
         this.addedAt = grantedAt;

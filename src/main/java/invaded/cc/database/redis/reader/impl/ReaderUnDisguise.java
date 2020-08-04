@@ -4,17 +4,21 @@ import com.google.gson.JsonObject;
 import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.profile.Profile;
+import invaded.cc.profile.ProfileHandler;
 
 import java.util.UUID;
 
 public class ReaderUnDisguise implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
-     /*   String serverId = jsonObject.get("server-id").getAsString();
+        String serverId = jsonObject.get("server-id").getAsString();
         String currentServer = Core.getInstance().getServerName();
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
 
         String profileId = jsonObject.get("profileId").getAsString();
-        Profile profile = Profile.getByUuid(UUID.fromString(profileId));
+        Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
+
+        if(profile == null) return;
 
         if(serverId.equals(currentServer)) {
             profile.unDisguise();
@@ -23,6 +27,6 @@ public class ReaderUnDisguise implements Callback<JsonObject> {
             profile.setFakeRank(null);
             profile.setFakeSkin(null);
             profile.setFakeName(null);
-        }*/
+        }
     }
 }

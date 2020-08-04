@@ -1,6 +1,7 @@
 package invaded.cc.manager;
 
 import invaded.cc.commands.*;
+import invaded.cc.commands.perms.PermissionCommand;
 import invaded.cc.commands.punish.ban.BanCMD;
 import invaded.cc.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.commands.punish.blacklist.BlacklistCMD;
@@ -44,7 +45,6 @@ public class CommandHandler {
         new TemporalMuteCMD();
         new UnMuteCMD();
         new KickCMD();
-        new ReJoinCommand();
         new DisguiseCommand();
         new UnDisguiseCommand();
         new HelpOpCommand();
@@ -55,6 +55,7 @@ public class CommandHandler {
         new ListCommand();
         new PunishmentsCommand();
         new GrantsCommand();
+        new PermissionCommand();
     }
 
 }

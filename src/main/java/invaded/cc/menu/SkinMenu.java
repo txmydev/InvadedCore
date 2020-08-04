@@ -103,11 +103,14 @@ public class SkinMenu extends Menu {
             return;
         }
 
-        profile.setFakeName(nick);
-        profile.setFakeRank(rank);
-        profile.setFakeSkin(skin);
+        new JedisPoster(JedisAction.DISGUISE)
+                .addInfo("profileId", profile.getId().toString())
+                .addInfo("realName",profile.getName())
+                .addInfo("name", nick)
+                .addInfo("rank", rank.getName())
+                .addInfo("skin", skin.getTexture() + ";"+ skin.getSignature())
+                .post();
 
-        DisguiseHandler.disguise(profile);
         player.sendMessage(Color.translate("&aYou've been disguised!"));
 
         datas.remove(player.getName());

@@ -64,8 +64,6 @@ public class JedisPoster {
     }
 
     public void post() {
-        System.out.println("Requested to post a json message in channel invaded-channel");
-
         JedisPublisher publisher = INVADED_CHANNEL_PUBLISHER;
         publisher.write(jsonObject);
     }

@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
 import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.injector.PermissibleInjector;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.profile.User;
 import invaded.cc.profile.Profile;
@@ -34,6 +35,8 @@ public class PlayerListener implements Listener {
         String name = event.getName();
         ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
         Profile profile = profileHandler.load(uuid, name);
+
+        profileHandler.newLoad(uuid, name);
 
         if (!profile.isLoaded()) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
@@ -122,7 +125,15 @@ public class PlayerListener implements Listener {
 
 
         Core.getInstance().getServerHandler().removePlayer(globalPlayer);
+
+        try {
+            PermissibleInjector.unInject(player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         profileHandler.save(profile);
+        profileHandler.newSave(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
     }
 

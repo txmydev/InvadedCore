@@ -1,6 +1,7 @@
 package invaded.cc.permission;
 
 import invaded.cc.Core;
+import invaded.cc.injector.PermissibleInjector;
 import invaded.cc.util.Common;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -21,10 +22,17 @@ public class PermissionHandler {
 
         try{
             Common.modifyField("permissions", attachment, permissions, false);
-            player.recalculatePermissions();
         }catch(Exception ex){
              ex.printStackTrace();
         }
+
+        try {
+            PermissibleInjector.inject(player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        player.recalculatePermissions();
     }
 
 }

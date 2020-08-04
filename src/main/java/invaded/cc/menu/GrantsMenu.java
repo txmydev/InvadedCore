@@ -4,6 +4,7 @@ import invaded.cc.Core;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.profile.Profile;
+import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Color;
@@ -53,19 +54,39 @@ public class GrantsMenu extends Menu {
             itemBuilder.lore("&fAdded At&7: &b" + simpleDateFormat.format(new Date(grant.getAddedAt())));
             itemBuilder.lore("&fDuration&7: &bPermanent");
             itemBuilder.lore(Common.getLine(20));
-            itemBuilder.lore("&bClick to remove this grant");
 
-            inventory.setItem(slot++, itemBuilder.build());
-            grants.put(slot, grant);
+            if(grant.isUse()) {
+                itemBuilder.lore("&bClick to remove this grant");
+                itemBuilder.lore(Common.getLine(20));
+                grants.put(slot, grant);
+            } else {
+                itemBuilder.lore("&fRemoved By&7: &b" + grant.getRemovedBy());
+                itemBuilder.lore("&fRemoved At&7: &b" + simpleDateFormat.format(new Date(grant.getRemovedAt())));
+                itemBuilder.lore(Common.getLine(20));
+            }
+            inventory.setItem(slot, itemBuilder.build());
+            slot++;
         }
     }
 
     @Override
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
+        Profile profile = profileHandler.getProfile(player.getUniqueId());
+        int pr = profile.getHighestRank().getPriority();
 
         if(grants.containsKey(event.getSlot())) {
+            RankHandler rankHandler = Core.getInstance().getRankHandler();
+
             Grant grant = grants.get(event.getSlot());
+            Rank rank = rankHandler.getRank(grant.getRank());
+
+            if(pr < rank.getPriority()) {
+                player.sendMessage(Color.translate("&cYou cannot remove this grant."));
+                return;
+            }
 
             grant.setRemovedBy(player.getName());
             grant.setRemovedAt(System.currentTimeMillis());

@@ -14,3 +14,7 @@ redis:
   username: username
   password: password
   authentication: true
+http:
+  host: localhost
+  port: 5000
+  token: none

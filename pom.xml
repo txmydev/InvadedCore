@@ -28,6 +28,7 @@
             <artifactId>spigot</artifactId>
             <scope>system</scope>
             <systemPath>C:/Users/Tomi/Downloads/FoxSpigot.jar</systemPath>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
@@ -35,13 +36,16 @@
             <artifactId>Common</artifactId>
             <scope>system</scope>
             <systemPath>C:/Developer/Projects/Common/out/artifacts/Common_jar/Common.jar</systemPath>
+            <version>1.0</version>
         </dependency>
+
 
         <dependency>
             <groupId>bungee</groupId>
             <artifactId>bungee</artifactId>
             <scope>system</scope>
             <systemPath>C:/Developer/JARs/BungeeCord.jar</systemPath>
+            <version>1.0</version>
         </dependency>
 
         <dependency>

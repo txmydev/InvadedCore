@@ -13,10 +13,9 @@ import java.util.List;
 public class PermissibleInjector {
 
     private static Field PERMISSIBLE_BASE_FIELD;
-    private static ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
 
     public static void inject(Player player) throws Exception {
-        /*if(PERMISSIBLE_BASE_FIELD == null){
+        if(PERMISSIBLE_BASE_FIELD == null){
             PERMISSIBLE_BASE_FIELD = player.getClass().getSuperclass().getDeclaredField("perm");
             PERMISSIBLE_BASE_FIELD.setAccessible(true);
         }
@@ -27,7 +26,7 @@ public class PermissibleInjector {
         copy(oldPerm, newPerm);
 
         PERMISSIBLE_BASE_FIELD.set(player, newPerm);
-        newPerm.recalculatePermissions();*/
+        newPerm.recalculatePermissions();
     }
 
     @SneakyThrows
@@ -41,10 +40,10 @@ public class PermissibleInjector {
     }
 
     public static void unInject(Player player) throws Exception {
-    /*    InvadedBase oldPerm = (InvadedBase) PERMISSIBLE_BASE_FIELD.get(player);
+        InvadedBase oldPerm = (InvadedBase) PERMISSIBLE_BASE_FIELD.get(player);
         PermissibleBase oldOldPerm = oldPerm.getOldBase();
         PERMISSIBLE_BASE_FIELD.set(player, oldOldPerm);
-        oldOldPerm.recalculatePermissions();*/
+        oldOldPerm.recalculatePermissions();
     }
 
 }

@@ -1,18 +1,17 @@
 package invaded.cc;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.grant.GrantHandler;
+import invaded.cc.manager.*;
 import invaded.cc.permission.PermissionHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.database.Database;
 
 import invaded.cc.listener.PlayerListener;
 import invaded.cc.listener.SecurityListener;
-import invaded.cc.manager.ChatHandler;
-import invaded.cc.manager.CommandHandler;
-import invaded.cc.manager.DisguiseHandler;
-import invaded.cc.manager.ServerHandler;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.rank.Rank;
@@ -30,6 +29,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public class Core extends JavaPlugin {
+
+    public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
     @Getter
     private static Core instance;
@@ -85,6 +86,8 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
         pm.registerEvents(new SecurityListener(), this);
         pm.registerEvents(new MenuListener(), this);
+
+        new RequestHandler();
     }
 
     @Override
@@ -99,8 +102,11 @@ public class Core extends JavaPlugin {
             profileHandler.save(profile);
         });
 
+        rankHandler.getPriorityOrdered().forEach(rank -> {
+            rankHandler.newSave(rank);
+            rankHandler.save(rank);
+        });
 
-        rankHandler.getPriorityOrdered().forEach(rankHandler::save);
         punishmentHandler.unload();
 
         db.close();

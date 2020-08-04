@@ -28,17 +28,12 @@ public class JedisPublisher {
     public void write(JsonObject jsonObject){
         if(channel.equalsIgnoreCase("invaded-channel")
         && isDuplicated(jsonObject)) {
-            System.out.println("[Core] Attempted to publish 2 times in a row the same message.");
             return;
         }
 
         try {
             jedis.publish(channel, jsonObject.toString());
             lastMessage = jsonObject;
-
-            if(channel.equals("invaded-channel")) {
-                System.out.println("Published something in the channel.");
-            }
         }catch(JedisConnectionException ex){
             jedis.close();
             jedis = new Jedis(conf.getHost(), conf.getPort());
@@ -47,9 +42,6 @@ public class JedisPublisher {
 
             jedis.publish(channel, jsonObject.toString());
             lastMessage = jsonObject;
-
-            if(channel.equals("invaded-channel"))
-                System.out.println("Published something in the channel (error first).");
         }
     }
 

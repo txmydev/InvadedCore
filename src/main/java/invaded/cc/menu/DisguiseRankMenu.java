@@ -95,12 +95,15 @@ public class DisguiseRankMenu extends Menu {
         Skin skin = profile.getRealSkin();
 
         if(Core.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
+
             new JedisPoster(JedisAction.DISGUISE)
                     .addInfo("profileId", profile.getId().toString())
+                    .addInfo("realName",profile.getName())
                     .addInfo("name", nick)
                     .addInfo("rank", rank.getName())
                     .addInfo("skin", skin.getTexture() + ";"+ skin.getSignature())
                     .post();
+
             player.sendMessage(Color.translate("&cYou are using your own skin due to there are no skins available."));
             player.sendMessage(Color.translate("&aYou have been disguised!"));
             return;
