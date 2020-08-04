@@ -1,0 +1,25 @@
+main: invaded.cc.Core
+name: Invaded
+version: 1.0
+author: txmy
+depend:
+  - Common
+
+permissions:
+  invaded.*:
+    default: false
+    children:
+      invaded.admin:
+        default: false
+        children:
+          invaded.staff:
+            default: false
+            children:
+              invaded.media:
+                default: false
+                children:
+                  invaded.vip:
+                    default: false
+                    children:
+                      invaded.default:
+                        default: true

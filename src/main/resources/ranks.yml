@@ -1,0 +1,15 @@
+ranks:
+  Default:
+    priority: 0
+    #
+    default: true
+    #
+    permissions: []
+    #
+    options:
+      prefix: ''
+      suffix: ''
+      color:
+        value: WHITE
+        italic: false
+        bold: false

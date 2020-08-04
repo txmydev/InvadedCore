@@ -1,0 +1,16 @@
+mongo:
+  host: localhost
+  port: 27017
+  #
+  username: ''
+  password: ''
+  #
+  authentication: true
+  #
+  database: database
+redis:
+  host: localhost
+  port: 6379
+  username: username
+  password: password
+  authentication: true
