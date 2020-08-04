@@ -107,7 +107,7 @@ public class RankHandler {
     }
 
     public void newSave(Rank rank) {
-        JsonObject jsonObject = new JsonObject();
+        /*JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("name", rank.getName());
         jsonObject.addProperty("priority", rank.getPriority());
@@ -121,11 +121,21 @@ public class RankHandler {
         JsonArray array = new JsonArray();
         rank.getPermissions().forEach(array::add);
 
-        jsonObject.add("permissions", array);
+        jsonObject.add("permissions", array);*/
 
-        System.out.println("About to post: " + jsonObject.toString());
+        Map<String, Object> map = new HashMap<>();
 
-        HttpResponse response = RequestHandler.post("/ranks", jsonObject);
+        map.put("name", rank.getName());
+        map.put("priority", rank.getPriority());
+        map.put("prefix", rank.getPrefix());
+        map.put("suffix", rank.getSuffix());
+        map.put("defaultRank", rank.isDefaultRank());
+        map.put("italic", rank.isItalic());
+        map.put("bold", rank.isBold());
+        map.put("color", rank.getColor().name());
+
+        HttpResponse response = RequestHandler.post("/ranks", map);
+
         System.out.println("Got response: " + response.body());
         response.close();
     }

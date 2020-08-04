@@ -41,15 +41,12 @@ public class RequestHandler {
     }
 
     public static HttpResponse post(String endpoint, Map<String, Object> body) {
-        return HttpRequest.post(BASE + endpoint)
-                .body(Core.GSON.toJson(body))
-                .send();
-    }
+        HttpRequest req = HttpRequest.post(BASE + endpoint);
 
-    public static HttpResponse post(String endpoint, JsonObject jsonObject){
-        return HttpRequest.post(BASE + endpoint)
-                .body(jsonObject.toString())
-                .send();
+        req.contentTypeJson();
+        req.form(body);
+
+        return req.send();
     }
 
     public static HttpResponse put(String endpoint, Map<String, Object> body){
