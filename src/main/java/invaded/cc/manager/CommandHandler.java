@@ -6,6 +6,7 @@ import invaded.cc.commands.punish.ban.BanCMD;
 import invaded.cc.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.commands.punish.blacklist.BlacklistCMD;
 import invaded.cc.commands.punish.blacklist.UnBlacklistCMD;
+import invaded.cc.commands.punish.check.PunishmentsCommand;
 import invaded.cc.commands.punish.kick.KickCMD;
 import invaded.cc.commands.punish.mute.MuteCMD;
 import invaded.cc.commands.punish.mute.TemporalMuteCMD;

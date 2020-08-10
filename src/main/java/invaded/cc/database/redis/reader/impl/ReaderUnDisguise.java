@@ -3,6 +3,7 @@ package invaded.cc.database.redis.reader.impl;
 import com.google.gson.JsonObject;
 import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
+import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 
@@ -18,6 +19,7 @@ public class ReaderUnDisguise implements Callback<JsonObject> {
         String profileId = jsonObject.get("profileId").getAsString();
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
 
+        DisguiseHandler.getDisguisedPlayers().remove(UUID.fromString(profileId));
         if(profile == null) return;
 
         if(serverId.equals(currentServer)) {

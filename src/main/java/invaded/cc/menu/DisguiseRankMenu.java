@@ -45,15 +45,7 @@ public class DisguiseRankMenu extends Menu {
 
         int slot = 0;
 
-        List<Integer> toFill = new ArrayList<>();
-
         for (Rank rank : ranks) {
-            if (slot % 2 != 0) {
-                toFill.add(slot);
-                slot++;
-                continue;
-            }
-
             ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
             LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
 
@@ -72,9 +64,6 @@ public class DisguiseRankMenu extends Menu {
             values.put(slot, rank);
             slot++;
         }
-
-        toFill.forEach(val -> inventory.setItem(val, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
-                .data(7).name("&7").build()));
     }
 
 

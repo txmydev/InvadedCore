@@ -6,6 +6,7 @@ import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
+import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Task;
@@ -47,8 +48,9 @@ public class UnBanCMD extends InvadedCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
+            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName());
 
-            if (targetData == null || targetData.getBan() == null) {
+            if (targetData.getBan() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't banned."));
                 return;
             }
@@ -62,7 +64,7 @@ public class UnBanCMD extends InvadedCommand {
             punishment.setRemovedAt(System.currentTimeMillis());
             punishment.setRemovedBy(executor);
 
-            new JedisPoster(JedisAction.REMOVE_PUNISHMENT)
+           /* new JedisPoster(JedisAction.REMOVE_PUNISHMENT)
                     .addInfo("type", punishment.getType().name())
                     .addInfo("cheaterName", punishment.getCheaterName())
                     .addInfo("cheaterUuid", punishment.getCheaterUuid().toString())
@@ -73,7 +75,10 @@ public class UnBanCMD extends InvadedCommand {
                     .addInfo("reason", punishment.getReason())
                     .addInfo("removedBy", executor)
                     .addInfo("removedAt", punishment.getRemovedAt())
-                    .post();
+                    .post();*/
+
+            PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
+            punishmentHandler.pardon(targetData.getId(), punishment);
 
             if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unbanned by " + executor);
             else Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unbanned by " +executor);

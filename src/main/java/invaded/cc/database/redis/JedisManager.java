@@ -16,9 +16,9 @@ public class JedisManager {
    // public static JedisActionReader COLOR_UPDATE = new JedisActionReader(JedisAction.UPDATE_COLOR ,new ReaderColorUpdate());
     public static JedisActionReader DISGUISE = new JedisActionReader(JedisAction.DISGUISE ,new ReaderDisguise());
     public static JedisActionReader HELPOP = new JedisActionReader(JedisAction.HELPOP ,new ReaderHelpop());
-    public static JedisActionReader PUNISHMENT = new JedisActionReader(JedisAction.PUNISHMENT ,new ReaderPunishment());
+//    public static JedisActionReader PUNISHMENT = new JedisActionReader(JedisAction.PUNISHMENT ,new ReaderPunishment());
   //  public static JedisActionReader RANK = new JedisActionReader(JedisAction.RANK ,new ReaderRank());
-    public static JedisActionReader REMOVE_PUNISHMENT = new JedisActionReader(JedisAction.REMOVE_PUNISHMENT ,new ReaderRemovePunishment());
+    //public static JedisActionReader REMOVE_PUNISHMENT = new JedisActionReader(JedisAction.REMOVE_PUNISHMENT ,new ReaderRemovePunishment());
     public static JedisActionReader REPORT = new JedisActionReader(JedisAction.REPORT ,new ReaderReport());
     public static JedisActionReader STAFF_CHAT = new JedisActionReader(JedisAction.STAFF_CHAT ,new ReaderStaffChat());
     public static JedisActionReader STAFF_JOIN = new JedisActionReader(JedisAction.STAFF_JOIN ,new ReaderStaffJoin());

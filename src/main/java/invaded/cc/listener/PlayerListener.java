@@ -3,15 +3,17 @@ package invaded.cc.listener;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
-import invaded.cc.database.redis.poster.JedisPoster;
-import invaded.cc.injector.PermissibleInjector;
-import invaded.cc.profile.ProfileHandler;
-import invaded.cc.profile.User;
-import invaded.cc.profile.Profile;
 import invaded.cc.database.redis.JedisAction;
+import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerPunishEvent;
+import invaded.cc.injector.PermissibleInjector;
+import invaded.cc.manager.DisguiseHandler;
+import invaded.cc.profile.Profile;
+import invaded.cc.profile.ProfileHandler;
+import invaded.cc.profile.User;
 import invaded.cc.punishment.Punishment;
+import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.*;
 import invaded.cc.util.perms.PermLevel;
@@ -25,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
@@ -34,13 +37,14 @@ public class PlayerListener implements Listener {
         UUID uuid = event.getUniqueId();
         String name = event.getName();
         ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-        Profile profile = profileHandler.load(uuid, name);
 
-        profileHandler.newLoad(uuid, name);
+        Profile profile = profileHandler.load(uuid, name);
 
         if (!profile.isLoaded()) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
             event.setKickMessage(Color.translate("&cYou data hasn't been loaded."));
+
+            profileHandler.getProfiles().remove(uuid);
             return;
         }
 
@@ -87,10 +91,12 @@ public class PlayerListener implements Listener {
 
             if(user == null || user.getLastServer().equals(Core.getInstance().getServerName())) {
                 new JedisPoster(JedisAction.STAFF_JOIN)
-                        .addInfo("profileId", profile.getId().toString()).post();
+                        .addInfo("profileId", profile.getId().toString())
+                        .addInfo("coloredName", profile.getRealColoredName()).post();
             }else {
                 new JedisPoster(JedisAction.STAFF_SWITCH)
                         .addInfo("profileId", profile.getId().toString())
+                        .addInfo("coloredName", profile.getRealColoredName())
                         .addInfo("to", Core.getInstance().getServerName())
                         .addInfo("from", user.getLastServer())
                         .post();
@@ -109,19 +115,22 @@ public class PlayerListener implements Listener {
 
         if (profile.isDisguised()) profile.unDisguise();
 
-        if (Permission.test(player, PermLevel.STAFF))
+        if (Permission.test(player, PermLevel.STAFF)) {
+            final String coloredName = profile.getColoredName();
+
             Bukkit.getScheduler().runTaskLater(Core.getInstance(), () -> {
-                if(globalPlayer == null || globalPlayer.isDisguised()) return;
+                if (globalPlayer == null || globalPlayer.isDisguised()) return;
                 globalPlayer.setLastServer(null);
 
-                if(!globalPlayer.isSwitchingServer()) return;
-
+                if (!globalPlayer.isSwitchingServer()) return;
                 globalPlayer.setSwitchingServer(false);
 
                 new JedisPoster(JedisAction.STAFF_LEAVE)
                         .addInfo("profileId", profile.getId().toString())
+                        .addInfo("coloredName", coloredName)
                         .post();
             }, 30L);
+        }
 
 
         Core.getInstance().getServerHandler().removePlayer(globalPlayer);
@@ -133,7 +142,6 @@ public class PlayerListener implements Listener {
         }
 
         profileHandler.save(profile);
-        profileHandler.newSave(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
     }
 
@@ -160,10 +168,15 @@ public class PlayerListener implements Listener {
         String message = event.getMessage();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(!profile.getCommandCooldown().hasExpired() && !event.isCancelled()
-        && !Permission.test(player, PermLevel.STAFF)){
+        if(!profile.getCommandCooldown().hasExpired() && !event.isCancelled() && !Permission.test(player, PermLevel.STAFF)){
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cYou are on command cooldown, please wait " + profile.getCommandCooldown().getTimeLeft() + " seconds."));
+            return;
+        }
+
+        if(event.getMessage().startsWith("/bukkit:") && profile.getHighestRank().getPriority() < 100){
+            event.setCancelled(true);
+            player.sendMessage(Color.translate("&cThat command is blocked."));
             return;
         }
 
@@ -182,8 +195,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if (!Core.getInstance().getChatHandler().isChatValue()
-                && !Permission.test(player, PermLevel.STAFF)) {
+        if (!Core.getInstance().getChatHandler().isChatValue() && !Permission.test(player, PermLevel.STAFF)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cPublic chat is currently muted."));
             return;
@@ -191,12 +203,7 @@ public class PlayerListener implements Listener {
 
         if (Filter.needFilter(event.getMessage())) {
             String filter = Filter.PREFIX + " " + profile.getColoredName() + "&e: " + event.getMessage();
-
-            Common.getOnlinePlayers().forEach(other -> {
-                if (!Permission.test(other, PermLevel.STAFF)) return;
-
-                other.sendMessage(Color.translate(filter));
-            });
+            Common.broadcastMessage(PermLevel.STAFF, filter);
         }
 
         String format = profile.getChatFormat() + "&f: " + event.getMessage();
@@ -234,8 +241,7 @@ public class PlayerListener implements Listener {
     @EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
     public void onPunish(PlayerPunishEvent event){
         Punishment punishment = event.getPunishment();
-
-        new JedisPoster(JedisAction.PUNISHMENT)
+       /* new JedisPoster(JedisAction.PUNISHMENT)
                 .addInfo("profileId", event.getTarget().getUniqueId().toString())
                 .addInfo("type", punishment.getType().name())
                 .addInfo("cheaterName", event.getTarget().getName())
@@ -245,7 +251,10 @@ public class PlayerListener implements Listener {
                 .addInfo("staffName", punishment.getStaffName())
                 .addInfo("s", punishment.isS())
                 .addInfo("reason", punishment.getReason())
-            .post();
+            .post();*/
+
+        PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
+        punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
     }
 
     @EventHandler
@@ -259,6 +268,19 @@ public class PlayerListener implements Listener {
         ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(profile.isDisguised()) profile.disguise();
+        if(DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
+            System.out.println("Player is in the map");
+
+            String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
+
+
+            profile.setFakeName(info[0]);
+            profile.setFakeRank(Core.getInstance().getRankHandler().getRank(info[1]));
+            profile.setFakeSkin(new Skin(info[2], info[3]));
+
+            profile.disguise();
+        }else {
+            System.out.println("Player is not in the map");
+        }
     }
 }

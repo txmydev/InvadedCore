@@ -16,7 +16,6 @@ public class BroadcastCommand extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(args.length < 1) sender.sendMessage(Color.translate("&cPlease add a message for the announcement."));
-
         else {
             StringBuilder stringBuilder = new StringBuilder();
 

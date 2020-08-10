@@ -21,21 +21,26 @@ public class Punishment {
     private String staffName;
 
     private String removedBy;
-    private boolean s;
+    private boolean silent;
 
     private String reason;
 
-    public Punishment(Type type, long punishedAt, long expire,String cheaterName, UUID cheaterUuid, String staffname, boolean s, String reason) {
+    public Punishment(Type type, long punishedAt, long expire,String cheaterName, UUID cheaterUuid, String staffname, boolean silent, String reason) {
         this.type = type;
         this.punishedAt = punishedAt;
         this.expire = expire;
         this.cheaterName =cheaterName;
         this.cheaterUuid = cheaterUuid;
         this.staffName = staffname;
-        this.s = s;
+        this.silent = silent;
         this.reason = reason;
         this.removedBy = "";
         this.removedAt = 0L;
+    }
+
+    public boolean isBan() {
+        return type == Type.BAN || type == Type.BLACKLIST
+                || type == Type.TEMPORARY_BAN;
     }
 
     public enum Type {

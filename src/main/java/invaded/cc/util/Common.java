@@ -2,8 +2,11 @@ package invaded.cc.util;
 
 import com.google.common.base.Strings;
 import invaded.cc.Core;
+import invaded.cc.profile.Profile;
+import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.perms.PermLevel;
+import invaded.cc.util.perms.Permission;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Packet;
@@ -186,5 +189,20 @@ public class Common {
 
     public static String getLine(int times) {
         return ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + Strings.repeat("-", times);
+    }
+
+    public static Player getPlayer(String arg) {
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
+        for (Profile profile : profileHandler.getProfiles().values()) {
+            if(profile.isDisguised()) {
+                if(arg.equals(profile.getName())) return null;
+                if(profile.getFakeName().equals(arg)) return Bukkit.getPlayer(profile.getId());
+            }else{
+                return Bukkit.getPlayer(arg);
+            }
+        }
+
+        return null;
     }
 }

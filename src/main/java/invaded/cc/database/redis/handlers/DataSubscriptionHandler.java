@@ -71,12 +71,6 @@ public class DataSubscriptionHandler implements JedisHandler {
                 }
             }
         }*/
-
-        for (Server server : serverHandler.getServers().values())
-            server.getPlayers().forEach(player -> {
-                if(System.currentTimeMillis() - player.getLastUpdate() >= 7000L) {
-                    server.getPlayers().remove(player);
-                }
-            });
+        serverHandler.getServers().values().forEach(server -> server.getPlayers().removeIf(player -> System.currentTimeMillis() - player.getLastUpdate() > 6000L));
     }
 }

@@ -13,8 +13,8 @@ public class Filter {
     ,"morite", "feo");
 
     @Getter
-    private static final List<String> commandsBlocked = Arrays.asList("/calc", "/calculate"
-    , "/eval", "me", "bukkit:me");
+    private static final List<String> commandsBlocked = Arrays.asList("//calc", "//calculate"
+    , "//eval", "/me", "/pl");
 
     public static boolean needFilter(String s){
         return filterWords.contains(s.toLowerCase()) || commandsBlocked.contains(s.toLowerCase());

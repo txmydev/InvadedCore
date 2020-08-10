@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 public class MessageCommand {
 
-    private ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
 
     public MessageCommand() {
         new MSGCommand();
@@ -34,6 +33,8 @@ public class MessageCommand {
 
         @Override
         public void execute(CommandSender sender, String[] args) {
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Color.translate("&cPlayer only command."));
                 return;
@@ -46,7 +47,7 @@ public class MessageCommand {
                 return;
             }
 
-            Player target = Bukkit.getPlayer(args[0]);
+            Player target = Common.getPlayer(args[0]);
 
             if (target == null) {
                 player.sendMessage(Color.translate("&cThat player is offline."));
@@ -130,6 +131,8 @@ public class MessageCommand {
 
         @Override
         public void execute(CommandSender sender, String[] args) {
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Color.translate("&CPlayer only command."));
                 return;
@@ -211,6 +214,7 @@ public class MessageCommand {
         @Override
         public void execute(CommandSender sender, String[] args) {
             if(!(sender instanceof Player)) return;
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
 
             if(args.length != 0) {
                 sender.sendMessage(Color.translate("&cPlease use /pm"));
@@ -244,6 +248,8 @@ public class MessageCommand {
                 return;
             }
 
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
             Player player = (Player) sender;
             Profile profile = profileHandler.getProfile(player.getUniqueId());
 
@@ -268,6 +274,8 @@ public class MessageCommand {
                 sender.sendMessage(Color.translate("&cPlease use /filter instead."));
                 return;
             }
+
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
 
             Player player = (Player) sender;
             Profile profile = profileHandler.getProfile(player.getUniqueId());

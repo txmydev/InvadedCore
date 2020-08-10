@@ -1,23 +1,13 @@
 package invaded.cc.database;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import invaded.cc.Core;
 import invaded.cc.database.redis.JedisManager;
-import invaded.cc.util.ConfigFile;
-import invaded.cc.util.ConfigTracker;
 import lombok.Getter;
-import org.bson.Document;
 
 @Getter
 public class Database {
-
-
-
     private final JedisManager redisManager;
 
+    /*
     private final String host;
     private final String username;
     private final String password;
@@ -26,10 +16,10 @@ public class Database {
     private final boolean auth;
 
     private MongoDatabase mongoDatabase;
-    private MongoClient client;
+    private MongoClient client;*/
 
     public Database(){
-        ConfigFile configFile = Core.getInstance().getDatabaseConfig();
+     /*   ConfigFile configFile = Core.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "mongo");
 
         this.host = configTracker.getString("host");
@@ -37,12 +27,12 @@ public class Database {
         this.username = configTracker.getString("username");
         this.password = configTracker.getString("password");
         this.database = configTracker.getString("database");
-        this.auth = configTracker.getBoolean("authentication");
+        this.auth = configTracker.getBoolean("authentication");*/
 
         this.redisManager = new JedisManager();
     }
 
-    public boolean open(){
+  /*  public boolean open(){
         try{
             MongoClientURI uri = new MongoClientURI("mongodb://" + (auth ? username + ":" + password + "@" + host  + ":" + port : host + ":" + port));
             client = new MongoClient(uri);
@@ -61,7 +51,7 @@ public class Database {
         }
     }
 
-    public void close(){
+  public void close(){
         try { redisManager.globalClose(); Core.getInstance().getServerHandler().close(); } catch(Exception ex) { ex.printStackTrace(); }
 
         if(client == null) return;
@@ -79,6 +69,6 @@ public class Database {
         }
 
         return false;
-    }
+    }*/
 
 }

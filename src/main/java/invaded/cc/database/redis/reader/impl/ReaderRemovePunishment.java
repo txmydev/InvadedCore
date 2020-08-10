@@ -12,6 +12,10 @@ import java.util.UUID;
 public class ReaderRemovePunishment implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
+
+    }
+ /*   @Override
+    public void callback(JsonObject jsonObject) {
         String typeName = jsonObject.get("type").getAsString();
         Punishment.Type type = Punishment.Type.valueOf(typeName);
         String cheaterName = jsonObject.get("cheaterName").getAsString();
@@ -42,5 +46,5 @@ public class ReaderRemovePunishment implements Callback<JsonObject> {
         else if (type != Punishment.Type.WARN) profile.setBan(null);
 
         punishmentHandler.requestUnPunish(punishment);
-    }
+    }*/
 }

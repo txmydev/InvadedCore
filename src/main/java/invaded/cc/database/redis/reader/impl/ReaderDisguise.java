@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
+import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
@@ -44,5 +45,11 @@ public class ReaderDisguise implements Callback<JsonObject> {
         if(serverId.equals(currentServer)) {
             profile.disguise();
         }
+
+        String info = profile.getFakeName()+";" + profile.getFakeRank().getName()
+                +";" + profile.getFakeSkin().getTexture() +";" + profile.getFakeSkin().getSignature();
+
+        DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
+        System.out.println("Successfully added " + profile.getName() + " to the map");
     }
 }

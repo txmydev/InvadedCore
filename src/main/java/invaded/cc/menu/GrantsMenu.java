@@ -88,11 +88,15 @@ public class GrantsMenu extends Menu {
                 return;
             }
 
-            grant.setRemovedBy(player.getName());
-            grant.setRemovedAt(System.currentTimeMillis());
+            Task.async(() -> {
+                GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+                grantHandler.removeGrant(grant);
 
-            GrantHandler grantHandler = Core.getInstance().getGrantHandler();
-            Task.async(() -> grantHandler.updateGrant(grant));
+                grant.setRemovedBy(player.getName());
+                grant.setRemovedAt(System.currentTimeMillis());
+
+                grantHandler.updateGrant(grant);
+            });
 
             player.sendMessage(Color.translate("&aRemoved grant of &f" + grant.getProfile().getColoredName()));
         }

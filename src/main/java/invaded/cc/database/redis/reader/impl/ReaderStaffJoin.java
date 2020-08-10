@@ -12,10 +12,10 @@ public class ReaderStaffJoin implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
         String profileId = jsonObject.get("profileId").getAsString();
-        Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
+        String coloredName = jsonObject.get("coloredName").getAsString();
 
         Common.broadcastMessage(PermLevel.STAFF
-        , "&3[Staff] &b" + profile.getRealColoredName()
+        , "&3[Staff] &b" + coloredName
         + " &ajoined &bthe network.");
     }
 }

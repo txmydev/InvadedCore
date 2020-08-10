@@ -18,15 +18,18 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class DisguiseHandler {
 
     private SkinManager skinManager;
+
+    public static Map<UUID, String> getDisguisedPlayers() {
+        return disguisedPlayers;
+    }
+
+    private static final Map<UUID, String> disguisedPlayers = new HashMap<>();
 
     public DisguiseHandler() {
         skinManager = new SkinManager();

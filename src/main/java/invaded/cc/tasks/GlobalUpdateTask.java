@@ -12,7 +12,12 @@ public class GlobalUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Common.getOnlinePlayers().forEach(GlobalUpdateTask::performUpdate);
+        try {
+            Common.getOnlinePlayers().forEach(GlobalUpdateTask::performUpdate);
+        }catch(Exception ex) {
+            cancel();
+            ex.printStackTrace();
+        }
     }
 
     public static void performUpdate(Player player) {

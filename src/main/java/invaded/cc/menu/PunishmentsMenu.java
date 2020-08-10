@@ -18,17 +18,19 @@ public class PunishmentsMenu extends Menu {
 
     private int page;
     private Profile profile;
+    private List<Punishment> punishments;
 
-    public PunishmentsMenu(Profile target) {
+    public PunishmentsMenu(Profile target, List<Punishment> punishments) {
         super("Punishments of " + target.getColoredName(), 27);
 
         this.page = 1;
         this.profile = target;
+        this.punishments = punishments;
     }
 
     @Override
     public void update() {
-        int slot = 8;
+        int slot = 9;
 
         if (profile.getBan() != null) {
             String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getBan().getPunishedAt()));
@@ -64,13 +66,12 @@ public class PunishmentsMenu extends Menu {
             inventory.setItem(slot++, itemBuilder.build());
         }
 
-        List<Punishment> history = Core.getInstance().getPunishmentHandler().getPunishments(profile);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss");
 
         int index = page * 27 - 27;
 
-        while (slot < 26 && index < history.size()) {
-            Punishment punishment = history.get(index);
+        while (slot < 26 && index < punishments.size()) {
+            Punishment punishment = punishments.get(index);
 
             String formatAt = simpleDateFormat.format(new Date(punishment.getPunishedAt()));
 
@@ -123,6 +124,6 @@ public class PunishmentsMenu extends Menu {
     }
 
     private int getTotalPages() {
-        return Core.getInstance().getPunishmentHandler().getPunishments(profile).size() / 19 + 1;
+        return punishments.size() / 19 + 1;
     }
 }

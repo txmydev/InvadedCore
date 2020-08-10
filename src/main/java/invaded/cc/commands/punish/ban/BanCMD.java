@@ -5,6 +5,7 @@ import invaded.cc.profile.Profile;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
+import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.util.Clickable;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;

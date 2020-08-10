@@ -1,30 +1,129 @@
 package invaded.cc.punishment;
 
-import com.mongodb.client.MongoCollection;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import invaded.cc.Core;
-import invaded.cc.database.Database;
+import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
-import invaded.cc.profile.ProfileHandler;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 import lombok.Getter;
-import org.bson.Document;
+import org.bukkit.Bukkit;
+import org.json.simple.JSONObject;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 @Getter
 public class PunishmentHandler {
 
-    private Set<Punishment> punishments;
-    private final ProfileHandler profileHandler;
+    public void punish(UUID id, String name, Punishment punishment) {
+        Map<String, Object> punishmentBody = new HashMap<>();
 
-    public PunishmentHandler() {
-        this.punishments = new HashSet<>();
-        profileHandler = Core.getInstance().getProfileHandler();
+        punishmentBody.put("cheaterName", name);
+        punishmentBody.put("cheaterUuid", id.toString());
+        punishmentBody.put("staffName", punishment.getStaffName());
+        punishmentBody.put("reason", punishment.getReason());
+        punishmentBody.put("silent", punishment.isSilent());
+        punishmentBody.put("type", punishment.getType().name());
+        punishmentBody.put("punishedAt", punishment.getPunishedAt());
+        punishmentBody.put("expire", punishment.getExpire());
 
-        load();
+        HttpResponse response = RequestHandler.post("/activePunishments", punishmentBody);
+        response.close();
     }
 
-    public void load() {
+    public void pardon(UUID uuid, Punishment punishment) {
+        Map<String, Object> query = new HashMap<>();
+
+        query.put("type", punishment.getType().name());
+        query.put("cheaterUuid", uuid.toString());
+        query.put("punishedAt", punishment.getPunishedAt());
+
+        HttpResponse response = RequestHandler.delete("/activePunishments", query);
+        response.close();
+
+        if(response.statusCode() != 200) {
+            Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.body());
+            return;
+        }
+
+        Optional<Profile> op = Optional.of(Core.getInstance().getProfileHandler().getProfile(uuid));
+        if(!punishment.isBan() && op.isPresent()) op.get().setMute(null);
+    }
+
+    public void load(Profile profile) {
+        Map<String, Object> query = new HashMap<>();
+
+        query.put("cheaterUuid", profile.getId().toString());
+        query.put("cheaterName", profile.getName());
+
+        HttpResponse response = RequestHandler.get("/activePunishments/user", query);
+
+        if(response.statusCode() == 200) {
+            JsonArray jsonArray = new JsonParser().parse(response.body()).getAsJsonArray();
+
+            for (JsonElement jsonElement : jsonArray) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                long expire = jsonObject.get("expire").getAsLong();
+
+                if(expire < System.currentTimeMillis() && jsonObject.get("type").getAsString().contains("TEMPORARY")) {
+                    move(profile, Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                    continue;
+                }
+
+                System.out.println("Active punishment on user" + profile.getName());
+
+                switch (jsonObject.get("type").getAsString()) {
+                    case "BAN":
+                    case "TEMPORARY_BAN":
+                    case "BLACKLIST":
+                        profile.setBan(Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        break;
+                    default:
+                        profile.setMute(Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        break;
+                }
+            }
+        }
+
+        response.close();
+    }
+
+    private void move(Profile profile, Punishment punishment) {
+        Map<String, Object> punishmentBody = new HashMap<>();
+
+        punishmentBody.put("cheaterName", profile.getName());
+        punishmentBody.put("cheaterUuid", profile.getId().toString());
+        punishmentBody.put("staffName", punishment.getStaffName());
+        punishmentBody.put("reason", punishment.getReason());
+        punishmentBody.put("silent", punishment.isSilent());
+        punishmentBody.put("type", punishment.getType().name());
+        punishmentBody.put("punishedAt", punishment.getPunishedAt());
+        punishmentBody.put("removedBy", punishment.getRemovedBy());
+        punishmentBody.put("removedAt", punishment.getRemovedAt());
+
+        HttpResponse post = RequestHandler.post("/punishments", punishmentBody);
+        post.close();
+
+        System.out.println("Moved a punishment from activePunishments to punishments (holder " + profile.getName()+ ")");
+
+        Map<String, Object> deleteQuery = new HashMap<>();
+
+        deleteQuery.put("cheaterUuid", profile.getId().toString());
+        deleteQuery.put("cheaterName", profile.getName());
+        deleteQuery.put("type", punishment.getType().name());
+        deleteQuery.put("expire", punishment.getExpire());
+        deleteQuery.put("staffName", punishment.getStaffName());
+        deleteQuery.put("punishedAt", punishment.getPunishedAt());
+
+        HttpResponse delete = RequestHandler.delete("/activePunishments", deleteQuery);
+        delete.close();
+    }
+
+   /* public void load() {
         Database db = Core.getInstance().getDb();
 
         db.getCollection("punishments").find().forEach((Consumer<? super Document>) document -> {
@@ -192,5 +291,5 @@ public class PunishmentHandler {
         }
 
         return list;
-    }
+    }*/
 }

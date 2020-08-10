@@ -1,7 +1,6 @@
 package invaded.cc.rank;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,29 +13,24 @@ import org.bson.Document;
 import org.bukkit.ChatColor;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class RankHandler {
 
     private final Map<String, Rank> ranks;
-    private final Map<String, Rank> newRanks;
     private Rank defaultRank;
     private final List<Rank> priorityOrdered;
 
     public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getPriority() - o1.getPriority();
 
     public RankHandler() {
-        this.ranks = new ConcurrentHashMap<>();
-        this.newRanks = new HashMap<>();
+        this.ranks = new HashMap<>();
 
-        MongoCollection<Document> collection = Core.getInstance().getDb().getCollection("ranks");
-
-        collection.find().forEach((Consumer<? super Document>) doc -> {
-            load(doc.getString("name"));
-        });
-
+//        MongoCollection<Document> collection = Core.getInstance().getDb().getCollection("ranks");
+//
+//        collection.find().forEach((Consumer<? super Document>) doc -> {
+//            load(doc.getString("name"));
+//        });
         setupRanks();
         loadAll();
 
@@ -46,7 +40,7 @@ public class RankHandler {
     private void loadAll() {
         HttpResponse httpResponse = RequestHandler.get("/ranks");
 
-        JsonArray jsonObject = new JsonParser().parse(httpResponse.body()).getAsJsonObject().get("ranks").getAsJsonArray();
+        JsonArray jsonObject = new JsonParser().parse(httpResponse.body()).getAsJsonArray();
 
         jsonObject.forEach(element -> {
             newLoad(element.getAsJsonObject());
@@ -59,8 +53,8 @@ public class RankHandler {
         String name = jsonObject.get("name").getAsString();
         int priority = jsonObject.get("priority").getAsInt();
 
-        newRanks.putIfAbsent(name, new Rank(name));
-        Rank rank = newRanks.get(name);
+        ranks.putIfAbsent(name, new Rank(name));
+        Rank rank = ranks.get(name);
         rank.setPriority(priority);
 
         JsonArray permissionArray = jsonObject.getAsJsonArray("permissions");
@@ -78,7 +72,7 @@ public class RankHandler {
 
         rank.setDefaultRank(jsonObject.get("defaultRank").getAsBoolean());
     }
-
+/*
     public void load(String name) {
         ranks.putIfAbsent(name, new Rank(name));
         Rank rank = ranks.get(name);
@@ -104,25 +98,9 @@ public class RankHandler {
         }
 
         if (rank.isDefaultRank()) defaultRank = rank;
-    }
+    }*/
 
-    public void newSave(Rank rank) {
-        /*JsonObject jsonObject = new JsonObject();
-
-        jsonObject.addProperty("name", rank.getName());
-        jsonObject.addProperty("priority", rank.getPriority());
-        jsonObject.addProperty("prefix", rank.getPrefix());
-        jsonObject.addProperty("suffix", rank.getSuffix());
-        jsonObject.addProperty("defaultRank", rank.isDefaultRank());
-        jsonObject.addProperty("italic", rank.isItalic());
-        jsonObject.addProperty("bold", rank.isBold());
-        jsonObject.addProperty("color", rank.getColor().name());
-
-        JsonArray array = new JsonArray();
-        rank.getPermissions().forEach(array::add);
-
-        jsonObject.add("permissions", array);*/
-
+    public void save(Rank rank) {
         Map<String, Object> map = new HashMap<>();
 
         map.put("name", rank.getName());
@@ -133,14 +111,13 @@ public class RankHandler {
         map.put("italic", rank.isItalic());
         map.put("bold", rank.isBold());
         map.put("color", rank.getColor().name());
+        map.put("permissions", rank.getPermissions());
 
         HttpResponse response = RequestHandler.post("/ranks", map);
-
-        System.out.println("Got response: " + response.body());
         response.close();
     }
 
-    public void save(Rank rank) {
+    /*public void save(Rank rank) {
         MongoCollection<Document> collection = Core.getInstance().getDb().getCollection("ranks");
         Document found = collection.find(Filters.eq("name", rank.getName())).first();
 
@@ -156,7 +133,7 @@ public class RankHandler {
 
         if (found != null) collection.replaceOne(found, doc);
         else collection.insertOne(doc);
-    }
+    }*/
 
     public Rank getRank(String name) {
         return ranks.get(name);

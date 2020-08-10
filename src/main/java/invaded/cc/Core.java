@@ -56,7 +56,7 @@ public class Core extends JavaPlugin {
         this.databaseConfig = new ConfigFile("database.yml", null, false);
         this.ranksConfig = new ConfigFile("ranks.yml", null, false);
 
-        if(!(db = new Database()).open()) return;
+        db = new Database();
 
         serverHandler = new ServerHandler();
         commandHandler = new CommandHandler();
@@ -86,8 +86,6 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
         pm.registerEvents(new SecurityListener(), this);
         pm.registerEvents(new MenuListener(), this);
-
-        new RequestHandler();
     }
 
     @Override
@@ -95,21 +93,15 @@ public class Core extends JavaPlugin {
         Common.getOnlinePlayers().forEach(player -> {
             Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
 
-            if(profile.isDisguised()) new JedisPoster(JedisAction.UNDISGUISE)
+            if(profile.isDisguised())
+                new JedisPoster(JedisAction.UNDISGUISE)
                     .addInfo("profileId", profile.getId().toString())
                     .post();
 
             profileHandler.save(profile);
         });
 
-        rankHandler.getPriorityOrdered().forEach(rank -> {
-            rankHandler.newSave(rank);
-            rankHandler.save(rank);
-        });
-
-        punishmentHandler.unload();
-
-        db.close();
+        rankHandler.getPriorityOrdered().forEach(rankHandler::save);
         instance = null;
     }
 
