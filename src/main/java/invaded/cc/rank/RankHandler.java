@@ -161,38 +161,49 @@ public class RankHandler {
             rank.setPriority(0);
         }
 
-        if (!ranks.containsKey("Gold")) {
-            ranks.put("Gold", new Rank("Gold"));
-            Rank rank = ranks.get("Gold");
+        if (!ranks.containsKey("Stellar")) {
+            ranks.put("Stellar", new Rank("Stellar"));
+            Rank rank = ranks.get("Stellar");
             rank.setPermissions(Lists.newArrayList("invaded.default"
                     , "invaded.vip", "uhc.spectate.500", "uhc.vip"));
-            rank.setPrefix("&7[&6Gold&7]");
-            rank.setColor(ChatColor.GOLD);
+            rank.setPrefix("&8[&7Stellar&8] ");
+            rank.setColor(ChatColor.GRAY);
             rank.setPriority(10);
         }
 
-        if (!ranks.containsKey("Diamond")) {
-            ranks.put("Diamond", new Rank("Diamond"));
-            Rank rank = ranks.get("Diamond");
+        if (!ranks.containsKey("Mythic")) {
+            ranks.put("Mythic", new Rank("Mythic"));
+            Rank rank = ranks.get("Mythic");
 
             rank.setPermissions(Lists.newArrayList("invaded.default"
                     , "invaded.vip", "uhc.spectate.1000", "uhc.vip"));
-            rank.setPrefix("&7[&bDiamond&7]");
+            rank.setPrefix("&8[&5Mythic&8] ");
+            rank.setColor(ChatColor.DARK_PURPLE);
+            rank.setPriority(20);
+        }
+
+        if (!ranks.containsKey("Ultra")) {
+            ranks.put("Ultra", new Rank("Ultra"));
+            Rank rank = ranks.get("Ultra");
+
+            rank.setPermissions(Lists.newArrayList("invaded.default"
+                    , "invaded.vip", "uhc.spectate.1000", "uhc.vip"));
+            rank.setPrefix("&8[&eUltra&8] ");
+            rank.setColor(ChatColor.YELLOW);
+            rank.setPriority(20);
+        }
+
+        if (!ranks.containsKey("Moon")) {
+            ranks.put("Moon", new Rank("Moon"));
+            Rank rank = ranks.get("Moon");
+
+            rank.setPermissions(Lists.newArrayList("invaded.default"
+                    , "invaded.vip", "uhc.spectate.1000", "uhc.vip"));
+            rank.setPrefix("&8[&bMoon&8] ");
             rank.setColor(ChatColor.AQUA);
             rank.setPriority(20);
         }
 
-        if (!ranks.containsKey("Invader")) {
-            ranks.put("Invader", new Rank("Invader"));
-            Rank rank = ranks.get("Invader");
-
-            rank.setPermissions(Lists.newArrayList("invaded.default"
-                    , "invaded.vip", "uhc.spectate.1500", "uhc.vip"));
-            rank.setPrefix("&7[&9Invader&7]");
-            rank.setColor(ChatColor.BLUE);
-            rank.setItalic(true);
-            rank.setPriority(30);
-        }
 
         if (!ranks.containsKey("Media")) {
             ranks.put("Media", new Rank("Media"));
@@ -204,12 +215,13 @@ public class RankHandler {
                     , "uhc.spectate.1500"
                     , "uhc.vip"
                     , "disguise.use.Default"
-                    , "disguise.use.Gold"
-                    , "disguise.use.Diamond"
-                    , "disguise.use.Invader"));
+                    , "disguise.use.Stellar"
+                    , "disguise.use.Ultra"
+                    , "disguise.use.Mythic"
+                    , "disguise.use.Moon"));
 
-            rank.setPrefix("&7[&aMedia&7]");
-            rank.setColor(ChatColor.DARK_GREEN);
+            rank.setPrefix("&7[&dMedia&7] ");
+            rank.setColor(ChatColor.LIGHT_PURPLE);
             rank.setPriority(40);
         }
 
@@ -223,12 +235,13 @@ public class RankHandler {
                     , "uhc.spectate.1500"
                     , "uhc.vip"
                     , "disguise.use.Default"
-                    , "disguise.use.Gold"
-                    , "disguise.use.Diamond"
-                    , "disguise.use.Invader"));
+                    , "disguise.use.Stellar"
+                    , "disguise.use.Ultra"
+                    , "disguise.use.Mythic"
+                    , "disguise.use.Moon"));
 
-            rank.setPrefix("&7[&eFamous&7]");
-            rank.setColor(ChatColor.YELLOW);
+            rank.setPrefix("&7[&bFamous&7] ");
+            rank.setColor(ChatColor.AQUA);
             rank.setPriority(50);
         }
 
@@ -242,13 +255,13 @@ public class RankHandler {
                     , "uhc.spectate.1500"
                     , "uhc.vip"
                     , "disguise.use.Default"
-                    , "disguise.use.Gold"
-                    , "disguise.use.Diamond"
-                    , "disguise.use.Invader"
-            ));
+                    , "disguise.use.Stellar"
+                    , "disguise.use.Ultra"
+                    , "disguise.use.Mythic"
+                    , "disguise.use.Moon"));
 
-            rank.setPrefix("&7[&dPartner&7]");
-            rank.setColor(ChatColor.LIGHT_PURPLE);
+            rank.setPrefix("&7[&aPartner&7] ");
+            rank.setColor(ChatColor.GREEN);
             rank.setPriority(60);
         }
 
@@ -267,8 +280,8 @@ public class RankHandler {
                     , "uhc.command.latescatter"
                     , "uhc.command.tp"));
 
-            rank.setPrefix("&7[&9Trial&7]");
-            rank.setColor(ChatColor.BLUE);
+            rank.setPrefix("&7[&6Trial-Mod&7] ");
+            rank.setColor(ChatColor.YELLOW);
             rank.setPriority(70);
         }
 
@@ -288,8 +301,29 @@ public class RankHandler {
                     , "uhc.command.latescatter"
                     , "uhc.command.tp"));
 
-            rank.setPrefix("&7[&5Mod&7]");
-            rank.setColor(ChatColor.DARK_PURPLE);
+            rank.setPrefix("&8[&bMod&8] ");
+            rank.setColor(ChatColor.DARK_AQUA);
+            rank.setPriority(80);
+        }
+
+        if (!ranks.containsKey("Mod+")) {
+            ranks.put("Mod+", new Rank("Mod+"));
+            Rank rank = ranks.get("Mod+");
+
+            rank.setPermissions(Lists.newArrayList(
+                    "invaded.default"
+                    , "invaded.staff"
+                    , "uhc.spectate.1500"
+                    , "uhc.vip"
+                    , "uhc.mod"
+                    , "uhc.staff"
+                    , "uhc.host"
+                    , "uhc.togglespectatorchat"
+                    , "uhc.command.latescatter"
+                    , "uhc.command.tp"));
+
+            rank.setPrefix("&8[&dMod+&8] ");
+            rank.setColor(ChatColor.LIGHT_PURPLE);
             rank.setPriority(80);
         }
 
@@ -315,6 +349,28 @@ public class RankHandler {
             rank.setPriority(90);
         }
 
+        if (!ranks.containsKey("Platform-Admin")) {
+            ranks.put("Platform-Admin", new Rank("Platform-Admin"));
+            Rank rank = ranks.get("Platform-Admin");
+
+            rank.setPermissions(Lists.newArrayList(
+                    "invaded.admin"
+                    , "uhc.spectate.1500"
+                    , "uhc.command.giveall"
+                    , "bukkit.command.give"
+                    , "uhc.vip"
+                    , "uhc.mod"
+                    , "uhc.staff"
+                    , "uhc.host"
+                    , "uhc.togglespectatorchat"
+                    , "uhc.command.latescatter"
+                    , "uhc.command.tp"));
+
+            rank.setPrefix("&7[&c&oPlatform-Admin&7] ");
+            rank.setColor(ChatColor.RED);
+            rank.setPriority(90);
+        }
+
         if (!ranks.containsKey("Owner")) {
             ranks.put("Owner", new Rank("Owner"));
             Rank rank = ranks.get("Owner");
@@ -323,7 +379,7 @@ public class RankHandler {
                     "*"
                     , "uhc.command.tp"));
 
-            rank.setPrefix("&7[&4Owner&7]");
+            rank.setPrefix("&7[&4Owner&7] ");
             rank.setColor(ChatColor.DARK_RED);
             rank.setPriority(90);
         }

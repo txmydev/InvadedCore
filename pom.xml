@@ -42,7 +42,7 @@
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
                     <branch>refs/heads/mvn-repo</branch> <!-- remote branch name -->
                     <includes><include>**/*</include></includes>
-                    <repositoryName>mvn-repo</repositoryName> <!-- github repo name -->
+                    <repositoryName>InvadedCore</repositoryName> <!-- github repo name -->
                     <repositoryOwner>txmydev</repositoryOwner>
                 </configuration>
                 <executions> <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->

@@ -1,6 +1,5 @@
 package invaded.cc.profile;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import invaded.cc.Core;
@@ -25,6 +24,8 @@ public class ProfileHandler {
     }
 
     public Profile load(UUID uuid, String name) {
+        if(profiles.containsKey(uuid)) profiles.remove(uuid);
+
         profiles.putIfAbsent(uuid, new Profile(uuid, name));
         Map<String, Object> body = new HashMap<>();
 
