@@ -13,19 +13,18 @@ import java.util.UUID;
 public class ReaderStaffSwitch implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
-        String coloredName = jsonObject.get("coloredName").getAsString();
-
+        String profileId = jsonObject.get("profileId").getAsString();
+        String name = jsonObject.get("name").getAsString();
         String from = jsonObject.get("from").getAsString();
         String to = jsonObject.get("to").getAsString();
 
-        String currentServer = Core.getInstance().getServerName();
+        Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
+        if (profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
 
-        String message = "&3[Staff] " + coloredName + " ";
+        String current = Core.getInstance().getServerName();
+        String message = "&3[Staff] " + profile.getColoredName() + " ";
 
-        if(from.equals(currentServer)) message+="&cleft &bthis server to &7" + to;
-        else if(to.equals(currentServer)) message += "&ajoined &bthis server from &7" + from;
-        else message+= "&bjoined to &7" + to + " &bfrom &7"+from;
-
-        Common.broadcastMessage(PermLevel.STAFF, message);
+        if (from.equals(current)) Common.broadcastMessage(PermLevel.STAFF, message + "&cleft &bthis server to &7" + to);
+        else if (to.equals(current)) Common.broadcastMessage(PermLevel.STAFF, message +"&ajoined &bthis server from &7" + from);
     }
 }

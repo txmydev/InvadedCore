@@ -86,22 +86,22 @@ public class PlayerListener implements Listener {
             profile.setRealProfile(gameProfile);
         } catch (Exception ignored) { }
 
-        if (Permission.test(player, PermLevel.STAFF)) {
-            User user = Core.getInstance().getServerHandler().find(player.getName());
-
-            if(user == null || user.getLastServer().equals(Core.getInstance().getServerName())) {
-                new JedisPoster(JedisAction.STAFF_JOIN)
-                        .addInfo("profileId", profile.getId().toString())
-                        .addInfo("coloredName", profile.getRealColoredName()).post();
-            }else {
-                new JedisPoster(JedisAction.STAFF_SWITCH)
-                        .addInfo("profileId", profile.getId().toString())
-                        .addInfo("coloredName", profile.getRealColoredName())
-                        .addInfo("to", Core.getInstance().getServerName())
-                        .addInfo("from", user.getLastServer())
-                        .post();
-            }
-        }
+//        if (Permission.test(player, PermLevel.STAFF)) {
+//            User user = Core.getInstance().getServerHandler().find(player.getName());
+//
+//            if(user == null || user.getLastServer().equals(Core.getInstance().getServerName())) {
+//                new JedisPoster(JedisAction.STAFF_JOIN)
+//                        .addInfo("profileId", profile.getId().toString())
+//                        .addInfo("coloredName", profile.getRealColoredName()).post();
+//            }else {
+//                new JedisPoster(JedisAction.STAFF_SWITCH)
+//                        .addInfo("profileId", profile.getId().toString())
+//                        .addInfo("coloredName", profile.getRealColoredName())
+//                        .addInfo("to", Core.getInstance().getServerName())
+//                        .addInfo("from", user.getLastServer())
+//                        .post();
+//            }
+//        }
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
@@ -113,36 +113,17 @@ public class PlayerListener implements Listener {
         User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
         if(globalPlayer != null) globalPlayer.setSwitchingServer(true);
 
-        if (profile.isDisguised()) profile.unDisguise();
-
-        if (Permission.test(player, PermLevel.STAFF)) {
-            final String coloredName = profile.getColoredName();
-
-            Bukkit.getScheduler().runTaskLater(Core.getInstance(), () -> {
-                if (globalPlayer == null || globalPlayer.isDisguised()) return;
-                globalPlayer.setLastServer(null);
-
-                if (!globalPlayer.isSwitchingServer()) return;
-                globalPlayer.setSwitchingServer(false);
-
-                new JedisPoster(JedisAction.STAFF_LEAVE)
-                        .addInfo("profileId", profile.getId().toString())
-                        .addInfo("coloredName", coloredName)
-                        .post();
-            }, 30L);
-        }
-
-
-        Core.getInstance().getServerHandler().removePlayer(globalPlayer);
-
         try {
             PermissibleInjector.unInject(player);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        if (profile.isDisguised()) profile.unDisguise();
+
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
+        Core.getInstance().getServerHandler().removePlayer(globalPlayer);
     }
 
     @EventHandler(priority = EventPriority.LOW)

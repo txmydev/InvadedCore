@@ -73,10 +73,14 @@ public class TeleportCommand {
 
                         player.sendMessage(Color.translate("&fYou were teleported to " + target.getName()));
                     }
-
                     break;
                 case 2:
                     Player playerOne = Bukkit.getPlayer(args[0]);
+
+                    if(playerOne == null){
+                        player.sendMessage(Color.translate("&c" + args[0] + " is offline."));
+                        return;
+                    }
 
                     if(playerOne.getUniqueId() == player.getUniqueId()){
                         player.performCommand("teleport " + args[1]);
@@ -122,6 +126,5 @@ public class TeleportCommand {
                 target.sendMessage(Color.translate("&6You were teleported by &b" + player.getName()));
             }
         }
-
     }
 }

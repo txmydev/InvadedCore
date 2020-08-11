@@ -190,7 +190,7 @@ public class RankHandler {
                     , "invaded.vip", "uhc.spectate.1000", "uhc.vip"));
             rank.setPrefix("&8[&eUltra&8] ");
             rank.setColor(ChatColor.YELLOW);
-            rank.setPriority(20);
+            rank.setPriority(30);
         }
 
         if (!ranks.containsKey("Moon")) {
@@ -201,7 +201,7 @@ public class RankHandler {
                     , "invaded.vip", "uhc.spectate.1000", "uhc.vip"));
             rank.setPrefix("&8[&bMoon&8] ");
             rank.setColor(ChatColor.AQUA);
-            rank.setPriority(20);
+            rank.setPriority(40);
         }
 
 
@@ -222,7 +222,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&dMedia&7] ");
             rank.setColor(ChatColor.LIGHT_PURPLE);
-            rank.setPriority(40);
+            rank.setPriority(50);
         }
 
         if (!ranks.containsKey("Famous")) {
@@ -242,7 +242,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&bFamous&7] ");
             rank.setColor(ChatColor.AQUA);
-            rank.setPriority(50);
+            rank.setPriority(60);
         }
 
         if (!ranks.containsKey("Partner")) {
@@ -262,7 +262,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&aPartner&7] ");
             rank.setColor(ChatColor.GREEN);
-            rank.setPriority(60);
+            rank.setPriority(70);
         }
 
         if (!ranks.containsKey("Trial")) {
@@ -282,7 +282,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&6Trial-Mod&7] ");
             rank.setColor(ChatColor.YELLOW);
-            rank.setPriority(70);
+            rank.setPriority(80);
         }
 
         if (!ranks.containsKey("Mod")) {
@@ -303,7 +303,7 @@ public class RankHandler {
 
             rank.setPrefix("&8[&bMod&8] ");
             rank.setColor(ChatColor.DARK_AQUA);
-            rank.setPriority(80);
+            rank.setPriority(90);
         }
 
         if (!ranks.containsKey("Mod+")) {
@@ -324,7 +324,7 @@ public class RankHandler {
 
             rank.setPrefix("&8[&dMod+&8] ");
             rank.setColor(ChatColor.LIGHT_PURPLE);
-            rank.setPriority(80);
+            rank.setPriority(100);
         }
 
         if (!ranks.containsKey("Admin")) {
@@ -346,7 +346,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&cAdmin&7]");
             rank.setColor(ChatColor.RED);
-            rank.setPriority(90);
+            rank.setPriority(110);
         }
 
         if (!ranks.containsKey("Platform-Admin")) {
@@ -368,7 +368,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&c&oPlatform-Admin&7] ");
             rank.setColor(ChatColor.RED);
-            rank.setPriority(90);
+            rank.setPriority(120);
         }
 
         if (!ranks.containsKey("Owner")) {
@@ -381,7 +381,7 @@ public class RankHandler {
 
             rank.setPrefix("&7[&4Owner&7] ");
             rank.setColor(ChatColor.DARK_RED);
-            rank.setPriority(90);
+            rank.setPriority(130);
         }
     }
 }
