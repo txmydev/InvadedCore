@@ -156,7 +156,7 @@ public class ProfileHandler {
         HttpResponse response = RequestHandler.post("/users", body);
         Profile profile = profiles.get(uuid);
 
-        JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
+        JsonObject jsonObject = new JsonParser().parse(response.bodyText()).getAsJsonObject();
 
         if (jsonObject.has("color"))
             profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));

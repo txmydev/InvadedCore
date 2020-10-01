@@ -3,8 +3,6 @@ package invaded.cc.listener;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.injector.PermissibleInjector;
@@ -18,7 +16,6 @@ import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.*;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +24,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
@@ -254,7 +250,6 @@ public class PlayerListener implements Listener {
 
             String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
 
-
             profile.setFakeName(info[0]);
             profile.setFakeRank(Core.getInstance().getRankHandler().getRank(info[1]));
             profile.setFakeSkin(new Skin(info[2], info[3]));
@@ -264,4 +259,5 @@ public class PlayerListener implements Listener {
             System.out.println("Player is not in the map");
         }
     }
+
 }

@@ -7,13 +7,14 @@ import com.google.gson.JsonParser;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
-import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.json.simple.JSONObject;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Getter
 public class PunishmentHandler {
@@ -45,7 +46,7 @@ public class PunishmentHandler {
         response.close();
 
         if(response.statusCode() != 200) {
-            Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.body());
+            Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.bodyText());
             return;
         }
 
@@ -59,10 +60,10 @@ public class PunishmentHandler {
         query.put("cheaterUuid", profile.getId().toString());
         query.put("cheaterName", profile.getName());
 
-        HttpResponse response = RequestHandler.get("/activePunishments/user", query);
+        HttpResponse response = RequestHandler.get("/activePunishments", query);
 
         if(response.statusCode() == 200) {
-            JsonArray jsonArray = new JsonParser().parse(response.body()).getAsJsonArray();
+            JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
 
             for (JsonElement jsonElement : jsonArray) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();

@@ -1,27 +1,18 @@
 package invaded.cc.grant;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
 import invaded.cc.Core;
-import invaded.cc.database.Database;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
-import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import org.bson.Document;
 import org.bukkit.Bukkit;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Getter
@@ -85,7 +76,7 @@ public class GrantHandler {
             return list;
         }
 
-        JsonArray grants = new JsonParser().parse(response.body()).getAsJsonArray();
+        JsonArray grants = new JsonParser().parse(response.bodyText()).getAsJsonArray();
 
         grants.iterator().forEachRemaining(element -> {
             JsonObject jsonObject = element.getAsJsonObject();

@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/.name
+/compiler.xml
+/artifacts/Core_jar.xml
+/jarRepositories.xml
+/libraries/Maven__org_apache_commons_commons_pool2_2_6_2.xml
+/libraries/Maven__org_jodd_jodd_http_6_0_1.xml
+/libraries/Maven__org_jodd_jodd_util_6_0_0.xml
+/libraries/Maven__org_projectlombok_lombok_1_18_12.xml
+/libraries/Maven__org_slf4j_slf4j_api_1_7_30.xml
+/libraries/Maven__redis_clients_jedis_3_3_0.xml
+/misc.xml
+/modules.xml
+/vcs.xml

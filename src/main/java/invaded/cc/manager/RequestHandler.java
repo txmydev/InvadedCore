@@ -39,6 +39,7 @@ public class RequestHandler {
 
     public static HttpResponse get(String query){
         HttpRequest httpRequest = HttpRequest.get(BASE + query);
+        httpRequest.tokenAuthentication(CONFIG.getToken());
 
         return httpRequest.send();
     }
@@ -48,6 +49,7 @@ public class RequestHandler {
 
         req.contentTypeJson();
         req.body(data);
+        req.tokenAuthentication(CONFIG.getToken());
 
         return req.send();
     }
@@ -55,6 +57,7 @@ public class RequestHandler {
     public static HttpResponse post(String endpoint, Map<String, Object> body) {
         HttpRequest req = HttpRequest.post(BASE + endpoint);
         req.contentTypeJson();
+        req.tokenAuthentication(CONFIG.getToken());
 
         JsonObject jsonObject = new JsonObject();
 
@@ -81,6 +84,7 @@ public class RequestHandler {
     public static HttpResponse get(String endpoint, Map<String, Object> query) {
         HttpRequest request = HttpRequest.get(BASE + endpoint);
         query.forEach(request::query);
+        request.tokenAuthentication(CONFIG.getToken());
 
         return request.send();
     }
@@ -88,11 +92,14 @@ public class RequestHandler {
     public static HttpResponse put(String endpoint, Map<String, Object> body){
         return HttpRequest.put(BASE + endpoint)
                 .body(Core.GSON.toJson(body))
+                .tokenAuthentication(CONFIG.getToken())
                 .send();
     }
 
     public static HttpResponse delete(String endpoint, Map<String, Object> query) {
         HttpRequest request = HttpRequest.delete(BASE + endpoint);
+        request.tokenAuthentication(CONFIG.getToken());
+
         if(query != null) query.forEach(request::query);
 
         return request.send();

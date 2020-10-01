@@ -4,12 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
-import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
-import org.bson.Document;
 import org.bukkit.ChatColor;
 
 import java.util.*;
@@ -40,7 +36,7 @@ public class RankHandler {
     private void loadAll() {
         HttpResponse httpResponse = RequestHandler.get("/ranks");
 
-        JsonArray jsonObject = new JsonParser().parse(httpResponse.body()).getAsJsonArray();
+        JsonArray jsonObject = new JsonParser().parse(httpResponse.bodyText()).getAsJsonArray();
 
         jsonObject.forEach(element -> {
             newLoad(element.getAsJsonObject());
@@ -71,6 +67,8 @@ public class RankHandler {
         rank.setItalic(jsonObject.get("italic").getAsBoolean());
 
         rank.setDefaultRank(jsonObject.get("defaultRank").getAsBoolean());
+
+        if(rank.isDefaultRank()) this.defaultRank = rank;
     }
 /*
     public void load(String name) {

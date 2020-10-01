@@ -71,32 +71,38 @@
 
     <dependencies>
         <dependency>
-            <groupId>sspigot</groupId>
+            <groupId>txmy.dev</groupId>
             <artifactId>spigot</artifactId>
             <scope>system</scope>
-            <systemPath>C:/Users/Tomi/Downloads/FoxSpigot.jar</systemPath>
-            <version>1.0</version>
+            <version>${project.version}</version>
+            <systemPath>D:/Developer/Libs/spigotx.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>invaded.cc</groupId>
-            <artifactId>Common</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>bungee</groupId>
-            <artifactId>bungee</artifactId>
+            <groupId>txmy.dev</groupId>
+            <artifactId>common</artifactId>
             <scope>system</scope>
-            <systemPath>C:/Developer/JARs/BungeeCord.jar</systemPath>
-            <version>1.0</version>
+            <version>${project.version}</version>
+            <systemPath>D:/Developer/Libs/Common-1.0.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
