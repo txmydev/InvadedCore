@@ -1,16 +1,15 @@
 package invaded.cc.database.redis.reader.impl;
 
-import com.google.gson.JsonObject;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
-import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Skin;
+import net.minecraft.util.com.google.gson.JsonObject;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 
 import java.util.UUID;
 

@@ -8,3 +8,4 @@ http:
   host: localhost
   port: 5000
   token: none
+  domain: false

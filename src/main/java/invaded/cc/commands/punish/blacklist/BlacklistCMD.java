@@ -1,13 +1,13 @@
 package invaded.cc.commands.punish.blacklist;
 
 import invaded.cc.Core;
-import invaded.cc.profile.Profile;
 import invaded.cc.event.PlayerPunishEvent;
+import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
-import invaded.cc.util.Task;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
+import invaded.cc.util.Task;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;

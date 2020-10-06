@@ -1,6 +1,5 @@
 package invaded.cc;
 
-import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import org.bukkit.entity.Player;
 

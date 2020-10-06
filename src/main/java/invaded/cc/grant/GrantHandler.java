@@ -1,15 +1,16 @@
 package invaded.cc.grant;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
 import jodd.http.HttpResponse;
 import lombok.Getter;
+import net.minecraft.util.com.google.gson.JsonArray;
+import net.minecraft.util.com.google.gson.JsonObject;
+import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 
 import java.util.*;
@@ -69,9 +70,12 @@ public class GrantHandler {
     public List<Grant> get(Profile profile) {
         List<Grant> list = new ArrayList<>();
 
-        HttpResponse response = RequestHandler.get("/grants/uuid/" + profile.getId().toString());
+        Map<String, Object> query = Maps.newHashMap();
+        query.put("uuid", profile.getId().toString());
 
-        if(response.statusCode() == 404) {
+        HttpResponse response = RequestHandler.get("/grants", query);
+
+        if(response.statusCode() != 200) {
             list.add(new Grant(profile, System.currentTimeMillis(), "Default", "CONSOLE"));
             return list;
         }

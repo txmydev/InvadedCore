@@ -1,12 +1,11 @@
 package invaded.cc.database.redis.reader.impl;
 
-import com.google.gson.JsonObject;
 import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
-import invaded.cc.punishment.PunishmentHandler;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 import java.util.UUID;
 

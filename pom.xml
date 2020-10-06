@@ -72,18 +72,21 @@
     <dependencies>
         <dependency>
             <groupId>txmy.dev</groupId>
-            <artifactId>spigot</artifactId>
-            <scope>system</scope>
-            <version>${project.version}</version>
-            <systemPath>D:/Developer/Libs/spigotx.jar</systemPath>
+            <artifactId>SpigotX</artifactId>
+            <version>1.0.0-RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>txmy.dev</groupId>
-            <artifactId>common</artifactId>
-            <scope>system</scope>
-            <version>${project.version}</version>
-            <systemPath>D:/Developer/Libs/Common-1.0.jar</systemPath>
+            <artifactId>wSpigot</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>invaded.cc</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0.0-STABLE</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -92,17 +95,5 @@
             <version>1.18.12</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jodd</groupId>
-            <artifactId>jodd-http</artifactId>
-            <version>LATEST</version>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>LATEST</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

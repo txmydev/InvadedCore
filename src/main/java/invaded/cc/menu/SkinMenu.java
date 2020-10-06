@@ -3,7 +3,6 @@ package invaded.cc.menu;
 import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
-import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;

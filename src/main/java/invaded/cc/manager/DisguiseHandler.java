@@ -1,18 +1,18 @@
 package invaded.cc.manager;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
 import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.*;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_7_R4.*;
+import net.minecraft.util.com.google.gson.JsonObject;
+import net.minecraft.util.com.google.gson.JsonParser;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -130,15 +130,15 @@ public class DisguiseHandler {
 
         Common.modifyField("bH", entityPlayer, profile, true);
 
-        PacketPlayOutPlayerInfo remove = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
-        PacketPlayOutPlayerInfo add = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer);
+        PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
+        PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
 
-        Bukkit.getOnlinePlayers().forEach(other -> {
+        Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
         });
 
-        EntityTrackerEntry entityTracker = (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
+        EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
 
         if (entityTracker == null) return;
         PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
@@ -152,7 +152,7 @@ public class DisguiseHandler {
         if (player == null) return;
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        PacketPlayOutPlayerInfo remove = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
+        PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
 
         String name = profile.getFakeName();
         String texture = profile.getFakeSkin().getTexture();
@@ -167,14 +167,14 @@ public class DisguiseHandler {
 
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
-        PacketPlayOutPlayerInfo add = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer);
+        PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
 
-        Bukkit.getOnlinePlayers().forEach(other -> {
+        Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
         });
 
-        EntityTrackerEntry entityTracker = (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
+        EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
 
         if (entityTracker == null) return;
         PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);

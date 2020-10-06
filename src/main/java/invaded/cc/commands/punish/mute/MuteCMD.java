@@ -3,7 +3,6 @@ package invaded.cc.commands.punish.mute;
 import invaded.cc.Core;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.profile.Profile;
-import invaded.cc.database.redis.JedisAction;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.Clickable;

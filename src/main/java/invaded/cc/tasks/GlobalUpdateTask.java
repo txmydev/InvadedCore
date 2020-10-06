@@ -1,8 +1,8 @@
 package invaded.cc.tasks;
 
 import invaded.cc.Core;
-import invaded.cc.profile.User;
 import invaded.cc.profile.Profile;
+import invaded.cc.profile.User;
 import invaded.cc.util.Common;
 import invaded.cc.util.json.JsonChain;
 import org.bukkit.entity.Player;

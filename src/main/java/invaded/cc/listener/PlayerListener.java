@@ -1,7 +1,5 @@
 package invaded.cc.listener;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import invaded.cc.Core;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerPunishEvent;
@@ -16,7 +14,9 @@ import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.*;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

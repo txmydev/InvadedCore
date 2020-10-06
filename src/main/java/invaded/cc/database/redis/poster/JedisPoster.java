@@ -1,15 +1,12 @@
 package invaded.cc.database.redis.poster;
 
-import com.google.gson.JsonObject;
 import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.JedisConfiguration;
 import invaded.cc.database.redis.JedisPublisher;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.ConfigTracker;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 public class JedisPoster {
 

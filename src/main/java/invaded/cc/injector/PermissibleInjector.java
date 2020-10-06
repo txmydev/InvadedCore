@@ -1,8 +1,5 @@
 package invaded.cc.injector;
 
-import invaded.cc.Core;
-import invaded.cc.profile.Profile;
-import invaded.cc.profile.ProfileHandler;
 import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissibleBase;

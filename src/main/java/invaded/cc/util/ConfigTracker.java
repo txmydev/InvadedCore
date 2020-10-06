@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

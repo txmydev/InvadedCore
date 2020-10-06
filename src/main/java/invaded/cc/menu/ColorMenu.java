@@ -1,7 +1,5 @@
 package invaded.cc.menu;
 
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.ItemBuilder;

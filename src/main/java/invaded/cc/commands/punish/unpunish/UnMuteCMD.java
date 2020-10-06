@@ -1,8 +1,6 @@
 package invaded.cc.commands.punish.unpunish;
 
 import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;

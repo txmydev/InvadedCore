@@ -1,6 +1,5 @@
 package invaded.cc.commands;
 
-import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.command.InvadedCommand;

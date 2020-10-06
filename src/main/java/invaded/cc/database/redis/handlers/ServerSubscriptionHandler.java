@@ -1,12 +1,12 @@
 package invaded.cc.database.redis.handlers;
 
-import com.google.gson.JsonObject;
 import invaded.cc.Core;
+import invaded.cc.database.redis.JedisHandler;
 import invaded.cc.manager.ServerHandler;
 import invaded.cc.server.Server;
-import invaded.cc.database.redis.JedisHandler;
 import invaded.cc.util.Common;
 import invaded.cc.util.perms.PermLevel;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 import java.util.Iterator;
 
@@ -25,14 +25,10 @@ public class ServerSubscriptionHandler implements JedisHandler {
         String motd = jsonObject.get("motd").getAsString();
 
         ServerHandler serverHandler = Core.getInstance().getServerHandler();
+        if(!serverHandler.getServers().containsKey(serverId)) Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fAdded server &b" +serverId +"&f...");
+
+        serverHandler.getServers().putIfAbsent(serverId, new Server(serverId));
         Server server = serverHandler.getServer(serverId);
-
-        if (server == null) {
-            Core.getInstance().getServerHandler().getServers().put(serverId, new Server(serverId));
-            server = Core.getInstance().getServerHandler().getServer(serverId);
-
-            Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fAdded server &b" +serverId +"&f...");
-        }
 
         server.setOnlinePlayers(onlinePlayers);
         server.setMaxPlayers(maxPlayers);

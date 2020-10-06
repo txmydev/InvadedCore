@@ -1,6 +1,5 @@
 package invaded.cc.profile;
 
-import com.mojang.authlib.GameProfile;
 import invaded.cc.Core;
 import invaded.cc.grant.Grant;
 import invaded.cc.manager.DisguiseHandler;
@@ -11,6 +10,7 @@ import invaded.cc.util.Cooldown;
 import invaded.cc.util.Skin;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

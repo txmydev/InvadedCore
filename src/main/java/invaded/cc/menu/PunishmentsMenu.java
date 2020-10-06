@@ -1,9 +1,7 @@
 package invaded.cc.menu;
 
-import invaded.cc.Core;
 import invaded.cc.profile.Profile;
 import invaded.cc.punishment.Punishment;
-import invaded.cc.util.DateUtils;
 import invaded.cc.util.ItemBuilder;
 import invaded.cc.util.menu.Menu;
 import org.bukkit.Material;
@@ -27,11 +25,7 @@ public class PunishmentsMenu extends Menu {
         this.profile = target;
         this.punishments = punishments;
     }
-
-    @Override
-    public void update() {
-        int slot = 9;
-
+/*
         if (profile.getBan() != null) {
             String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getBan().getPunishedAt()));
             String formatExpire = profile.getBan().getType() == Punishment.Type.BAN || profile.getBan().getType()
@@ -65,6 +59,10 @@ public class PunishmentsMenu extends Menu {
 
             inventory.setItem(slot++, itemBuilder.build());
         }
+* */
+    @Override
+    public void update() {
+        int slot = 9;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss");
 

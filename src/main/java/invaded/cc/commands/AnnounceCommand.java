@@ -4,12 +4,10 @@ import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
-import invaded.cc.database.redis.JedisManager;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
-import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

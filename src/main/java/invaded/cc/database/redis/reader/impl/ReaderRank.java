@@ -1,12 +1,7 @@
 package invaded.cc.database.redis.reader.impl;
 
-import com.google.gson.JsonObject;
-import invaded.cc.Core;
 import invaded.cc.database.redis.reader.Callback;
-import invaded.cc.profile.Profile;
-import org.bukkit.Bukkit;
-
-import java.util.UUID;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 public class ReaderRank implements Callback<JsonObject> {
 

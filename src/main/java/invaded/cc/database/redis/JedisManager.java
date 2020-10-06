@@ -8,6 +8,8 @@ import invaded.cc.database.redis.reader.impl.*;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.ConfigTracker;
 import lombok.Getter;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 @Getter
 public class JedisManager {
@@ -33,6 +35,8 @@ public class JedisManager {
     private JedisPublisher globalPublisher;
     private JedisPublisher playerUpdatePublisher;
 
+    private static JedisPool pool;
+
     public JedisManager() {
         ConfigFile configFile = Core.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "redis");
@@ -46,6 +50,9 @@ public class JedisManager {
         else
             config = new JedisConfiguration(configTracker.getString("host"),
                     configTracker.getInt("port"));
+
+        JedisSubscriber.setPool(new JedisPool(new JedisPoolConfig(), config.getHost(), config.getPort(), 4000, config.getPassword()));
+        JedisPublisher.setPool(new JedisPool(new JedisPoolConfig(), config.getHost(), config.getPort(), 4000, config.getPassword()));
 
         this.globalSubscriber = new JedisSubscriber(config, "invaded-channel", new GlobalHandler());
         this.globalPublisher = new JedisPublisher(config, "invaded-channel");

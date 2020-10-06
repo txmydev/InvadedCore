@@ -1,17 +1,20 @@
 package invaded.cc.database.redis;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import redis.clients.jedis.Jedis;
+import lombok.Setter;
+import net.minecraft.util.com.google.gson.JsonObject;
+import net.minecraft.util.com.google.gson.JsonParser;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
 public class JedisSubscriber {
+
+    @Setter
+    private static JedisPool pool;
 
     private String channel;
     private JedisHandler handler;
     private JedisConfiguration conf;
 
-    private Jedis jedis;
     private JedisPubSub sub;
 
     public JedisSubscriber(JedisConfiguration conf, String channel, final JedisHandler handler){
@@ -27,13 +30,9 @@ public class JedisSubscriber {
             }
         };
 
-        this.jedis = new Jedis(conf.getHost(), conf.getPort());
-
-        if(conf.isAuth()) jedis.auth(conf.getPassword());
-
         new Thread(() -> {
             try{
-                jedis.subscribe(this.sub, channel);
+                pool.getResource().subscribe(this.sub, channel);
             }catch(Exception ex){
                 ex.printStackTrace();
             }
@@ -42,7 +41,7 @@ public class JedisSubscriber {
 
     public void stop() {
         if(sub != null) sub.unsubscribe();
-        jedis.close();
+        pool.close();
     }
 
 }

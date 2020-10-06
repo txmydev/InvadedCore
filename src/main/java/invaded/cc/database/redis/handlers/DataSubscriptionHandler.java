@@ -1,11 +1,11 @@
 package invaded.cc.database.redis.handlers;
 
-import com.google.gson.JsonObject;
 import invaded.cc.Core;
-import invaded.cc.profile.User;
-import invaded.cc.server.Server;
 import invaded.cc.database.redis.JedisHandler;
 import invaded.cc.manager.ServerHandler;
+import invaded.cc.profile.User;
+import invaded.cc.server.Server;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 import java.util.UUID;
 

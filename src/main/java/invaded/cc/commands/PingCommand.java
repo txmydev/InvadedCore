@@ -8,7 +8,7 @@ import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class PingCommand extends InvadedCommand {

@@ -3,7 +3,6 @@ package invaded.cc.injector;
 import invaded.cc.Core;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
-import invaded.cc.util.perms.PermLevel;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissibleBase;

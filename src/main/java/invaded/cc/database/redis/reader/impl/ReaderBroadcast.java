@@ -1,12 +1,12 @@
 package invaded.cc.database.redis.reader.impl;
 
-import com.google.gson.JsonObject;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.util.Clickable;
 import invaded.cc.util.Common;
 import invaded.cc.util.perms.PermLevel;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 public class ReaderBroadcast implements Callback<JsonObject> {
     @Override

@@ -1,20 +1,19 @@
 package invaded.cc;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import invaded.cc.database.Database;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.grant.GrantHandler;
-import invaded.cc.manager.*;
-import invaded.cc.permission.PermissionHandler;
-import invaded.cc.profile.Profile;
-import invaded.cc.database.Database;
-
 import invaded.cc.listener.PlayerListener;
 import invaded.cc.listener.SecurityListener;
+import invaded.cc.manager.ChatHandler;
+import invaded.cc.manager.CommandHandler;
+import invaded.cc.manager.DisguiseHandler;
+import invaded.cc.manager.ServerHandler;
+import invaded.cc.permission.PermissionHandler;
+import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
-import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.tasks.GlobalUpdateTask;
 import invaded.cc.tasks.MenuTask;
@@ -23,6 +22,8 @@ import invaded.cc.util.Common;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.menu.MenuListener;
 import lombok.Getter;
+import net.minecraft.util.com.google.gson.Gson;
+import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

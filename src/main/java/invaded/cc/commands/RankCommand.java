@@ -1,12 +1,10 @@
 package invaded.cc.commands;
 
 import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
-import invaded.cc.profile.Profile;
 import invaded.cc.menu.RankMenu;
+import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
@@ -18,8 +16,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class RankCommand extends InvadedCommand {
 

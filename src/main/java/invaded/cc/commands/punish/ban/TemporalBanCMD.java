@@ -1,8 +1,8 @@
 package invaded.cc.commands.punish.ban;
 
 import invaded.cc.Core;
-import invaded.cc.profile.Profile;
 import invaded.cc.event.PlayerPunishEvent;
+import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.*;

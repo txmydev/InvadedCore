@@ -13,7 +13,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KickCMD extends InvadedCommand {

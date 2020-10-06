@@ -1,6 +1,5 @@
 package invaded.cc.database.redis.reader;
 
-import com.google.gson.JsonObject;
 import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.JedisConfiguration;
@@ -8,10 +7,9 @@ import invaded.cc.database.redis.reader.impl.*;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.ConfigTracker;
 import lombok.Getter;
+import net.minecraft.util.com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter

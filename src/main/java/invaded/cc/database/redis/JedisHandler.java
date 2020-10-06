@@ -1,7 +1,7 @@
 package invaded.cc.database.redis;
 
 
-import com.google.gson.JsonObject;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 public interface JedisHandler {
 

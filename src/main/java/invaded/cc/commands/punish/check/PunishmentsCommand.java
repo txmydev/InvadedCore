@@ -1,8 +1,6 @@
 package invaded.cc.commands.punish.check;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.common.collect.Maps;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.menu.PunishmentsMenu;
@@ -14,6 +12,9 @@ import invaded.cc.util.Task;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
 import jodd.http.HttpResponse;
+import net.minecraft.util.com.google.gson.JsonArray;
+import net.minecraft.util.com.google.gson.JsonElement;
+import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PunishmentsCommand extends InvadedCommand {
 
@@ -48,17 +50,24 @@ public class PunishmentsCommand extends InvadedCommand {
             if (target == null) target = profileHandler.load(Bukkit.getOfflinePlayer(args[0]).getUniqueId(), args[0]);
 
             player.sendMessage(Color.translate("&aRetrieving data, a menu will be displayed when the data is ready."));
-            HttpResponse response = RequestHandler.get("/punishments/cheaterUuid/" + target.getId().toString());
+
+            Map<String, Object> query = Maps.newHashMap();
+            query.put("cheaterUuid", target.getId().toString());
+            HttpResponse response = RequestHandler.get("/punishments", query);
+            List<Punishment> punishmentList = new ArrayList<>();
 
             if(response.statusCode() == 200) {
-                JsonArray jsonArray = new JsonParser().parse(response.body()).getAsJsonArray();
-                List<Punishment> punishmentList = new ArrayList<>();
-
+                JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
                 for (JsonElement element : jsonArray) punishmentList.add(Core.GSON.fromJson(element, Punishment.class));
+            }
 
-                Profile finalTarget = target;
-                Task.run(() -> new PunishmentsMenu(finalTarget, punishmentList).open(player));
-            }else player.sendMessage(Color.translate("&cCouldn't found any punishments on record for that player."));
+            if(target.getMute() != null) punishmentList.add(target.getMute());
+            if(target.getBan() != null) punishmentList.add(target.getBan());
+
+            Profile finalTarget = target;
+            Task.run(() -> new PunishmentsMenu(finalTarget, punishmentList).open(player));
+
+            //player.sendMessage(Color.translate("&cCouldn't found any punishments on record for that player."));
 
             response.close();
         });

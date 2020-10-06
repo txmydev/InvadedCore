@@ -6,14 +6,13 @@ import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.perms.PermLevel;
-import invaded.cc.util.perms.Permission;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_7_R4.Packet;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.ByteArrayOutputStream;
@@ -24,8 +23,8 @@ import java.util.function.Predicate;
 
 public class Common {
 
-    public static List<Player> getOnlinePlayers(){
-        return new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+    public static Collection<? extends Player> getOnlinePlayers(){
+        return Bukkit.getServer().getOnlinePlayers();
     }
 
     public static List<Player> getPlayersWithFilter(Predicate<Player>... predicate) {

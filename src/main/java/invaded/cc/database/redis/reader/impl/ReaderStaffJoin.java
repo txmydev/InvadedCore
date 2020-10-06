@@ -1,10 +1,10 @@
 package invaded.cc.database.redis.reader.impl;
 
-import com.google.gson.JsonObject;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Common;
 import invaded.cc.util.perms.PermLevel;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 import java.util.UUID;
 
