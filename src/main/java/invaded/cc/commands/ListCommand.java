@@ -45,7 +45,7 @@ public class ListCommand extends InvadedCommand {
         }
 
         RankHandler rankHandler = Core.getInstance().getRankHandler();
-        List<Rank> list = rankHandler.getPriorityOrdered();
+        List<Rank> list = rankHandler.getRanks();
 
         boolean first = true;
 

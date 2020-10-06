@@ -102,7 +102,7 @@ public class Core extends JavaPlugin {
             profileHandler.save(profile);
         });
 
-        rankHandler.getPriorityOrdered().forEach(rankHandler::save);
+        rankHandler.getRanks().forEach(rankHandler::save);
         instance = null;
     }
 

@@ -113,7 +113,7 @@ public class DisguiseHandler {
     public static List<Rank> getAvailableDisguiseRanks(Player player) {
         List<Rank> list = new ArrayList<>();
 
-        for (Rank rank : Core.getInstance().getRankHandler().getPriorityOrdered())
+        for (Rank rank : Core.getInstance().getRankHandler().getRanks())
             if (player.hasPermission("disguise.use." + rank.getName()) || rank.isDefaultRank()) list.add(rank);
 
         return list;

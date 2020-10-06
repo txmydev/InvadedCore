@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.util.Comparator;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 public class RankHandler {
 
+    @Getter
     private List<Rank> ranks;
     // private final List<Rank> priorityOrdered;
 

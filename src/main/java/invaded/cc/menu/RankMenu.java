@@ -36,7 +36,7 @@ public class RankMenu extends Menu {
     public void update() {
         int slot = 0;
 
-        for(Rank rank : rankHandler.getPriorityOrdered()){
+        for(Rank rank : rankHandler.getRanks()){
             inventory.setItem(slot, new ItemBuilder()
             .type(Material.WOOL).data(getWoolData(rank.getColor()))
             .name(rank.getColoredName())
