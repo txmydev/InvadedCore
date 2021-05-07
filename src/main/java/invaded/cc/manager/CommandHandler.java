@@ -58,6 +58,7 @@ public class CommandHandler {
         new GrantsCommand();
         new PermissionCommand();
         new SudoCommand();
+        new SkullCommand();
     }
 
 }
