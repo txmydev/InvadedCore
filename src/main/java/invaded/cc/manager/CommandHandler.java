@@ -57,6 +57,7 @@ public class CommandHandler {
         new PunishmentsCommand();
         new GrantsCommand();
         new PermissionCommand();
+        new SudoCommand();
     }
 
 }

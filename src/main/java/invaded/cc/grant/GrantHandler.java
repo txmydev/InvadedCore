@@ -92,14 +92,10 @@ public class GrantHandler {
 
             if(grant.getRemovedAt() != 0) grant.setUse(false);
             list.add(grant);
-
-            System.out.println("Grant of " + profile.getName() + ": " + jsonObject.toString());
         });
 
         List<Grant> inUse = list.stream().filter(Grant::isUse).collect(Collectors.toList());
         if(inUse.size() <= 0) list.add(new Grant(profile, System.currentTimeMillis(), "Default", "CONSOLE"));
-
-        System.out.println("Found " + list.size() + " grants in use.");
 
         response.close();
         return list;

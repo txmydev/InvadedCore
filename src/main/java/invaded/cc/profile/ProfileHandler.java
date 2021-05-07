@@ -77,8 +77,6 @@ public class ProfileHandler {
         HttpResponse response = RequestHandler.post("/profiles", body);
         Profile profile = profiles.get(uuid);
 
-        System.out.println(response.bodyText());
-
         JsonObject jsonObject = new JsonParser().parse(response.bodyText()).getAsJsonObject();
 
         if (jsonObject.has("color"))

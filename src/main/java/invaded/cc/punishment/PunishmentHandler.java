@@ -76,8 +76,6 @@ public class PunishmentHandler {
                     continue;
                 }
 
-                System.out.println("Active punishment on user" + profile.getName());
-
                 switch (jsonObject.get("type").getAsString()) {
                     case "BAN":
                     case "TEMPORARY_BAN":

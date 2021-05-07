@@ -246,8 +246,6 @@ public class PlayerListener implements Listener {
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if(DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
-            System.out.println("Player is in the map");
-
             String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
 
             profile.setFakeName(info[0]);
@@ -255,8 +253,6 @@ public class PlayerListener implements Listener {
             profile.setFakeSkin(new Skin(info[2], info[3]));
 
             profile.disguise();
-        }else {
-            System.out.println("Player is not in the map");
         }
     }
 

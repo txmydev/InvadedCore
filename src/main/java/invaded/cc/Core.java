@@ -36,7 +36,7 @@ public class Core extends JavaPlugin {
     @Getter
     private static Core instance;
 
-    private ConfigFile mainConfig, databaseConfig, ranksConfig;
+    private ConfigFile mainConfig, databaseConfig;
  //   private Database db;
 
     private CommandHandler commandHandler;
@@ -55,7 +55,7 @@ public class Core extends JavaPlugin {
 
         this.mainConfig = new ConfigFile("config.yml", null ,false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
-        this.ranksConfig = new ConfigFile("ranks.yml", null, false);
+
 
         //       db = new Database();
 
