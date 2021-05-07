@@ -6,6 +6,7 @@ import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.listener.PlayerListener;
 import invaded.cc.listener.SecurityListener;
+import invaded.cc.listener.SignListener;
 import invaded.cc.manager.ChatHandler;
 import invaded.cc.manager.CommandHandler;
 import invaded.cc.manager.DisguiseHandler;
@@ -87,6 +88,7 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
         pm.registerEvents(new SecurityListener(), this);
         pm.registerEvents(new MenuListener(), this);
+        pm.registerEvents(new SignListener(), this);
     }
 
     @Override
