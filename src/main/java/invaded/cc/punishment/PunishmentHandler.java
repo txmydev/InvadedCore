@@ -63,6 +63,7 @@ public class PunishmentHandler {
         HttpResponse response = RequestHandler.get("/activePunishments", query);
 
         if(response.statusCode() == 200) {
+            System.out.println();
             JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
 
             for (JsonElement jsonElement : jsonArray) {

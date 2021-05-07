@@ -37,11 +37,11 @@ public class Core extends JavaPlugin {
     private static Core instance;
 
     private ConfigFile mainConfig, databaseConfig, ranksConfig;
-    private Database db;
+ //   private Database db;
 
     private CommandHandler commandHandler;
     private ChatHandler chatHandler;
-    private ServerHandler serverHandler;
+ //   private ServerHandler serverHandler;
     private DisguiseHandler disguiseHandler;
     private PunishmentHandler punishmentHandler;
     private PermissionHandler permissionHandler;
@@ -57,9 +57,9 @@ public class Core extends JavaPlugin {
         this.databaseConfig = new ConfigFile("database.yml", null, false);
         this.ranksConfig = new ConfigFile("ranks.yml", null, false);
 
-        db = new Database();
+        //       db = new Database();
 
-        serverHandler = new ServerHandler();
+      // serverHandler = new ServerHandler();
         commandHandler = new CommandHandler();
         chatHandler = new ChatHandler();
         disguiseHandler = new DisguiseHandler();
@@ -69,14 +69,14 @@ public class Core extends JavaPlugin {
         punishmentHandler = new PunishmentHandler();
         rankHandler = new RankHandler();
 
-        new ServerUpdateTask();
-        new GlobalUpdateTask().runTaskTimerAsynchronously(this, 0L,15L);
+   //     new ServerUpdateTask();
+   //     new GlobalUpdateTask().runTaskTimerAsynchronously(this, 0L,15L);
         new MenuTask();
 
         setupListeners();
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        serverHandler.setJoineable(true);
+       // serverHandler.setJoineable(true);
 
         Common.getOnlinePlayers().forEach(player -> profileHandler.load(player.getUniqueId(), player.getName()).updatePermissions(player));
     }

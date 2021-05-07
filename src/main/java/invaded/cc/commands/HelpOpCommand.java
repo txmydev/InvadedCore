@@ -5,10 +5,14 @@ import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
+import invaded.cc.util.Clickable;
 import invaded.cc.util.Color;
+import invaded.cc.util.Common;
 import invaded.cc.util.Cooldown;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -42,10 +46,21 @@ public class HelpOpCommand extends InvadedCommand {
 
         profile.setHelpOpCooldown(new Cooldown(50_000));
 
-        new JedisPoster(JedisAction.HELPOP)
+        /*new JedisPoster(JedisAction.HELPOP)
                 .addInfo("profileId", profile.getId().toString())
                 .addInfo("message", builder.toString())
-                .post();
+                .post();*/
+
+        String message =builder.toString();
+
+        Clickable clickable = new Clickable("&7[&4Help Request&7] &bRequested by " + profile.getColoredName()
+                + "&b: &7" + message)
+                .hover(HoverEvent.Action.SHOW_TEXT,  "&bClick to be teleported to him ");
+
+        clickable.clickEvent(ClickEvent.Action.RUN_COMMAND,
+                "/tp " + profile.getName());
+
+        Common.broadcastMessage(PermLevel.STAFF, clickable.get());
 
         player.sendMessage(Color.translate("&aWe received your request."));
     }

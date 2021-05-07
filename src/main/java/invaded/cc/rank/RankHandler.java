@@ -1,11 +1,11 @@
 package invaded.cc.rank;
 
 import com.google.common.collect.Lists;
-import com.google.gson.reflect.TypeToken;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
+import net.minecraft.util.com.google.common.reflect.TypeToken;
 import org.bukkit.Bukkit;
 
 import java.util.Comparator;

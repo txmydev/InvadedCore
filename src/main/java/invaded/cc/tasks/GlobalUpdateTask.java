@@ -9,8 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GlobalUpdateTask extends BukkitRunnable {
-
     @Override
+    public void run() {
+
+    }
+
+  /*  @Override
     public void run() {
         try {
             Common.getOnlinePlayers().forEach(GlobalUpdateTask::performUpdate);
@@ -43,6 +47,6 @@ public class GlobalUpdateTask extends BukkitRunnable {
                 .addProperty("disguiseData",disguiseData);
 
         Core.getInstance().getDb().getRedisManager().getPlayerUpdatePublisher().write(jsonChain.get());
-    }
+    }*/
 
 }

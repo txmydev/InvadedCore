@@ -6,6 +6,7 @@ import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
+import invaded.cc.rank.RankHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonArray;
@@ -151,6 +152,11 @@ public class GrantHandler {
     }
 
     public Rank getHighestGrant(List<Grant> grants) {
-        return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
+       // return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
+        RankHandler handler = Core.getInstance().getRankHandler();
+
+        return grants.stream().filter(Grant::isUse)
+                .map(grant -> handler.getRank(grant.getRank())).min((rank1, rank2) -> rank2.getPriority() - rank1.getPriority())
+                .orElse(handler.getDefault());
     }
 }

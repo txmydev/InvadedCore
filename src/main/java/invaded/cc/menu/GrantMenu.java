@@ -10,6 +10,7 @@ import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.ItemBuilder;
 import invaded.cc.util.menu.Menu;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,14 +19,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class RankMenu extends Menu {
+public class GrantMenu extends Menu {
 
     private final Profile profile;
     private final ConcurrentMap<Integer, Rank> values;
 
     private final RankHandler rankHandler = Core.getInstance().getRankHandler();
 
-    public RankMenu(Profile profile){
+    public GrantMenu(Profile profile){
         super("&eChange rank of " + profile.getColoredName(), 27);
 
         this.values = new ConcurrentHashMap<>();
@@ -67,6 +68,8 @@ public class RankMenu extends Menu {
             grantHandler.updateGrant(new Grant(profile, System.currentTimeMillis(), rank.getName(), player.getName()));
 
             player.sendMessage(Color.translate(profile.getColoredName()+ "'s &arank is now " + rank.getColoredName()));
+            Player user = Bukkit.getPlayer(profile.getId());
+            user.sendMessage(Color.translate("&aYou're rank has been updated to " + rank.getColoredName() + "&a, you may relog to see the changes."));
         }
     }
 

@@ -37,7 +37,7 @@ public class CommandHandler {
         new BlacklistCMD();
         new UnBlacklistCMD();
         new ColorCommand();
-        new RankCommand();
+        new GrantCommand();
         new UnBanCMD();
         new BanCMD();
         new TemporalBanCMD();

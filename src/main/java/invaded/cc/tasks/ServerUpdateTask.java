@@ -14,7 +14,7 @@ public class ServerUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        JsonChain jsonChain = new JsonChain();
+     /*   JsonChain jsonChain = new JsonChain();
         ServerHandler serverHandler = Core.getInstance().getServerHandler();
 
         jsonChain.addProperty("server-id", Core.getInstance().getServerName())
@@ -24,6 +24,6 @@ public class ServerUpdateTask extends BukkitRunnable {
                 .addProperty("joineable", serverHandler.isJoineable())
                 .addProperty("motd", serverHandler.getMotd());
 
-        serverHandler.sendData(jsonChain.get());
+        serverHandler.sendData(jsonChain.get());*/
     }
 }

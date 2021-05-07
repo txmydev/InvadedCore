@@ -3,7 +3,7 @@ package invaded.cc.commands;
 import invaded.cc.Core;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
-import invaded.cc.menu.RankMenu;
+import invaded.cc.menu.GrantMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
@@ -17,9 +17,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class RankCommand extends InvadedCommand {
+public class GrantCommand extends InvadedCommand {
 
-    public RankCommand() {
+    public GrantCommand() {
         super("grant", PermLevel.ADMIN);
     }
 
@@ -75,7 +75,7 @@ public class RankCommand extends InvadedCommand {
             }
 
             Profile finalProfile = profile;
-            Task.run(() -> new RankMenu(finalProfile).open(((Player) sender)));
+            Task.run(() -> new GrantMenu(finalProfile).open(((Player) sender)));
         });
     }
 

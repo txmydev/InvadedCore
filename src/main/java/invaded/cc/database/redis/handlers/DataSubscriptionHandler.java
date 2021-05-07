@@ -14,7 +14,7 @@ public class DataSubscriptionHandler implements JedisHandler {
     public void handle(String channel, JsonObject jsonObject) {
         if (!channel.equalsIgnoreCase("player-channel")) return;
 
-        ServerHandler serverHandler = Core.getInstance().getServerHandler();
+        ServerHandler serverHandler = null; //Core.getInstance().getServerHandler();
         if (serverHandler == null) return;
 
         User globalPlayer = serverHandler.find(jsonObject.get("name").getAsString());

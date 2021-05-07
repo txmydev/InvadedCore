@@ -19,7 +19,7 @@ public class JoinCommand extends InvadedCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+       /* if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
 
@@ -53,6 +53,6 @@ public class JoinCommand extends InvadedCommand {
             return;
         }
 
-        Common.joinServer(player, serverData.getServerId());
+        Common.joinServer(player, serverData.getServerId());*/
     }
 }

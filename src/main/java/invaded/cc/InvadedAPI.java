@@ -35,9 +35,9 @@ public class InvadedAPI {
         Core.getInstance().getCommandHandler().getFlyWorlds().remove(s);
     }
 
-    public static Set<String> getServers(){
+   /* public static Set<String> getServers(){
         return Core.getInstance().getServerHandler().getServers().keySet();
-    }
+    }*/
 
     public static String getRank(UUID uuid){
         return profileHandler.getProfile(uuid).getHighestRank().getName();

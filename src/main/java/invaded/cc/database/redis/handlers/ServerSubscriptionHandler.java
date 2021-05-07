@@ -24,7 +24,7 @@ public class ServerSubscriptionHandler implements JedisHandler {
         boolean joineable = jsonObject.get("joineable").getAsBoolean();
         String motd = jsonObject.get("motd").getAsString();
 
-        ServerHandler serverHandler = Core.getInstance().getServerHandler();
+        ServerHandler serverHandler = null;// Core.getInstance().getServerHandler();
         if(!serverHandler.getServers().containsKey(serverId)) Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fAdded server &b" +serverId +"&f...");
 
         serverHandler.getServers().putIfAbsent(serverId, new Server(serverId));

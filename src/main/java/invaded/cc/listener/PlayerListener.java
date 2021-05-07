@@ -106,8 +106,8 @@ public class PlayerListener implements Listener {
         ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
 
-        User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
-        if(globalPlayer != null) globalPlayer.setSwitchingServer(true);
+       /* User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
+        if(globalPlayer != null) globalPlayer.setSwitchingServer(true);*/
 
         try {
             PermissibleInjector.unInject(player);
@@ -119,7 +119,7 @@ public class PlayerListener implements Listener {
 
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
-        Core.getInstance().getServerHandler().removePlayer(globalPlayer);
+       // Core.getInstance().getServerHandler().removePlayer(globalPlayer);
     }
 
     @EventHandler(priority = EventPriority.LOW)

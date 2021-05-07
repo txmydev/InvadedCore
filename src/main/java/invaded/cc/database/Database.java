@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class Database {
-    private final JedisManager redisManager;
+    //private JedisManager redisManager;
 
     /*
     private final String host;
@@ -29,7 +29,7 @@ public class Database {
         this.database = configTracker.getString("database");
         this.auth = configTracker.getBoolean("authentication");*/
 
-        this.redisManager = new JedisManager();
+        //this.redisManager = new JedisManager();
     }
 
   /*  public boolean open(){

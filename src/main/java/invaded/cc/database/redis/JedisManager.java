@@ -59,6 +59,8 @@ public class JedisManager {
 
         this.playerUpdatePublisher = new JedisPublisher(config, "player-channel");
         this.playerUpdateSubscriber = new JedisSubscriber(config, "player-channel", new DataSubscriptionHandler());
+
+
     }
 
 /*    public void write(JedisAction jedisAction, Object data) {

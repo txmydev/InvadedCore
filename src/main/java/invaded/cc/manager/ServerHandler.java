@@ -17,9 +17,9 @@ import java.util.concurrent.ConcurrentMap;
 public class ServerHandler {
 
     @Getter
-    private final ConcurrentMap<String, Server> servers;
+    private ConcurrentMap<String, Server> servers;
 
-    private final JedisSubscriber subscriber;
+    private JedisSubscriber subscriber;
     private JedisPublisher publisher;
 
     @Setter
@@ -31,11 +31,11 @@ public class ServerHandler {
     private String motd = "";
 
     public ServerHandler() {
-        JedisManager jedis = Core.getInstance().getDb().getRedisManager();
+       /* JedisManager jedis = Core.getInstance().getDb().getRedisManager();
         this.servers = new ConcurrentHashMap<>();
 
         subscriber = new JedisSubscriber(jedis.getConfig(), "server-channel", new ServerSubscriptionHandler());
-        publisher = new JedisPublisher(jedis.getConfig(), "server-channel");
+        publisher = new JedisPublisher(jedis.getConfig(), "server-channel");*/
     }
 
     public void close() {
