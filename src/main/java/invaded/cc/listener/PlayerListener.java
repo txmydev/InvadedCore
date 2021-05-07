@@ -151,13 +151,13 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if(event.getMessage().startsWith("/bukkit:") && profile.getHighestRank().getPriority() < 100){
+        if(event.getMessage().startsWith("/bukkit:") && !Permission.test(player, PermLevel.ADMIN)){
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cThat command is blocked."));
             return;
         }
 
-        if (Filter.isBlocked(message) && !player.getName().equalsIgnoreCase("txmy")) {
+        if (Filter.isBlocked(message) && !Permission.test(player, PermLevel.ADMIN)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cThat command is blocked."));
         }
@@ -183,8 +183,8 @@ public class PlayerListener implements Listener {
             Common.broadcastMessage(PermLevel.STAFF, filter);
         }
 
-        String format = profile.getChatFormat() + "&f: " + event.getMessage();
-        event.setFormat(Color.translate(format));
+        String format = profile.getChatFormat() + "&f: ";
+        event.setFormat(Color.translate(format + "%2$s"));
     }
 
     @EventHandler
