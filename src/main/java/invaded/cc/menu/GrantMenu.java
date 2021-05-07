@@ -69,6 +69,7 @@ public class GrantMenu extends Menu {
 
             player.sendMessage(Color.translate(profile.getColoredName()+ "'s &arank is now " + rank.getColoredName()));
             Player user = Bukkit.getPlayer(profile.getId());
+            if(user == null)return;
             user.sendMessage(Color.translate("&aYou're rank has been updated to " + rank.getColoredName() + "&a, you may relog to see the changes."));
         }
     }
