@@ -43,11 +43,6 @@ public abstract class InvadedCommand extends Command {
     }
 
     public void register(){
-        if(COMMAND_MAP.getCommand(name) != null) {
-            COMMAND_MAP.getCommand(name).unregister(COMMAND_MAP);
-            System.out.println("Unregistered command " + name + " because it was duplicated.");
-            return;
-        }
         COMMAND_MAP.register(name, this);
     }
 
