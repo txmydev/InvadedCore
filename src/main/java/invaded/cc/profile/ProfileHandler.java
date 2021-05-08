@@ -39,11 +39,7 @@ public class ProfileHandler {
         body.put("allowDisguise", profile.isAllowDisguise());
         body.put("ignoreList", profile.getIgnoreList());
 
-        Map<String, Object> query = new HashMap<>();
-        query.put("uuid", profile.getId().toString());
-        query.put("name", profile.getName());
-
-        HttpResponse response = RequestHandler.put("/profiles", body, query);
+        HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
     }
 

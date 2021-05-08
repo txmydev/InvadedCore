@@ -1,6 +1,7 @@
 package invaded.cc.manager;
 
 import invaded.cc.commands.*;
+import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
 import invaded.cc.commands.punish.ban.BanCMD;
 import invaded.cc.commands.punish.ban.TemporalBanCMD;
@@ -32,7 +33,6 @@ public class CommandHandler {
         new ChatControlCommand();
         new HealCommand();
         new ReportCommand();
-        new MessageCommand();
         new IgnoreCommand();
         new BlacklistCMD();
         new UnBlacklistCMD();
@@ -59,6 +59,12 @@ public class CommandHandler {
         new PermissionCommand();
         new SudoCommand();
         new SkullCommand();
+
+        new PrivateMessageCommand();
+        new ReplyCommand();
+        new ToggleMessageCommand();
+        new FilterCommand();
+        new SoundCommand();
     }
 
 }
