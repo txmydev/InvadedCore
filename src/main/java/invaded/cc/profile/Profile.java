@@ -45,7 +45,7 @@ public class Profile {
     private Profile recentTalker;
     private List<String> ignoreList = new ArrayList<>();
     private ChatColor chatColor = null;
-    private boolean italic = false, bold = false;
+    private boolean italic = false, bold = false, spaceBetweenRank = false;
     private boolean messages;
     private boolean messagesSound;
 
@@ -76,7 +76,7 @@ public class Profile {
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + name;
+                (bold ? ChatColor.BOLD : "") + (spaceBetweenRank ? " " : "")+ name;
     }
 
 /*
@@ -178,7 +178,7 @@ public class Profile {
         if (isDisguised()) return fakeRank.getColors() + fakeName;
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + name;
+                (bold ? ChatColor.BOLD : "") +(spaceBetweenRank ? " " : "")+ name;
     }
 
     public boolean isDisguised() {

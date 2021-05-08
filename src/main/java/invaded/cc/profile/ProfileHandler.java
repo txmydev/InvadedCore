@@ -38,6 +38,7 @@ public class ProfileHandler {
         body.put("privateMessagesSound", profile.isMessagesSound());
         body.put("allowDisguise", profile.isAllowDisguise());
         body.put("ignoreList", profile.getIgnoreList());
+        body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
@@ -89,6 +90,8 @@ public class ProfileHandler {
 
             profile.setIgnoreList(list);
         }
+
+        if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
 
         GrantHandler grantHandler = Core.getInstance().getGrantHandler();
 
