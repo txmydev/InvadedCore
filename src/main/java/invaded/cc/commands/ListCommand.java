@@ -64,7 +64,7 @@ public class ListCommand extends InvadedCommand {
         List<Profile> list1 = new ArrayList<>(profileHandler.getProfiles().values().stream().sorted((p1, p2) -> p2.getHighestRank().getPriority() - p1.getHighestRank().getPriority()).collect(Collectors.toList()));
 
         for(Profile profile : list1) {
-            builder.append(first ? "" + profile.getColoredName() : ", " + profile.getColoredName());
+            builder.append(first ? "" + profile.getColoredName() : "&7, " + profile.getColoredName());
 
             first = false;
         }
