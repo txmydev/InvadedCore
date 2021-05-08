@@ -14,6 +14,7 @@ public class Grant {
             - Core.getInstance().getRankHandler().getRank(g1.getRank()).getPriority();
 
     private String rank;
+    private String name;
     private Profile profile;
     private long addedAt;
     private long removedAt;
@@ -26,6 +27,7 @@ public class Grant {
         this.profile = profile;
         this.addedAt = grantedAt;
         this.rank = rank;
+        this.name = profile.getName();
         this.addedBy = addedBy;
     }
 }
