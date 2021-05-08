@@ -51,21 +51,25 @@ public class ColorMenu extends Menu{
                                 ChatColor.ITALIC + profile.getName()).build());
         colors.put(slot, ChatColor.ITALIC);
 
-        inventory.setItem(slot + 1, new ItemBuilder().type(Material.SUGAR)
+        slot++;
+
+        inventory.setItem(slot, new ItemBuilder().type(Material.SUGAR)
                 .name("&eToggle your bold mode.")
                 .lore("&7You will look like this"
                         , " ",
                         profile.getHighestRank().getColors() +
                                 (profile.hasCustomColor() ? profile.getChatColor() + "" : "") +
                                 ChatColor.BOLD + profile.getName()).build());
-        colors.put(slot + 1, ChatColor.BOLD);
+        colors.put(slot, ChatColor.BOLD);
 
-        inventory.setItem(slot + 1, new ItemBuilder().type(Material.SUGAR)
+        slot++;
+
+        inventory.setItem(slot, new ItemBuilder().type(Material.COOKIE)
                 .name("&eToggle your space between rank display name.")
                 .lore("&7You will look like this"
                         , " ",
                         getNameWithSpaceBetweenRank(profile, !profile.isSpaceBetweenRank())).build());
-        colors.put(slot + 1, ChatColor.MAGIC);
+        colors.put(slot, ChatColor.MAGIC);
 
         inventory.setItem(26, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
         .data(15).name("&cReset Color").build());
