@@ -60,8 +60,22 @@ public class ColorMenu extends Menu{
                                 ChatColor.BOLD + profile.getName()).build());
         colors.put(slot + 1, ChatColor.BOLD);
 
+        inventory.setItem(slot + 1, new ItemBuilder().type(Material.SUGAR)
+                .name("&eToggle your space between rank display name.")
+                .lore("&7You will look like this"
+                        , " ",
+                        getNameWithSpaceBetweenRank(profile, !profile.isSpaceBetweenRank())).build());
+        colors.put(slot + 1, ChatColor.MAGIC);
+
         inventory.setItem(26, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
         .data(15).name("&cReset Color").build());
+    }
+
+    private String getNameWithSpaceBetweenRank(Profile profile, boolean toggle) {
+        return profile.getHighestRank().getPrefix() + profile.getHighestRank().getColors() +
+                (profile.getChatColor() == null ? "" : profile.getChatColor()) + (profile.isItalic() ? ChatColor.ITALIC : "") +
+                (profile.isBold() ? ChatColor.BOLD : "") + (toggle ? " " : "") +profile.getName()
+                + profile.getHighestRank().getSuffix();
     }
 
     @Override
@@ -85,6 +99,9 @@ public class ColorMenu extends Menu{
                     break;
                 case BOLD:
                     profile.setBold(!profile.isBold());
+                    break;
+                case MAGIC:
+                    profile.setSpaceBetweenRank(!profile.isSpaceBetweenRank());
                     break;
                 default:
                     profile.setChatColor(color);
