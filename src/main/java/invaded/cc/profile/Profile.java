@@ -178,7 +178,7 @@ public class Profile {
         if (isDisguised()) return fakeRank.getColors() + fakeName;
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") +(spaceBetweenRank ? " " : "")+ name;
+                (bold ? ChatColor.BOLD : "") + name;
     }
 
     public boolean isDisguised() {
@@ -186,25 +186,15 @@ public class Profile {
     }
 
     public String getChatFormat() {
-        String f = "";
-        Rank rank = null;
-
         if (isDisguised()) {
-            rank = fakeRank;
-
-            f = rank.getPrefix() + rank.getColors() + fakeName
-                    + rank.getSuffix();
-
-            return f;
+               return fakeRank.getPrefix() + fakeRank.getColors() + fakeName
+                    + fakeRank.getSuffix();
         }
 
-        rank = highestRank;
+        return highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
+                (bold ? ChatColor.BOLD : "") + (spaceBetweenRank ? " " : "") +name
+                + highestRank.getSuffix();
 
-        f = rank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + name
-                + rank.getSuffix();
-
-        return f;
     }
 
     public boolean hasCustomColor() {
