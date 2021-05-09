@@ -237,4 +237,8 @@ public class Profile {
 
         Core.getInstance().getPermissionHandler().updatePermissions(player, perms);
     }
+
+    public boolean isOnline() {
+        return Bukkit.getPlayer(id) != null;
+    }
 }
