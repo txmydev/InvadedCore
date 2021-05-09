@@ -8,7 +8,9 @@ public enum PermLevel {
     VIP("invaded.default", "invaded.vip"),
     MEDIA("invaded.default", "invaded.vip","invaded.media"),
     STAFF( "invaded.default", "invaded.vip","invaded.media","invaded.staff"),
-    ADMIN("invaded.default", "invaded.vip","invaded.media","invaded.staff", "invaded.admin");
+    ADMIN("invaded.default", "invaded.vip","invaded.media","invaded.staff", "invaded.admin"),
+    DEVELOPER("invaded.default", "invaded.vip","invaded.media","invaded.staff", "invaded.admin", "invaded.developer");
+
 
     @Getter
     private final String[] perm;
