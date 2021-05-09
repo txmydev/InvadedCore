@@ -28,7 +28,7 @@ public class RankHandler {
        // priorityOrdered = ranks.values().stream().sorted(PRIORITY_COMPARATOR).collect(Collectors.toList());
     }
 
-    private void loadAll() {
+    public void loadAll() {
         HttpResponse httpResponse = RequestHandler.get("/ranks");
 
         if(httpResponse.statusCode() != 200) {
@@ -36,6 +36,8 @@ public class RankHandler {
             httpResponse.close();
             return;
         }
+
+        if(!this.ranks.isEmpty()) this.ranks.clear();
 
         this.ranks = Core.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
         this.ranks.sort(PRIORITY_COMPARATOR);
