@@ -5,15 +5,15 @@ import lombok.Getter;
 public enum PermLevel {
 
     DEFAULT("invaded.default"),
-    VIP("invaded.vip"),
-    MEDIA("invaded.media"),
-    STAFF("invaded.staff"),
-    ADMIN("invaded.admin");
+    VIP("invaded.default", "invaded.vip"),
+    MEDIA("invaded.default", "invaded.vip","invaded.media"),
+    STAFF( "invaded.default", "invaded.vip","invaded.media","invaded.staff"),
+    ADMIN("invaded.default", "invaded.vip","invaded.media","invaded.staff", "invaded.admin");
 
     @Getter
-    private final String perm;
+    private final String[] perm;
 
-    PermLevel(String s) {
+    PermLevel(String... s) {
         this.perm = s;
     }
 }

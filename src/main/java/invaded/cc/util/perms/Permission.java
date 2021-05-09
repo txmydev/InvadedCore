@@ -6,17 +6,23 @@ import org.bukkit.entity.Player;
 
 public class Permission {
 
-    public static boolean test(CommandSender player, PermLevel level){
-        if(!(player instanceof Player)) return true;
-        if(level == PermLevel.DEFAULT) return true;
+    public static boolean test(CommandSender player, PermLevel level) {
+        if (!(player instanceof Player)) return true;
+        if (level == PermLevel.DEFAULT) return true;
 
-        return player.hasPermission(level.getPerm());
+        for (String s : level.getPerm())
+            if (player.hasPermission(s)) return true;
+
+        return false;
     }
 
-    public static boolean test(Profile player, PermLevel level){
-        if(level == PermLevel.DEFAULT) return true;
+    public static boolean test(Profile player, PermLevel level) {
+        if (level == PermLevel.DEFAULT) return true;
 
-        return player.getPermissions().contains(level.getPerm());
+        for (String s : level.getPerm())
+            if (player.getPermissions().contains(s)) return true;
+
+        return false;
     }
 
 }
