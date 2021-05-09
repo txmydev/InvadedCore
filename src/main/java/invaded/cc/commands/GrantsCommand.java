@@ -38,8 +38,7 @@ public class GrantsCommand extends InvadedCommand {
             Profile profile = profileHandler.getProfile(uuid);
 
             if (profile == null) {
-                sender.sendMessage(Color.translate("&cThat profile doesn't exist."));
-                return;
+                profile = profileHandler.load(uuid, target, false);
             }
 
             sender.sendMessage(Color.translate("&aFetching recent grants of the player, when its ready, and inventory will be opened."));
