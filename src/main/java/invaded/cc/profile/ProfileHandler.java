@@ -72,12 +72,11 @@ public class ProfileHandler {
         body.put("name", name);
 
         HttpResponse response = RequestHandler.post("/profiles", body);
-        Profile profile = profiles.get(uuid);
+        Profile profile = cache ? profiles.get(uuid) : new Profile(uuid, name);
 
         JsonObject jsonObject = new JsonParser().parse(response.bodyText()).getAsJsonObject();
 
-        if (jsonObject.has("color"))
-            profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
+        if (jsonObject.has("color")) profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
         if (jsonObject.has("italic")) profile.setItalic(jsonObject.get("italic").getAsBoolean());
         if (jsonObject.has("bold")) profile.setBold(jsonObject.get("bold").getAsBoolean());
         if (jsonObject.has("privateMessages")) profile.setMessages(jsonObject.get("privateMessages").getAsBoolean());
