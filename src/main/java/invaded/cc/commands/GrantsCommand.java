@@ -1,6 +1,7 @@
 package invaded.cc.commands;
 
 import invaded.cc.Core;
+import invaded.cc.grant.GrantHandler;
 import invaded.cc.menu.GrantsMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -23,9 +24,9 @@ public class GrantsCommand extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            if(!(sender instanceof Player)) return;
+            if (!(sender instanceof Player)) return;
 
-            if(args.length != 1) {
+            if (args.length != 1) {
                 sender.sendMessage(Color.translate("&c/grants <name>"));
                 return;
             }
@@ -36,12 +37,16 @@ public class GrantsCommand extends InvadedCommand {
 
             Profile profile = profileHandler.getProfile(uuid);
 
-            if(profile == null) {
+            if (profile == null) {
                 sender.sendMessage(Color.translate("&cThat profile doesn't exist."));
                 return;
             }
 
-            new GrantsMenu(profile).open(((Player)sender));
+            sender.sendMessage(Color.translate("&aFetching recent grants of the player, when its ready, and inventory will be opened."));
+            GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+            profile.setGrants(grantHandler.get(profile));
+
+            new GrantsMenu(profile).open(((Player) sender));
         });
     }
 }
