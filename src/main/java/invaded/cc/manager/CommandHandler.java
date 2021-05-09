@@ -65,6 +65,8 @@ public class CommandHandler {
         new ToggleMessageCommand();
         new FilterCommand();
         new SoundCommand();
+
+        new ReloadRanksCommand();
     }
 
 }
