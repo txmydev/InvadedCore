@@ -1,9 +1,13 @@
 package invaded.cc.profile;
 
+import com.google.common.collect.Lists;
 import invaded.cc.Core;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.manager.RequestHandler;
+import invaded.cc.prefix.Prefix;
+import invaded.cc.prefix.PrefixHandler;
 import invaded.cc.punishment.PunishmentHandler;
+import invaded.cc.util.json.JsonChain;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
@@ -39,9 +43,20 @@ public class ProfileHandler {
         body.put("allowDisguise", profile.isAllowDisguise());
         body.put("ignoreList", profile.getIgnoreList());
         body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
+        body.put("prefixes", getPrefixListToJson(profile));
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
+    }
+
+    private List<JsonObject> getPrefixListToJson(Profile profile) {
+        List<JsonObject> list = Lists.newArrayList();
+
+        profile.getPrefixes().forEach(prefix -> {
+            list.add(new JsonChain().addProperty("id", prefix.getId()).addProperty("display", prefix.getDisplay()).get());
+        });
+
+        return list;
     }
 
     public Profile getProfile(UUID uuid) {
@@ -84,10 +99,16 @@ public class ProfileHandler {
             profile.setMessagesSound(jsonObject.get("privateMessagesSound").getAsBoolean());
 
         if (jsonObject.has("ignoreList")) {
-            List<String> list = new ArrayList<>();
-            jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> list.add(element.getAsString()));
+            jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> profile.getIgnoreList().add(element.getAsString()));
+        }
 
-            profile.setIgnoreList(list);
+        if(jsonObject.has("prefixes")) {
+            PrefixHandler prefixHandler = Core.getInstance().getPrefixHandler();
+            jsonObject.get("prefixes").getAsJsonArray().forEach(element -> {
+                Prefix prefix = prefixHandler.getPrefix(element.getAsJsonObject().get("id").getAsString());
+                if(prefix == null) return;
+                profile.getPrefixes().add(prefix);
+            });
         }
 
         if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());

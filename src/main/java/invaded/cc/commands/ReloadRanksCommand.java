@@ -2,6 +2,7 @@ package invaded.cc.commands;
 
 import invaded.cc.Core;
 import invaded.cc.util.Color;
+import invaded.cc.util.Common;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
@@ -21,5 +22,7 @@ public class ReloadRanksCommand extends InvadedCommand {
 
         Core.getInstance().getRankHandler().loadAll();
         sender.sendMessage(Color.translate("&aDone"));
+
+        Common.getOnlinePlayers().forEach(player -> player.kickPlayer(Color.translate("&cReloaded ranks")));
     }
 }

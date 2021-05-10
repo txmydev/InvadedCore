@@ -3,6 +3,8 @@ package invaded.cc.punishment;
 import invaded.cc.Core;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
+import invaded.cc.profile.ProfileHandler;
+import invaded.cc.util.Task;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonArray;
@@ -45,13 +47,18 @@ public class PunishmentHandler {
         HttpResponse response = RequestHandler.delete("/activePunishments", query);
         response.close();
 
-        if(response.statusCode() != 200) {
+        if(response.statusCode() != 202) {
             Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.bodyText());
             return;
         }
 
         Optional<Profile> op = Optional.of(Core.getInstance().getProfileHandler().getProfile(uuid));
         if(!punishment.isBan() && op.isPresent()) op.get().setMute(null);
+
+        Task.async(() -> {
+            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+            move(profileHandler.load(uuid, punishment.getCheaterName(), false), punishment);
+        });
     }
 
     public void load(Profile profile) {

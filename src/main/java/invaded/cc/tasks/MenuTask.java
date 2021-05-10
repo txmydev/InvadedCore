@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class MenuTask extends BukkitRunnable {
 
     public MenuTask(){
-        runTaskTimerAsynchronously(Core.getInstance(), 20L, 1L);
+        runTaskTimerAsynchronously(Core.getInstance(), 20L, 5L);
     }
 
     @Override

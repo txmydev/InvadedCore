@@ -83,11 +83,18 @@ public class GrantHandler {
         }
 
         JsonArray grants = new JsonParser().parse(response.bodyText()).getAsJsonArray();
+        RankHandler rankHandler = Core.getInstance().getRankHandler();
 
         grants.iterator().forEachRemaining(element -> {
             JsonObject jsonObject = element.getAsJsonObject();
 
             Grant grant = new Grant(profile, jsonObject.get("addedAt").getAsLong(), jsonObject.get("rank").getAsString(), jsonObject.get("addedBy").getAsString());
+
+            if(rankHandler.getRank(grant.getRank()) == null){
+                removeGrant(grant);
+                return;
+            }
+
             grant.setRemovedBy(jsonObject.get("removedBy").getAsString());
             grant.setRemovedAt(jsonObject.get("removedAt").getAsLong());
 

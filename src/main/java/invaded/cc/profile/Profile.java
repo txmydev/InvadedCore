@@ -1,8 +1,10 @@
 package invaded.cc.profile;
 
+import com.google.common.collect.Lists;
 import invaded.cc.Core;
 import invaded.cc.grant.Grant;
 import invaded.cc.manager.DisguiseHandler;
+import invaded.cc.prefix.Prefix;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.rank.Rank;
 import invaded.cc.util.Common;
@@ -59,6 +61,8 @@ public class Profile {
     private Rank fakeRank;
     private String fakeName;
     private Skin fakeSkin;
+
+    private List<Prefix> prefixes = Lists.newArrayList();
 
     private Cooldown commandCooldown = new Cooldown(0), chatCooldown = new Cooldown(0), helpOpCooldown = new Cooldown(0);
 

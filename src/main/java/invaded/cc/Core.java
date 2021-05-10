@@ -12,6 +12,7 @@ import invaded.cc.manager.CommandHandler;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.manager.ServerHandler;
 import invaded.cc.permission.PermissionHandler;
+import invaded.cc.prefix.PrefixHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
@@ -49,6 +50,7 @@ public class Core extends JavaPlugin {
     private ProfileHandler profileHandler;
     private GrantHandler grantHandler;
     private RankHandler rankHandler;
+    private PrefixHandler prefixHandler;
 
     @Override
     public void onEnable(){
@@ -69,6 +71,7 @@ public class Core extends JavaPlugin {
         profileHandler = new ProfileHandler();
         punishmentHandler = new PunishmentHandler();
         rankHandler = new RankHandler();
+        prefixHandler = new PrefixHandler();
 
    //     new ServerUpdateTask();
    //     new GlobalUpdateTask().runTaskTimerAsynchronously(this, 0L,15L);
