@@ -60,6 +60,8 @@ public class UnMuteCMD extends InvadedCommand {
             PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(targetData.getId(), punishment);
 
+            targetData.setMute(null);
+
 //            new JedisPoster(JedisAction.REMOVE_PUNISHMENT)
 //                    .addInfo("type", punishment.getType().name())
 //                    .addInfo("cheaterName", punishment.getCheaterName())
