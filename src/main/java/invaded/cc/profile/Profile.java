@@ -197,7 +197,7 @@ public class Profile {
                     + fakeRank.getSuffix();
         }
 
-        return (activePrefix != null ? activePrefix.getDisplay() : "") + " " + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
+        return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 (spaceBetweenRank ? " " : "") +name
                 + highestRank.getSuffix();
 
