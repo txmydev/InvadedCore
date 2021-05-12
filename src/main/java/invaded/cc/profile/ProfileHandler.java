@@ -13,6 +13,7 @@ import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +37,7 @@ public class ProfileHandler {
         body.put("uuid", profile.getId().toString());
         body.put("name", profile.getName());
         body.put("color", profile.getChatColor() == null ? "none" : profile.getChatColor().name());
-        body.put("bold", profile.isBold());
+        body.put("bold", false);
         body.put("italic", profile.isItalic());
         body.put("privateMessages", profile.isMessages());
         body.put("privateMessagesSound", profile.isMessagesSound());
@@ -44,6 +45,7 @@ public class ProfileHandler {
         body.put("ignoreList", profile.getIgnoreList());
         body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
         body.put("prefixes", getPrefixListToJson(profile));
+        body.put("activePrefix", profile.getActivePrefix() == null ? "none" : profile.getActivePrefix().getId());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
@@ -62,6 +64,9 @@ public class ProfileHandler {
     public Profile getProfile(UUID uuid) {
         return profiles.get(uuid);
     }
+    public Profile getProfile(Player player){
+        return getProfile(player.getUniqueId());
+    }
 
     public boolean canDisguise(String arg) {
         for (Profile val : profiles.values()) {
@@ -76,8 +81,6 @@ public class ProfileHandler {
 
     public Profile load(UUID uuid, String name, boolean cache) {
         if(cache) {
-            if (profiles.containsKey(uuid)) profiles.remove(uuid);
-
             profiles.putIfAbsent(uuid, new Profile(uuid, name));
         }
 
@@ -93,7 +96,7 @@ public class ProfileHandler {
 
         if (jsonObject.has("color")) profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
         if (jsonObject.has("italic")) profile.setItalic(jsonObject.get("italic").getAsBoolean());
-        if (jsonObject.has("bold")) profile.setBold(jsonObject.get("bold").getAsBoolean());
+        // if (jsonObject.has("bold")) profile.setBold(jsonObject.get("bold").getAsBoolean());
         if (jsonObject.has("privateMessages")) profile.setMessages(jsonObject.get("privateMessages").getAsBoolean());
         if (jsonObject.has("privateMessagesSound"))
             profile.setMessagesSound(jsonObject.get("privateMessagesSound").getAsBoolean());
@@ -102,8 +105,15 @@ public class ProfileHandler {
             jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> profile.getIgnoreList().add(element.getAsString()));
         }
 
+        PrefixHandler prefixHandler = Core.getInstance().getPrefixHandler();
+
+        if(jsonObject.has("activePrefix")) {
+            String pref = jsonObject.get("activePrefix").getAsString();
+            if(pref.equals("none") || prefixHandler.getPrefix(pref) == null) profile.setActivePrefix(null);
+            else profile.setActivePrefix(prefixHandler.getPrefix(pref));
+        }
+
         if(jsonObject.has("prefixes")) {
-            PrefixHandler prefixHandler = Core.getInstance().getPrefixHandler();
             jsonObject.get("prefixes").getAsJsonArray().forEach(element -> {
                 Prefix prefix = prefixHandler.getPrefix(element.getAsJsonObject().get("id").getAsString());
                 if(prefix == null) return;

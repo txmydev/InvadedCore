@@ -10,19 +10,13 @@ public class Permission {
         if (!(player instanceof Player)) return true;
         if (level == PermLevel.DEFAULT) return true;
 
-        for (String s : level.getPerm())
-            if (player.hasPermission(s)) return true;
-
-        return false;
+        return player.hasPermission(level.getPerm());
     }
 
     public static boolean test(Profile player, PermLevel level) {
         if (level == PermLevel.DEFAULT) return true;
 
-        for (String s : level.getPerm())
-            if (player.getPermissions().contains(s)) return true;
-
-        return false;
+        return player.getPermissions().contains(level.getPerm());
     }
 
 }

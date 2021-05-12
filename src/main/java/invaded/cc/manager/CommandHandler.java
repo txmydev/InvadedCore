@@ -3,6 +3,8 @@ package invaded.cc.manager;
 import invaded.cc.commands.*;
 import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
+import invaded.cc.commands.prefix.GrantPrefixCommand;
+import invaded.cc.commands.prefix.PrefixCommand;
 import invaded.cc.commands.punish.ban.BanCMD;
 import invaded.cc.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.commands.punish.blacklist.BlacklistCMD;
@@ -67,6 +69,8 @@ public class CommandHandler {
         new SoundCommand();
 
         new ReloadRanksCommand();
+        new PrefixCommand();
+        new GrantPrefixCommand();
     }
 
 }

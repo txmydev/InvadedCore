@@ -107,6 +107,7 @@ public class Core extends JavaPlugin {
             profileHandler.save(profile);
         });
 
+        prefixHandler.getPrefixes().forEach(prefixHandler::save);
         rankHandler.getRanks().forEach(rankHandler::save);
         instance = null;
     }

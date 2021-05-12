@@ -73,7 +73,14 @@ public class PermissionCommand extends InvadedCommand {
                     else {
                         rank.getPermissions().add(perm);
                         sender.sendMessage(Color.translate("&aCorrectly added the permission!"));
+
+                        Bukkit.getOnlinePlayers().forEach(player1 -> {
+                            Profile profile1 = profileHandler.getProfile(player1);
+
+                        });
                     }
+
+
                     break;
                 case "remove":
                     if (args.length != 3) break;

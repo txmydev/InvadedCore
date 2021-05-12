@@ -6,6 +6,7 @@ import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.perms.PermLevel;
+import invaded.cc.util.perms.Permission;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_7_R4.Packet;
@@ -76,7 +77,7 @@ public class Common {
 
     public static void broadcastMessage(PermLevel permLevel, String message) {
         getOnlinePlayers().forEach(player -> {
-            if(!player.hasPermission(permLevel.getPerm())) return;
+            if(!Permission.test(player, permLevel)) return;
 
             player.sendMessage(Color.translate(message));
         });
@@ -87,7 +88,7 @@ public class Common {
 
     public static void broadcastMessage(PermLevel permLevel, TextComponent message) {
         getOnlinePlayers().forEach(player -> {
-            if(!player.hasPermission(permLevel.getPerm())) return;
+            if(!Permission.test(player, permLevel)) return;
 
             player.spigot().sendMessage((message));
         });
@@ -101,7 +102,7 @@ public class Common {
 
     public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, TextComponent message){
         getOnlinePlayers().stream().filter(predicate).forEach(player -> {
-            if(!player.hasPermission(permLevel.getPerm())) return;
+            if(!Permission.test(player, permLevel)) return;
 
             player.spigot().sendMessage(message);
         });

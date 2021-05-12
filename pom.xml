@@ -91,8 +91,8 @@
 
         <dependency>
             <groupId>txmy.dev</groupId>
-            <artifactId>wSpigot</artifactId>
-            <version>1.0.0</version>
+            <artifactId>slspigot</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

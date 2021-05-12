@@ -24,7 +24,7 @@ public class PrefixHandler {
     public void load() {
         HttpResponse response = RequestHandler.get("/prefixs");
 
-        if(response.statusCode() == 200) this.prefixes = Lists.newArrayList();
+        if(response.statusCode() != 200) this.prefixes = Lists.newArrayList();
         else this.prefixes = Core.GSON.fromJson(response.bodyText(), new TypeToken<List<Prefix>>() {}.getType());
 
         response.close();
@@ -45,5 +45,15 @@ public class PrefixHandler {
          }
 
         return null;
+    }
+
+    public void remove(Prefix prefix) {
+        prefixes.remove(prefix);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", prefix.getId());
+
+        HttpResponse response = RequestHandler.delete("/prefixs", map);
+        response.close();
     }
 }

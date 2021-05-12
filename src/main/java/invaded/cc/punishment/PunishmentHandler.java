@@ -52,12 +52,14 @@ public class PunishmentHandler {
             return;
         }
 
-        Optional<Profile> op = Optional.of(Core.getInstance().getProfileHandler().getProfile(uuid));
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        Optional<Profile> op = Optional.of(profileHandler.getProfile(uuid));
         if(!punishment.isBan() && op.isPresent()) op.get().setMute(null);
 
         Task.async(() -> {
-            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-            move(profileHandler.load(uuid, punishment.getCheaterName(), false), punishment);
+            Optional<Profile> profileOptional= Optional.of(profileHandler.getProfile(uuid));
+            Profile profile = profileOptional.orElse(profileHandler.load(uuid, punishment.getCheaterName(), false));
+            move(profile, punishment);
         });
     }
 

@@ -47,13 +47,15 @@ public class Profile {
     private Profile recentTalker;
     private List<String> ignoreList = new ArrayList<>();
     private ChatColor chatColor = null;
-    private boolean italic = false, bold = false, spaceBetweenRank = false;
+    private boolean italic = false, spaceBetweenRank = false;
     private boolean messages;
     private boolean messagesSound;
 
     // Staff stuff
     private boolean filter = true;
     private boolean staffAlerts = true;
+
+    private Prefix activePrefix;
 
     // Disguise stuff
     private boolean allowDisguise;
@@ -80,7 +82,7 @@ public class Profile {
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + (spaceBetweenRank ? " " : "")+ name;
+                (spaceBetweenRank ? " " : "")+ name;
     }
 
 /*
@@ -182,7 +184,7 @@ public class Profile {
         if (isDisguised()) return fakeRank.getColors() + fakeName;
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + name;
+                name;
     }
 
     public boolean isDisguised() {
@@ -195,8 +197,8 @@ public class Profile {
                     + fakeRank.getSuffix();
         }
 
-        return highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (bold ? ChatColor.BOLD : "") + (spaceBetweenRank ? " " : "") +name
+        return (activePrefix != null ? activePrefix.getDisplay() : "") + " " + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
+                (spaceBetweenRank ? " " : "") +name
                 + highestRank.getSuffix();
 
     }

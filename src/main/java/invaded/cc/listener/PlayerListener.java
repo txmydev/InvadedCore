@@ -36,7 +36,7 @@ public class PlayerListener implements Listener {
 
         Profile profile = profileHandler.load(uuid, name);
 
-        if (!profile.isLoaded()) {
+        if (!profile.isLoaded() || profileHandler.getProfile(uuid) == null) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
             event.setKickMessage(Color.translate("&cYou data hasn't been loaded."));
 

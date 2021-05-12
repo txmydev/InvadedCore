@@ -61,7 +61,9 @@ public class ListCommand extends InvadedCommand {
         first = true;
         builder = new StringBuilder();
 
-        List<Profile> list1 = new ArrayList<>(profileHandler.getProfiles().values().stream().filter(Profile::isOnline).sorted((p1, p2) -> p2.getHighestRank().getPriority() - p1.getHighestRank().getPriority()).collect(Collectors.toList()));
+
+        List<Profile> list1 = new ArrayList<>();//profileHandler.getProfiles().values().stream().filter(Profile::isOnline).sorted((p1, p2) -> p2.getHighestRank().getPriority() - p1.getHighestRank().getPriority()).collect(Collectors.toList()));
+        Bukkit.getOnlinePlayers().forEach(player -> list1.add(profileHandler.getProfile(player)));
 
         for(Profile profile : list1) {
             builder.append(first ? "" + profile.getColoredName() : "&7, " + profile.getColoredName());
