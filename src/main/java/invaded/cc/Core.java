@@ -99,10 +99,13 @@ public class Core extends JavaPlugin {
         Common.getOnlinePlayers().forEach(player -> {
             Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
 
-            if(profile.isDisguised())
-                new JedisPoster(JedisAction.UNDISGUISE)
-                    .addInfo("profileId", profile.getId().toString())
-                    .post();
+            if(profile.isDisguised()){
+                profile.unDisguise();
+                /*new JedisPoster(JedisAction.UNDISGUISE)
+                        .addInfo("profileId", profile.getId().toString())
+                        .post();*/
+            }
+
 
             profileHandler.save(profile);
         });

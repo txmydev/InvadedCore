@@ -3,12 +3,15 @@ package invaded.cc.menu;
 import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.util.Color;
 import invaded.cc.util.Skin;
 import invaded.cc.util.menu.Menu;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -91,7 +94,7 @@ public class SkinMenu extends Menu {
 
         if(skin == null){
             skin = profile.getRealSkin();
-            Bukkit.getLogger().info("Didn't found skin for display name " + display+ ", check it out later.");
+            Bukkit.getLogger().info("Didn't found a skin for display name " + display+ ", check it out later.");
         }
 
         Rank rank = profile.getFakeRank();
@@ -102,17 +105,34 @@ public class SkinMenu extends Menu {
             return;
         }
 
-        new JedisPoster(JedisAction.DISGUISE)
+        /*new JedisPoster(JedisAction.DISGUISE)
                 .addInfo("profileId", profile.getId().toString())
                 .addInfo("realName",profile.getName())
                 .addInfo("name", nick)
                 .addInfo("rank", rank.getName())
                 .addInfo("skin", skin.getTexture() + ";"+ skin.getSignature())
-                .post();
+                .post();*/
+
+        profile.setFakeName(nick);
+        profile.setFakeSkin(skin);
+        disguise(profile);
 
         player.sendMessage(Color.translate("&aYou've been disguised!"));
 
         datas.remove(player.getName());
         player.closeInventory();
+    }
+
+    public void disguise(Profile profile) {
+        GameProfile gameProfile = new GameProfile(profile.getId(), profile.getFakeName());
+        gameProfile.getProperties().put("textures", new Property("textures", profile.getFakeSkin().getTexture(), profile.getFakeSkin().getSignature()));
+
+        profile.setFakeProfile(gameProfile);
+
+        String info = profile.getFakeName()+";" + profile.getFakeRank().getName()
+                +";" + profile.getFakeSkin().getTexture() +";" + profile.getFakeSkin().getSignature();
+
+        profile.disguise();
+        DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
     }
 }

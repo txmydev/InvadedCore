@@ -29,10 +29,10 @@ public class DisguiseCommand extends InvadedCommand {
             return;
         }
 
-        if(!Core.getInstance().getServerName().contains("hub")){
+        /*if(!Core.getInstance().getServerName().contains("hub")){
             player.sendMessage(Color.translate("&cYou may only disguise in the hub."));
             return;
-        }
+        }*/
 
         if(args.length != 1){
             player.sendMessage(Color.translate("&cYou may use /disguise <nick>"));

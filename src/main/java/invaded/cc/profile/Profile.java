@@ -188,7 +188,7 @@ public class Profile {
     }
 
     public boolean isDisguised() {
-        return fakeProfile != null && fakeName != null;
+        return fakeProfile != null;
     }
 
     public String getChatFormat() {
@@ -200,7 +200,6 @@ public class Profile {
         return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 (spaceBetweenRank ? " " : "") +name
                 + highestRank.getSuffix();
-
     }
 
     public boolean hasCustomColor() {

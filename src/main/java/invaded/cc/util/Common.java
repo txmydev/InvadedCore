@@ -159,6 +159,8 @@ public class Common {
                 , "?", "¡", "|", "°", "´", "+", "¨", "*", "{", "}", "[", "]", "^", "`", ".", ","
                 , ";", ":", "-", "@", "\n"));
 
+
+
         for (String s : list) {
             if(arg.contains(s)) return false;
         }
@@ -191,18 +193,4 @@ public class Common {
         return ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + Strings.repeat("-", times);
     }
 
-    public static Player getPlayer(String arg) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-
-        for (Profile profile : profileHandler.getProfiles().values()) {
-            if(profile.isDisguised()) {
-                if(arg.equals(profile.getName())) return null;
-                if(profile.getFakeName().equals(arg)) return Bukkit.getPlayer(profile.getId());
-            }else{
-                return Bukkit.getPlayer(arg);
-            }
-        }
-
-        return null;
-    }
 }

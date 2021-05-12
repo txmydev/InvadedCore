@@ -51,7 +51,13 @@ public class PrefixCommand extends InvadedCommand {
             String id = args[1];
             String display = args[2];
 
+            if(prefixHandler.getPrefix(id) != null) {
+                player.sendMessage(Color.translate("&cThat prefix already exists, you may use /prefix modify."));
+                return;
+            }
+
             Prefix prefix = new Prefix(id, display);
+
             prefixHandler.getPrefixes().add(prefix);
 
             player.sendMessage(Color.translate("&aYou've created the prefix &6" +id+" &awith display &r" + display));
@@ -74,7 +80,7 @@ public class PrefixCommand extends InvadedCommand {
             }
 
             Task.async(() -> prefixHandler.remove(prefix));
-            player.sendMessage("&cYou've removed prefix &6"+id+"&c.");
+            player.sendMessage(Color.translate("&cYou've removed prefix &6"+id+"&c."));
         } else if(arg1.equals("modify")) {
             if(!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));

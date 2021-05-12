@@ -13,6 +13,8 @@ import invaded.cc.util.Skin;
 import invaded.cc.util.Task;
 import invaded.cc.util.menu.Menu;
 import lombok.SneakyThrows;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -82,19 +84,14 @@ public class DisguiseRankMenu extends Menu {
         player.sendMessage(Color.translate("&aAlright, you selected your rank, now please choose a skin!"));
         player.closeInventory();
 
+        profile.setFakeName(nick);
         profile.setFakeRank(rank);
 
         Skin skin = profile.getRealSkin();
 
         if(Core.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
-
-            new JedisPoster(JedisAction.DISGUISE)
-                    .addInfo("profileId", profile.getId().toString())
-                    .addInfo("realName",profile.getName())
-                    .addInfo("name", nick)
-                    .addInfo("rank", rank.getName())
-                    .addInfo("skin", skin.getTexture() + ";"+ skin.getSignature())
-                    .post();
+            profile.setFakeSkin(skin);
+            disguise();
 
             player.sendMessage(Color.translate("&cYou are using your own skin due to there are no skins available."));
             player.sendMessage(Color.translate("&aYou have been disguised!"));
@@ -102,25 +99,19 @@ public class DisguiseRankMenu extends Menu {
         }
 
         Task.later(() -> new SkinMenu(player, nick).open(player), 2L);
+    }
 
-      /*  if (!datas.containsKey(player.getName())) {
-            throw new IllegalAccessException("Couldn't find disguise nick of player " + player.getName());
-        }
+    public void disguise() {
+        GameProfile gameProfile = new GameProfile(profile.getId(), profile.getFakeName());
+        gameProfile.getProperties().put("textures", new Property("textures", profile.getFakeSkin().getTexture(), profile.getFakeSkin().getSignature()));
 
-        String nick = datas.get(player.getName());
+        profile.setFakeProfile(gameProfile);
 
-        if (!values.containsKey(event.getSlot())) return;
+        String info = profile.getFakeName()+";" + profile.getFakeRank().getName()
+                +";" + profile.getFakeSkin().getTexture() +";" + profile.getFakeSkin().getSignature();
 
-        Rank rank = values.get(event.getSlot());
-
-        Skin skin = Profile.getByUuid(player.getUniqueId()).getRealSkin();
-        if(skin == null) skin = Skin.STEVE_SKIN;
-
-        DisguiseData disguiseData = new DisguiseData(player.getUniqueId(), nick, skin, rank);
-        Core.getInstance().getDb().getRedisManager().sendDisguise(disguiseData);
-
-        datas.remove(player.getName());
-        player.sendMessage(Color.translate("&aYou've been disguised as &f" + nick));*/
+        profile.disguise();
+        DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
     }
 
     private int getWoolData(ChatColor color) {

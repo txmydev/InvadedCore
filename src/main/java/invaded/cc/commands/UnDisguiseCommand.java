@@ -36,20 +36,21 @@ public class UnDisguiseCommand extends InvadedCommand {
             return;
         }
 
-        if(!Core.getInstance().getServerName().contains("hub")){
+      /*  if(!Core.getInstance().getServerName().contains("hub")){
             player.sendMessage(Color.translate("&cYou may only disguise in the hub."));
             return;
-        }
+        }*/
 
         if(!profile.isDisguised()){
             player.sendMessage(Color.translate("&cYou aren't disguised."));
             return;
         }
 
-        new JedisPoster(JedisAction.UNDISGUISE)
+      /*  new JedisPoster(JedisAction.UNDISGUISE)
                 .addInfo("profileId", profile.getId().toString())
-                .post();
+                .post();*/
 
+        profile.unDisguise();
         player.sendMessage(Color.translate("&aYou've been undisguised."));
     }
 }

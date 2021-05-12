@@ -66,7 +66,7 @@ public class ListCommand extends InvadedCommand {
         Bukkit.getOnlinePlayers().forEach(player -> list1.add(profileHandler.getProfile(player)));
 
         for(Profile profile : list1) {
-            builder.append(first ? "" + profile.getColoredName() : "&7, " + profile.getColoredName());
+            builder.append(first ? profile.getColoredName() : "&7, " + profile.getColoredName());
 
             first = false;
         }

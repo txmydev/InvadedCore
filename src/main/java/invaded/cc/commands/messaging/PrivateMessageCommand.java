@@ -9,6 +9,7 @@ import invaded.cc.util.Filter;
 import invaded.cc.util.command.InvadedCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class PrivateMessageCommand extends InvadedCommand {
             return;
         }
 
-        Player target = Common.getPlayer(args[0]);
+        Player target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
             player.sendMessage(Color.translate("&cThat player is offline."));
@@ -44,7 +45,7 @@ public class PrivateMessageCommand extends InvadedCommand {
         Profile profile = profileHandler.getProfile(player.getUniqueId());
         Profile targetData = profileHandler.getProfile(target.getUniqueId());
 
-        if (targetData.isDisguised() && !targetData.getName().equalsIgnoreCase(args[0])) {
+        if (targetData.isDisguised() && !targetData.getFakeName().equalsIgnoreCase(args[0])) {
             player.sendMessage(Color.translate("&cThat player is offline."));
             return;
         }

@@ -128,7 +128,7 @@ public class DisguiseHandler {
         GameProfile profile = playerData.getRealProfile();
         player.setPlayerListName(profile.getName());
 
-        Common.modifyField("bH", entityPlayer, profile, true);
+        Common.modifyField("i", entityPlayer, profile, true);
 
         PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
         PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
@@ -163,7 +163,7 @@ public class DisguiseHandler {
 
         player.setPlayerListName(name);
 
-        Common.modifyField("bH", entityPlayer, gameProfile, true);
+        Common.modifyField("i", entityPlayer, gameProfile, true);
 
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
