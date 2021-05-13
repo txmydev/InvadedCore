@@ -37,6 +37,11 @@ public class ReplyCommand extends InvadedCommand {
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         Profile targetData = profile.getRecentTalker();
+        if (targetData == null) {
+            player.sendMessage(Color.translate("&cYour recently talker is offline."));
+            return;
+        }
+
         Player target = Bukkit.getPlayer(targetData.getId());
 
         if (target == null) {

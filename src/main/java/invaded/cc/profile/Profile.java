@@ -82,7 +82,7 @@ public class Profile {
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
 
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (spaceBetweenRank ? " " : "")+ name;
+                name;
     }
 
 /*

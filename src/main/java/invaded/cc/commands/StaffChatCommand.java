@@ -41,6 +41,6 @@ public class StaffChatCommand extends InvadedCommand {
         ChatColor color = ChatColor.AQUA;
         Player player = (Player) sender;
         Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        Common.broadcastMessage(PermLevel.STAFF, color + "[uhc1] " + profile.getRealColoredName() + "&7: " + color + stringBuilder.toString());
+        Common.broadcastMessage(PermLevel.STAFF, color + "[na-uhc-1] " + profile.getRealColoredName() + "&7: " + color + stringBuilder.toString());
     }
 }

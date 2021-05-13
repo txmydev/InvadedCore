@@ -51,23 +51,23 @@ public class Common {
         if(punishment.getType() == Punishment.Type.TEMPORARY_BAN) {
             long left = punishment.getExpire() - System.currentTimeMillis();
 
-            info.add("&cYour account has been temporary suspended from Invaded Network.");
+            info.add("&cYour account has been temporary suspended from SkullUHC");
             info.add("&e");
             info.add("&cThis punishment will be removed in " + DateUtils.formatTime(left));
             info.add("&2");
-            info.add("&7You can appeal by going to our teamspeak &binvadednet&7.");
+            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
         }else if (punishment.getType() == Punishment.Type.BAN) {
-            info.add("&cYour account has been permanently suspended from Invaded Network.");
+            info.add("&cYour account has been permanently suspended from SkullUHC.");
             info.add("&e");
-            info.add("&7You can appeal by going to our teamspeak &binvadednet&7.");
+            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
         } else if(punishment.getType() == Punishment.Type.BLACKLIST) {
-            info.add("&cYour account has been blacklisted from Invaded Network.");
+            info.add("&cYour account has been blacklisted from SkullUHC.");
             info.add("&e");
-            info.add("&7You can appeal by going to our teamspeak &binvadednet&7.");
+            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
         }

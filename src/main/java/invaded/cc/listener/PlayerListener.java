@@ -87,6 +87,12 @@ public class PlayerListener implements Listener {
             profile.setRealProfile(gameProfile);
         } catch (Exception ignored) { }
 
+        if(Permission.test(player, PermLevel.STAFF)) {
+            Common.broadcastMessage(PermLevel.STAFF
+                    , "&3[Staff] " + profile.getColoredName()
+                            + " &ajoined &bthe network.");
+        }
+
 //        if (Permission.test(player, PermLevel.STAFF)) {
 //            User user = Core.getInstance().getServerHandler().find(player.getName());
 //
@@ -124,6 +130,12 @@ public class PlayerListener implements Listener {
 
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
+
+        if(Permission.test(player, PermLevel.STAFF)){
+            Common.broadcastMessage(PermLevel.STAFF
+                    , "&3[Staff] " + profile.getColoredName()
+                            + " &cleft &bthe network.");
+        }
        // Core.getInstance().getServerHandler().removePlayer(globalPlayer);
     }
 
