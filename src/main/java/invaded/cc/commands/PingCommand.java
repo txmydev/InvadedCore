@@ -17,7 +17,7 @@ public class PingCommand extends InvadedCommand {
         super("ping", PermLevel.DEFAULT);
     }
 
-    private ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+
 
     @Override
     public void execute(CommandSender sender, String[] args) {
@@ -45,6 +45,7 @@ public class PingCommand extends InvadedCommand {
 
                 else
                 {
+                    ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
                     Profile profile = profileHandler.getProfile(target.getUniqueId());
                     if(profile == null){
                         player.sendMessage(Color.translate("&c" + target.getName() +"'s data haven't loaded, he need's to relog."));
