@@ -46,7 +46,7 @@ public class UnBanCMD extends InvadedCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
-            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName());
+            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
 
             if (targetData.getBan() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't banned."));

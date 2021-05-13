@@ -76,9 +76,7 @@ public class ReplyCommand extends InvadedCommand {
         from = from + stringBuilder.toString();
         to = to + stringBuilder.toString();
 
-        System.out.println("Sending message to the executor");
         player.sendMessage(Color.translate(to));
-        System.out.println("Sent message");
 
         if (!targetData.getIgnoreList().contains(profile.getName()))
             target.sendMessage(Color.translate(from));

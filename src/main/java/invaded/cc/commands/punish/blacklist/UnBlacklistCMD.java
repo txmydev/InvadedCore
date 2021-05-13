@@ -35,7 +35,7 @@ public class UnBlacklistCMD extends InvadedCommand {
             AtomicBoolean silent = new AtomicBoolean(false);
 
             if (args.length == 0) {
-                sender.sendMessage(Color.translate("&cPlease use /blacklist <player>"));
+                sender.sendMessage(Color.translate("&cPlease use /unblacklist <player>"));
                 return;
             }
 
@@ -52,7 +52,7 @@ public class UnBlacklistCMD extends InvadedCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
-            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName());
+            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
 
             if (targetData.getBan() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't blacklisted."));

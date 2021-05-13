@@ -59,7 +59,6 @@ public class BlacklistCMD extends InvadedCommand {
                 return;
             }
 
-
             Punishment punishment = new Punishment(Punishment.Type.BLACKLIST, System.currentTimeMillis(), -1L,
                     offlinePlayer.getName(), offlinePlayer.getUniqueId(), executor, silent.get(), "Blacklisted");
 
