@@ -38,11 +38,18 @@ public class PingCommand extends InvadedCommand {
             case 1:
                 Player target = Bukkit.getPlayer(args[0]);
 
-                if(target == null) player.sendMessage(Color.translate("&cThat player is offline"));
+                if(target == null){
+                    player.sendMessage(Color.translate("&cThat player is offline"));
+                    return;
+                }
 
                 else
                 {
                     Profile profile = profileHandler.getProfile(target.getUniqueId());
+                    if(profile == null){
+                        player.sendMessage(Color.translate("&c" + target.getName() +"'s data haven't loaded, he need's to relog."));
+                        return;
+                    }
 
                     ping = ((CraftPlayer) target).getHandle().ping;
                     player.sendMessage(Color.translate(profile.getColoredName() + "'s &6ping is&7: " + pretty(ping)));

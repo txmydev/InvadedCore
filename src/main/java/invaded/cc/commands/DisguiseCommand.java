@@ -24,6 +24,7 @@ public class DisguiseCommand extends InvadedCommand {
         Player player = (Player) sender;
         Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
+
         if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){
             player.sendMessage(Color.translate("&cYou don't have permissions."));
             return;

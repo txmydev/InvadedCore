@@ -58,7 +58,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if (profile == null) {
+        if (profile == null || !profile.isLoaded()) {
             event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
             event.setKickMessage(Color.translate("&cYou data hasn't been loaded."));
             return;
@@ -73,6 +73,11 @@ public class PlayerListener implements Listener {
         ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
+
+        if(profile == null || !profile.isLoaded()) {
+            player.kickPlayer(Color.translate("&cYou data hasn't been loaded."));
+            return;
+        }
 
         try {
             GameProfile gameProfile = ((CraftPlayer) player).getProfile();

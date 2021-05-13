@@ -48,7 +48,7 @@ public class SkinMenu extends Menu {
         DyeColor dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
         meta.setColor(dyeColor.getColor());
 
-        meta.setDisplayName("&bOwn");
+        meta.setDisplayName(Color.translate("&bOwn"));
         chestplate.setItemMeta(meta);
 
         inventory.setItem(slot++, chestplate);
@@ -60,7 +60,7 @@ public class SkinMenu extends Menu {
             dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
             meta.setColor(dyeColor.getColor());
 
-            meta.setDisplayName("&b" + display);
+            meta.setDisplayName(Color.translate("&b" + display));
             chestplate.setItemMeta(meta);
 
             inventory.setItem(slot++, chestplate);

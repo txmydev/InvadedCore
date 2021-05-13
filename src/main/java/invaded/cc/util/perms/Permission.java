@@ -9,7 +9,6 @@ public class Permission {
     public static boolean test(CommandSender player, PermLevel level) {
         if (!(player instanceof Player)) return true;
         if (level == PermLevel.DEFAULT) return true;
-
         return player.hasPermission(level.getPerm());
     }
 

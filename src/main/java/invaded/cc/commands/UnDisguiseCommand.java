@@ -3,6 +3,7 @@ package invaded.cc.commands;
 import invaded.cc.Core;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -11,6 +12,9 @@ import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class UnDisguiseCommand extends InvadedCommand {
 
@@ -51,6 +55,10 @@ public class UnDisguiseCommand extends InvadedCommand {
                 .post();*/
 
         profile.unDisguise();
+        Map<UUID, String> map = DisguiseHandler.getDisguisedPlayers();
+        map.remove(player.getUniqueId());
+
         player.sendMessage(Color.translate("&aYou've been undisguised."));
+
     }
 }
