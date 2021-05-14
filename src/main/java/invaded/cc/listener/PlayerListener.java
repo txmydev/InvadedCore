@@ -16,6 +16,7 @@ import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -230,6 +231,19 @@ public class PlayerListener implements Listener {
             if (!CheckPremiumTask.runCheck(event.getFakeName())) return;
             player.sendMessage(Color.translate("&6You are disguising as a real player, if he enters, you will be kicked. "));
         });
+    }
+
+    @EventHandler
+    public void onStaffChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        Profile profile = profileHandler.getProfile(player);
+
+        if(profile.isStaffChat()) {
+            event.setCancelled(true);
+            ChatColor color = ChatColor.AQUA;
+            Common.broadcastMessage(PermLevel.STAFF, color + "[Staff] " + profile.getRealColoredName() + "&7: " + color + event.getMessage());
+        }
     }
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)

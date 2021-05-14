@@ -23,6 +23,16 @@ public class StaffChatCommand extends InvadedCommand {
     public void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) return;
 
+        Player player = (Player) sender;
+        Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+
+        if(args.length == 0){
+            boolean v = !profile.isStaffChat();
+            profile.setStaffChat(v);
+            player.sendMessage(Color.translate((v ?"&a" : "&7") + "You've toggled your staff mode."));
+            return;
+        }
+
         if(args.length < 1){
             sender.sendMessage(Color.translate("&cPlease use /sc <message>"));
             return;
@@ -39,8 +49,6 @@ public class StaffChatCommand extends InvadedCommand {
                     .post();
         });*/
         ChatColor color = ChatColor.AQUA;
-        Player player = (Player) sender;
-        Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        Common.broadcastMessage(PermLevel.STAFF, color + "[na-uhc-1] " + profile.getRealColoredName() + "&7: " + color + stringBuilder.toString());
+        Common.broadcastMessage(PermLevel.STAFF, color + "[Staff] " + profile.getRealColoredName() + "&7: " + color + stringBuilder.toString());
     }
 }

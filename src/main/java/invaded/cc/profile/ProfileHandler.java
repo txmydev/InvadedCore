@@ -51,11 +51,11 @@ public class ProfileHandler {
         response.close();
     }
 
-    private List<JsonObject> getPrefixListToJson(Profile profile) {
-        List<JsonObject> list = Lists.newArrayList();
+    private List<String> getPrefixListToJson(Profile profile) {
+        List<String> list = Lists.newArrayList();
 
         profile.getPrefixes().forEach(prefix -> {
-            list.add(new JsonChain().addProperty("id", prefix.getId()).addProperty("display", prefix.getDisplay()).get());
+            list.add(new JsonChain().addProperty("id", prefix.getId()).addProperty("display", prefix.getDisplay()).get().toString());
         });
 
         return list;
@@ -114,8 +114,10 @@ public class ProfileHandler {
         }
 
         if(jsonObject.has("prefixes")) {
+            JsonParser parser = new JsonParser();
             jsonObject.get("prefixes").getAsJsonArray().forEach(element -> {
-                Prefix prefix = prefixHandler.getPrefix(element.getAsJsonObject().get("id").getAsString());
+                JsonObject object = parser.parse(element.getAsString()).getAsJsonObject();
+                Prefix prefix = prefixHandler.getPrefix(object.get("id").getAsString());
                 if(prefix == null) return;
                 profile.getPrefixes().add(prefix);
             });

@@ -51,6 +51,8 @@ public class Profile {
     private boolean messages;
     private boolean messagesSound;
 
+    private boolean staffChat = false;
+
     // Staff stuff
     private boolean filter = true;
     private boolean staffAlerts = true;
