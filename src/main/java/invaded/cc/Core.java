@@ -24,6 +24,7 @@ import invaded.cc.util.Common;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.menu.MenuListener;
 import lombok.Getter;
+import me.txmy.command.CommandFramework;
 import net.minecraft.util.com.google.gson.Gson;
 import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;

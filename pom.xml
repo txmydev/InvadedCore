@@ -101,5 +101,11 @@
             <artifactId>UHC</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>me.txmy</groupId>
+            <artifactId>CommandFramework</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

@@ -7,12 +7,14 @@ import invaded.cc.manager.RequestHandler;
 import invaded.cc.prefix.Prefix;
 import invaded.cc.prefix.PrefixHandler;
 import invaded.cc.punishment.PunishmentHandler;
+import invaded.cc.util.Color;
 import invaded.cc.util.json.JsonChain;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -143,5 +145,21 @@ public class ProfileHandler {
 
         profile.setLoaded(true);
         return profile;
+    }
+
+    public void ifPresent(UUID id, ProfileCallback callback, CommandSender sender, String s) {
+        Profile profile = getProfile(id);
+        if(profile == null) {
+            sender.sendMessage(Color.translate(s));
+            return;
+        }
+
+        callback.apply(profile);
+    }
+
+    public interface ProfileCallback {
+
+        void apply(Profile profile);
+
     }
 }

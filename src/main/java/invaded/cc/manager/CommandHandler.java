@@ -1,5 +1,6 @@
 package invaded.cc.manager;
 
+import invaded.cc.Core;
 import invaded.cc.commands.*;
 import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
@@ -16,6 +17,8 @@ import invaded.cc.commands.punish.mute.TemporalMuteCMD;
 import invaded.cc.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.commands.punish.unpunish.UnMuteCMD;
 import lombok.Getter;
+import me.txmy.command.BaseCommand;
+import me.txmy.command.CommandFramework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +27,12 @@ public class CommandHandler {
 
     @Getter
     private final List<String> flyWorlds = new ArrayList<>();
+    private CommandFramework commandFramework;
 
     public CommandHandler(){
+        this.commandFramework = new CommandFramework(Core.getInstance());
+        BaseCommand.setFramework(commandFramework);
+
         new GamemodeCommand();
         new FlyCommand();
         new StaffChatCommand();
@@ -61,16 +68,15 @@ public class CommandHandler {
         new PermissionCommand();
         new SudoCommand();
         new SkullCommand();
-
         new PrivateMessageCommand();
         new ReplyCommand();
         new ToggleMessageCommand();
         new FilterCommand();
         new SoundCommand();
-
         new ReloadRanksCommand();
         new PrefixCommand();
         new GrantPrefixCommand();
+        new DisguiseCheckCommand();
     }
 
 }

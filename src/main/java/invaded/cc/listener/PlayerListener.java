@@ -115,17 +115,21 @@ public class PlayerListener implements Listener {
     @EventHandler (priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-        Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
-
-       /* User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
-        if(globalPlayer != null) globalPlayer.setSwitchingServer(true);*/
 
         try {
             PermissibleInjector.unInject(player);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
+        if(profile ==null) return;
+
+       /* User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
+        if(globalPlayer != null) globalPlayer.setSwitchingServer(true);*/
+
+
 
         if (profile.isDisguised()) profile.unDisguise();
 
@@ -246,7 +250,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
+    @EventHandler
     public void onPunish(PlayerPunishEvent event){
         Punishment punishment = event.getPunishment();
        /* new JedisPoster(JedisAction.PUNISHMENT)
@@ -265,10 +269,6 @@ public class PlayerListener implements Listener {
         punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
     }
 
-    @EventHandler
-    public void onWeatherChange(WeatherChangeEvent event){
-        event.setCancelled(event.toWeatherState());
-    }
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onJoinDisguised(PlayerJoinEvent event) {

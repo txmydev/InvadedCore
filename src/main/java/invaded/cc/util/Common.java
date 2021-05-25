@@ -152,7 +152,7 @@ public class Common {
         return new ArrayList<>(Arrays.asList(split));
     }
 
-    public static boolean isValidDisguiseName(String arg) {
+    public static boolean validDisguise(String arg) {
         if(arg.length() >= 16 || arg.length() < 3) return false;
 
         List<String> list = new ArrayList<>(Arrays.asList("$", "!", "#", "$", "%", "&", "/", "(", ")", "=", "'", "¿"

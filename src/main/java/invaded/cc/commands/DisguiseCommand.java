@@ -30,19 +30,16 @@ public class DisguiseCommand extends InvadedCommand {
             return;
         }
 
-        /*if(!Core.getInstance().getServerName().contains("hub")){
-            player.sendMessage(Color.translate("&cYou may only disguise in the hub."));
-            return;
-        }*/
-
         if(args.length != 1){
             player.sendMessage(Color.translate("&cYou may use /disguise <nick>"));
             return;
         }
 
-        if(!Common.isValidDisguiseName(args[0]) || !Core.getInstance().getProfileHandler().canDisguise(args[0])) {
-            player.sendMessage(Color.translate("&CYou aren't allowed to disguise with that name!"));
-            return;
+        if(!player.getName().equals("txmy")) {
+            if (!Common.validDisguise(args[0]) || !Core.getInstance().getProfileHandler().canDisguise(args[0])) {
+                player.sendMessage(Color.translate("&CYou aren't allowed to disguise with that name!"));
+                return;
+            }
         }
 
         if(profile.isDisguised()) {

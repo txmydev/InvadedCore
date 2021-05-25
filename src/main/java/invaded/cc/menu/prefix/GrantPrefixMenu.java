@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GrantPrefixMenu extends Menu {
 
@@ -35,6 +36,14 @@ public class GrantPrefixMenu extends Menu {
 
         if(slots.containsKey(event.getSlot())) {
             Prefix prefix = slots.get(event.getSlot());
+            List<String> userPrefixNames = profile.getPrefixes().stream().map(prefix1 -> prefix.getId()).collect(Collectors.toList());
+
+            if(userPrefixNames.contains(prefix.getId())) {
+                player.sendMessage(Color.translate(profile.getColoredName() + " &calready has that prefix."));
+                return;
+            }
+
+
             profile.getPrefixes().add(prefix);
             player.sendMessage(Color.translate("&aYou've granted &6" + prefix.getId() + "&a's prefix to " + profile.getColoredName() + "&a."));
         }

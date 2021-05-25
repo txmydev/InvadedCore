@@ -55,6 +55,8 @@ public class PrefixMenu extends Menu {
 
         int slot = 1;
         for (Prefix prefix : list) {
+            if(slot >= 53) break;
+
             inventory.setItem(slot, new ItemBuilder().type(Material.NAME_TAG).name(prefix.getDisplay())
                     .lore(Common.getLine(35),
                             "&bYou will be looking like this:",

@@ -27,7 +27,7 @@ import java.util.Map;
 public class PunishmentsCommand extends InvadedCommand {
 
     public PunishmentsCommand() {
-        super("punishments", PermLevel.ADMIN, "c");
+        super("punishments", PermLevel.STAFF, "c");
     }
 
     @Override
