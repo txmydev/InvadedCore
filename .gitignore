@@ -4,3 +4,6 @@
 /target/classes/database.yml
 /target/classes/ranks.yml
 /target/classes/nicks.yml
+/.idea
+/out
+/target
