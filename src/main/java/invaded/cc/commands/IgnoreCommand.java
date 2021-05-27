@@ -1,16 +1,16 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class IgnoreCommand extends InvadedCommand {
+public class IgnoreCommand extends BasicCommand {
 
     public IgnoreCommand(){
         super("ignore", PermLevel.DEFAULT);
@@ -22,7 +22,7 @@ public class IgnoreCommand extends InvadedCommand {
             return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         if (args.length != 1) {
             player.sendMessage(Color.translate("&cYou may use /ignore <player>"));

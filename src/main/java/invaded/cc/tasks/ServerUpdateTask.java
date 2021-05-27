@@ -1,15 +1,12 @@
 package invaded.cc.tasks;
 
-import invaded.cc.Core;
-import invaded.cc.manager.ServerHandler;
-import invaded.cc.util.Common;
-import invaded.cc.util.json.JsonChain;
+import invaded.cc.Basic;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ServerUpdateTask extends BukkitRunnable {
 
     public ServerUpdateTask(){
-        runTaskTimerAsynchronously(Core.getInstance(), 1L, 3L);
+        runTaskTimerAsynchronously(Basic.getInstance(), 1L, 3L);
     }
 
     @Override

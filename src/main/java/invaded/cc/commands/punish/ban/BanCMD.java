@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.ban;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -9,7 +9,7 @@ import invaded.cc.util.Clickable;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class BanCMD extends InvadedCommand {
+public class BanCMD extends BasicCommand {
 
     public BanCMD() {
         super("ban", PermLevel.STAFF);
@@ -27,7 +27,7 @@ public class BanCMD extends InvadedCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                 .getColoredName() : "&4Console";

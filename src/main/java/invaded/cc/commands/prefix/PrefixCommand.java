@@ -1,6 +1,6 @@
 package invaded.cc.commands.prefix;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.menu.prefix.PrefixMenu;
 import invaded.cc.prefix.Prefix;
 import invaded.cc.prefix.PrefixHandler;
@@ -8,15 +8,13 @@ import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Locale;
-
-public class PrefixCommand extends InvadedCommand {
+public class PrefixCommand extends BasicCommand {
 
     public PrefixCommand() {
         super("prefix", PermLevel.DEFAULT, "prefixs", "prefixes");
@@ -27,8 +25,8 @@ public class PrefixCommand extends InvadedCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-        PrefixHandler prefixHandler = Core.getInstance().getPrefixHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        PrefixHandler prefixHandler = Basic.getInstance().getPrefixHandler();
 
         if(args.length == 0) {
             Profile profile = profileHandler.getProfile(player);

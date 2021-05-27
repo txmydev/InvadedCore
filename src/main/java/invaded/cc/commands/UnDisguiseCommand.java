@@ -1,13 +1,11 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.Basic;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.command.CommandSender;
@@ -16,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.UUID;
 
-public class UnDisguiseCommand extends InvadedCommand {
+public class UnDisguiseCommand extends BasicCommand {
 
     public UnDisguiseCommand(){
         super("undisguise", PermLevel.DEFAULT, "ud");
@@ -27,7 +25,7 @@ public class UnDisguiseCommand extends InvadedCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){

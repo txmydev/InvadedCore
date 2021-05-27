@@ -1,8 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.Basic;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -28,7 +26,7 @@ import java.util.*;
 
 public class DisguiseRankMenu extends Menu {
 
-    private final ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+    private final ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
     private Profile profile;
     private Map<Integer, Rank> values;
@@ -89,7 +87,7 @@ public class DisguiseRankMenu extends Menu {
 
         Skin skin = profile.getRealSkin();
 
-        if(Core.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
+        if(Basic.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
             profile.setFakeSkin(skin);
             disguise();
 

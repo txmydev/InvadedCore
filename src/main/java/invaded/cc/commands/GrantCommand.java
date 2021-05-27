@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.menu.GrantMenu;
@@ -10,14 +10,14 @@ import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GrantCommand extends InvadedCommand {
+public class GrantCommand extends BasicCommand {
 
     public GrantCommand() {
         super("grant", PermLevel.ADMIN);
@@ -26,8 +26,8 @@ public class GrantCommand extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-            RankHandler rankHandler = Core.getInstance().getRankHandler();
+            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            RankHandler rankHandler = Basic.getInstance().getRankHandler();
 
             if (!(sender instanceof Player)) {
                 if (args.length != 2) {
@@ -53,7 +53,7 @@ public class GrantCommand extends InvadedCommand {
 
                 Grant grant = new Grant(profile, System.currentTimeMillis(), rank.getName(), "console");
 
-                GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+                GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
                 grantHandler.updateGrant(grant);
                 return;
             }
@@ -69,7 +69,7 @@ public class GrantCommand extends InvadedCommand {
             Profile profile = profileHandler.getProfile(offlinePlayer.getUniqueId());
             if (profile == null) profile = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
-            if(profile.getHighestRank().getPriority() > senderData.getHighestRank().getPriority()) {
+            if(profile.getHighestRank().getWeight() > senderData.getHighestRank().getWeight()) {
                 sender.sendMessage(Color.translate("&cYou cannot modify " + profile.getColoredName() + "'s rank."));
                 return;
             }

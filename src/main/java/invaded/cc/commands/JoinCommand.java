@@ -1,17 +1,10 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
-import invaded.cc.manager.ServerHandler;
-import invaded.cc.server.Server;
-import invaded.cc.util.Color;
-import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
-import invaded.cc.util.perms.Permission;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class JoinCommand extends InvadedCommand {
+public class JoinCommand extends BasicCommand {
 
     public JoinCommand() {
         super("join", PermLevel.DEFAULT);

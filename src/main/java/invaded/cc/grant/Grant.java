@@ -1,6 +1,6 @@
 package invaded.cc.grant;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +10,8 @@ import java.util.Comparator;
 @Getter @Setter
 public class Grant {
 
-    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1,g2) -> Core.getInstance().getRankHandler().getRank(g2.getRank()).getPriority()
-            - Core.getInstance().getRankHandler().getRank(g1.getRank()).getPriority();
+    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1,g2) -> Basic.getInstance().getRankHandler().getRank(g2.getRank()).getWeight()
+            - Basic.getInstance().getRankHandler().getRank(g1.getRank()).getWeight();
 
     private String rank;
     private String name;

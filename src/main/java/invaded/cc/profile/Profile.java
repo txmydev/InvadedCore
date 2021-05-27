@@ -1,7 +1,7 @@
 package invaded.cc.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.grant.Grant;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.prefix.Prefix;
@@ -242,7 +242,7 @@ public class Profile {
     public void updatePermissions(Player player) {
         Map<String, Boolean> perms = Common.convertListToMap(permissions);
 
-        Core.getInstance().getPermissionHandler().updatePermissions(player, perms);
+        Basic.getInstance().getPermissionHandler().updatePermissions(player, perms);
     }
 
     public boolean isOnline() {

@@ -3,11 +3,11 @@ package invaded.cc.commands;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 
-public class BroadcastCommand extends InvadedCommand {
+public class BroadcastCommand extends BasicCommand {
 
     public BroadcastCommand(){
         super("broadcast", PermLevel.ADMIN, "alert");

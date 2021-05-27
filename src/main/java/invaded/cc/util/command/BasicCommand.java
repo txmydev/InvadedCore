@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 
-public abstract class InvadedCommand extends Command {
+public abstract class BasicCommand extends Command {
 
     private static CommandMap COMMAND_MAP;
 
@@ -21,7 +21,7 @@ public abstract class InvadedCommand extends Command {
     public final PermLevel permLevel;
     public final String[] aliases;
 
-    public InvadedCommand(String name, PermLevel permLevel, String... aliases){
+    public BasicCommand(String name, PermLevel permLevel, String... aliases){
         super(name,"", "", Arrays.asList(aliases));
 
         this.name = name;

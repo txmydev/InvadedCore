@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
 import invaded.cc.tasks.CheckPremiumTask;
@@ -113,7 +113,7 @@ public class DisguiseHandler {
     public static List<Rank> getAvailableDisguiseRanks(Player player) {
         List<Rank> list = new ArrayList<>();
 
-        for (Rank rank : Core.getInstance().getRankHandler().getRanks())
+        for (Rank rank : Basic.getInstance().getRankHandler().getRanks())
             if (player.hasPermission("disguise.use." + rank.getName()) || rank.isDefaultRank()) list.add(rank);
 
         return list;

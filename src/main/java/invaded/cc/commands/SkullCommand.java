@@ -1,7 +1,7 @@
 package invaded.cc.commands;
 
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class SkullCommand extends InvadedCommand {
+public class SkullCommand extends BasicCommand {
 
     public SkullCommand() {
         super("skull", PermLevel.STAFF);

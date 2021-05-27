@@ -1,7 +1,7 @@
 package invaded.cc.rank;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class RankHandler {
     private List<Rank> ranks;
     // private final List<Rank> priorityOrdered;
 
-    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getPriority() - o1.getPriority();
+    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getWeight() - o1.getWeight();
 
     public RankHandler() {
         this.ranks = Lists.newArrayList();
@@ -39,7 +39,7 @@ public class RankHandler {
 
         if(!this.ranks.isEmpty()) this.ranks.clear();
 
-        this.ranks = Core.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
+        this.ranks = Basic.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
         this.ranks.sort(PRIORITY_COMPARATOR);
         httpResponse.close();
     }
@@ -48,7 +48,7 @@ public class RankHandler {
         Map<String, Object> map = new HashMap<>();
 
         map.put("name", rank.getName());
-        map.put("priority", rank.getPriority());
+        map.put("priority", rank.getWeight());
         map.put("prefix", rank.getPrefix());
         map.put("suffix", rank.getSuffix());
         map.put("defaultRank", rank.isDefaultRank());

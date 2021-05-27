@@ -1,7 +1,7 @@
 package invaded.cc.commands;
 
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -17,7 +17,7 @@ public class GamemodeCommand {
     }
 
 
-    private class CreativeCommand extends InvadedCommand {
+    private class CreativeCommand extends BasicCommand {
 
         public CreativeCommand() {
             super("gamemodecreative", PermLevel.ADMIN, "gmc");
@@ -37,7 +37,7 @@ public class GamemodeCommand {
         }
     }
 
-    private class SurvivalCommand extends InvadedCommand {
+    private class SurvivalCommand extends BasicCommand {
 
         public SurvivalCommand() {
             super("gamemodesurvival", PermLevel.ADMIN, "gms");
@@ -57,7 +57,7 @@ public class GamemodeCommand {
         }
     }
 
-    private class GlobalCommand extends InvadedCommand {
+    private class GlobalCommand extends BasicCommand {
 
         public GlobalCommand() {
             super("gm", PermLevel.ADMIN);

@@ -1,11 +1,11 @@
 package invaded.cc.database.redis.reader;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.ProfileHandler;
 
 public interface Callback<V> {
 
-    ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+    ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
     void callback(V jsonObject);
 

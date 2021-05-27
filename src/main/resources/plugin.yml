@@ -1,5 +1,5 @@
 main: invaded.cc.Core
-name: Invaded
+name: Basic
 version: 1.0
 author: txmy
 depend:

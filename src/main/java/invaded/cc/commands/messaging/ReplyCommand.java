@@ -1,12 +1,12 @@
 package invaded.cc.commands.messaging;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Filter;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.Bukkit;
@@ -14,14 +14,14 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReplyCommand extends InvadedCommand {
+public class ReplyCommand extends BasicCommand {
     public ReplyCommand() {
         super("reply", PermLevel.DEFAULT, "r");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(Color.translate("&CPlayer only command."));

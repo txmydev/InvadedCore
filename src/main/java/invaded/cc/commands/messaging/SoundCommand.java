@@ -1,15 +1,15 @@
 package invaded.cc.commands.messaging;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SoundCommand extends InvadedCommand {
+public class SoundCommand extends BasicCommand {
 
     public SoundCommand() {
         super("privatemessagesound", PermLevel.DEFAULT, "pmsound");
@@ -24,7 +24,7 @@ public class SoundCommand extends InvadedCommand {
             return;
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         Player player = (Player) sender;
         Profile profile = profileHandler.getProfile(player.getUniqueId());

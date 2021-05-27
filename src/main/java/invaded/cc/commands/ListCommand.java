@@ -1,12 +1,12 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.Bukkit;
@@ -14,16 +14,15 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ListCommand extends InvadedCommand {
+public class ListCommand extends BasicCommand {
     public ListCommand() {
         super("list", PermLevel.DEFAULT, "who");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         if(args.length != 0)  {
             if (args.length == 1) {
@@ -44,7 +43,7 @@ public class ListCommand extends InvadedCommand {
             return;
         }
 
-        RankHandler rankHandler = Core.getInstance().getRankHandler();
+        RankHandler rankHandler = Basic.getInstance().getRankHandler();
         List<Rank> list = rankHandler.getRanks();
 
         boolean first = true;

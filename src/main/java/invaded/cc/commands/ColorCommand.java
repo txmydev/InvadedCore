@@ -1,14 +1,14 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.menu.ColorMenu;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ColorCommand extends InvadedCommand {
+public class ColorCommand extends BasicCommand {
 
     public ColorCommand(){
         super("color", PermLevel.DEFAULT);
@@ -25,6 +25,6 @@ public class ColorCommand extends InvadedCommand {
             return;
         }
 
-        new ColorMenu(Core.getInstance().getProfileHandler().getProfile(player.getUniqueId())).open(player);
+        new ColorMenu(Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId())).open(player);
     }
 }

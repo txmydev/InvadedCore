@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import me.txmy.command.BaseCommand;
@@ -24,7 +24,7 @@ public class DisguiseCheckCommand extends BaseCommand {
             return;
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         profileHandler.ifPresent(player.getUniqueId(), profile -> {
             if(!profile.isDisguised()) command.getSender().sendMessage(Color.translate(profile.getColoredName() + " &cisn't disguised."));

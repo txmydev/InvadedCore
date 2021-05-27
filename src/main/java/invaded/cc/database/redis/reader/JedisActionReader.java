@@ -1,6 +1,6 @@
 package invaded.cc.database.redis.reader;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.JedisConfiguration;
 import invaded.cc.database.redis.reader.impl.*;
@@ -34,7 +34,7 @@ public class JedisActionReader {
     public static JedisActionReader UNDISGUISE = new JedisActionReader(JedisAction.UNDISGUISE ,new ReaderUnDisguise());
 
     static {
-        ConfigFile configFile = Core.getInstance().getDatabaseConfig();
+        ConfigFile configFile = Basic.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "redis");
 
         CONF = new JedisConfiguration(configTracker.getString("host"),

@@ -1,7 +1,6 @@
 package invaded.cc.menu.prefix;
 
-import invaded.cc.Core;
-import invaded.cc.commands.prefix.GrantPrefixCommand;
+import invaded.cc.Basic;
 import invaded.cc.prefix.Prefix;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
@@ -51,7 +50,7 @@ public class GrantPrefixMenu extends Menu {
 
     @Override
     public void update() {
-        List<Prefix> prefixList = Core.getInstance().getPrefixHandler().getPrefixes();
+        List<Prefix> prefixList = Basic.getInstance().getPrefixHandler().getPrefixes();
 
         int slot = 0;
         for(Prefix prefix : prefixList) {

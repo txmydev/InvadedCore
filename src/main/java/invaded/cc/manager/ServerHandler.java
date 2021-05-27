@@ -1,17 +1,14 @@
 package invaded.cc.manager;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisManager;
+import invaded.cc.Basic;
 import invaded.cc.database.redis.JedisPublisher;
 import invaded.cc.database.redis.JedisSubscriber;
-import invaded.cc.database.redis.handlers.ServerSubscriptionHandler;
 import invaded.cc.profile.User;
 import invaded.cc.server.Server;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.com.google.gson.JsonObject;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class ServerHandler {
@@ -51,7 +48,7 @@ public class ServerHandler {
     }
 
     public Server getCurrentServer() {
-        return servers.get(Core.getInstance().getServerName());
+        return servers.get(Basic.getInstance().getServerName());
     }
 
     public User find(String name) {

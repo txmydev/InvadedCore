@@ -1,22 +1,20 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Clickable;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Cooldown;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HelpOpCommand extends InvadedCommand {
+public class HelpOpCommand extends BasicCommand {
 
     public HelpOpCommand(){
         super("helpop", PermLevel.DEFAULT);
@@ -25,7 +23,7 @@ public class HelpOpCommand extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) return;
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         if(args.length == 0){
             sender.sendMessage(Color.translate("&cPlease use /helpop <message>"));

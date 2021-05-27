@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.ConfigTracker;
 import jodd.http.HttpRequest;
@@ -25,7 +25,7 @@ public class RequestHandler {
         private boolean domain;
 
         public RequestConfig() {
-            this.config = Core.getInstance().getDatabaseConfig();
+            this.config = Basic.getInstance().getDatabaseConfig();
 
             ConfigTracker configTracker = new ConfigTracker(config, "http");
             this.host = configTracker.getString("host");
@@ -92,7 +92,7 @@ public class RequestHandler {
 
     public static HttpResponse put(String endpoint, Map<String, Object> body, Map<String, Object> query){
         HttpRequest request = HttpRequest.put(BASE + endpoint)
-                .body(Core.GSON.toJson(body))
+                .body(Basic.GSON.toJson(body))
                 .tokenAuthentication(CONFIG.getToken());
 
         query.forEach((str, obj) -> request.query(str, obj.toString()));

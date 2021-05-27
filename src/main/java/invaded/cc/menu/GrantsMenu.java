@@ -1,6 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.profile.Profile;
@@ -37,7 +37,7 @@ public class GrantsMenu extends Menu {
 
     @Override
     public void update() {
-        RankHandler rankHandler = Core.getInstance().getRankHandler();
+        RankHandler rankHandler = Basic.getInstance().getRankHandler();
         List<Grant> list = profile.getGrants().stream().sorted(Grant.WEIGHT_COMPARATOR).collect(Collectors.toList());
         int slot = 0;
 
@@ -71,24 +71,24 @@ public class GrantsMenu extends Menu {
     @Override
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         Profile profile = profileHandler.getProfile(player.getUniqueId());
-        int pr = profile.getHighestRank().getPriority();
+        int pr = profile.getHighestRank().getWeight();
 
         if(grants.containsKey(event.getSlot())) {
-            RankHandler rankHandler = Core.getInstance().getRankHandler();
+            RankHandler rankHandler = Basic.getInstance().getRankHandler();
 
             Grant grant = grants.get(event.getSlot());
             Rank rank = rankHandler.getRank(grant.getRank());
 
-            if(pr < rank.getPriority()) {
+            if(pr < rank.getWeight()) {
                 player.sendMessage(Color.translate("&cYou cannot remove this grant."));
                 return;
             }
 
             Task.async(() -> {
-                GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+                GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
                 grantHandler.removeGrant(grant);
 
                 grant.setRemovedBy(player.getName());

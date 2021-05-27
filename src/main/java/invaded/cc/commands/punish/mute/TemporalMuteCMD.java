@@ -1,12 +1,12 @@
 package invaded.cc.commands.punish.mute;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.*;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TemporalMuteCMD extends InvadedCommand {
+public class TemporalMuteCMD extends BasicCommand {
 
     public TemporalMuteCMD(){
         super("tempmute", PermLevel.STAFF, "tmute");
@@ -25,7 +25,7 @@ public class TemporalMuteCMD extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
             String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                     .getColoredName() : "&4Console";

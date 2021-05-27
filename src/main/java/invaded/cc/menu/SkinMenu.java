@@ -1,8 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.Basic;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -40,7 +38,7 @@ public class SkinMenu extends Menu {
     @Override
     public void update() {
         int slot = 0;
-        List<String> displays = new ArrayList<>(Core.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
+        List<String> displays = new ArrayList<>(Basic.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
 
         ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
         LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
@@ -81,7 +79,7 @@ public class SkinMenu extends Menu {
             return;
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile =profileHandler.getProfile(player.getUniqueId());
 
         String nick = datas.get(player.getName());
@@ -89,7 +87,7 @@ public class SkinMenu extends Menu {
 
         Skin skin = null;
 
-        if(!display.equals("Own")) skin = Core.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
+        if(!display.equals("Own")) skin = Basic.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
         else skin = profile.getRealSkin();
 
         if(skin == null){

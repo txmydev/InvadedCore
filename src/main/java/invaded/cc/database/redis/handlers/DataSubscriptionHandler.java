@@ -1,6 +1,5 @@
 package invaded.cc.database.redis.handlers;
 
-import invaded.cc.Core;
 import invaded.cc.database.redis.JedisHandler;
 import invaded.cc.manager.ServerHandler;
 import invaded.cc.profile.User;

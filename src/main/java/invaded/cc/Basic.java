@@ -1,8 +1,5 @@
 package invaded.cc;
 
-import invaded.cc.database.Database;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.listener.PlayerListener;
 import invaded.cc.listener.SecurityListener;
@@ -10,21 +7,18 @@ import invaded.cc.listener.SignListener;
 import invaded.cc.manager.ChatHandler;
 import invaded.cc.manager.CommandHandler;
 import invaded.cc.manager.DisguiseHandler;
-import invaded.cc.manager.ServerHandler;
 import invaded.cc.permission.PermissionHandler;
 import invaded.cc.prefix.PrefixHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.rank.RankHandler;
-import invaded.cc.tasks.GlobalUpdateTask;
 import invaded.cc.tasks.MenuTask;
-import invaded.cc.tasks.ServerUpdateTask;
 import invaded.cc.util.Common;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.menu.MenuListener;
 import lombok.Getter;
-import me.txmy.command.CommandFramework;
+import lombok.Setter;
 import net.minecraft.util.com.google.gson.Gson;
 import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
@@ -32,19 +26,20 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public class Core extends JavaPlugin {
+public class Basic extends JavaPlugin {
 
     public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
+    @Getter @Setter
+    private static API API;
+
     @Getter
-    private static Core instance;
+    private static Basic instance;
 
     private ConfigFile mainConfig, databaseConfig;
- //   private Database db;
 
     private CommandHandler commandHandler;
     private ChatHandler chatHandler;
- //   private ServerHandler serverHandler;
     private DisguiseHandler disguiseHandler;
     private PunishmentHandler punishmentHandler;
     private PermissionHandler permissionHandler;
@@ -84,6 +79,8 @@ public class Core extends JavaPlugin {
        // serverHandler.setJoineable(true);
 
         Common.getOnlinePlayers().forEach(player -> profileHandler.load(player.getUniqueId(), player.getName()).updatePermissions(player));
+
+        setAPI(new API(this));
     }
 
     private void setupListeners() {

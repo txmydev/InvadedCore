@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.commands.*;
 import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
@@ -31,7 +31,7 @@ public class CommandHandler {
     private CommandFramework commandFramework;
 
     public CommandHandler(){
-        this.commandFramework = new CommandFramework(Core.getInstance());
+        this.commandFramework = new CommandFramework(Basic.getInstance());
         BaseCommand.setFramework(commandFramework);
 
         new GamemodeCommand();

@@ -1,6 +1,6 @@
 package invaded.cc.punishment;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -52,7 +52,7 @@ public class PunishmentHandler {
             return;
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Optional<Profile> op = Optional.of(profileHandler.getProfile(uuid));
         if(!punishment.isBan() && op.isPresent()) op.get().setMute(null);
 
@@ -81,7 +81,7 @@ public class PunishmentHandler {
                 long expire = jsonObject.get("expire").getAsLong();
 
                 if(expire < System.currentTimeMillis() && jsonObject.get("type").getAsString().contains("TEMPORARY")) {
-                    move(profile, Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                    move(profile, Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
                     continue;
                 }
 
@@ -89,10 +89,10 @@ public class PunishmentHandler {
                     case "BAN":
                     case "TEMPORARY_BAN":
                     case "BLACKLIST":
-                        profile.setBan(Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        profile.setBan(Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
                         break;
                     default:
-                        profile.setMute(Core.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        profile.setMute(Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
                         break;
                 }
             }

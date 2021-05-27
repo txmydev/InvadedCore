@@ -1,16 +1,16 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class FeedCommand extends InvadedCommand {
+public class FeedCommand extends BasicCommand {
 
     public FeedCommand(){
         super("feed", PermLevel.STAFF);
@@ -19,7 +19,7 @@ public class FeedCommand extends InvadedCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = null;
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         switch(args.length){
             case 0:

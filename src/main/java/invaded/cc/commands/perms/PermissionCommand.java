@@ -1,6 +1,6 @@
 package invaded.cc.commands.perms;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.menu.PermissionMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -8,14 +8,13 @@ import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PermissionCommand extends InvadedCommand {
+public class PermissionCommand extends BasicCommand {
 
     public PermissionCommand() {
         super("permission", PermLevel.ADMIN, "perm");
@@ -29,8 +28,8 @@ public class PermissionCommand extends InvadedCommand {
                 return;
             }
 
-            ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-            RankHandler rankHandler = Core.getInstance().getRankHandler();
+            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            RankHandler rankHandler = Basic.getInstance().getRankHandler();
 
             Profile profile;
             Rank rank;

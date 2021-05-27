@@ -1,10 +1,10 @@
 package invaded.cc.commands;
 
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 
-public class RequestCommand extends InvadedCommand {
+public class RequestCommand extends BasicCommand {
 
     public RequestCommand() {
         super("testrequest", PermLevel.ADMIN);

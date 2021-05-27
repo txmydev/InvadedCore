@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.unpunish;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
@@ -8,7 +8,7 @@ import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class UnMuteCMD extends InvadedCommand {
+public class UnMuteCMD extends BasicCommand {
 
     public UnMuteCMD(){
         super("unmute", PermLevel.ADMIN);
@@ -25,7 +25,7 @@ public class UnMuteCMD extends InvadedCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                 .getColoredName() : "&4Console";
@@ -57,7 +57,7 @@ public class UnMuteCMD extends InvadedCommand {
             punishment.setRemovedAt(System.currentTimeMillis());
             punishment.setRemovedBy(executor);
 
-            PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
+            PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(targetData.getId(), punishment);
 
             targetData.setMute(null);

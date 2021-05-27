@@ -1,17 +1,17 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class PingCommand extends InvadedCommand {
+public class PingCommand extends BasicCommand {
 
     public PingCommand(){
         super("ping", PermLevel.DEFAULT);
@@ -45,7 +45,7 @@ public class PingCommand extends InvadedCommand {
 
                 else
                 {
-                    ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+                    ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
                     Profile profile = profileHandler.getProfile(target.getUniqueId());
                     if(profile == null){
                         player.sendMessage(Color.translate("&c" + target.getName() +"'s data haven't loaded, he need's to relog."));

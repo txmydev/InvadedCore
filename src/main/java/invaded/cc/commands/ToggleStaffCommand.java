@@ -1,15 +1,15 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ToggleStaffCommand extends InvadedCommand {
+public class ToggleStaffCommand extends BasicCommand {
 
     public ToggleStaffCommand(){
         super("togglestaff", PermLevel.STAFF);
@@ -26,7 +26,7 @@ public class ToggleStaffCommand extends InvadedCommand {
             return;
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         boolean v = !profile.isStaffAlerts();

@@ -1,19 +1,16 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
-import invaded.cc.database.redis.JedisAction;
-import invaded.cc.database.redis.poster.JedisPoster;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
-import invaded.cc.util.Task;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class StaffChatCommand extends InvadedCommand {
+public class StaffChatCommand extends BasicCommand {
 
     public StaffChatCommand(){
         super("staffchat", PermLevel.STAFF, "sc");
@@ -37,7 +34,7 @@ public class StaffChatCommand extends InvadedCommand {
         }
 
         Player player = (Player) sender;
-        Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         if(args.length == 0){
             boolean v = !profile.isStaffChat();

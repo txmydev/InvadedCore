@@ -1,13 +1,12 @@
 package invaded.cc.prefix;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.common.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class PrefixHandler {
         HttpResponse response = RequestHandler.get("/prefixs");
 
         if(response.statusCode() != 200) this.prefixes = Lists.newArrayList();
-        else this.prefixes = Core.GSON.fromJson(response.bodyText(), new TypeToken<List<Prefix>>() {}.getType());
+        else this.prefixes = Basic.GSON.fromJson(response.bodyText(), new TypeToken<List<Prefix>>() {}.getType());
 
         response.close();
     }

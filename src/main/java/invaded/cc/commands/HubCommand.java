@@ -1,13 +1,13 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HubCommand extends InvadedCommand {
+public class HubCommand extends BasicCommand {
 
     public HubCommand() {
         super("hub", PermLevel.DEFAULT);
@@ -21,7 +21,7 @@ public class HubCommand extends InvadedCommand {
 
         String targetServer = "";
 
-        if(Core.getInstance().getServerName().contains("sa")) {
+        if(Basic.getInstance().getServerName().contains("sa")) {
             targetServer = "sa-hub-1";
         }
 

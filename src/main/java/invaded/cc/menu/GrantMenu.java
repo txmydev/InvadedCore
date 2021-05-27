@@ -1,6 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.profile.Profile;
@@ -24,7 +24,7 @@ public class GrantMenu extends Menu {
     private final Profile profile;
     private final ConcurrentMap<Integer, Rank> values;
 
-    private final RankHandler rankHandler = Core.getInstance().getRankHandler();
+    private final RankHandler rankHandler = Basic.getInstance().getRankHandler();
 
     public GrantMenu(Profile profile){
         super("&eChange rank of " + profile.getColoredName(), 27);
@@ -52,19 +52,19 @@ public class GrantMenu extends Menu {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Player player = (Player) event.getWhoClicked();
         Profile whoClicked = profileHandler.getProfile(player.getUniqueId());
 
         if(values.containsKey(event.getSlot())){
             Rank rank = values.get(event.getSlot());
 
-            if(rank.getPriority() > whoClicked.getHighestRank().getPriority() && !player.getName().equalsIgnoreCase("txmy")) {
+            if(rank.getWeight() > whoClicked.getHighestRank().getWeight() && !player.getName().equalsIgnoreCase("txmy")) {
                 player.sendMessage(Color.translate("&cFailed to set that rank."));
                 return;
             }
 
-            GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+            GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
             grantHandler.updateGrant(new Grant(profile, System.currentTimeMillis(), rank.getName(), player.getName()));
 
             player.sendMessage(Color.translate(profile.getColoredName()+ "'s &arank is now " + rank.getColoredName()));

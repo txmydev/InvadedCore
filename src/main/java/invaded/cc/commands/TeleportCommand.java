@@ -2,7 +2,7 @@ package invaded.cc.commands;
 
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ public class TeleportCommand {
         new TpHereCommand();
     }
 
-    private class TpAllCommand extends InvadedCommand {
+    private class TpAllCommand extends BasicCommand {
 
         public TpAllCommand(){
             super("teleportall", PermLevel.ADMIN, "tpall");
@@ -38,7 +38,7 @@ public class TeleportCommand {
         }
     }
 
-    private class TpCommand extends InvadedCommand {
+    private class TpCommand extends BasicCommand {
         public TpCommand(){
             super("teleport", PermLevel.STAFF, "tp");
         }
@@ -100,7 +100,7 @@ public class TeleportCommand {
         }
     }
 
-    private class TpHereCommand extends InvadedCommand {
+    private class TpHereCommand extends BasicCommand {
 
         public TpHereCommand(){
             super("tphere", PermLevel.STAFF, "s");

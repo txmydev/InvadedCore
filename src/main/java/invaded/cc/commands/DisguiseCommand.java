@@ -1,17 +1,17 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.menu.DisguiseRankMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DisguiseCommand extends InvadedCommand {
+public class DisguiseCommand extends BasicCommand {
 
     public DisguiseCommand(){
         super("disguise", PermLevel.DEFAULT, "d");
@@ -22,7 +22,7 @@ public class DisguiseCommand extends InvadedCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        Profile profile = Core.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
 
         if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){
@@ -36,7 +36,7 @@ public class DisguiseCommand extends InvadedCommand {
         }
 
         if(!player.getName().equals("txmy")) {
-            if (!Common.validDisguise(args[0]) || !Core.getInstance().getProfileHandler().canDisguise(args[0])) {
+            if (!Common.validDisguise(args[0]) || !Basic.getInstance().getProfileHandler().canDisguise(args[0])) {
                 player.sendMessage(Color.translate("&CYou aren't allowed to disguise with that name!"));
                 return;
             }

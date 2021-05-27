@@ -1,9 +1,9 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ public class ChatControlCommand {
         new ClearChatCommand();
     }
 
-    private class ClearChatCommand extends InvadedCommand {
+    private class ClearChatCommand extends BasicCommand {
 
         public ClearChatCommand(){
             super("clearchat", PermLevel.STAFF);
@@ -30,11 +30,11 @@ public class ChatControlCommand {
             }
 
             Bukkit.broadcastMessage(Color.translate("&aThe chat was cleared by " +
-                    (sender instanceof Player ? Core.getInstance().getProfileHandler().getProfile(((Player) sender).getUniqueId()).getColoredName() : "&4Console") + "&a."));
+                    (sender instanceof Player ? Basic.getInstance().getProfileHandler().getProfile(((Player) sender).getUniqueId()).getColoredName() : "&4Console") + "&a."));
         }
     }
 
-    private class ToggleChatCommand extends InvadedCommand {
+    private class ToggleChatCommand extends BasicCommand {
 
         public ToggleChatCommand(){
             super("togglechat", PermLevel.STAFF, "tc");
@@ -44,14 +44,14 @@ public class ChatControlCommand {
         public void execute(CommandSender sender, String[] args) {
             if(args.length != 0)  { sender.sendMessage(Color.translate("&cPlease use /togglechat")); return; }
 
-            boolean b = !Core.getInstance().getChatHandler().isChatValue();
+            boolean b = !Basic.getInstance().getChatHandler().isChatValue();
 
             Bukkit.broadcastMessage(String.format(Color.translate((b ? "&a" : "&c") + "The public chat was %s."), b ? "enabled" : "disabled"));
-            Core.getInstance().getChatHandler().setChatValue(b);
+            Basic.getInstance().getChatHandler().setChatValue(b);
         }
     }
 
-    private class SlowChatCommand extends InvadedCommand {
+    private class SlowChatCommand extends BasicCommand {
 
         public SlowChatCommand() {
             super("slowchat", PermLevel.STAFF);
@@ -70,7 +70,7 @@ public class ChatControlCommand {
                     if (!isInt(args[0])) {
                         if(!validToggle(args[0])) player.sendMessage(Color.translate("&cPlease use /slowchat <time:off>"));
                         else {
-                            Core.getInstance().getChatHandler().setSlowTime(-1);
+                            Basic.getInstance().getChatHandler().setSlowTime(-1);
 
                             Bukkit.broadcastMessage(Color.translate("&cPublic chat delay was removed."));
                         }
@@ -79,7 +79,7 @@ public class ChatControlCommand {
                     }
 
                     int time = Integer.parseInt(args[0]);
-                    Core.getInstance().getChatHandler().setSlowTime(time);
+                    Basic.getInstance().getChatHandler().setSlowTime(time);
 
                     Bukkit.broadcastMessage(Color.translate("&aPublic chat was slowed for " + time + " seconds."));
                 }

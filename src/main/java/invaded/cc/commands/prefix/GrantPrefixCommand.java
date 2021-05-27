@@ -1,16 +1,16 @@
 package invaded.cc.commands.prefix;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.menu.prefix.GrantPrefixMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GrantPrefixCommand extends InvadedCommand{
+public class GrantPrefixCommand extends BasicCommand {
 
     public GrantPrefixCommand() {
         super("grantprefix", PermLevel.ADMIN);
@@ -32,7 +32,7 @@ public class GrantPrefixCommand extends InvadedCommand{
             return;
         }
 
-        Profile profile = Core.getInstance().getProfileHandler().getProfile(target);
+        Profile profile = Basic.getInstance().getProfileHandler().getProfile(target);
         new GrantPrefixMenu(profile).open(player);
     }
 }

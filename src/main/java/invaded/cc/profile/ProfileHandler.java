@@ -1,7 +1,7 @@
 package invaded.cc.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.prefix.Prefix;
@@ -107,7 +107,7 @@ public class ProfileHandler {
             jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> profile.getIgnoreList().add(element.getAsString()));
         }
 
-        PrefixHandler prefixHandler = Core.getInstance().getPrefixHandler();
+        PrefixHandler prefixHandler = Basic.getInstance().getPrefixHandler();
 
         if(jsonObject.has("activePrefix")) {
             String pref = jsonObject.get("activePrefix").getAsString();
@@ -127,7 +127,7 @@ public class ProfileHandler {
 
         if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
 
-        GrantHandler grantHandler = Core.getInstance().getGrantHandler();
+        GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
 
         profile.setGrants(grantHandler.get(profile));
         profile.setHighestRank(grantHandler.getHighestGrant(profile.getGrants()));
@@ -135,7 +135,7 @@ public class ProfileHandler {
         profile.setBan(null);
         profile.setMute(null);
 
-        PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
+        PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
         punishmentHandler.load(profile);
 
         if (jsonObject.has("allowDisguise")) profile.setAllowDisguise(jsonObject.get("allowDisguise").getAsBoolean());

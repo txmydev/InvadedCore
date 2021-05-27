@@ -1,13 +1,12 @@
 package invaded.cc.listener;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.injector.PermissibleInjector;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
-import invaded.cc.profile.User;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.tasks.CheckPremiumTask;
@@ -23,7 +22,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
-import org.bukkit.event.weather.WeatherChangeEvent;
 
 import java.util.UUID;
 
@@ -33,7 +31,7 @@ public class PlayerListener implements Listener {
     public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
         String name = event.getName();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         Profile profile = profileHandler.load(uuid, name);
 
@@ -55,7 +53,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLogin(PlayerLoginEvent event) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
@@ -71,7 +69,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
@@ -122,7 +120,7 @@ public class PlayerListener implements Listener {
             e.printStackTrace();
         }
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
         if(profile ==null) return;
 
@@ -147,7 +145,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onChatAndMuted(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if (profile.isMuted()) {
@@ -163,7 +161,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerPerformCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         String message = event.getMessage();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
@@ -184,17 +182,17 @@ public class PlayerListener implements Listener {
             player.sendMessage(Color.translate("&cThat command is blocked."));
         }
 
-        profile.setCommandCooldown(new Cooldown(Core.getInstance().getChatHandler().getCommandTime() * 1000L));
+        profile.setCommandCooldown(new Cooldown(Basic.getInstance().getChatHandler().getCommandTime() * 1000L));
     }
 
     @EventHandler(priority = EventPriority.LOW)
     public void onChat(AsyncPlayerChatEvent event) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if (!Core.getInstance().getChatHandler().isChatValue() && !Permission.test(player, PermLevel.STAFF)) {
+        if (!Basic.getInstance().getChatHandler().isChatValue() && !Permission.test(player, PermLevel.STAFF)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cPublic chat is currently muted."));
             return;
@@ -212,7 +210,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onChatAndInCooldown(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if(!profile.getChatCooldown().hasExpired() && !Permission.test(player, PermLevel.VIP)) {
@@ -221,12 +219,12 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        profile.setChatCooldown(new Cooldown(Core.getInstance().getChatHandler().getSlowTime() * 1000L));
+        profile.setChatCooldown(new Cooldown(Basic.getInstance().getChatHandler().getSlowTime() * 1000L));
     }
 
     @EventHandler (ignoreCancelled = true)
     public void onDisguise(PlayerDisguiseEvent event) {
-        if(!Core.getInstance().getServerName().equalsIgnoreCase(event.getServer())) return;
+        if(!Basic.getInstance().getServerName().equalsIgnoreCase(event.getServer())) return;
 
         Player player = event.getPlayer();
 
@@ -240,7 +238,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onStaffChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player);
 
         if(profile.isStaffChat()) {
@@ -265,7 +263,7 @@ public class PlayerListener implements Listener {
                 .addInfo("reason", punishment.getReason())
             .post();*/
 
-        PunishmentHandler punishmentHandler = Core.getInstance().getPunishmentHandler();
+        PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
         punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
     }
 
@@ -273,14 +271,14 @@ public class PlayerListener implements Listener {
     @EventHandler (ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onJoinDisguised(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if(DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
             String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
 
             profile.setFakeName(info[0]);
-            profile.setFakeRank(Core.getInstance().getRankHandler().getRank(info[1]));
+            profile.setFakeRank(Basic.getInstance().getRankHandler().getRank(info[1]));
             profile.setFakeSkin(new Skin(info[2], info[3]));
 
             profile.disguise();

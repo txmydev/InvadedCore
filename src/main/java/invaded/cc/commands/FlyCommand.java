@@ -1,13 +1,13 @@
 package invaded.cc.commands;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.util.Color;
-import invaded.cc.util.command.InvadedCommand;
+import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class FlyCommand extends InvadedCommand {
+public class FlyCommand extends BasicCommand {
 
     public FlyCommand() {
         super("fly", PermLevel.VIP);
@@ -27,7 +27,7 @@ public class FlyCommand extends InvadedCommand {
             return;
         }
 
-        if(!Core.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
+        if(!Basic.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
             player.sendMessage(Color.translate("&cYou cannot fly in that world!"));
             return;
         }

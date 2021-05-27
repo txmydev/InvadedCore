@@ -1,6 +1,6 @@
 package invaded.cc.injector;
 
-import invaded.cc.Core;
+import invaded.cc.Basic;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class InvadedBase extends PermissibleBase {
     public InvadedBase(Player player, PermissibleBase oldBase) {
         super(player);
 
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         this.player = player;
         this.oldBase = oldBase;
         this.profile = profileHandler.getProfile(player.getUniqueId());
