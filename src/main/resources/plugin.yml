@@ -1,4 +1,4 @@
-main: invaded.cc.Core
+main: invaded.cc.Basic
 name: Basic
 version: 1.0
 author: txmy
