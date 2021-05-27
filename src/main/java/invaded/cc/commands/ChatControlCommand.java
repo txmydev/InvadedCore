@@ -72,7 +72,7 @@ public class ChatControlCommand {
                         else {
                             Core.getInstance().getChatHandler().setSlowTime(-1);
 
-                            Bukkit.broadcastMessage(Color.translate("&cPublic chat was unslowed."));
+                            Bukkit.broadcastMessage(Color.translate("&cPublic chat delay was removed."));
                         }
 
                         return;
