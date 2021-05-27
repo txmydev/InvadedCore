@@ -1,6 +1,7 @@
 package invaded.cc;
 
 import invaded.cc.profile.ProfileHandler;
+import invaded.cc.util.Color;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -64,6 +65,6 @@ public class InvadedAPI {
     }
 
     public static String getCompleteFormat(Player player){
-        return profileHandler.getProfile(player.getUniqueId()).getChatFormat();
+        return Color.translate(profileHandler.getProfile(player.getUniqueId()).getChatFormat());
     }
 }

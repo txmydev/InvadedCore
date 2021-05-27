@@ -27,6 +27,7 @@ public class CommandHandler {
 
     @Getter
     private final List<String> flyWorlds = new ArrayList<>();
+    @Getter
     private CommandFramework commandFramework;
 
     public CommandHandler(){
