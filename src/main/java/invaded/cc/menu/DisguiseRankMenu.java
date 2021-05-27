@@ -13,7 +13,6 @@ import invaded.cc.util.menu.Menu;
 import lombok.SneakyThrows;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -23,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DisguiseRankMenu extends Menu {
 
@@ -42,9 +42,8 @@ public class DisguiseRankMenu extends Menu {
 
     @Override
     public void update() {
-        List<Rank> ranks = DisguiseHandler.getAvailableDisguiseRanks(Bukkit.getPlayer(profile.getId()));
-
-        Collections.reverse(ranks);
+        List<Rank> ranks = DisguiseHandler.getAvailableDisguiseRanks(profile);
+        ranks.sort((rank1, rank2) -> rank2.getPriority() - rank1.getPriority());
 
         int slot = 0;
 

@@ -19,7 +19,7 @@ public class RankHandler {
     private List<Rank> ranks;
     // private final List<Rank> priorityOrdered;
 
-    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getWeight() - o1.getWeight();
+    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getPriority() - o1.getPriority();
 
     public RankHandler() {
         this.ranks = Lists.newArrayList();
@@ -48,7 +48,7 @@ public class RankHandler {
         Map<String, Object> map = new HashMap<>();
 
         map.put("name", rank.getName());
-        map.put("priority", rank.getWeight());
+        map.put("priority", rank.getPriority());
         map.put("prefix", rank.getPrefix());
         map.put("suffix", rank.getSuffix());
         map.put("defaultRank", rank.isDefaultRank());

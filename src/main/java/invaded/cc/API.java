@@ -78,7 +78,7 @@ public class API {
     }
 
     public int getRankWeight(UUID id){
-        return plugin.getProfileHandler().getProfile(id).getHighestRank().getWeight();
+        return plugin.getProfileHandler().getProfile(id).getHighestRank().getPriority();
     }
 
     public boolean hasRank(UUID id) {

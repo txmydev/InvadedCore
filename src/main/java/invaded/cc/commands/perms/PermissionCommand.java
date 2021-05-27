@@ -72,11 +72,7 @@ public class PermissionCommand extends BasicCommand {
                     else {
                         rank.getPermissions().add(perm);
                         sender.sendMessage(Color.translate("&aCorrectly added the permission!"));
-
-                        Bukkit.getOnlinePlayers().forEach(player1 -> {
-                            Profile profile1 = profileHandler.getProfile(player1);
-
-                        });
+                        rank.setChanged(true);
                     }
 
 
@@ -95,6 +91,7 @@ public class PermissionCommand extends BasicCommand {
                     if(!rank.getPermissions().remove(perm)) sender.sendMessage(Color.translate("&cThat rank does not have that permission."));
                     else {
                         sender.sendMessage(Color.translate("&aCorrectly removed the permission!"));
+                        rank.setChanged(true);
                     }
                     break;
                 default:

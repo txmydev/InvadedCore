@@ -76,7 +76,7 @@ public class UnBanCMD extends BasicCommand {
                     .post();*/
 
             PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
-            punishmentHandler.pardon(targetData.getId(), punishment);
+            punishmentHandler.pardon(offlinePlayer.getUniqueId(), punishment);
 
             if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unbanned by " + executor);
             else Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unbanned by " +executor);

@@ -74,7 +74,7 @@ public class GrantsMenu extends Menu {
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
         Profile profile = profileHandler.getProfile(player.getUniqueId());
-        int pr = profile.getHighestRank().getWeight();
+        int pr = profile.getHighestRank().getPriority();
 
         if(grants.containsKey(event.getSlot())) {
             RankHandler rankHandler = Basic.getInstance().getRankHandler();
@@ -82,7 +82,7 @@ public class GrantsMenu extends Menu {
             Grant grant = grants.get(event.getSlot());
             Rank rank = rankHandler.getRank(grant.getRank());
 
-            if(pr < rank.getWeight()) {
+            if(pr < rank.getPriority()) {
                 player.sendMessage(Color.translate("&cYou cannot remove this grant."));
                 return;
             }

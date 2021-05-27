@@ -12,6 +12,7 @@ import invaded.cc.prefix.PrefixHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
+import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.tasks.MenuTask;
 import invaded.cc.util.Common;
@@ -55,10 +56,18 @@ public class Basic extends JavaPlugin {
         this.mainConfig = new ConfigFile("config.yml", null ,false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
 
+        this.setupHandlers();
 
-        //       db = new Database();
+        this.setupTasks();
+        this.setupListeners();
 
-      // serverHandler = new ServerHandler();
+        this.registerBungee();
+        this.loadPlayers();
+
+        setAPI(new API(this));
+    }
+
+    private void setupHandlers() {
         commandHandler = new CommandHandler();
         chatHandler = new ChatHandler();
         disguiseHandler = new DisguiseHandler();
@@ -69,18 +78,18 @@ public class Basic extends JavaPlugin {
         rankHandler = new RankHandler();
         prefixHandler = new PrefixHandler();
 
-   //     new ServerUpdateTask();
-   //     new GlobalUpdateTask().runTaskTimerAsynchronously(this, 0L,15L);
+    }
+
+    private void setupTasks() {
         new MenuTask();
+    }
 
-        setupListeners();
-
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-       // serverHandler.setJoineable(true);
-
+    private void loadPlayers() {
         Common.getOnlinePlayers().forEach(player -> profileHandler.load(player.getUniqueId(), player.getName()).updatePermissions(player));
+    }
 
-        setAPI(new API(this));
+    private void registerBungee() {
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
     private void setupListeners() {
@@ -94,23 +103,30 @@ public class Basic extends JavaPlugin {
 
     @Override
     public void onDisable(){
+        this.savePlayers();
+        this.savePrefixes();
+        this.saveRanks();
+
+        instance = null;
+    }
+
+    private void savePlayers() {
         Common.getOnlinePlayers().forEach(player -> {
             Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
-
             if(profile.isDisguised()){
                 profile.unDisguise();
-                /*new JedisPoster(JedisAction.UNDISGUISE)
-                        .addInfo("profileId", profile.getId().toString())
-                        .post();*/
             }
-
-
             profileHandler.save(profile);
         });
+    }
 
+    private void saveRanks() {
+        // When changing to network should add redis networking so it doesn't get overrided by other server's save.
+        rankHandler.getRanks().stream().filter(Rank::isChanged).forEach(rankHandler::save);
+    }
+
+    private void savePrefixes() {
         prefixHandler.getPrefixes().forEach(prefixHandler::save);
-        rankHandler.getRanks().forEach(rankHandler::save);
-        instance = null;
     }
 
     public String getServerName(){

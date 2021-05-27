@@ -1,6 +1,8 @@
 package invaded.cc.manager;
 
 import invaded.cc.Basic;
+import invaded.cc.event.PlayerDisguiseEvent;
+import invaded.cc.event.PlayerUnDisguiseEvent;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
 import invaded.cc.tasks.CheckPremiumTask;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 public class DisguiseHandler {
@@ -110,13 +113,8 @@ public class DisguiseHandler {
 
     }
 
-    public static List<Rank> getAvailableDisguiseRanks(Player player) {
-        List<Rank> list = new ArrayList<>();
-
-        for (Rank rank : Basic.getInstance().getRankHandler().getRanks())
-            if (player.hasPermission("disguise.use." + rank.getName()) || rank.isDefaultRank()) list.add(rank);
-
-        return list;
+    public static List<Rank> getAvailableDisguiseRanks(Profile profile) {
+        return Basic.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority()).collect(Collectors.toList());
     }
 
     public static void undisguise(Profile playerData) {
@@ -138,6 +136,9 @@ public class DisguiseHandler {
             Common.sendPacket(other, add);
         });
 
+        PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData);
+        event.call();
+
         EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
 
         if (entityTracker == null) return;
@@ -145,6 +146,8 @@ public class DisguiseHandler {
 
         entityTracker.broadcast(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
         entityTracker.broadcast(spawn);
+
+
     }
 
     public static void disguise(Profile profile) {
@@ -173,6 +176,9 @@ public class DisguiseHandler {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
         });
+
+        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Basic.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
+        event.call();
 
         EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
 

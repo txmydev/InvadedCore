@@ -161,7 +161,7 @@ public class GrantHandler {
         RankHandler handler = Basic.getInstance().getRankHandler();
 
         return grants.stream().filter(Grant::isUse)
-                .map(grant -> handler.getRank(grant.getRank())).min((rank1, rank2) -> rank2.getWeight() - rank1.getWeight())
+                .map(grant -> handler.getRank(grant.getRank())).min((rank1, rank2) -> rank2.getPriority() - rank1.getPriority())
                 .orElse(handler.getDefault());
     }
 }

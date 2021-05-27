@@ -10,8 +10,8 @@ import java.util.Comparator;
 @Getter @Setter
 public class Grant {
 
-    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1,g2) -> Basic.getInstance().getRankHandler().getRank(g2.getRank()).getWeight()
-            - Basic.getInstance().getRankHandler().getRank(g1.getRank()).getWeight();
+    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1,g2) -> Basic.getInstance().getRankHandler().getRank(g2.getRank()).getPriority()
+            - Basic.getInstance().getRankHandler().getRank(g1.getRank()).getPriority();
 
     private String rank;
     private String name;

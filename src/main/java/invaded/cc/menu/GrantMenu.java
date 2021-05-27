@@ -59,7 +59,7 @@ public class GrantMenu extends Menu {
         if(values.containsKey(event.getSlot())){
             Rank rank = values.get(event.getSlot());
 
-            if(rank.getWeight() > whoClicked.getHighestRank().getWeight() && !player.getName().equalsIgnoreCase("txmy")) {
+            if(rank.getPriority() > whoClicked.getHighestRank().getPriority() && !player.getName().equalsIgnoreCase("txmy")) {
                 player.sendMessage(Color.translate("&cFailed to set that rank."));
                 return;
             }

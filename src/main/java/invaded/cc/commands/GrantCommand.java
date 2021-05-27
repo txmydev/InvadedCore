@@ -69,7 +69,7 @@ public class GrantCommand extends BasicCommand {
             Profile profile = profileHandler.getProfile(offlinePlayer.getUniqueId());
             if (profile == null) profile = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
-            if(profile.getHighestRank().getWeight() > senderData.getHighestRank().getWeight()) {
+            if(profile.getHighestRank().getPriority() > senderData.getHighestRank().getPriority()) {
                 sender.sendMessage(Color.translate("&cYou cannot modify " + profile.getColoredName() + "'s rank."));
                 return;
             }

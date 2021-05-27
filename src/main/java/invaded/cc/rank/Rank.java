@@ -16,7 +16,9 @@ public class Rank {
     private ChatColor color = ChatColor.WHITE;
     private boolean defaultRank;
     private boolean italic = false, bold = false;
-    private int weight;
+    private int priority;
+
+    private boolean changed = false;
 
     public Rank(String name) {
         this.name = name;
