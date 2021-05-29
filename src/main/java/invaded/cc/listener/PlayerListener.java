@@ -33,6 +33,12 @@ public class PlayerListener implements Listener {
         String name = event.getName();
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
+        if(profileHandler.getDeletingPrefix().contains(uuid)) {
+            event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
+            event.setKickMessage(Color.translate("&cAn admin has ran a command to delete all the prefixes from users, \nyou cannot enter right now."));
+            return;
+        }
+
         Profile profile = profileHandler.load(uuid, name);
 
         if (!profile.isLoaded() || profileHandler.getProfile(uuid) == null) {
@@ -49,6 +55,8 @@ public class PlayerListener implements Listener {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             event.setKickMessage(Common.getDisallowedReason(ban));
         }
+
+
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -78,6 +86,16 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        setProperties(player, profile);
+
+        if(Permission.test(player, PermLevel.STAFF)) {
+            Common.broadcastMessage(PermLevel.STAFF
+                    , "&3[Staff] " + profile.getColoredName()
+                            + " &ajoined &bthe network.");
+        }
+    }
+
+    private void setProperties(Player player, Profile profile ){
         try {
             GameProfile gameProfile = ((CraftPlayer) player).getProfile();
             Property property = gameProfile.getProperties().get("textures") == null ? null : gameProfile.getProperties().get("textures").iterator().next();
@@ -85,29 +103,6 @@ public class PlayerListener implements Listener {
 
             profile.setRealProfile(gameProfile);
         } catch (Exception ignored) { }
-
-        if(Permission.test(player, PermLevel.STAFF)) {
-            Common.broadcastMessage(PermLevel.STAFF
-                    , "&3[Staff] " + profile.getColoredName()
-                            + " &ajoined &bthe network.");
-        }
-
-//        if (Permission.test(player, PermLevel.STAFF)) {
-//            User user = Core.getInstance().getServerHandler().find(player.getName());
-//
-//            if(user == null || user.getLastServer().equals(Core.getInstance().getServerName())) {
-//                new JedisPoster(JedisAction.STAFF_JOIN)
-//                        .addInfo("profileId", profile.getId().toString())
-//                        .addInfo("coloredName", profile.getRealColoredName()).post();
-//            }else {
-//                new JedisPoster(JedisAction.STAFF_SWITCH)
-//                        .addInfo("profileId", profile.getId().toString())
-//                        .addInfo("coloredName", profile.getRealColoredName())
-//                        .addInfo("to", Core.getInstance().getServerName())
-//                        .addInfo("from", user.getLastServer())
-//                        .post();
-//            }
-//        }
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
@@ -243,8 +238,10 @@ public class PlayerListener implements Listener {
 
         if(profile.isStaffChat()) {
             event.setCancelled(true);
-            ChatColor color = ChatColor.AQUA;
-            Common.broadcastMessage(PermLevel.STAFF, color + "[Staff] " + profile.getRealColoredName() + "&7: " + color + event.getMessage());
+            ChatColor prefixColor = ChatColor.GRAY;
+            ChatColor messageColor = ChatColor.LIGHT_PURPLE;
+            Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] " + profile.getRealColoredName() + "&7: " + messageColor + event.getMessage());
+
         }
     }
 

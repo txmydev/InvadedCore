@@ -66,6 +66,8 @@ public class Profile {
     private String fakeName;
     private Skin fakeSkin;
 
+    private int coins;
+
     private List<Prefix> prefixes = Lists.newArrayList();
 
     private Cooldown commandCooldown = new Cooldown(0), chatCooldown = new Cooldown(0), helpOpCooldown = new Cooldown(0);
@@ -86,99 +88,6 @@ public class Profile {
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 name;
     }
-
-/*
-    private void load() {
-        Database db = Core.getInstance().getDb();
-        Document document = new Document("uuid", id.toString());
-
-        MongoCollection<Document> collection = db.getCollection("playerData");
-
-        Document found = collection.find(document).first();
-
-        System.out.println("Loading data of " + name);
-
-        if (found == null) {
-            System.out.println("There's no document in collection playerData");
-
-            this.grant = new GrantOld(this, Rank.getDefault().getName(), "Server");
-
-            document
-                    .append("name", name)
-                    .append("rank", grant.getRank().getName())
-                    .append("color", chatColor == null ? "none" : chatColor.name())
-                    .append("italic", italic)
-                    .append("bold", bold)
-                    .append("privateMessages", messages)
-                    .append("privateMessagesSound", messagesSound)
-                    .append("ignoreList", ignoreList)
-                    .append("lastServer", Core.getInstance().getServerName())
-                    .append("allowDisguise", allowDisguise);
-            collection.insertOne(document);
-
-            System.out.println("Inserted in the db player " + name);
-            loaded = true;
-            return;
-        }
-
-        System.out.println("[Core] Player already existed, loading data from db.");
-
-        chatColor = found.getString("color").equals("none") ? null : ChatColor.valueOf(found.getString("color"));
-        italic = found.getBoolean("italic");
-        bold = found.getBoolean("bold");
-
-        ignoreList = found.get("ignoreList", new ArrayList<>());
-
-        allowDisguise = found.getBoolean("allowDisguise", false);
-
-        messages = found.getBoolean("privateMessages");
-        messagesSound = found.getBoolean("privateMessagesSound");
-
-        this.grant = new GrantOld(this, found.getString("rank"), "Server");
-        loaded = true;
-    }
-
-    public void save() {
-        Database db = Core.getInstance().getDb();
-        MongoCollection<Document> collection = db.getCollection("playerData");
-
-        Document document = new Document("uuid", id.toString())
-                .append("name", name)
-                .append("rank", grant.getRank().getName())
-                .append("color", chatColor == null ? "none" : chatColor.name())
-                .append("italic", italic)
-                .append("bold", bold)
-                .append("privateMessages",messages)
-                .append("privateMessagesSound", messagesSound)
-                .append("ignoreList", ignoreList)
-                .append("allowDisguise", allowDisguise);
-
-        collection.replaceOne(Filters.eq("uuid", id.toString()), document);
-
-        if(ban != null) {
-            if(isBanned()) Core.getInstance().getPunishmentHandler().requestSaveActive(ban);
-            else Core.getInstance().getPunishmentHandler().requestUnPunish(ban);
-        }
-        if(mute != null) {
-            if(isBanned()) Core.getInstance().getPunishmentHandler().requestSaveActive(mute);
-            else Core.getInstance().getPunishmentHandler().requestUnPunish(mute);
-        }
-    }
-
-    public void setGrant(GrantOld grant) {
-        this.grant = grant;
-
-        Player player = Bukkit.getPlayer(id);
-        if (player == null) return;
-
-        grant.removeAttachment(player);
-        grant.setupAttachment(player);
-    }*/
-/*    public static Profile getByUuid(UUID uuid) {
-        ProfileHandler profileHandler = Core.getInstance().getProfileHandler();
-        return profileHandler.getProfiles().get(uuid);
-    }*/
-
     public String getColoredName() {
         if (name == null)
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
@@ -206,6 +115,14 @@ public class Profile {
 
     public boolean hasCustomColor() {
         return chatColor != null;
+    }
+
+    public void aggregateCoins(int coins) {
+        this.coins+=coins;
+    }
+
+    public void removeCoins(int coins) {
+        this.coins-=coins;
     }
 
     public boolean isMuted() {

@@ -28,8 +28,9 @@ public class StaffChatCommand extends BasicCommand {
 
             for(String s : args) stringBuilder.append(s).append(" ");
 
-            ChatColor color = ChatColor.AQUA;
-            Common.broadcastMessage(PermLevel.STAFF, color + "[Staff] &4Console" + "&7: " + color + stringBuilder.toString());
+            ChatColor prefixColor = ChatColor.GRAY;
+            ChatColor messageColor = ChatColor.DARK_PURPLE;
+            Common.broadcastMessage(PermLevel.STAFF, prefixColor+ "[UHC-1] &4Console" + "&7: " + messageColor + stringBuilder.toString());
             return;
         }
 
@@ -53,7 +54,8 @@ public class StaffChatCommand extends BasicCommand {
                     .addInfo("message", stringBuilder.toString())
                     .post();
         });*/
-        ChatColor color = ChatColor.AQUA;
-        Common.broadcastMessage(PermLevel.STAFF, color + "[Staff] " + profile.getRealColoredName() + "&7: " + color + stringBuilder.toString());
+        ChatColor prefixColor = ChatColor.GRAY;
+        ChatColor messageColor = ChatColor.LIGHT_PURPLE;
+        Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] " + profile.getRealColoredName() + "&7: " + messageColor + stringBuilder.toString());
     }
 }

@@ -28,7 +28,7 @@ public class FlyCommand extends BasicCommand {
         }
 
         if(!Basic.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
-            player.sendMessage(Color.translate("&cYou cannot fly in that world!"));
+            player.sendMessage(Color.translate("&cYou cannot fly in this world!"));
             return;
         }
 

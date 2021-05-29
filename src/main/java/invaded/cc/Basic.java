@@ -64,7 +64,13 @@ public class Basic extends JavaPlugin {
         this.registerBungee();
         this.loadPlayers();
 
+        this.setupWorlds();
+
         setAPI(new API(this));
+    }
+
+    private void setupWorlds() {
+        this.commandHandler.getFlyWorlds().add("world");
     }
 
     private void setupHandlers() {

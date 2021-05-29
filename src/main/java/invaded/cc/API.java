@@ -92,4 +92,12 @@ public class API {
     public String getChatFormat(Player player) {
         return getChatFormat(player.getUniqueId());
     }
+
+    public void awardCoins (Player player, int coins) {
+        Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins);
+    }
+
+    public void removeCoins(Player player, int coins){
+        Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId()).removeCoins(coins);
+    }
 }

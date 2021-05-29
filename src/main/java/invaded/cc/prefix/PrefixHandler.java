@@ -33,6 +33,7 @@ public class PrefixHandler {
         Map<String, Object> map = new HashMap<>();
         map.put("id", prefix.getId());
         map.put("display", prefix.getDisplay());
+        map.put("price", prefix.getPrice());
 
         HttpResponse response = RequestHandler.post("/prefixs", map);
         response.close();

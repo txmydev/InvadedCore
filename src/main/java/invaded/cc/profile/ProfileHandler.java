@@ -24,9 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ProfileHandler {
 
     private final Map<UUID, Profile> profiles;
+    private final List<UUID> deletingPrefix;
 
     public ProfileHandler() {
         this.profiles = new ConcurrentHashMap<>();
+        this.deletingPrefix = new ArrayList<>();
     }
 
     public Profile load(UUID uuid, String name) {
@@ -48,6 +50,7 @@ public class ProfileHandler {
         body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
         body.put("prefixes", getPrefixListToJson(profile));
         body.put("activePrefix", profile.getActivePrefix() == null ? "none" : profile.getActivePrefix().getId());
+        body.put("coins", profile.getCoins());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
@@ -124,6 +127,8 @@ public class ProfileHandler {
                 profile.getPrefixes().add(prefix);
             });
         }
+
+        if(jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());
 
         if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
 
