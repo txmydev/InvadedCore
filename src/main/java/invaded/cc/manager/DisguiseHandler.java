@@ -16,6 +16,7 @@ import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -122,6 +123,9 @@ public class DisguiseHandler {
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
+        ItemStack[] armor = player.getPlayer().getInventory().getArmorContents();
+        ItemStack[] inventory = player.getPlayer().getInventory().getContents();
+
         GameProfile profile = playerData.getRealProfile();
         player.setPlayerListName(profile.getName());
 
@@ -129,32 +133,29 @@ public class DisguiseHandler {
 
         PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
         PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
+
         PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(player.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.getWorldData().getType(), entityPlayer.playerInteractManager.getGameMode());
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
-            Common.sendPacket(other, respawn);
         });
 
+        Common.sendPacket(player, respawn);
+
+        player.getInventory().setArmorContents(armor);
+        player.getInventory().setContents(inventory);
 
         PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData);
         event.call();
-
-        EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
-
-        if (entityTracker == null) return;
-        PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-
-        entityTracker.broadcast(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
-        entityTracker.broadcast(spawn);
-
-
     }
 
     public static void disguise(Profile profile) {
         Player player = Bukkit.getPlayer(profile.getId());
         if (player == null) return;
+
+        ItemStack[] armor = player.getPlayer().getInventory().getArmorContents();
+        ItemStack[] inventory = player.getPlayer().getInventory().getContents();
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
@@ -178,22 +179,15 @@ public class DisguiseHandler {
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
-            Common.sendPacket(other, respawn);
         });
 
+        Common.sendPacket(player, respawn);
 
-        Task.later(() -> entityPlayer.triggerHealthUpdate(), 4L);
+        player.getInventory().setArmorContents(armor);
+        player.getInventory().setContents(inventory);
 
         PlayerDisguiseEvent event = new PlayerDisguiseEvent(Basic.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
         event.call();
-
-        EntityTrackerEntry entityTracker = (EntityTrackerEntry) (entityPlayer.getWorld()).getWorld().getHandle().getTracker().trackedEntities.get(entityPlayer.getId());
-
-        if (entityTracker == null) return;
-        PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-
-        entityTracker.broadcast(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
-        entityTracker.broadcast(spawn);
     }
 
 }

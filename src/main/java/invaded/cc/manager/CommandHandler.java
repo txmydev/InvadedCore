@@ -4,8 +4,7 @@ import invaded.cc.Basic;
 import invaded.cc.commands.*;
 import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
-import invaded.cc.commands.prefix.GrantPrefixCommand;
-import invaded.cc.commands.prefix.PrefixCommand;
+import invaded.cc.commands.tags.TagsCommand;
 import invaded.cc.commands.punish.ban.BanCMD;
 import invaded.cc.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.commands.punish.blacklist.BlacklistCMD;
@@ -75,8 +74,7 @@ public class CommandHandler {
         new FilterCommand();
         new SoundCommand();
         new ReloadRanksCommand();
-        new PrefixCommand();
-        new GrantPrefixCommand();
+        new TagsCommand();
         new DisguiseCheckCommand();
     }
 

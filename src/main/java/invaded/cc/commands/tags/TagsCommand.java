@@ -1,11 +1,13 @@
-package invaded.cc.commands.prefix;
+package invaded.cc.commands.tags;
 
 import com.google.common.collect.Maps;
 import invaded.cc.Basic;
 import invaded.cc.manager.RequestHandler;
-import invaded.cc.menu.prefix.PrefixMenu;
-import invaded.cc.prefix.Prefix;
-import invaded.cc.prefix.PrefixHandler;
+import invaded.cc.menu.tags.TagsMenu;
+import invaded.cc.tags.Prefix;
+import invaded.cc.tags.Suffix;
+import invaded.cc.tags.Tag;
+import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -22,12 +24,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PrefixCommand extends BasicCommand {
+public class TagsCommand extends BasicCommand {
 
-    public PrefixCommand() {
-        super("prefix", PermLevel.DEFAULT, "prefixs", "prefixes");
+    public TagsCommand() {
+        super("tags", PermLevel.DEFAULT, "tag");
     }
 
     @Override
@@ -36,11 +37,11 @@ public class PrefixCommand extends BasicCommand {
 
         Player player = (Player) sender;
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
-        PrefixHandler prefixHandler = Basic.getInstance().getPrefixHandler();
+        TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
 
         if(args.length == 0) {
             Profile profile = profileHandler.getProfile(player);
-            new PrefixMenu(profile).open(player);
+            new TagsMenu(profile).open(player);
             return;
         }
 
@@ -51,28 +52,38 @@ public class PrefixCommand extends BasicCommand {
                 return;
             }
 
-            if(args.length != 4) {
-                player.sendMessage(Color.translate("&c/prefix create <id> <display> <price>"));
+            if(args.length != 5) {
+                player.sendMessage(Color.translate("&c/tags create <prefix:suffix> <id> <display> <price>"));
                 return;
             }
 
-            String id = args[1];
-            String display = args[2];
-            int price = getInt(args[3]);
+            String type = args[1];
+            String id = args[2];
+            String display = args[3];
+            int price = getInt(args[4]);
 
             if(price == -1){
                 player.sendMessage(Color.translate("&cYou may enter a valid price."));
                 return;
             }
 
-            if(prefixHandler.getPrefix(id) != null) {
-                player.sendMessage(Color.translate("&cThat prefix already exists, you may use /prefix modify."));
+            if(tagsHandler.getTag(id) != null) {
+                player.sendMessage(Color.translate("&cThat tag already exists, you may use /prefix modify."));
                 return;
             }
 
-            Prefix prefix = new Prefix(id, display, price);
-            prefixHandler.getPrefixes().add(prefix);
-            player.sendMessage(Color.translate("&aYou've created the prefix &6" +id+" &awith display &r" + display + " &aand price &6" + price + " coins&a."));
+            Tag tag;
+            if(type.equalsIgnoreCase("suffix")) {
+                Suffix suffix = new Suffix(id, display, price);
+                tagsHandler.getTags().add(suffix);
+                tag =suffix;
+            }else {
+                Prefix prefix = new Prefix(id, display, price);
+                tagsHandler.getTags().add(prefix);
+                tag = prefix;
+            }
+
+            player.sendMessage(Color.translate("&aYou've created the " + tag.getType() +" &6" +id+" &awith display &r" + display + " &aand price &6" + price + " coins&a."));
         } else if(arg1.equals("delete") || arg1.equals("remove")) {
             if(!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
@@ -80,19 +91,19 @@ public class PrefixCommand extends BasicCommand {
             }
 
             if(args.length != 2) {
-                player.sendMessage(Color.translate("&c/prefix delete/remove <id>"));
+                player.sendMessage(Color.translate("&c/tags delete/remove <id>"));
                 return;
             }
 
             String id = args[1];
-            Prefix prefix = prefixHandler.getPrefix(id);
-            if(prefix == null){
+            Tag tag = tagsHandler.getTag(id);
+            if(tag == null){
                 player.sendMessage(Color.translate("&cThat prefix doesn't exist."));
                 return;
             }
 
-            Task.async(() -> prefixHandler.remove(prefix));
-            player.sendMessage(Color.translate("&cYou've removed prefix &6"+id+"&c."));
+            Task.async(() -> tagsHandler.remove(tag));
+            player.sendMessage(Color.translate("&cYou've removed " + tag.getType() + " &6"+id+"&c."));
         } else if(arg1.equals("modify")) {
             if(!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
@@ -108,14 +119,14 @@ public class PrefixCommand extends BasicCommand {
             String display = args[2];
             int price = getInt(args[3]);
 
-            Prefix prefix = prefixHandler.getPrefix(id);
-            if(prefix == null){
-                player.sendMessage(Color.translate("&cThat prefix doesn't exist."));
+            Tag tag = tagsHandler.getTag(id);
+            if(tag == null){
+                player.sendMessage(Color.translate("&cThat tag doesn't exist."));
                 return;
             }
 
-            prefix.setDisplay(display.equals("@@stay") ? prefix.getDisplay() : display);
-            prefix.setPrice(price);
+            tag.setDisplay(display.equals("@@stay") ? tag.getDisplay() : display);
+            tag.setPrice(price);
             player.sendMessage(Color.translate("&aYou've modified &6" + id + "&a's display to &r" + display + " &aand price &6" + price + " coins&a."));
         } else if(arg1.equals("deleteall")) {
             if(!Permission.test(sender, PermLevel.ADMIN)) {
@@ -176,8 +187,9 @@ public class PrefixCommand extends BasicCommand {
             Map<String, Object> body = new HashMap<>();
             body.put("uuid", id);
             body.put("name", name);
-            body.put("prefixes", new ArrayList<String>());
+            body.put("tags", new ArrayList<String>());
             body.put("activePrefix", "none");
+            body.put("activeSuffix", "none");
 
             HttpResponse changeResponse = RequestHandler.post("/profiles", body);
             changeResponse.close();
@@ -189,7 +201,7 @@ public class PrefixCommand extends BasicCommand {
     }
 
     private String deletePrefixes() {
-        HttpResponse response = RequestHandler.delete("/prefixs/deleteall", Maps.newHashMap());
+        HttpResponse response = RequestHandler.delete("/tags/deleteall", Maps.newHashMap());
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response.bodyText()).getAsJsonObject();
 

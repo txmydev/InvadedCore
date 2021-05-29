@@ -4,8 +4,9 @@ import com.google.common.collect.Lists;
 import invaded.cc.Basic;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.manager.RequestHandler;
-import invaded.cc.prefix.Prefix;
-import invaded.cc.prefix.PrefixHandler;
+import invaded.cc.tags.Prefix;
+import invaded.cc.tags.Tag;
+import invaded.cc.tags.TagsHandler;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.json.JsonChain;
@@ -48,18 +49,19 @@ public class ProfileHandler {
         body.put("allowDisguise", profile.isAllowDisguise());
         body.put("ignoreList", profile.getIgnoreList());
         body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
-        body.put("prefixes", getPrefixListToJson(profile));
+        body.put("tags", getTagListToJson(profile));
         body.put("activePrefix", profile.getActivePrefix() == null ? "none" : profile.getActivePrefix().getId());
+        body.put("activeSuffix", profile.getActiveSuffix() == null ? "none" : profile.getActiveSuffix().getId());
         body.put("coins", profile.getCoins());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
     }
 
-    private List<String> getPrefixListToJson(Profile profile) {
+    private List<String> getTagListToJson(Profile profile) {
         List<String> list = Lists.newArrayList();
 
-        profile.getPrefixes().forEach(prefix -> {
+        profile.getTags().forEach(prefix -> {
             list.add(new JsonChain().addProperty("id", prefix.getId()).addProperty("display", prefix.getDisplay()).get().toString());
         });
 
@@ -110,22 +112,28 @@ public class ProfileHandler {
             jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> profile.getIgnoreList().add(element.getAsString()));
         }
 
-        PrefixHandler prefixHandler = Basic.getInstance().getPrefixHandler();
+        TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
 
         if(jsonObject.has("activePrefix")) {
             String pref = jsonObject.get("activePrefix").getAsString();
-            if(pref.equals("none") || prefixHandler.getPrefix(pref) == null) profile.setActivePrefix(null);
-            else profile.setActivePrefix(prefixHandler.getPrefix(pref));
+            if(pref.equals("none") || tagsHandler.getPrefix(pref) == null) profile.setActivePrefix(null);
+            else profile.setActivePrefix(tagsHandler.getPrefix(pref));
         }
 
-        if(jsonObject.has("prefixes")) {
+        if(jsonObject.has("tags")) {
             JsonParser parser = new JsonParser();
-            jsonObject.get("prefixes").getAsJsonArray().forEach(element -> {
+            jsonObject.get("tags").getAsJsonArray().forEach(element -> {
                 JsonObject object = parser.parse(element.getAsString()).getAsJsonObject();
-                Prefix prefix = prefixHandler.getPrefix(object.get("id").getAsString());
-                if(prefix == null) return;
-                profile.getPrefixes().add(prefix);
+                Tag tag = tagsHandler.getPrefix(object.get("id").getAsString());
+                if(tag == null) return;
+                profile.getTags().add(tag);
             });
+        }
+
+        if(jsonObject.has("activeSuffix")) {
+            String suffix = jsonObject.get("activeSuffix").getAsString();
+            if(suffix.equals("none") || tagsHandler.getPrefix(suffix) == null) profile.setActivePrefix(null);
+            else profile.setActivePrefix(tagsHandler.getPrefix(suffix));
         }
 
         if(jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());

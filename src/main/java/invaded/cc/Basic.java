@@ -8,7 +8,7 @@ import invaded.cc.manager.ChatHandler;
 import invaded.cc.manager.CommandHandler;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.permission.PermissionHandler;
-import invaded.cc.prefix.PrefixHandler;
+import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
@@ -47,7 +47,7 @@ public class Basic extends JavaPlugin {
     private ProfileHandler profileHandler;
     private GrantHandler grantHandler;
     private RankHandler rankHandler;
-    private PrefixHandler prefixHandler;
+    private TagsHandler tagsHandler;
 
     @Override
     public void onEnable(){
@@ -82,7 +82,7 @@ public class Basic extends JavaPlugin {
         profileHandler = new ProfileHandler();
         punishmentHandler = new PunishmentHandler();
         rankHandler = new RankHandler();
-        prefixHandler = new PrefixHandler();
+        tagsHandler = new TagsHandler();
 
     }
 
@@ -132,7 +132,7 @@ public class Basic extends JavaPlugin {
     }
 
     private void savePrefixes() {
-        prefixHandler.getPrefixes().forEach(prefixHandler::save);
+        tagsHandler.getTags().forEach(tagsHandler::save);
     }
 
     public String getServerName(){
