@@ -29,10 +29,15 @@ public class SkinMenu extends Menu {
 
     private static final ConcurrentMap<String, String> datas = new ConcurrentHashMap<>();
 
-    public SkinMenu(Player player, String nick) {
+    private String nick;
+    private Skin nickSkin;
+
+    public SkinMenu(Player player, String nick, Skin skin) {
         super("&bChoose your skin!", 54);
 
         datas.put(player.getName(), nick);
+        this.nick = nick;
+        this.nickSkin = skin;
     }
 
     @Override
@@ -63,6 +68,17 @@ public class SkinMenu extends Menu {
 
             inventory.setItem(slot++, chestplate);
         }
+
+        chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+        meta = (LeatherArmorMeta) chestplate.getItemMeta();
+
+        dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
+        meta.setColor(dyeColor.getColor());
+
+        meta.setDisplayName(Color.translate("&5" + nick));
+        chestplate.setItemMeta(meta);
+
+        inventory.setItem(slot, chestplate);
     }
 
     @Override
@@ -85,9 +101,10 @@ public class SkinMenu extends Menu {
         String nick = datas.get(player.getName());
         String display = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
 
-        Skin skin = null;
+        Skin skin;
 
-        if(!display.equals("Own")) skin = Basic.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
+        if(display.equals(nick) && nickSkin != null) skin = nickSkin;
+        else if(!display.equals("Own")) skin = Basic.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
         else skin = profile.getRealSkin();
 
         if(skin == null){
@@ -102,14 +119,6 @@ public class SkinMenu extends Menu {
             player.sendMessage(Color.translate("&cFake rank not found, did you select it?"));
             return;
         }
-
-        /*new JedisPoster(JedisAction.DISGUISE)
-                .addInfo("profileId", profile.getId().toString())
-                .addInfo("realName",profile.getName())
-                .addInfo("name", nick)
-                .addInfo("rank", rank.getName())
-                .addInfo("skin", skin.getTexture() + ";"+ skin.getSignature())
-                .post();*/
 
         profile.setFakeName(nick);
         profile.setFakeSkin(skin);

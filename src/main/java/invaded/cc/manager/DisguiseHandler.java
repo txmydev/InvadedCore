@@ -68,23 +68,22 @@ public class DisguiseHandler {
 
                     if (!CheckPremiumTask.runCheck(username)) {
                         Bukkit.getLogger().info(username + " is not a premium player, cannot extract an skin from him.");
-                        return;
+                        continue;
                     }
 
                     Skin skin = fetchSkin(username);
 
                     if (skin == null) {
                         Bukkit.getLogger().info("Couldn't fetch skin for username " + username + ", please check the username field is correct.");
-                        return;
+                        continue;
                     }
 
                     skins.put(display, skin);
-                    Bukkit.getLogger().info("Mapped skin for username " + username + ".");
                 }
             });
         }
 
-        private Skin fetchSkin(String username) {
+        public Skin fetchSkin(String username) {
             String link1 = "https://api.mojang.com/users/profiles/minecraft/" + username;
             String link2 = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
@@ -130,11 +129,14 @@ public class DisguiseHandler {
 
         PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
         PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
+        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(player.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.getWorldData().getType(), entityPlayer.playerInteractManager.getGameMode());
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
+            Common.sendPacket(other, respawn);
         });
+
 
         PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData);
         event.call();
@@ -171,11 +173,16 @@ public class DisguiseHandler {
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
         PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
+        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(player.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.getWorldData().getType(), entityPlayer.playerInteractManager.getGameMode());
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, remove);
             Common.sendPacket(other, add);
+            Common.sendPacket(other, respawn);
         });
+
+
+        Task.later(() -> entityPlayer.triggerHealthUpdate(), 4L);
 
         PlayerDisguiseEvent event = new PlayerDisguiseEvent(Basic.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
         event.call();

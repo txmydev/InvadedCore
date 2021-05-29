@@ -119,11 +119,6 @@ public class PlayerListener implements Listener {
         Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
         if(profile ==null) return;
 
-       /* User globalPlayer = Core.getInstance().getServerHandler().find(player.getName());
-        if(globalPlayer != null) globalPlayer.setSwitchingServer(true);*/
-
-
-
         if (profile.isDisguised()) profile.unDisguise();
 
         profileHandler.save(profile);
@@ -131,10 +126,10 @@ public class PlayerListener implements Listener {
 
         if(Permission.test(player, PermLevel.STAFF)){
             Common.broadcastMessage(PermLevel.STAFF
-                    , "&3[Staff] " + profile.getColoredName()
+                    , "&9[Staff] " + profile.getColoredName()
                             + " &cleft &bthe network.");
         }
-       // Core.getInstance().getServerHandler().removePlayer(globalPlayer);
+       //
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -163,12 +158,6 @@ public class PlayerListener implements Listener {
         if(!profile.getCommandCooldown().hasExpired() && !event.isCancelled() && !Permission.test(player, PermLevel.STAFF)){
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cYou are on command cooldown, please wait " + profile.getCommandCooldown().getTimeLeft() + " seconds."));
-            return;
-        }
-
-        if(event.getMessage().startsWith("/bukkit:") && !Permission.test(player, PermLevel.ADMIN)){
-            event.setCancelled(true);
-            player.sendMessage(Color.translate("&cThat command is blocked."));
             return;
         }
 
@@ -241,24 +230,12 @@ public class PlayerListener implements Listener {
             ChatColor prefixColor = ChatColor.GRAY;
             ChatColor messageColor = ChatColor.LIGHT_PURPLE;
             Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] " + profile.getRealColoredName() + "&7: " + messageColor + event.getMessage());
-
         }
     }
 
     @EventHandler
     public void onPunish(PlayerPunishEvent event){
         Punishment punishment = event.getPunishment();
-       /* new JedisPoster(JedisAction.PUNISHMENT)
-                .addInfo("profileId", event.getTarget().getUniqueId().toString())
-                .addInfo("type", punishment.getType().name())
-                .addInfo("cheaterName", event.getTarget().getName())
-                .addInfo("cheaterUuid", event.getTarget().getUniqueId().toString())
-                .addInfo("expire", punishment.getExpire())
-                .addInfo("punishedAt", punishment.getPunishedAt())
-                .addInfo("staffName", punishment.getStaffName())
-                .addInfo("s", punishment.isS())
-                .addInfo("reason", punishment.getReason())
-            .post();*/
 
         PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
         punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);

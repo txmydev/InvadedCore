@@ -1,6 +1,7 @@
 package invaded.cc.util.menu;
 
 import invaded.cc.util.Color;
+import invaded.cc.util.Task;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public abstract class Menu implements IMenu{
     @Override
     public void open(Player player) {
         update();
-        player.openInventory(inventory);
+        Task.run(() -> player.openInventory(inventory));
     }
 
     public abstract void update();

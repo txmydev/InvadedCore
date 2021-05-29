@@ -5,6 +5,7 @@ import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
+import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Skin;
@@ -95,7 +96,9 @@ public class DisguiseRankMenu extends Menu {
             return;
         }
 
-        Task.later(() -> new SkinMenu(player, nick).open(player), 2L);
+        Task.asyncLater(() ->{
+            new SkinMenu(player, nick, Basic.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)).open(player);
+        } , 2L);
     }
 
     public void disguise() {
