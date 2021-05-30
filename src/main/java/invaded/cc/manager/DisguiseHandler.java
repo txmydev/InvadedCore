@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerUnDisguiseEvent;
 import invaded.cc.profile.Profile;
@@ -16,7 +16,6 @@ import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -115,7 +114,7 @@ public class DisguiseHandler {
     }
 
     public static List<Rank> getAvailableDisguiseRanks(Profile profile) {
-        return Basic.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority()).collect(Collectors.toList());
+        return Spotify.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority()).collect(Collectors.toList());
     }
 
     public static void undisguise(Profile playerData) {
@@ -184,7 +183,7 @@ public class DisguiseHandler {
 
         Common.sendPacket(player, respawn);
 
-        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Basic.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
+        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
         Task.later(event::call, 2L);
     }
 

@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.blacklist;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
@@ -27,7 +27,7 @@ public class UnBlacklistCMD extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
             String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                 .getColoredName() : "&4Console";
@@ -72,7 +72,7 @@ public class UnBlacklistCMD extends BasicCommand {
                     +" &awas unblacklisted by " +executor).get());
             else Common.broadcastMessage(PermLevel.STAFF, targetData.getColoredName() + " &awas unblacklisted by " + executor);
 
-            PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
+            PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(targetData.getId(), punishment);
            });
     }

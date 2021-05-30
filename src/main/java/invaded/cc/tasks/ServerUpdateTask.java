@@ -1,12 +1,12 @@
 package invaded.cc.tasks;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ServerUpdateTask extends BukkitRunnable {
 
     public ServerUpdateTask(){
-        runTaskTimerAsynchronously(Basic.getInstance(), 1L, 3L);
+        runTaskTimerAsynchronously(Spotify.getInstance(), 1L, 3L);
     }
 
     @Override

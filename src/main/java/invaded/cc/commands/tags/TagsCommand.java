@@ -1,7 +1,7 @@
 package invaded.cc.commands.tags;
 
 import com.google.common.collect.Maps;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.menu.tags.TagsMenu;
 import invaded.cc.tags.Tag;
@@ -34,8 +34,8 @@ public class TagsCommand extends BasicCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
-        TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+        TagsHandler tagsHandler = Spotify.getInstance().getTagsHandler();
 
         if(args.length == 0) {
             Profile profile = profileHandler.getProfile(player);
@@ -179,7 +179,7 @@ public class TagsCommand extends BasicCommand {
         data.forEach((id, name) -> {
             if(Bukkit.getPlayer(name) != null) {
                 Task.run(() -> Bukkit.getPlayer(name).kickPlayer(Color.translate("&cAn admin has ran a command to delete all the prefixes from users, \nyou cannot enter right now.")));
-                Basic.getInstance().getProfileHandler().getDeletingPrefix().add(UUID.fromString(id));
+                Spotify.getInstance().getProfileHandler().getDeletingPrefix().add(UUID.fromString(id));
             }
 
             Map<String, Object> body = new HashMap<>();
@@ -192,7 +192,7 @@ public class TagsCommand extends BasicCommand {
             HttpResponse changeResponse = RequestHandler.post("/profiles", body);
             changeResponse.close();
 
-            Basic.getInstance().getProfileHandler().getDeletingPrefix().remove(UUID.fromString(id));
+            Spotify.getInstance().getProfileHandler().getDeletingPrefix().remove(UUID.fromString(id));
         });
 
         return "ok";

@@ -1,7 +1,7 @@
 package invaded.cc.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.tags.Tag;
@@ -109,7 +109,7 @@ public class ProfileHandler {
             jsonObject.get("ignoreList").getAsJsonArray().forEach(element -> profile.getIgnoreList().add(element.getAsString()));
         }
 
-        TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
+        TagsHandler tagsHandler = Spotify.getInstance().getTagsHandler();
 
 
         if(jsonObject.has("tags")) {
@@ -140,7 +140,7 @@ public class ProfileHandler {
 
         if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
 
-        GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
+        GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
 
         profile.setGrants(grantHandler.get(profile));
         profile.setHighestRank(grantHandler.getHighestGrant(profile.getGrants()));
@@ -148,7 +148,7 @@ public class ProfileHandler {
         profile.setBan(null);
         profile.setMute(null);
 
-        PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
+        PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
         punishmentHandler.load(profile);
 
         if (jsonObject.has("allowDisguise")) profile.setAllowDisguise(jsonObject.get("allowDisguise").getAsBoolean());

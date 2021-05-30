@@ -1,7 +1,7 @@
 package invaded.cc.commands.punish.check;
 
 import com.google.common.collect.Maps;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.menu.PunishmentsMenu;
 import invaded.cc.profile.Profile;
@@ -45,7 +45,7 @@ public class PunishmentsCommand extends BasicCommand {
                 return;
             }
 
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
             Profile target = profileHandler.getProfile(Bukkit.getOfflinePlayer(args[0]).getUniqueId());
             if (target == null) target = profileHandler.load(Bukkit.getOfflinePlayer(args[0]).getUniqueId(), args[0]);
 
@@ -58,7 +58,7 @@ public class PunishmentsCommand extends BasicCommand {
 
             if(response.statusCode() == 200) {
                 JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
-                for (JsonElement element : jsonArray) punishmentList.add(Basic.GSON.fromJson(element, Punishment.class));
+                for (JsonElement element : jsonArray) punishmentList.add(Spotify.GSON.fromJson(element, Punishment.class));
             }
 
             if(target.getMute() != null) punishmentList.add(target.getMute());

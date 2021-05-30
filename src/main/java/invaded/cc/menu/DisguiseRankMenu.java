@@ -1,11 +1,10 @@
 package invaded.cc.menu;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
-import invaded.cc.tasks.CheckPremiumTask;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Skin;
@@ -23,11 +22,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DisguiseRankMenu extends Menu {
 
-    private final ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+    private final ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
     private Profile profile;
     private Map<Integer, Rank> values;
@@ -87,7 +85,7 @@ public class DisguiseRankMenu extends Menu {
 
         Skin skin = profile.getRealSkin();
 
-        if(Basic.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
+        if(Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
             profile.setFakeSkin(skin);
             disguise();
 
@@ -97,7 +95,7 @@ public class DisguiseRankMenu extends Menu {
         }
 
         Task.asyncLater(() ->{
-            new SkinMenu(player, nick, Basic.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)).open(player);
+            new SkinMenu(player, nick, Spotify.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)).open(player);
         } , 2L);
     }
 

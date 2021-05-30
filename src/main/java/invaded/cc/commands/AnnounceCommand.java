@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.poster.JedisPoster;
 import invaded.cc.profile.Profile;
@@ -23,19 +23,19 @@ public class AnnounceCommand extends BasicCommand {
 
         Player player = (Player) sender;
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(Basic.getInstance().getServerName().contains("hub")) {
+        if(Spotify.getInstance().getServerName().contains("hub")) {
             player.sendMessage(Color.translate("&cYou are trying to announce you are in the hub??"));
             return;
         }
 
         new JedisPoster(JedisAction.BROADCAST)
-                .addInfo("message", profile.getChatFormat() + " &bis playing in &f'" + Basic.getInstance().getServerName() + "'&b, you think you can destroy him? Type &f'/join " + Basic.getInstance().getServerName()
+                .addInfo("message", profile.getChatFormat() + " &bis playing in &f'" + Spotify.getInstance().getServerName() + "'&b, you think you can destroy him? Type &f'/join " + Spotify.getInstance().getServerName()
                 +"' &bor &eClick here&b!")
         .addInfo("hover", "false;xd")
-        .addInfo("click", "true;/join " + Basic.getInstance().getServerName())
+        .addInfo("click", "true;/join " + Spotify.getInstance().getServerName())
         .post();
     }
 }

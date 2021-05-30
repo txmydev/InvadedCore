@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.JedisPublisher;
 import invaded.cc.database.redis.JedisSubscriber;
 import invaded.cc.profile.User;
@@ -48,7 +48,7 @@ public class ServerHandler {
     }
 
     public Server getCurrentServer() {
-        return servers.get(Basic.getInstance().getServerName());
+        return servers.get(Spotify.getInstance().getServerName());
     }
 
     public User find(String name) {

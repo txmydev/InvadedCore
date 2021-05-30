@@ -1,6 +1,6 @@
 package invaded.cc.database.redis.reader.impl;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
@@ -17,10 +17,10 @@ public class ReaderDisguise implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
         String serverId = jsonObject.get("server-id").getAsString();
-        String currentServer = Basic.getInstance().getServerName();
+        String currentServer = Spotify.getInstance().getServerName();
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
-        RankHandler rankHandler = Basic.getInstance().getRankHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+        RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
         String profileId = jsonObject.get("profileId").getAsString();
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));

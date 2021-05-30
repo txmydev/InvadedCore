@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.menu.ColorMenu;
 import invaded.cc.util.Color;
 import invaded.cc.util.command.BasicCommand;
@@ -25,6 +25,6 @@ public class ColorCommand extends BasicCommand {
             return;
         }
 
-        new ColorMenu(Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId())).open(player);
+        new ColorMenu(Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId())).open(player);
     }
 }

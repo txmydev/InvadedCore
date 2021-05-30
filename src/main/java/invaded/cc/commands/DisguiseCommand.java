@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.menu.DisguiseRankMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
@@ -22,7 +22,7 @@ public class DisguiseCommand extends BasicCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
 
         if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){
@@ -36,7 +36,7 @@ public class DisguiseCommand extends BasicCommand {
         }
 
         if(!player.getName().equals("txmy")) {
-            if (!Common.validDisguise(args[0]) || !Basic.getInstance().getProfileHandler().canDisguise(args[0])) {
+            if (!Common.validDisguise(args[0]) || !Spotify.getInstance().getProfileHandler().canDisguise(args[0])) {
                 player.sendMessage(Color.translate("&CYou aren't allowed to disguise with that name!"));
                 return;
             }

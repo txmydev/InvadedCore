@@ -1,6 +1,6 @@
 package invaded.cc.menu.tags;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
@@ -37,7 +37,7 @@ public class TagsMenu extends Menu {
     @Override
     public void onClick(InventoryClickEvent event) {
         final Player player = (Player) event.getWhoClicked();
-        final Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        final Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         if(event.getSlot() == 0) {
             if(page == 1) return;
@@ -92,7 +92,7 @@ public class TagsMenu extends Menu {
     }
 
     private Tag check(String itemName){
-        for (Tag tag : Basic.getInstance().getTagsHandler().getTags()) {
+        for (Tag tag : Spotify.getInstance().getTagsHandler().getTags()) {
             String displayStripped = Color.translate(tag.getDisplay());
 
             if (!displayStripped.equalsIgnoreCase(itemName))
@@ -106,7 +106,7 @@ public class TagsMenu extends Menu {
     }
 
     private int getMaxPages() {
-        return Basic.getInstance().getTagsHandler().getTags().size() / maxPrefixesPerPage + 1;
+        return Spotify.getInstance().getTagsHandler().getTags().size() / maxPrefixesPerPage + 1;
     }
 
     private void buy(Profile profile, Tag tag) {
@@ -143,7 +143,7 @@ public class TagsMenu extends Menu {
     public void update() {
         this.inventory.clear();
 
-        TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
+        TagsHandler tagsHandler = Spotify.getInstance().getTagsHandler();
         List<Tag> list = tagsHandler.getTags();
 
         for (int i = 0; i <= 8; i++)

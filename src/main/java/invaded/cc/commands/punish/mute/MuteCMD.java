@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.mute;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -28,7 +28,7 @@ public class MuteCMD extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
             String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                     .getColoredName() : "&4Console";

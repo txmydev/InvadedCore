@@ -1,6 +1,6 @@
 package invaded.cc.commands.perms;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.menu.PermissionMenu;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -28,8 +28,8 @@ public class PermissionCommand extends BasicCommand {
                 return;
             }
 
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
-            RankHandler rankHandler = Basic.getInstance().getRankHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+            RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
             Profile profile;
             Rank rank;

@@ -1,6 +1,6 @@
 package invaded.cc.database.redis;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.handlers.DataSubscriptionHandler;
 import invaded.cc.database.redis.handlers.GlobalHandler;
 import invaded.cc.database.redis.reader.JedisActionReader;
@@ -38,7 +38,7 @@ public class JedisManager {
     private static JedisPool pool;
 
     public JedisManager() {
-        ConfigFile configFile = Basic.getInstance().getDatabaseConfig();
+        ConfigFile configFile = Spotify.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "redis");
 
         if (configTracker.getBoolean("authentication"))

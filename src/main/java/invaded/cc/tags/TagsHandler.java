@@ -1,7 +1,7 @@
 package invaded.cc.tags;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class TagsHandler {
         HttpResponse response = RequestHandler.get("/tags");
 
         if(response.statusCode() != 200) this.tags = Lists.newArrayList();
-        else this.tags = Basic.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {}.getType());
+        else this.tags = Spotify.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {}.getType());
 
         response.close();
     }

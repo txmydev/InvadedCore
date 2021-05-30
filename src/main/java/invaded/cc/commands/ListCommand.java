@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.rank.Rank;
@@ -22,7 +22,7 @@ public class ListCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         if(args.length != 0)  {
             if (args.length == 1) {
@@ -43,7 +43,7 @@ public class ListCommand extends BasicCommand {
             return;
         }
 
-        RankHandler rankHandler = Basic.getInstance().getRankHandler();
+        RankHandler rankHandler = Spotify.getInstance().getRankHandler();
         List<Rank> list = rankHandler.getRanks();
 
         boolean first = true;

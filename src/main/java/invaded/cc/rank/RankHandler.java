@@ -1,7 +1,7 @@
 package invaded.cc.rank;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class RankHandler {
 
         if(!this.ranks.isEmpty()) this.ranks.clear();
 
-        this.ranks = Basic.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
+        this.ranks = Spotify.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
         this.ranks.sort(PRIORITY_COMPARATOR);
         httpResponse.close();
     }

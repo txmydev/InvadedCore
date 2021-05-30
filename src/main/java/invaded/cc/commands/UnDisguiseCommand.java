@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -25,7 +25,7 @@ public class UnDisguiseCommand extends BasicCommand {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
         if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){

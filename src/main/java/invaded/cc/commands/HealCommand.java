@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
@@ -19,7 +19,7 @@ public class HealCommand extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = null;
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         switch(args.length){
             case 0:

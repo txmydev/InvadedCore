@@ -1,6 +1,6 @@
 package invaded.cc.commands.coins;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.command.BasicCommand;
@@ -38,7 +38,7 @@ public class CoinsCommand extends BasicCommand {
                 return;
             }
 
-            Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             profile.aggregateCoins(coins);
             sender.sendMessage("Added " + coins + " coins to player " + profile.getColoredName());
             player.sendMessage(Color.translate("&aYour coins have been updated to &6" + profile.getCoins() + " coins&a. &7(&a+" + coins + " coins&7)"));
@@ -55,7 +55,7 @@ public class CoinsCommand extends BasicCommand {
                 return;
             }
 
-            Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             profile.removeCoins(coins);
             sender.sendMessage("Removed " + coins + " coins to player " + profile.getColoredName());
             player.sendMessage(Color.translate("&aYour coins have been updated to &6" + profile.getCoins() + " coins&a. &7(&c-" + coins +" coins&7)"));

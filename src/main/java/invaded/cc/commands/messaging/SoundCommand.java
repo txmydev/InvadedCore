@@ -1,6 +1,6 @@
 package invaded.cc.commands.messaging;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -24,7 +24,7 @@ public class SoundCommand extends BasicCommand {
             return;
         }
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         Player player = (Player) sender;
         Profile profile = profileHandler.getProfile(player.getUniqueId());

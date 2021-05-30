@@ -1,6 +1,6 @@
 package invaded.cc.permission;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.injector.PermissibleInjector;
 import invaded.cc.util.Common;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class PermissionHandler {
     private static final Map<UUID, PermissionAttachment> attachments = new ConcurrentHashMap<>();
 
     public void updatePermissions(Player player, Map<String, Boolean> permissions) {
-        attachments.putIfAbsent(player.getUniqueId(), player.addAttachment(Basic.getInstance()));
+        attachments.putIfAbsent(player.getUniqueId(), player.addAttachment(Spotify.getInstance()));
         PermissionAttachment attachment = attachments.get(player.getUniqueId());
 
         try{

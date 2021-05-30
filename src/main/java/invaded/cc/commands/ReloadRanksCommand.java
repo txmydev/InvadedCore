@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.command.BasicCommand;
@@ -20,7 +20,7 @@ public class ReloadRanksCommand extends BasicCommand {
             return;
         }
 
-        Basic.getInstance().getRankHandler().loadAll();
+        Spotify.getInstance().getRankHandler().loadAll();
         sender.sendMessage(Color.translate("&aDone"));
 
         Common.getOnlinePlayers().forEach(player -> player.kickPlayer(Color.translate("&cReloaded ranks")));

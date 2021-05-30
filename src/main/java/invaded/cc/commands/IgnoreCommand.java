@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -22,7 +22,7 @@ public class IgnoreCommand extends BasicCommand {
             return;
 
         Player player = (Player) sender;
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         if (args.length != 1) {
             player.sendMessage(Color.translate("&cYou may use /ignore <player>"));

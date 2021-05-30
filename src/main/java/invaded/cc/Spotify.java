@@ -15,6 +15,7 @@ import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
 import invaded.cc.tasks.MenuTask;
+import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.menu.MenuListener;
@@ -27,7 +28,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public class Basic extends JavaPlugin {
+public class Spotify extends JavaPlugin {
 
     public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
@@ -35,7 +36,7 @@ public class Basic extends JavaPlugin {
     private static API API;
 
     @Getter
-    private static Basic instance;
+    private static Spotify instance;
 
     private ConfigFile mainConfig, databaseConfig;
 
@@ -65,8 +66,13 @@ public class Basic extends JavaPlugin {
         this.loadPlayers();
 
         this.setupWorlds();
+        this.sendMessage();
 
         setAPI(new API(this));
+    }
+
+    private void sendMessage() {
+        Bukkit.getConsoleSender().sendMessage(Color.translate("&7[&aSpotify&7] &eWe now playin' music round the server LOL"));
     }
 
     private void setupWorlds() {
@@ -83,7 +89,6 @@ public class Basic extends JavaPlugin {
         punishmentHandler = new PunishmentHandler();
         rankHandler = new RankHandler();
         tagsHandler = new TagsHandler();
-
     }
 
     private void setupTasks() {

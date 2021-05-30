@@ -1,7 +1,7 @@
 package invaded.cc.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.Grant;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.punishment.Punishment;
@@ -160,7 +160,7 @@ public class Profile {
     public void updatePermissions(Player player) {
         Map<String, Boolean> perms = Common.convertListToMap(permissions);
 
-        Basic.getInstance().getPermissionHandler().updatePermissions(player, perms);
+        Spotify.getInstance().getPermissionHandler().updatePermissions(player, perms);
     }
 
     public boolean isOnline() {

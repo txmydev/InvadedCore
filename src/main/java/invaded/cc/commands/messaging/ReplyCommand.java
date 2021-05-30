@@ -1,6 +1,6 @@
 package invaded.cc.commands.messaging;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -21,7 +21,7 @@ public class ReplyCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(Color.translate("&CPlayer only command."));

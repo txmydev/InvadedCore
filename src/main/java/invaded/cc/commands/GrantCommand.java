@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.menu.GrantMenu;
@@ -26,8 +26,8 @@ public class GrantCommand extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
-            RankHandler rankHandler = Basic.getInstance().getRankHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+            RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
             if (!(sender instanceof Player)) {
                 if (args.length != 2) {
@@ -53,7 +53,7 @@ public class GrantCommand extends BasicCommand {
 
                 Grant grant = new Grant(profile, System.currentTimeMillis(), rank.getName(), "console");
 
-                GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
+                GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
                 grantHandler.updateGrant(grant);
                 return;
             }

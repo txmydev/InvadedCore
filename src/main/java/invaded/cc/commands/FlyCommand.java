@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.Color;
 import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
@@ -27,7 +27,7 @@ public class FlyCommand extends BasicCommand {
             return;
         }
 
-        if(!Basic.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
+        if(!Spotify.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
             player.sendMessage(Color.translate("&cYou cannot fly in this world!"));
             return;
         }

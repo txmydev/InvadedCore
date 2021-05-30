@@ -1,6 +1,6 @@
 package invaded.cc.database.redis.reader.impl;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -25,7 +25,7 @@ public class ReaderPunishment implements Callback<JsonObject> {
         boolean s = jsonObject.get("s").getAsBoolean();
         String reason = jsonObject.get("reason").getAsString();
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(cheaterUuid);
 
         Punishment punishment = new Punishment(type, punishedAt, expire, cheaterName, cheaterUuid, staffName, s, reason);

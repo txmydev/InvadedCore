@@ -1,6 +1,6 @@
 package invaded.cc.util;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,7 +10,7 @@ import java.io.File;
 
 public class ConfigFile {
 
-    private static final JavaPlugin plugin = Basic.getInstance();
+    private static final JavaPlugin plugin = Spotify.getInstance();
 
     private String fileName;
     private File file;

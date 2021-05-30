@@ -1,6 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.profile.Profile;
@@ -24,7 +24,7 @@ public class GrantMenu extends Menu {
     private final Profile profile;
     private final ConcurrentMap<Integer, Rank> values;
 
-    private final RankHandler rankHandler = Basic.getInstance().getRankHandler();
+    private final RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
     public GrantMenu(Profile profile){
         super("&eChange rank of " + profile.getColoredName(), 27);
@@ -52,7 +52,7 @@ public class GrantMenu extends Menu {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Player player = (Player) event.getWhoClicked();
         Profile whoClicked = profileHandler.getProfile(player.getUniqueId());
 
@@ -64,7 +64,7 @@ public class GrantMenu extends Menu {
                 return;
             }
 
-            GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
+            GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
             grantHandler.updateGrant(new Grant(profile, System.currentTimeMillis(), rank.getName(), player.getName()));
 
             player.sendMessage(Color.translate(profile.getColoredName()+ "'s &arank is now " + rank.getColoredName()));

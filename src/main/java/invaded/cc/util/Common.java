@@ -1,7 +1,7 @@
 package invaded.cc.util;
 
 import com.google.common.base.Strings;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.util.perms.PermLevel;
 import invaded.cc.util.perms.Permission;
@@ -119,7 +119,7 @@ public class Common {
         data.close();
         b.close();
 
-        player.sendPluginMessage(Basic.getInstance(), "BungeeCord", b.toByteArray());
+        player.sendPluginMessage(Spotify.getInstance(), "BungeeCord", b.toByteArray());
     }
 
     public static List<String> formatList(List<String> asList) {

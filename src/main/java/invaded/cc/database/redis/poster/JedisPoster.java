@@ -1,6 +1,6 @@
 package invaded.cc.database.redis.poster;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.JedisAction;
 import invaded.cc.database.redis.JedisConfiguration;
 import invaded.cc.database.redis.JedisPublisher;
@@ -14,7 +14,7 @@ public class JedisPoster {
     private static JedisPublisher INVADED_CHANNEL_PUBLISHER;
 
     static {
-        ConfigFile configFile = Basic.getInstance().getDatabaseConfig();
+        ConfigFile configFile = Spotify.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "redis");
 
         CONF = new JedisConfiguration(configTracker.getString("host"),
@@ -29,7 +29,7 @@ public class JedisPoster {
     private String channel = "invaded-channel";
 
     public JedisPoster(JedisAction jedisAction) {
-        jsonObject.addProperty("server-id", Basic.getInstance().getServerName());
+        jsonObject.addProperty("server-id", Spotify.getInstance().getServerName());
         jsonObject.addProperty("action", jedisAction.name());
 
         if(INVADED_CHANNEL_PUBLISHER == null) INVADED_CHANNEL_PUBLISHER = new JedisPublisher(CONF, channel);

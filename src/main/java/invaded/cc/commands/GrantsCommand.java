@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.menu.GrantsMenu;
 import invaded.cc.profile.Profile;
@@ -31,7 +31,7 @@ public class GrantsCommand extends BasicCommand {
                 return;
             }
 
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
             String target = args[0];
             UUID uuid = Bukkit.getOfflinePlayer(target).getUniqueId();
 
@@ -42,7 +42,7 @@ public class GrantsCommand extends BasicCommand {
             }
 
             sender.sendMessage(Color.translate("&aFetching recent grants of the player, when its ready, and inventory will be opened."));
-            GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
+            GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
             profile.setGrants(grantHandler.get(profile));
 
             new GrantsMenu(profile).open(((Player) sender));

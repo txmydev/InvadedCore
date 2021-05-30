@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.unpunish;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.Punishment;
@@ -26,7 +26,7 @@ public class UnBanCMD extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
-            ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
             String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                     .getColoredName() : "&4Console";
@@ -62,7 +62,7 @@ public class UnBanCMD extends BasicCommand {
             punishment.setRemovedAt(System.currentTimeMillis());
             punishment.setRemovedBy(executor);
 
-            PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
+            PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(offlinePlayer.getUniqueId(), punishment);
 
             if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unbanned by " + executor);

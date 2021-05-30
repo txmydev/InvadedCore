@@ -1,6 +1,6 @@
 package invaded.cc.punishment;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -42,6 +42,8 @@ public class PunishmentHandler {
 
         query.put("type", punishment.getType().name());
         query.put("cheaterUuid", uuid.toString());
+        query.put("cheaterName", punishment.getCheaterName());
+        query.put("staffName", punishment.getStaffName());
         query.put("punishedAt", punishment.getPunishedAt());
 
         HttpResponse response = RequestHandler.delete("/activePunishments", query);
@@ -52,13 +54,14 @@ public class PunishmentHandler {
             return;
         }
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Optional<Profile> op = Optional.of(profileHandler.getProfile(uuid));
-        if(!punishment.isBan() && op.isPresent()) op.get().setMute(null);
+        if(!punishment.isBan()) op.get().setMute(null);
 
         Task.async(() -> {
             Optional<Profile> profileOptional= Optional.of(profileHandler.getProfile(uuid));
             Profile profile = profileOptional.orElse(profileHandler.load(uuid, punishment.getCheaterName(), false));
+            profile.setBan(null);
             move(profile, punishment);
         });
     }
@@ -81,7 +84,7 @@ public class PunishmentHandler {
                 long expire = jsonObject.get("expire").getAsLong();
 
                 if(expire < System.currentTimeMillis() && jsonObject.get("type").getAsString().contains("TEMPORARY")) {
-                    move(profile, Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                    move(profile, Spotify.GSON.fromJson(jsonObject.toString(), Punishment.class));
                     continue;
                 }
 
@@ -89,10 +92,10 @@ public class PunishmentHandler {
                     case "BAN":
                     case "TEMPORARY_BAN":
                     case "BLACKLIST":
-                        profile.setBan(Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        profile.setBan(Spotify.GSON.fromJson(jsonObject.toString(), Punishment.class));
                         break;
                     default:
-                        profile.setMute(Basic.GSON.fromJson(jsonObject.toString(), Punishment.class));
+                        profile.setMute(Spotify.GSON.fromJson(jsonObject.toString(), Punishment.class));
                         break;
                 }
             }

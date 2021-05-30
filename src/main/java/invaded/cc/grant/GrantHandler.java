@@ -2,7 +2,7 @@ package invaded.cc.grant;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.rank.Rank;
@@ -64,7 +64,7 @@ public class GrantHandler {
             if(!grant.isUse()) return;
             if (profile.getPermissions() == null) profile.setPermissions(Sets.newHashSet());
 
-            Rank rank = Basic.getInstance().getRankHandler().getRank(grant.getRank());
+            Rank rank = Spotify.getInstance().getRankHandler().getRank(grant.getRank());
             rank.getPermissions().forEach(profile.getPermissions()::add);
         });
     }
@@ -83,7 +83,7 @@ public class GrantHandler {
         }
 
         JsonArray grants = new JsonParser().parse(response.bodyText()).getAsJsonArray();
-        RankHandler rankHandler = Basic.getInstance().getRankHandler();
+        RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
         grants.iterator().forEachRemaining(element -> {
             JsonObject jsonObject = element.getAsJsonObject();
@@ -158,7 +158,7 @@ public class GrantHandler {
 
     public Rank getHighestGrant(List<Grant> grants) {
        // return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
-        RankHandler handler = Basic.getInstance().getRankHandler();
+        RankHandler handler = Spotify.getInstance().getRankHandler();
 
         return grants.stream().filter(Grant::isUse)
                 .map(grant -> handler.getRank(grant.getRank())).min((rank1, rank2) -> rank2.getPriority() - rank1.getPriority())

@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
@@ -35,7 +35,7 @@ public class StaffChatCommand extends BasicCommand {
         }
 
         Player player = (Player) sender;
-        Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         if(args.length == 0){
             boolean v = !profile.isStaffChat();

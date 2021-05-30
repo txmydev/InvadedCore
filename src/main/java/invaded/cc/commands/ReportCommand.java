@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Clickable;
 import invaded.cc.util.Color;
@@ -49,8 +49,8 @@ public class ReportCommand extends BasicCommand {
                 .addInfo("reason", stringBuilder.toString())
         .post());*/
         Player player = (Player) sender;
-        Profile profile = Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        Profile targetProfile = Basic.getInstance().getProfileHandler().getProfile(target.getUniqueId());
+        Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Profile targetProfile = Spotify.getInstance().getProfileHandler().getProfile(target.getUniqueId());
         String reason = stringBuilder.toString();
 
         Clickable clickable = new Clickable("&7[&4Report&7] " + profile.getColoredName() + " &fhas reported " + targetProfile.getColoredName()

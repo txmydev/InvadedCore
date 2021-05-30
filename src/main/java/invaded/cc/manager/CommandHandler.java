@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.commands.*;
 import invaded.cc.commands.coins.CoinsCommand;
 import invaded.cc.commands.messaging.*;
@@ -31,7 +31,7 @@ public class CommandHandler {
     private CommandFramework commandFramework;
 
     public CommandHandler(){
-        this.commandFramework = new CommandFramework(Basic.getInstance());
+        this.commandFramework = new CommandFramework(Spotify.getInstance());
         BaseCommand.setFramework(commandFramework);
 
         new GamemodeCommand();

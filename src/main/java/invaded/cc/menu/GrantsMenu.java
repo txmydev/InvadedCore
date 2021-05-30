@@ -1,6 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.grant.Grant;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.profile.Profile;
@@ -37,7 +37,7 @@ public class GrantsMenu extends Menu {
 
     @Override
     public void update() {
-        RankHandler rankHandler = Basic.getInstance().getRankHandler();
+        RankHandler rankHandler = Spotify.getInstance().getRankHandler();
         List<Grant> list = profile.getGrants().stream().sorted(Grant.WEIGHT_COMPARATOR).collect(Collectors.toList());
         int slot = 0;
 
@@ -71,13 +71,13 @@ public class GrantsMenu extends Menu {
     @Override
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         Profile profile = profileHandler.getProfile(player.getUniqueId());
         int pr = profile.getHighestRank().getPriority();
 
         if(grants.containsKey(event.getSlot())) {
-            RankHandler rankHandler = Basic.getInstance().getRankHandler();
+            RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
             Grant grant = grants.get(event.getSlot());
             Rank rank = rankHandler.getRank(grant.getRank());
@@ -88,7 +88,7 @@ public class GrantsMenu extends Menu {
             }
 
             Task.async(() -> {
-                GrantHandler grantHandler = Basic.getInstance().getGrantHandler();
+                GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
                 grantHandler.removeGrant(grant);
 
                 grant.setRemovedBy(player.getName());

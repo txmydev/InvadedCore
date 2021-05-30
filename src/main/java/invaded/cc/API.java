@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class API {
 
-    private Basic plugin;
+    private Spotify plugin;
 
-    public API(Basic plugin) {
+    public API(Spotify plugin) {
         this.plugin = plugin;
     }
 
@@ -94,10 +94,10 @@ public class API {
     }
 
     public void awardCoins (Player player, int coins) {
-        Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins);
+        Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins);
     }
 
     public void removeCoins(Player player, int coins){
-        Basic.getInstance().getProfileHandler().getProfile(player.getUniqueId()).removeCoins(coins);
+        Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).removeCoins(coins);
     }
 }

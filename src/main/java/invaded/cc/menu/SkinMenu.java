@@ -1,6 +1,6 @@
 package invaded.cc.menu;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -43,7 +43,7 @@ public class SkinMenu extends Menu {
     @Override
     public void update() {
         int slot = 0;
-        List<String> displays = new ArrayList<>(Basic.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
+        List<String> displays = new ArrayList<>(Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
 
         ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
         LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
@@ -97,7 +97,7 @@ public class SkinMenu extends Menu {
             return;
         }
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile =profileHandler.getProfile(player.getUniqueId());
 
         String nick = datas.get(player.getName());
@@ -106,7 +106,7 @@ public class SkinMenu extends Menu {
         Skin skin;
 
         if(display.equals(nick) && nickSkin != null) skin = nickSkin;
-        else if(!display.equals("Own")) skin = Basic.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
+        else if(!display.equals("Own")) skin = Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
         else skin = profile.getRealSkin();
 
         if(skin == null){

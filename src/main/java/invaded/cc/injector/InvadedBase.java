@@ -1,6 +1,6 @@
 package invaded.cc.injector;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class InvadedBase extends PermissibleBase {
     public InvadedBase(Player player, PermissibleBase oldBase) {
         super(player);
 
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         this.player = player;
         this.oldBase = oldBase;
         this.profile = profileHandler.getProfile(player.getUniqueId());

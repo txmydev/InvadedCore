@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.Common;
 import invaded.cc.util.command.BasicCommand;
 import invaded.cc.util.perms.PermLevel;
@@ -21,7 +21,7 @@ public class HubCommand extends BasicCommand {
 
         String targetServer = "";
 
-        if(Basic.getInstance().getServerName().contains("sa")) {
+        if(Spotify.getInstance().getServerName().contains("sa")) {
             targetServer = "sa-hub-1";
         }
 

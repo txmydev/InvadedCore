@@ -1,13 +1,13 @@
 package invaded.cc.tasks;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.menu.Menu;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class MenuTask extends BukkitRunnable {
 
     public MenuTask(){
-        runTaskTimerAsynchronously(Basic.getInstance(), 20L, 5L);
+        runTaskTimerAsynchronously(Spotify.getInstance(), 20L, 5L);
     }
 
     @Override

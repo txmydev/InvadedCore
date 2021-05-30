@@ -1,6 +1,6 @@
 package invaded.cc.commands.messaging;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -18,7 +18,7 @@ public class ToggleMessageCommand extends BasicCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) return;
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         if(args.length != 0) {
             sender.sendMessage(Color.translate("&cPlease use /pm"));

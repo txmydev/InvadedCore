@@ -1,6 +1,6 @@
 package invaded.cc.database.redis.reader.impl;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.database.redis.reader.Callback;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Clickable;
@@ -16,7 +16,7 @@ public class ReaderReport implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
         String serverId = jsonObject.get("server-id").getAsString();
-        String currentServer = Basic.getInstance().getServerName();
+        String currentServer = Spotify.getInstance().getServerName();
         boolean sameSv = serverId.equals(currentServer);
 
         String profileId = jsonObject.get("profileId").getAsString();

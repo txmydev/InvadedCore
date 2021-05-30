@@ -1,6 +1,6 @@
 package invaded.cc.commands.punish.kick;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
 import invaded.cc.util.Color;
@@ -23,7 +23,7 @@ public class KickCMD extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                 .getColoredName() : "&4Console";

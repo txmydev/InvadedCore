@@ -1,6 +1,6 @@
 package invaded.cc.manager;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.ConfigFile;
 import invaded.cc.util.ConfigTracker;
 import jodd.http.HttpRequest;
@@ -25,7 +25,7 @@ public class RequestHandler {
         private boolean domain;
 
         public RequestConfig() {
-            this.config = Basic.getInstance().getDatabaseConfig();
+            this.config = Spotify.getInstance().getDatabaseConfig();
 
             ConfigTracker configTracker = new ConfigTracker(config, "http");
             this.host = configTracker.getString("host");
@@ -92,7 +92,7 @@ public class RequestHandler {
 
     public static HttpResponse put(String endpoint, Map<String, Object> body, Map<String, Object> query){
         HttpRequest request = HttpRequest.put(BASE + endpoint)
-                .body(Basic.GSON.toJson(body))
+                .body(Spotify.GSON.toJson(body))
                 .tokenAuthentication(CONFIG.getToken());
 
         query.forEach((str, obj) -> request.query(str, obj.toString()));

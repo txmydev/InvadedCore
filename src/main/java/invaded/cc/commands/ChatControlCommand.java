@@ -1,6 +1,6 @@
 package invaded.cc.commands;
 
-import invaded.cc.Basic;
+import invaded.cc.Spotify;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.command.BasicCommand;
@@ -30,7 +30,7 @@ public class ChatControlCommand {
             }
 
             Bukkit.broadcastMessage(Color.translate("&aThe chat was cleared by " +
-                    (sender instanceof Player ? Basic.getInstance().getProfileHandler().getProfile(((Player) sender).getUniqueId()).getColoredName() : "&4Console") + "&a."));
+                    (sender instanceof Player ? Spotify.getInstance().getProfileHandler().getProfile(((Player) sender).getUniqueId()).getColoredName() : "&4Console") + "&a."));
         }
     }
 
@@ -44,10 +44,10 @@ public class ChatControlCommand {
         public void execute(CommandSender sender, String[] args) {
             if(args.length != 0)  { sender.sendMessage(Color.translate("&cPlease use /togglechat")); return; }
 
-            boolean b = !Basic.getInstance().getChatHandler().isChatValue();
+            boolean b = !Spotify.getInstance().getChatHandler().isChatValue();
 
             Bukkit.broadcastMessage(String.format(Color.translate((b ? "&a" : "&c") + "The public chat was %s."), b ? "enabled" : "disabled"));
-            Basic.getInstance().getChatHandler().setChatValue(b);
+            Spotify.getInstance().getChatHandler().setChatValue(b);
         }
     }
 
@@ -70,7 +70,7 @@ public class ChatControlCommand {
                     if (!isInt(args[0])) {
                         if(!validToggle(args[0])) player.sendMessage(Color.translate("&cPlease use /slowchat <time:off>"));
                         else {
-                            Basic.getInstance().getChatHandler().setSlowTime(-1);
+                            Spotify.getInstance().getChatHandler().setSlowTime(-1);
 
                             Bukkit.broadcastMessage(Color.translate("&cPublic chat delay was removed."));
                         }
@@ -79,7 +79,7 @@ public class ChatControlCommand {
                     }
 
                     int time = Integer.parseInt(args[0]);
-                    Basic.getInstance().getChatHandler().setSlowTime(time);
+                    Spotify.getInstance().getChatHandler().setSlowTime(time);
 
                     Bukkit.broadcastMessage(Color.translate("&aPublic chat was slowed for " + time + " seconds."));
                 }
