@@ -26,12 +26,7 @@ public class PermissionHandler {
              ex.printStackTrace();
         }
 
-        try {
-            PermissibleInjector.inject(player);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        PermissibleInjector.inject(player);
         player.recalculatePermissions();
     }
 

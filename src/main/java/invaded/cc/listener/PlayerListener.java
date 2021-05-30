@@ -33,7 +33,7 @@ public class PlayerListener implements Listener {
         String name = event.getName();
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
 
-        if(profileHandler.getDeletingPrefix().contains(uuid)) {
+        if (profileHandler.getDeletingPrefix().contains(uuid)) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
             event.setKickMessage(Color.translate("&cAn admin has ran a command to delete all the prefixes from users, \nyou cannot enter right now."));
             return;
@@ -71,7 +71,7 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if(!profile.getName().equals(player.getName())) profile.setName(player.getName());
+        if (!profile.getName().equals(player.getName())) profile.setName(player.getName());
         profile.updatePermissions(player);
     }
 
@@ -81,55 +81,51 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(profile == null || !profile.isLoaded()) {
+        if (profile == null || !profile.isLoaded()) {
             player.kickPlayer(Color.translate("&cYou data hasn't been loaded."));
             return;
         }
 
         setProperties(player, profile);
 
-        if(Permission.test(player, PermLevel.STAFF)) {
+        if (Permission.test(player, PermLevel.STAFF)) {
             Common.broadcastMessage(PermLevel.STAFF
                     , "&9[Staff] " + profile.getColoredName()
                             + " &ajoined &bthe network.");
         }
     }
 
-    private void setProperties(Player player, Profile profile ){
+    private void setProperties(Player player, Profile profile) {
         try {
             GameProfile gameProfile = ((CraftPlayer) player).getProfile();
             Property property = gameProfile.getProperties().get("textures") == null ? null : gameProfile.getProperties().get("textures").iterator().next();
             if (property != null) profile.setRealSkin(new Skin(property.getValue(), property.getSignature()));
 
             profile.setRealProfile(gameProfile);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        try {
-            PermissibleInjector.unInject(player);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
-        if(profile ==null) return;
+        if (profile == null) return;
 
         if (profile.isDisguised()) profile.unDisguise();
 
-        profileHandler.save(profile);
-        profileHandler.getProfiles().remove(player.getUniqueId());
-
-        if(Permission.test(player, PermLevel.STAFF)){
+        if (Permission.test(profile, PermLevel.STAFF) || Permission.test(profile, PermLevel.ADMIN)) {
             Common.broadcastMessage(PermLevel.STAFF
                     , "&9[Staff] " + profile.getColoredName()
                             + " &cleft &bthe network.");
         }
-       //
+
+
+        PermissibleInjector.unInject(player);
+        profileHandler.save(profile);
+        profileHandler.getProfiles().remove(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -143,7 +139,8 @@ public class PlayerListener implements Listener {
 
             String format = DateUtils.formatTime(profile.getMute().getExpire() - System.currentTimeMillis());
 
-            if (profile.getMute().getExpire() == -1L) player.sendMessage(Color.translate("&cYou've been permanently muted."));
+            if (profile.getMute().getExpire() == -1L)
+                player.sendMessage(Color.translate("&cYou've been permanently muted."));
             else player.sendMessage(Color.translate("&cYou have been temporarily muted for " + format));
         }
     }
@@ -155,7 +152,7 @@ public class PlayerListener implements Listener {
         String message = event.getMessage();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(!profile.getCommandCooldown().hasExpired() && !event.isCancelled() && !Permission.test(player, PermLevel.STAFF)){
+        if (!profile.getCommandCooldown().hasExpired() && !event.isCancelled() && !Permission.test(player, PermLevel.STAFF)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cYou are on command cooldown, please wait " + profile.getCommandCooldown().getTimeLeft() + " seconds."));
             return;
@@ -197,7 +194,7 @@ public class PlayerListener implements Listener {
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(!profile.getChatCooldown().hasExpired() && !Permission.test(player, PermLevel.VIP)) {
+        if (!profile.getChatCooldown().hasExpired() && !Permission.test(player, PermLevel.VIP)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cPublic chat is slowed down, please wait " + profile.getChatCooldown().getTimeLeft() + " seconds before talking again or &7buy a rank at &7https://store.invaded.cc"));
             return;
@@ -206,9 +203,9 @@ public class PlayerListener implements Listener {
         profile.setChatCooldown(new Cooldown(Basic.getInstance().getChatHandler().getSlowTime() * 1000L));
     }
 
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onDisguise(PlayerDisguiseEvent event) {
-        if(!Basic.getInstance().getServerName().equalsIgnoreCase(event.getServer())) return;
+        if (!Basic.getInstance().getServerName().equalsIgnoreCase(event.getServer())) return;
 
         Player player = event.getPlayer();
 
@@ -225,7 +222,7 @@ public class PlayerListener implements Listener {
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player);
 
-        if(profile.isStaffChat()) {
+        if (profile.isStaffChat()) {
             event.setCancelled(true);
             ChatColor prefixColor = ChatColor.GRAY;
             ChatColor messageColor = ChatColor.LIGHT_PURPLE;
@@ -234,7 +231,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPunish(PlayerPunishEvent event){
+    public void onPunish(PlayerPunishEvent event) {
         Punishment punishment = event.getPunishment();
 
         PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
@@ -242,13 +239,13 @@ public class PlayerListener implements Listener {
     }
 
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.NORMAL)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onJoinDisguised(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         ProfileHandler profileHandler = Basic.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
+        if (DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
             String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
 
             profile.setFakeName(info[0]);
