@@ -69,6 +69,8 @@ public class SkinMenu extends Menu {
             inventory.setItem(slot++, chestplate);
         }
 
+        if(nickSkin == null) return;
+
         chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
         meta = (LeatherArmorMeta) chestplate.getItemMeta();
 

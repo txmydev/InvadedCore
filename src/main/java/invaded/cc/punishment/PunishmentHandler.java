@@ -47,7 +47,7 @@ public class PunishmentHandler {
         HttpResponse response = RequestHandler.delete("/activePunishments", query);
         response.close();
 
-        if(response.statusCode() != 202) {
+        if(response.statusCode() == 500) {
             Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.bodyText());
             return;
         }

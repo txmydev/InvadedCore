@@ -102,6 +102,7 @@ public class DisguiseHandler {
                 skin = new Skin(jsonObject.get("value").getAsString(), jsonObject.get("signature").getAsString());
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (IllegalStateException ignored) {
             }
 
             return skin;
@@ -123,42 +124,37 @@ public class DisguiseHandler {
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
-        ItemStack[] armor = player.getPlayer().getInventory().getArmorContents();
-        ItemStack[] inventory = player.getPlayer().getInventory().getContents();
+        Common.getOnlinePlayers().forEach(other -> {
+            other.hidePlayer(player);
+        });
 
         GameProfile profile = playerData.getRealProfile();
         player.setPlayerListName(profile.getName());
 
         Common.modifyField("i", entityPlayer, profile, true);
 
-        PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
-        PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
+        player.setPlayerListName(playerData.getName());
 
-        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(player.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.getWorldData().getType(), entityPlayer.playerInteractManager.getGameMode());
+        PacketPlayOutPlayerInfo updateDisplayName = PacketPlayOutPlayerInfo.updateDisplayName(entityPlayer);
+        updateDisplayName.player = profile;
+        updateDisplayName.username = profile.getName();
+
+        player.setPlayerListName(profile.getName());
 
         Common.getOnlinePlayers().forEach(other -> {
-            Common.sendPacket(other, remove);
-            Common.sendPacket(other, add);
+            Common.sendPacket(other,updateDisplayName);
+            other.showPlayer(player);
         });
 
-        Common.sendPacket(player, respawn);
-
-        player.getInventory().setArmorContents(armor);
-        player.getInventory().setContents(inventory);
-
         PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData);
-        event.call();
+        Task.later(event::call, 2L);
     }
 
     public static void disguise(Profile profile) {
         Player player = Bukkit.getPlayer(profile.getId());
         if (player == null) return;
 
-        ItemStack[] armor = player.getPlayer().getInventory().getArmorContents();
-        ItemStack[] inventory = player.getPlayer().getInventory().getContents();
-
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        PacketPlayOutPlayerInfo remove =PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
 
         String name = profile.getFakeName();
         String texture = profile.getFakeSkin().getTexture();
@@ -167,27 +163,29 @@ public class DisguiseHandler {
         profile.setFakeProfile(new GameProfile(profile.getId(), name));
         GameProfile gameProfile = profile.getFakeProfile();
 
-        player.setPlayerListName(name);
+        Common.getOnlinePlayers().forEach(other -> {
+            other.hidePlayer(player);
+        });
 
         Common.modifyField("i", entityPlayer, gameProfile, true);
-
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
-        PacketPlayOutPlayerInfo add = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
-        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(player.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.getWorldData().getType(), entityPlayer.playerInteractManager.getGameMode());
+        PacketPlayOutPlayerInfo updateDisplayName = PacketPlayOutPlayerInfo.updateDisplayName(entityPlayer);
+        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(entityPlayer.world.getWorld().getEnvironment().getId(),entityPlayer.server.getDifficulty(), entityPlayer.world.worldData.getType(), entityPlayer.playerInteractManager.getGameMode());
+        updateDisplayName.player = gameProfile;
+        updateDisplayName.username = gameProfile.getName();
 
         Common.getOnlinePlayers().forEach(other -> {
-            Common.sendPacket(other, remove);
-            Common.sendPacket(other, add);
+            Common.sendPacket(other,updateDisplayName);
+            other.showPlayer(player);
         });
+
+        player.setPlayerListName(gameProfile.getName());
 
         Common.sendPacket(player, respawn);
 
-        player.getInventory().setArmorContents(armor);
-        player.getInventory().setContents(inventory);
-
         PlayerDisguiseEvent event = new PlayerDisguiseEvent(Basic.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
-        event.call();
+        Task.later(event::call, 2L);
     }
 
 }

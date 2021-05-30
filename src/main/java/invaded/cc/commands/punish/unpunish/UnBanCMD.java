@@ -62,19 +62,6 @@ public class UnBanCMD extends BasicCommand {
             punishment.setRemovedAt(System.currentTimeMillis());
             punishment.setRemovedBy(executor);
 
-           /* new JedisPoster(JedisAction.REMOVE_PUNISHMENT)
-                    .addInfo("type", punishment.getType().name())
-                    .addInfo("cheaterName", punishment.getCheaterName())
-                    .addInfo("cheaterUuid", punishment.getCheaterUuid().toString())
-                    .addInfo("expire", punishment.getExpire())
-                    .addInfo("punishedAt", punishment.getPunishedAt())
-                    .addInfo("staffName", punishment.getStaffName())
-                    .addInfo("s", punishment.isS())
-                    .addInfo("reason", punishment.getReason())
-                    .addInfo("removedBy", executor)
-                    .addInfo("removedAt", punishment.getRemovedAt())
-                    .post();*/
-
             PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(offlinePlayer.getUniqueId(), punishment);
 

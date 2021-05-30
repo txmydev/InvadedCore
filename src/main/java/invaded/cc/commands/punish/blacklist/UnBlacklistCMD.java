@@ -72,20 +72,6 @@ public class UnBlacklistCMD extends BasicCommand {
                     +" &awas unblacklisted by " +executor).get());
             else Common.broadcastMessage(PermLevel.STAFF, targetData.getColoredName() + " &awas unblacklisted by " + executor);
 
-
-//            new JedisPoster(JedisAction.REMOVE_PUNISHMENT)
-//                    .addInfo("type", punishment.getType().name())
-//                    .addInfo("cheaterName", punishment.getCheaterName())
-//                    .addInfo("cheaterUuid", punishment.getCheaterUuid().toString())
-//                    .addInfo("expire", punishment.getExpire())
-//                    .addInfo("punishedAt", punishment.getPunishedAt())
-//                    .addInfo("staffName", punishment.getStaffName())
-//                    .addInfo("s", punishment.isS())
-//                    .addInfo("reason", punishment.getReason())
-//                    .addInfo("removedBy", executor)
-//                    .addInfo("removedAt", punishment.getRemovedAt())
-//                    .post();
-
             PunishmentHandler punishmentHandler = Basic.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(targetData.getId(), punishment);
            });

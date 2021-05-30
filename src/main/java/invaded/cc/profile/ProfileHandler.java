@@ -4,12 +4,10 @@ import com.google.common.collect.Lists;
 import invaded.cc.Basic;
 import invaded.cc.grant.GrantHandler;
 import invaded.cc.manager.RequestHandler;
-import invaded.cc.tags.Prefix;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.util.Color;
-import invaded.cc.util.json.JsonChain;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
@@ -61,8 +59,8 @@ public class ProfileHandler {
     private List<String> getTagListToJson(Profile profile) {
         List<String> list = Lists.newArrayList();
 
-        profile.getTags().forEach(prefix -> {
-            list.add(new JsonChain().addProperty("id", prefix.getId()).addProperty("display", prefix.getDisplay()).get().toString());
+        profile.getTags().forEach(tag -> {
+            list.add(tag.getId());
         });
 
         return list;
@@ -103,7 +101,6 @@ public class ProfileHandler {
 
         if (jsonObject.has("color")) profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
         if (jsonObject.has("italic")) profile.setItalic(jsonObject.get("italic").getAsBoolean());
-        // if (jsonObject.has("bold")) profile.setBold(jsonObject.get("bold").getAsBoolean());
         if (jsonObject.has("privateMessages")) profile.setMessages(jsonObject.get("privateMessages").getAsBoolean());
         if (jsonObject.has("privateMessagesSound"))
             profile.setMessagesSound(jsonObject.get("privateMessagesSound").getAsBoolean());
@@ -114,26 +111,29 @@ public class ProfileHandler {
 
         TagsHandler tagsHandler = Basic.getInstance().getTagsHandler();
 
-        if(jsonObject.has("activePrefix")) {
-            String pref = jsonObject.get("activePrefix").getAsString();
-            if(pref.equals("none") || tagsHandler.getPrefix(pref) == null) profile.setActivePrefix(null);
-            else profile.setActivePrefix(tagsHandler.getPrefix(pref));
-        }
 
         if(jsonObject.has("tags")) {
-            JsonParser parser = new JsonParser();
             jsonObject.get("tags").getAsJsonArray().forEach(element -> {
-                JsonObject object = parser.parse(element.getAsString()).getAsJsonObject();
-                Tag tag = tagsHandler.getPrefix(object.get("id").getAsString());
+                Tag tag = tagsHandler.getTag(element.getAsString());
                 if(tag == null) return;
                 profile.getTags().add(tag);
             });
         }
 
+        if(jsonObject.has("activePrefix")) {
+            String pref = jsonObject.get("activePrefix").getAsString();
+
+            if(pref.equals("none")) {
+                profile.setActivePrefix(null);
+            }else {
+                profile.setActivePrefix(tagsHandler.getTag(pref));
+            }
+        }
+
         if(jsonObject.has("activeSuffix")) {
             String suffix = jsonObject.get("activeSuffix").getAsString();
-            if(suffix.equals("none") || tagsHandler.getPrefix(suffix) == null) profile.setActivePrefix(null);
-            else profile.setActivePrefix(tagsHandler.getPrefix(suffix));
+            if(suffix.equals("none") || tagsHandler.getTag(suffix) == null) profile.setActiveSuffix(null);
+            else profile.setActiveSuffix(tagsHandler.getTag(suffix));
         }
 
         if(jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());

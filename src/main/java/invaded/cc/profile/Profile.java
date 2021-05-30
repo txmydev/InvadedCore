@@ -4,10 +4,8 @@ import com.google.common.collect.Lists;
 import invaded.cc.Basic;
 import invaded.cc.grant.Grant;
 import invaded.cc.manager.DisguiseHandler;
-import invaded.cc.tags.Prefix;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.rank.Rank;
-import invaded.cc.tags.Suffix;
 import invaded.cc.tags.Tag;
 import invaded.cc.util.Common;
 import invaded.cc.util.Cooldown;
@@ -59,8 +57,8 @@ public class Profile {
     private boolean filter = true;
     private boolean staffAlerts = true;
 
-    private Prefix activePrefix;
-    private Suffix activeSuffix;
+    private Tag activePrefix;
+    private Tag activeSuffix;
 
     // Disguise stuff
     private boolean allowDisguise;
@@ -113,7 +111,7 @@ public class Profile {
 
         return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 (spaceBetweenRank ? " " : "") +name
-                + highestRank.getSuffix() +" " + (activeSuffix != null ? activeSuffix.getDisplay() : "");
+                + highestRank.getSuffix() + (activeSuffix != null ?" " + activeSuffix.getDisplay() : "");
     }
 
     public boolean hasCustomColor() {

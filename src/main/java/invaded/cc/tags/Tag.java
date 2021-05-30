@@ -1,20 +1,17 @@
 package invaded.cc.tags;
 
-public interface Tag {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-    String getId();
+@AllArgsConstructor @Getter @Setter
+public class Tag {
 
-    String getDisplay();
+    private String id, display;
+    private int price;
+    private boolean suffix;
 
-    void setDisplay(String display);
-
-    int getPrice();
-
-    void setPrice(int price);
-
-    boolean isSuffix();
-
-    default String getType() {
+    public String getType() {
         return isSuffix() ? "suffix" : "prefix";
     }
 

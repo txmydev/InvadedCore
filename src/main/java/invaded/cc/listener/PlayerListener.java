@@ -90,7 +90,7 @@ public class PlayerListener implements Listener {
 
         if(Permission.test(player, PermLevel.STAFF)) {
             Common.broadcastMessage(PermLevel.STAFF
-                    , "&3[Staff] " + profile.getColoredName()
+                    , "&9[Staff] " + profile.getColoredName()
                             + " &ajoined &bthe network.");
         }
     }

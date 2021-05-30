@@ -1,8 +1,6 @@
 package invaded.cc.menu.tags;
 
 import invaded.cc.Basic;
-import invaded.cc.tags.Prefix;
-import invaded.cc.tags.Suffix;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
@@ -56,6 +54,25 @@ public class TagsMenu extends Menu {
             return;
         }
 
+        if(event.getSlot() == 36) {
+            if(profile.getActivePrefix() != null) {
+                profile.setActivePrefix(null);
+                player.closeInventory();
+                player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.6f);
+                player.sendMessage(Color.translate("&cYou are no longer using a prefix."));
+            }
+            return;
+        }
+
+        if(event.getSlot() == 44) {
+            if(profile.getActiveSuffix() != null) {
+                profile.setActiveSuffix(null);
+                player.closeInventory();
+                player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.6f);
+                player.sendMessage(Color.translate("&cYou are no longer using a suffix."));
+            }
+        }
+
         if(event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) return;
         ItemMeta meta = event.getCurrentItem().getItemMeta();
         String strippedItemName = Color.translate(meta.getDisplayName());
@@ -102,19 +119,19 @@ public class TagsMenu extends Menu {
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
     }
 
-    private void togglePrefix(Profile profile, Prefix prefix) {
+    private void togglePrefix(Profile profile, Tag prefix) {
         profile.setActivePrefix(prefix);
         Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + prefix.getId() + " &aprefix."));
     }
 
-    private void toggleSuffix(Profile profile, Suffix suffix) {
+    private void toggleSuffix(Profile profile, Tag suffix) {
         profile.setActiveSuffix(suffix);
         Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + suffix.getId() + " &asuffix."));
     }
 
     private void toggle(Profile profile, Tag tag) {
-        if(tag instanceof Prefix) togglePrefix(profile, (Prefix) tag);
-        else toggleSuffix(profile, (Suffix) tag);
+        if(!tag.isSuffix()) togglePrefix(profile, tag);
+        else toggleSuffix(profile, tag);
 
         Player player = Bukkit.getPlayer(profile.getId());
         player.closeInventory();
@@ -140,9 +157,10 @@ public class TagsMenu extends Menu {
         for (int i : Arrays.asList(17, 26, 35, 9, 18, 27))
             inventory.setItem(i, pane());
 
-
         inventory.setItem(0, new ItemBuilder().type(Material.CARPET).data(14).name("&cPrevious Page").build());
         inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data(5).name("&aNext Page").build());
+        inventory.setItem(36, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(14).name("&c&nDisable prefix").build());
+        inventory.setItem(44, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(14).name("&c&nDisable suffix").build());
 
         int itemSlot = 10;
         int index = page * maxPrefixesPerPage - maxPrefixesPerPage;

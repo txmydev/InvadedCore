@@ -2,6 +2,7 @@ package invaded.cc.manager;
 
 import invaded.cc.Basic;
 import invaded.cc.commands.*;
+import invaded.cc.commands.coins.CoinsCommand;
 import invaded.cc.commands.messaging.*;
 import invaded.cc.commands.perms.PermissionCommand;
 import invaded.cc.commands.tags.TagsCommand;
@@ -76,6 +77,7 @@ public class CommandHandler {
         new ReloadRanksCommand();
         new TagsCommand();
         new DisguiseCheckCommand();
+        new CoinsCommand();
     }
 
 }

@@ -24,7 +24,7 @@ public class TagsHandler {
         HttpResponse response = RequestHandler.get("/tags");
 
         if(response.statusCode() != 200) this.tags = Lists.newArrayList();
-        else this.tags = Basic.GSON.fromJson(response.bodyText(), new TypeToken<List<Prefix>>() {}.getType());
+        else this.tags = Basic.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {}.getType());
 
         response.close();
     }
@@ -40,21 +40,6 @@ public class TagsHandler {
         response.close();
     }
 
-    public Prefix getPrefix(String id){
-        for (Tag tag : tags) {
-            if(id.equals(tag.getId()) && tag instanceof Prefix) return (Prefix) tag;
-         }
-
-        return null;
-    }
-
-    public Suffix getSuffix(String id) {
-        for (Tag tag : tags) {
-            if(id.equals(tag.getId()) && tag instanceof Suffix) return (Suffix) tag;
-        }
-
-        return null;
-    }
 
     public void remove(Tag tag) {
         tags.remove(tag);

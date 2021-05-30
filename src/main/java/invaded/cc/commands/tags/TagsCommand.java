@@ -4,8 +4,6 @@ import com.google.common.collect.Maps;
 import invaded.cc.Basic;
 import invaded.cc.manager.RequestHandler;
 import invaded.cc.menu.tags.TagsMenu;
-import invaded.cc.tags.Prefix;
-import invaded.cc.tags.Suffix;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
@@ -28,7 +26,7 @@ import java.util.*;
 public class TagsCommand extends BasicCommand {
 
     public TagsCommand() {
-        super("tags", PermLevel.DEFAULT, "tag");
+        super("tags", PermLevel.DEFAULT, "tag", "prefix", "suffix", "prefixs", "suffixs");
     }
 
     @Override
@@ -74,11 +72,11 @@ public class TagsCommand extends BasicCommand {
 
             Tag tag;
             if(type.equalsIgnoreCase("suffix")) {
-                Suffix suffix = new Suffix(id, display, price);
+                Tag suffix = new Tag(id, display, price, true);
                 tagsHandler.getTags().add(suffix);
                 tag =suffix;
             }else {
-                Prefix prefix = new Prefix(id, display, price);
+                Tag prefix = new Tag(id, display, price, false);
                 tagsHandler.getTags().add(prefix);
                 tag = prefix;
             }
@@ -134,7 +132,7 @@ public class TagsCommand extends BasicCommand {
                 return;
             }
 
-            if(args.length != 2) {
+            if(args.length != 1) {
                 player.sendMessage(Color.translate("&c/prefix deleteall"));
                 return;
             }
