@@ -7,6 +7,7 @@ import invaded.cc.manager.RequestHandler;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.punishment.PunishmentHandler;
+import invaded.cc.trails.Trail;
 import invaded.cc.util.Color;
 import jodd.http.HttpResponse;
 import lombok.Getter;
@@ -50,10 +51,20 @@ public class ProfileHandler {
         body.put("tags", getTagListToJson(profile));
         body.put("activePrefix", profile.getActivePrefix() == null ? "none" : profile.getActivePrefix().getId());
         body.put("activeSuffix", profile.getActiveSuffix() == null ? "none" : profile.getActiveSuffix().getId());
+        body.put("activeTrail", profile.getActiveTrail() == null ? "none" : profile.getActiveTrail().getId());
+        body.put("trails", this.getTrailsToJson(profile));
         body.put("coins", profile.getCoins());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
+    }
+
+    private List<String> getTrailsToJson(Profile profile) {
+        List<String> list = Lists.newArrayList();
+        profile.getTrails().forEach(trail -> {
+            list.add(trail.getId());
+        });
+        return list;
     }
 
     private List<String> getTagListToJson(Profile profile) {
@@ -137,8 +148,21 @@ public class ProfileHandler {
         }
 
         if(jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());
-
         if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
+
+        if(jsonObject.has("activeTrail")) {
+            String activeTrail = jsonObject.get("activeTrail").getAsString();
+            if(activeTrail.equals("none")) profile.setActiveTrail(null);
+            else profile.setActiveTrail(Trail.getById(activeTrail));
+        }
+
+        if(jsonObject.has("trails")) {
+            jsonObject.get("trails").getAsJsonArray().forEach(trail1 -> {
+                Trail trail = Trail.getById(trail1.getAsString());
+                if (trail==null) return;
+                profile.getTrails().add(trail);
+            });
+        }
 
         GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
 

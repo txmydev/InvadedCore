@@ -7,6 +7,7 @@ import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.rank.Rank;
 import invaded.cc.tags.Tag;
+import invaded.cc.trails.Trail;
 import invaded.cc.util.Common;
 import invaded.cc.util.Cooldown;
 import invaded.cc.util.Skin;
@@ -66,6 +67,9 @@ public class Profile {
     private Rank fakeRank;
     private String fakeName;
     private Skin fakeSkin;
+
+    private List<Trail> trails = new ArrayList<>();
+    private Trail activeTrail = Trail.CLOUD;
 
     private int coins;
 

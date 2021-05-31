@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
 public class Common {
@@ -38,6 +39,12 @@ public class Common {
         }
 
         return list;
+    }
+
+    public static ChatColor getRandomColor() {
+        ChatColor[] colors = Arrays.asList(ChatColor.AQUA, ChatColor.BLUE, ChatColor.RED, ChatColor.YELLOW, ChatColor.LIGHT_PURPLE).toArray(new ChatColor[0]);
+
+        return colors[ThreadLocalRandom.current().nextInt(colors.length -1)];
     }
 
     public static String getDisallowedReason(Punishment punishment) {

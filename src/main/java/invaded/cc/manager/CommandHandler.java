@@ -16,6 +16,7 @@ import invaded.cc.commands.punish.mute.MuteCMD;
 import invaded.cc.commands.punish.mute.TemporalMuteCMD;
 import invaded.cc.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.commands.punish.unpunish.UnMuteCMD;
+import invaded.cc.menu.CosmeticsMenu;
 import lombok.Getter;
 import me.txmy.command.BaseCommand;
 import me.txmy.command.CommandFramework;
@@ -46,7 +47,6 @@ public class CommandHandler {
         new IgnoreCommand();
         new BlacklistCMD();
         new UnBlacklistCMD();
-        new ColorCommand();
         new GrantCommand();
         new UnBanCMD();
         new BanCMD();
@@ -75,9 +75,9 @@ public class CommandHandler {
         new FilterCommand();
         new SoundCommand();
         new ReloadRanksCommand();
-        new TagsCommand();
         new DisguiseCheckCommand();
         new CoinsCommand();
+        new CosmeticsCommand();
     }
 
 }

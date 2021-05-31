@@ -1,12 +1,14 @@
 package invaded.cc.menu.tags;
 
 import invaded.cc.Spotify;
+import invaded.cc.menu.CosmeticsMenu;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.ItemBuilder;
+import invaded.cc.util.Task;
 import invaded.cc.util.menu.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,7 +41,7 @@ public class TagsMenu extends Menu {
         final Player player = (Player) event.getWhoClicked();
         final Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if(event.getSlot() == 0) {
+        if(event.getSlot() == 1) {
             if(page == 1) return;
             page--;
             this.update();
@@ -47,14 +49,20 @@ public class TagsMenu extends Menu {
             return;
         }
 
-        if(event.getSlot() == 8){
+        if(event.getSlot() == 7){
             if(page == getMaxPages()) return;
             page++;
             this.update();
             return;
         }
 
-        if(event.getSlot() == 36) {
+        if(event.getSlot() == 44){
+            player.closeInventory();
+            Task.later(() -> new CosmeticsMenu(profile).open(player), 2L);
+            return;
+        }
+
+        if(event.getSlot() == 39) {
             if(profile.getActivePrefix() != null) {
                 profile.setActivePrefix(null);
                 player.closeInventory();
@@ -64,7 +72,7 @@ public class TagsMenu extends Menu {
             return;
         }
 
-        if(event.getSlot() == 44) {
+        if(event.getSlot() == 41) {
             if(profile.getActiveSuffix() != null) {
                 profile.setActiveSuffix(null);
                 player.closeInventory();
@@ -80,7 +88,7 @@ public class TagsMenu extends Menu {
         if(tag == null) return;
 
         if(hasTag(tag)) {
-            toggle(profile, tag);
+            toggle(profile, tag, true);
             return;
         }
 
@@ -114,24 +122,34 @@ public class TagsMenu extends Menu {
 
         profile.removeCoins(tag.getPrice());
         profile.getTags().add(tag);
+        toggle(profile, tag, false);
 
-        player.sendMessage(Color.translate("&aYou successfully bought &6" + tag.getId() + "&a! Feel free to use it ;)"));
+        player.sendMessage(Color.translate("&aYou successfully bought &6" + tag.getId() + "&a! Try to type anything ;)"));
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
     }
 
     private void togglePrefix(Profile profile, Tag prefix) {
-        profile.setActivePrefix(prefix);
-        Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + prefix.getId() + " &aprefix."));
+        this.togglePrefix(profile, prefix, true);
     }
 
     private void toggleSuffix(Profile profile, Tag suffix) {
-        profile.setActiveSuffix(suffix);
-        Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + suffix.getId() + " &asuffix."));
+        this.toggleSuffix(profile, suffix, true);
     }
 
-    private void toggle(Profile profile, Tag tag) {
-        if(!tag.isSuffix()) togglePrefix(profile, tag);
-        else toggleSuffix(profile, tag);
+
+    private void togglePrefix(Profile profile, Tag prefix, boolean msg) {
+        profile.setActivePrefix(prefix);
+        if(msg) Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + prefix.getId() + " &aprefix."));
+    }
+
+    private void toggleSuffix(Profile profile, Tag suffix, boolean msg) {
+        profile.setActiveSuffix(suffix);
+        if(msg) Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + suffix.getId() + " &asuffix."));
+    }
+
+    private void toggle(Profile profile, Tag tag, boolean msg) {
+        if(!tag.isSuffix()) togglePrefix(profile, tag ,msg);
+        else toggleSuffix(profile, tag, msg);
 
         Player player = Bukkit.getPlayer(profile.getId());
         player.closeInventory();
@@ -157,10 +175,12 @@ public class TagsMenu extends Menu {
         for (int i : Arrays.asList(17, 26, 35, 9, 18, 27))
             inventory.setItem(i, pane());
 
-        inventory.setItem(0, new ItemBuilder().type(Material.CARPET).data(14).name("&cPrevious Page").build());
-        inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data(5).name("&aNext Page").build());
-        inventory.setItem(36, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(14).name("&c&nDisable prefix").build());
-        inventory.setItem(44, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(14).name("&c&nDisable suffix").build());
+        inventory.setItem(1, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(14).name("&cPrevious Page").build());
+        inventory.setItem(7, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(5).name("&aNext Page").build());
+        inventory.setItem(44, new ItemBuilder().type(Material.ENDER_CHEST).name("&7Back to &dCosmetics").build());
+        inventory.setItem(40, new ItemBuilder().type(Material.GOLD_NUGGET).name("&bYour Coins&7: &6" + profile.getCoins() + " ©").build());
+        inventory.setItem(39, new ItemBuilder().type(Material.REDSTONE_BLOCK).data(14).name("&c&nDisable prefix").build());
+        inventory.setItem(41, new ItemBuilder().type(Material.REDSTONE_BLOCK).data(14).name("&c&nDisable suffix").build());
 
         int itemSlot = 10;
         int index = page * maxPrefixesPerPage - maxPrefixesPerPage;

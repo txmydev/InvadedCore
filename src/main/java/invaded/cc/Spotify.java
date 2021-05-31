@@ -4,6 +4,7 @@ import invaded.cc.grant.GrantHandler;
 import invaded.cc.listener.PlayerListener;
 import invaded.cc.listener.SecurityListener;
 import invaded.cc.listener.SignListener;
+import invaded.cc.listener.TrailsListener;
 import invaded.cc.manager.ChatHandler;
 import invaded.cc.manager.CommandHandler;
 import invaded.cc.manager.DisguiseHandler;
@@ -14,6 +15,7 @@ import invaded.cc.profile.ProfileHandler;
 import invaded.cc.punishment.PunishmentHandler;
 import invaded.cc.rank.Rank;
 import invaded.cc.rank.RankHandler;
+import invaded.cc.tasks.CosmeticsTask;
 import invaded.cc.tasks.MenuTask;
 import invaded.cc.util.Color;
 import invaded.cc.util.Common;
@@ -93,6 +95,7 @@ public class Spotify extends JavaPlugin {
 
     private void setupTasks() {
         new MenuTask();
+        new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
     }
 
     private void loadPlayers() {
@@ -109,6 +112,7 @@ public class Spotify extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
         pm.registerEvents(new SecurityListener(), this);
         pm.registerEvents(new MenuListener(), this);
+        pm.registerEvents(new TrailsListener(), this);
         pm.registerEvents(new SignListener(), this);
     }
 

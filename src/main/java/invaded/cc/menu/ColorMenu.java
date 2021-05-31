@@ -2,12 +2,15 @@ package invaded.cc.menu;
 
 import invaded.cc.profile.Profile;
 import invaded.cc.util.Color;
+import invaded.cc.util.Common;
 import invaded.cc.util.ItemBuilder;
+import invaded.cc.util.Task;
 import invaded.cc.util.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -19,7 +22,7 @@ public class ColorMenu extends Menu{
     private Profile profile;
 
     public ColorMenu(Profile profile){
-        super("Choose your color.", 27);
+        super("&eChoose your color.", 45);
 
         this.profile = profile;
         this.colors = new ConcurrentHashMap<>();
@@ -27,7 +30,7 @@ public class ColorMenu extends Menu{
 
     @Override
     public void update() {
-        int slot = 0;
+        int slot = 11;
 
         for(ChatColor color : ChatColor.values()){
             if (color == ChatColor.ITALIC || color == ChatColor.MAGIC
@@ -36,9 +39,14 @@ public class ColorMenu extends Menu{
             ) continue;
 
             inventory.setItem(slot, new ItemBuilder().type(Material.WOOL).data(getWoolData(color)
-            ).name(color + color.name()).build());
+            ).name(color + color.name())
+            .lore(Common.getLine(40),
+                    "&7You will look like this: " + getFormat(color),
+                    Common.getLine(40))
+            .build());
 
             colors.put(slot, color);
+            if(slot == 16 || slot == 25) slot = slot + 2;
             slot++;
         }
 
@@ -51,6 +59,7 @@ public class ColorMenu extends Menu{
                                 ChatColor.ITALIC + profile.getName()).build());
         colors.put(slot, ChatColor.ITALIC);
 
+        if(slot == 16 || slot == 25) slot = slot + 2;
         slot++;
 
         inventory.setItem(slot, new ItemBuilder().type(Material.COOKIE)
@@ -60,8 +69,25 @@ public class ColorMenu extends Menu{
                         getNameWithSpaceBetweenRank(profile, !profile.isSpaceBetweenRank())).build());
         colors.put(slot, ChatColor.MAGIC);
 
-        inventory.setItem(26, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
-        .data(15).name("&cReset Color").build());
+        inventory.setItem(10, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
+        .data(14).name("&cReset Color").build());
+
+        inventory.setItem(44, new ItemBuilder().type(Material.ENDER_CHEST).name("&7Back to &dCosmetics").build());
+
+        for(int i = 0; i < inventory.getSize(); i++) {
+            if(colors.containsKey(i) || i == 10 || i == 45) continue;
+            inventory.setItem(i, pane());
+        }
+    }
+
+    private ItemStack pane() {
+        return new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(7).name("&7 ").build();
+    }
+
+    private String getFormat(ChatColor color) {
+        return profile.getHighestRank().getPrefix() + profile.getHighestRank().getColors()
+                + color + (profile.isItalic() ? ChatColor.ITALIC.toString() : "") +
+                profile.getName() + profile.getHighestRank().getSuffix();
     }
 
     private String getNameWithSpaceBetweenRank(Profile profile, boolean toggle) {
@@ -77,9 +103,15 @@ public class ColorMenu extends Menu{
 
         Player player = (Player) event.getWhoClicked();
 
-        if(event.getSlot() == 26){
+        if(event.getSlot() == 10){
             profile.setChatColor(null);
-            player.sendMessage(Color.translate("&aYou updated your color."));
+            player.sendMessage(Color.translate("&cYou are now using your rank's color."));
+            return;
+        }
+
+        if(event.getSlot() == 44){
+            player.closeInventory();
+            Task.later(() -> new CosmeticsMenu(profile).open(player), 2L);
             return;
         }
 
@@ -98,7 +130,7 @@ public class ColorMenu extends Menu{
                     break;
             }
 
-            player.sendMessage(Color.translate("&aYou updated your color."));
+            player.sendMessage(Color.translate("&aYou are now using color &e'" + color.name() + "&e'"));
         }
     }
 

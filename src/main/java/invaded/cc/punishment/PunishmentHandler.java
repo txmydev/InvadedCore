@@ -35,34 +35,20 @@ public class PunishmentHandler {
 
         HttpResponse response = RequestHandler.post("/activePunishments", punishmentBody);
         response.close();
+
+        if(punishment.getType() == Punishment.Type.MUTE || punishment.getType() ==  Punishment.Type.TEMPORARY_MUTE)return;
+
+        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+        profileHandler.getProfiles().remove(punishment.getCheaterUuid());
     }
 
     public void pardon(UUID uuid, Punishment punishment) {
-        Map<String, Object> query = new HashMap<>();
-
-        query.put("type", punishment.getType().name());
-        query.put("cheaterUuid", uuid.toString());
-        query.put("cheaterName", punishment.getCheaterName());
-        query.put("staffName", punishment.getStaffName());
-        query.put("punishedAt", punishment.getPunishedAt());
-
-        HttpResponse response = RequestHandler.delete("/activePunishments", query);
-        response.close();
-
-        if(response.statusCode() == 500) {
-            Bukkit.getLogger().info("Request Handler - Failed to pardon " + punishment.getCheaterName() + " with response: " + response.bodyText());
-            return;
-        }
-
-        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
-        Optional<Profile> op = Optional.of(profileHandler.getProfile(uuid));
-        if(!punishment.isBan()) op.get().setMute(null);
-
         Task.async(() -> {
-            Optional<Profile> profileOptional= Optional.of(profileHandler.getProfile(uuid));
-            Profile profile = profileOptional.orElse(profileHandler.load(uuid, punishment.getCheaterName(), false));
-            profile.setBan(null);
-            move(profile, punishment);
+            ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+            Optional<Profile> profileOptional= Optional.ofNullable(profileHandler.getProfile(uuid));
+            Profile profile1 = profileOptional.orElse(profileHandler.load(uuid, punishment.getCheaterName(), false));
+            profile1.setBan(null);
+            move(profile1, punishment);
         });
     }
 
@@ -105,10 +91,14 @@ public class PunishmentHandler {
     }
 
     private void move(Profile profile, Punishment punishment) {
+        move(profile.getId(), profile.getName(), punishment);
+    }
+
+    private void move(UUID id, String name, Punishment punishment) {
         Map<String, Object> punishmentBody = new HashMap<>();
 
-        punishmentBody.put("cheaterName", profile.getName());
-        punishmentBody.put("cheaterUuid", profile.getId().toString());
+        punishmentBody.put("cheaterName", name);
+        punishmentBody.put("cheaterUuid", id.toString());
         punishmentBody.put("staffName", punishment.getStaffName());
         punishmentBody.put("reason", punishment.getReason());
         punishmentBody.put("silent", punishment.isSilent());
@@ -120,12 +110,12 @@ public class PunishmentHandler {
         HttpResponse post = RequestHandler.post("/punishments", punishmentBody);
         post.close();
 
-        System.out.println("Moved a punishment from activePunishments to punishments (holder " + profile.getName()+ ")");
+        System.out.println("Moved a punishment from activePunishments to punishments (holder " + name+ ")");
 
         Map<String, Object> deleteQuery = new HashMap<>();
 
-        deleteQuery.put("cheaterUuid", profile.getId().toString());
-        deleteQuery.put("cheaterName", profile.getName());
+        deleteQuery.put("cheaterUuid", id.toString());
+        deleteQuery.put("cheaterName", name);
         deleteQuery.put("type", punishment.getType().name());
         deleteQuery.put("expire", punishment.getExpire());
         deleteQuery.put("staffName", punishment.getStaffName());
@@ -133,5 +123,7 @@ public class PunishmentHandler {
 
         HttpResponse delete = RequestHandler.delete("/activePunishments", deleteQuery);
         delete.close();
+
+        System.out.println(delete.statusCode() + " code from deleting activePUnishment");
     }
 }

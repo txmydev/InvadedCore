@@ -1,5 +1,5 @@
-main: invaded.cc.Basic
-name: Basic
+main: invaded.cc.Spotify
+name: Spotify
 version: 1.0
 author: txmy
 depend:
