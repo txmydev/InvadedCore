@@ -2,6 +2,7 @@ package invaded.cc.menu;
 
 import invaded.cc.profile.Profile;
 import invaded.cc.punishment.Punishment;
+import invaded.cc.util.Common;
 import invaded.cc.util.ItemBuilder;
 import invaded.cc.util.menu.Menu;
 import org.bukkit.Material;
@@ -75,11 +76,12 @@ public class PunishmentsMenu extends Menu {
 
             ItemBuilder itemBuilder = new ItemBuilder()
                     .type(Material.PAPER).name("&b" + punishment.getType().getNice())
-                    .lore("&7&m" + Strings.repeat('-', 20)
+                    .lore(Common.getLine(20)
                             , "&fPunished At&7: &b" + formatAt
                             , "&fPunished By&7: &f" + punishment.getStaffName()
                             , "&fReason&7: &b" + punishment.getReason()
-                            , "&7&m" + Strings.repeat('-', 20));
+                            , "&fExpire&7: &b" + punishment.getExpire()
+                            , Common.getLine(20));
 
             if (punishment.getRemovedAt() > 0L) {
                 String formatRemoved = simpleDateFormat.format(new Date(punishment.getRemovedAt()));
@@ -88,7 +90,7 @@ public class PunishmentsMenu extends Menu {
 
             if (!punishment.getRemovedBy().equals("")) {
                 itemBuilder.lore("&fRemoved By&7: &b" + punishment.getRemovedBy());
-                itemBuilder.lore("&7&m" + Strings.repeat('-', 20));
+                itemBuilder.lore(Common.getLine(20));
             }
 
             inventory.setItem(slot++, itemBuilder.build());

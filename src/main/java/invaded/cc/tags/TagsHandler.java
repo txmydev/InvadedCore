@@ -27,9 +27,16 @@ public class TagsHandler {
         else this.tags = Spotify.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {}.getType());
 
         response.close();
+
+        tags.add(new Tag("@@symbol_heart", "&4&l❤", 150, true));
+        tags.add(new Tag("@@symbol_star", "&e&l★", 150, true));
+        tags.add(new Tag("@@symbol_kuso", "&a&lクソ", 150, true));
+        tags.add(new Tag("@@symbol_lightning", "&6&l⚡", 150, true));
     }
 
     public void save(Tag tag) {
+        if(tag.getId().startsWith("@@symbol_")) return;
+
         Map<String, Object> map = new HashMap<>();
         map.put("id", tag.getId());
         map.put("display", tag.getDisplay());

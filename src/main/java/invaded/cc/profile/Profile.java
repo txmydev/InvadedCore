@@ -3,11 +3,13 @@ package invaded.cc.profile;
 import com.google.common.collect.Lists;
 import invaded.cc.Spotify;
 import invaded.cc.grant.Grant;
+import invaded.cc.manager.CosmeticsHandler;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.punishment.Punishment;
 import invaded.cc.rank.Rank;
 import invaded.cc.tags.Tag;
 import invaded.cc.trails.Trail;
+import invaded.cc.util.Color;
 import invaded.cc.util.Common;
 import invaded.cc.util.Cooldown;
 import invaded.cc.util.Skin;
@@ -123,7 +125,20 @@ public class Profile {
     }
 
     public void aggregateCoins(int coins) {
-        this.coins+=coins;
+        double multiplier = CosmeticsHandler.getMultiplier(this);
+        if(multiplier == 0) {
+            this.coins += coins;
+            return;
+        }
+
+        int finalCoins = (int) Math.ceil(coins * multiplier);
+        int dif = finalCoins - coins;
+        this.coins = this.coins + finalCoins;
+
+        boolean onlyGlobalMultiplier = multiplier == CosmeticsHandler.getGLOBAL_MULTIPLIER();
+
+        if(isOnline()) Bukkit.getPlayer(id).sendMessage(Color.translate("&a&l" + (onlyGlobalMultiplier ? "There's an active &e&lGlobal Multiplier of &b&l" + multiplier + "x &a&lso you received an extra &6&l" + dif + " coins&a&l! Hope you enjoy them ;)"
+                : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") +", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
     }
 
     public void removeCoins(int coins) {
@@ -169,5 +184,9 @@ public class Profile {
 
     public boolean isOnline() {
         return Bukkit.getPlayer(id) != null;
+    }
+
+    public boolean canAfford(int coins) {
+        return this.coins >= coins;
     }
 }

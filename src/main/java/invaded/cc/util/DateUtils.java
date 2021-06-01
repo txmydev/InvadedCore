@@ -61,13 +61,11 @@ public class DateUtils {
 
         if (TimeUnit.MILLISECONDS.toHours(time) > 0) {
             format = new SimpleDateFormat("h 'hours' m 'minutes' s 'seconds'");
-
             return format.format(new Date(time));
         }
 
         if (TimeUnit.MILLISECONDS.toMinutes(time) > 0) {
             format = new SimpleDateFormat("m 'minutes' s 'seconds'");
-
             return format.format(new Date(time));
         }
 

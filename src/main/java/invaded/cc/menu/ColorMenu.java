@@ -52,11 +52,11 @@ public class ColorMenu extends Menu{
 
         inventory.setItem(slot, new ItemBuilder().type(Material.GLOWSTONE_DUST)
                 .name("&eToggle your italic mode.")
-                .lore("&7You will look like this"
-                        , " ",
-                        profile.getHighestRank().getColors() +
+                .lore(Common.getLine(40), "&7You will look like this: " +profile.getHighestRank().getColors() +
                                 (profile.hasCustomColor() ? profile.getChatColor() + "" : "") +
-                                ChatColor.ITALIC + profile.getName()).build());
+                                ChatColor.ITALIC + profile.getName()
+                        , Common.getLine(40)
+                        ).build());
         colors.put(slot, ChatColor.ITALIC);
 
         if(slot == 16 || slot == 25) slot = slot + 2;
@@ -64,9 +64,9 @@ public class ColorMenu extends Menu{
 
         inventory.setItem(slot, new ItemBuilder().type(Material.COOKIE)
                 .name("&eToggle your space between rank display name.")
-                .lore("&7You will look like this"
-                        , " ",
-                        getNameWithSpaceBetweenRank(profile, !profile.isSpaceBetweenRank())).build());
+                .lore(Common.getLine(40),
+                        "&7You will look like this: " + getNameWithSpaceBetweenRank(profile, !profile.isSpaceBetweenRank()),
+                        Common.getLine(40)).build());
         colors.put(slot, ChatColor.MAGIC);
 
         inventory.setItem(10, new ItemBuilder().type(Material.STAINED_GLASS_PANE)

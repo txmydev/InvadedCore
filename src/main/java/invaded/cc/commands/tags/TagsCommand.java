@@ -3,6 +3,7 @@ package invaded.cc.commands.tags;
 import com.google.common.collect.Maps;
 import invaded.cc.Spotify;
 import invaded.cc.manager.RequestHandler;
+import invaded.cc.menu.CosmeticsMenu;
 import invaded.cc.menu.tags.TagsMenu;
 import invaded.cc.tags.Tag;
 import invaded.cc.tags.TagsHandler;
@@ -39,7 +40,7 @@ public class TagsCommand extends BasicCommand {
 
         if(args.length == 0) {
             Profile profile = profileHandler.getProfile(player);
-            new TagsMenu(profile).open(player);
+            new CosmeticsMenu(profile).open(player);
             return;
         }
 

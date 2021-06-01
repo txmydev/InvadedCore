@@ -78,6 +78,7 @@ public class CommandHandler {
         new DisguiseCheckCommand();
         new CoinsCommand();
         new CosmeticsCommand();
+        new TagsCommand();
     }
 
 }

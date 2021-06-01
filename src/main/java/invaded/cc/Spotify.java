@@ -7,6 +7,7 @@ import invaded.cc.listener.SignListener;
 import invaded.cc.listener.TrailsListener;
 import invaded.cc.manager.ChatHandler;
 import invaded.cc.manager.CommandHandler;
+import invaded.cc.manager.CosmeticsHandler;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.permission.PermissionHandler;
 import invaded.cc.tags.TagsHandler;
@@ -51,6 +52,7 @@ public class Spotify extends JavaPlugin {
     private GrantHandler grantHandler;
     private RankHandler rankHandler;
     private TagsHandler tagsHandler;
+    private CosmeticsHandler cosmeticsHandler;
 
     @Override
     public void onEnable(){
@@ -91,6 +93,7 @@ public class Spotify extends JavaPlugin {
         punishmentHandler = new PunishmentHandler();
         rankHandler = new RankHandler();
         tagsHandler = new TagsHandler();
+        cosmeticsHandler = new CosmeticsHandler();
     }
 
     private void setupTasks() {

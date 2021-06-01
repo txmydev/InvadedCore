@@ -4,6 +4,7 @@ import invaded.cc.Spotify;
 import invaded.cc.event.PlayerDisguiseEvent;
 import invaded.cc.event.PlayerPunishEvent;
 import invaded.cc.injector.PermissibleInjector;
+import invaded.cc.manager.CosmeticsHandler;
 import invaded.cc.manager.DisguiseHandler;
 import invaded.cc.profile.Profile;
 import invaded.cc.profile.ProfileHandler;
@@ -92,6 +93,10 @@ public class PlayerListener implements Listener {
             Common.broadcastMessage(PermLevel.STAFF
                     , "&9[Staff] " + profile.getColoredName()
                             + " &ajoined &bthe network.");
+        }
+
+        if(CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) {
+            player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
         }
     }
 

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class CosmeticsCommand extends BasicCommand {
 
     public CosmeticsCommand() {
-        super("cosmetics", PermLevel.DEFAULT, "tags", "prefixs", "suffixs", "trails", "disguiseaccess", "buydisguise", "buy");
+        super("cosmetics", PermLevel.DEFAULT,  "trails", "disguiseaccess", "buydisguise", "buy");
     }
 
     @Override

@@ -47,10 +47,6 @@ public class GrantCommand extends BasicCommand {
 
                 if (profile == null) profile = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
-//                GrantOld rankData = new GrantOld(profile, rank.getName(), "Console");
-//
-//                profile.setGrant(rankData);
-
                 Grant grant = new Grant(profile, System.currentTimeMillis(), rank.getName(), "console");
 
                 GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();

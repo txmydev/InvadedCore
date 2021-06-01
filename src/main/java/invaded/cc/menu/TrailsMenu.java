@@ -99,9 +99,10 @@ public class TrailsMenu extends Menu {
                     Common.getLine(40));
             inventory.setItem(slot, item.build());
             whitelistedSlots.add(slot);
+            trailMap.put(slot, trail);
 
             if(slot == 16 || slot == 25) slot = slot + 2;
-            trailMap.put(slot++, trail);
+            slot++;
         }
 
         inventory.setItem(44, new ItemBuilder().type(Material.ENDER_CHEST).name("&7Back to &dCosmetics").build());
