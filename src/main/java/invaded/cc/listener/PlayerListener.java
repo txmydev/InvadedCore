@@ -116,7 +116,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
 
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
-        Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
+        Profile profile = profileHandler.getProfile(player.getUniqueId());
         if (profile == null) return;
 
         if (profile.isDisguised()) profile.unDisguise();

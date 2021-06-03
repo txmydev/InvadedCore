@@ -51,8 +51,8 @@ public class HelpOpCommand extends BasicCommand {
 
         String message =builder.toString();
 
-        Clickable clickable = new Clickable("&7[&4Help Request&7] &bRequested by " + profile.getColoredName()
-                + "&b: &7" + message)
+        Clickable clickable = new Clickable("&9[Helpop] " + profile.getColoredName()
+                + " &7requested help with: &9" + message)
                 .hover(HoverEvent.Action.SHOW_TEXT,  "&bClick to be teleported to him ");
 
         clickable.clickEvent(ClickEvent.Action.RUN_COMMAND,

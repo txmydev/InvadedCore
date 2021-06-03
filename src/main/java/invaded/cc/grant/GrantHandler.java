@@ -107,31 +107,6 @@ public class GrantHandler {
 
         response.close();
         return list;
-//        List<Grant> grants = Lists.newArrayList();
-//        FindIterable<Document> finds = collection.find(Filters.eq("holderUuid", profile.getId().toString()));
-//
-//        finds.forEach((Consumer<? super Document>) doc -> {
-//            Grant grant = new Grant(profile, doc.getLong("addedAt"),
-//                    doc.getString("rank"), doc.getString("addedBy"));
-//
-//            if (doc.containsKey("removedBy")) {
-//                grant.setRemovedBy(doc.getString("removedBy"));
-//                grant.setUse(false);
-//            }
-//
-//            if(doc.containsKey("removedAt")) {
-//                grant.setRemovedAt(doc.getLong("removedAt"));
-//                grant.setUse(false);
-//            }
-//
-//            grants.add(grant);
-//        });
-//
-//        if(grants.size() == 0) grants.add(
-//                new Grant(profile, System.currentTimeMillis(), "Default", "console")
-//        );
-//
-//        return grants;
     }
 
     public void removeGrant(Grant grant) {
@@ -152,7 +127,7 @@ public class GrantHandler {
         HttpResponse response = RequestHandler.delete("/grants", map);
 
         if(response.statusCode() == 404) {
-            Bukkit.getLogger().info("Grant Handler - Couldn't remove grant of " + grant.getProfile().getName());
+            Bukkit.getLogger().info("Grant Handler - Couldn't remove grant of " + grant.getProfile().getName() + " with response " + response.bodyText());
         }
     }
 

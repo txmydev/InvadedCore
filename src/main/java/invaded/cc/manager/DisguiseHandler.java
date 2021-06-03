@@ -114,7 +114,7 @@ public class DisguiseHandler {
     }
 
     public static List<Rank> getAvailableDisguiseRanks(Profile profile) {
-        return Spotify.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority()).collect(Collectors.toList());
+        return Spotify.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority() && !rank.isMedia()).collect(Collectors.toList());
     }
 
     public static void undisguise(Profile playerData) {

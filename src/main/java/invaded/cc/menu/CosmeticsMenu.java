@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 public class CosmeticsMenu extends Menu {
 
     private Profile profile;
-    private static final int DISGUISE_PRICE = 475;
+    private static final int DISGUISE_PRICE = 1000;
 
     public CosmeticsMenu(Profile profile) {
         super("&dCosmetics Menu", 45);
@@ -41,11 +41,6 @@ public class CosmeticsMenu extends Menu {
     }
 
     private void openColorMenu(Player player){
-        player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
-        new ColorMenu(profile).open(player);
-    }
-
-    private void openTagsMenu(Player player){
         if(profile.getHighestRank().isDefaultRank()) {
             player.closeInventory();
             player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
@@ -53,6 +48,11 @@ public class CosmeticsMenu extends Menu {
             return;
         }
 
+        player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
+        new ColorMenu(profile).open(player);
+    }
+
+    private void openTagsMenu(Player player){
         player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
         new TagsMenu(profile).open(player);
     }

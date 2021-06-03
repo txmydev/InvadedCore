@@ -24,12 +24,16 @@ public class Rank {
         this.name = name;
     }
 
-
     public String getColoredName() {
         return color + (italic? "" + ChatColor.ITALIC : "") + (bold ? "" + ChatColor.BOLD : "") + name;
     }
 
     public String getColors() {
         return color + (italic ? "" + ChatColor.ITALIC : "") + (bold ? "" + ChatColor.BOLD : "");
+    }
+
+    public boolean isMedia() {
+        return name.equalsIgnoreCase("Twitch") || name.equalsIgnoreCase("Youtube")
+                || name.equalsIgnoreCase("Partner");
     }
 }
