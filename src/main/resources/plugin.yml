@@ -1,4 +1,4 @@
-main: invaded.cc.Spotify
+main: invaded.cc.core.Spotify
 name: Spotify
 version: 1.0
 author: txmy
