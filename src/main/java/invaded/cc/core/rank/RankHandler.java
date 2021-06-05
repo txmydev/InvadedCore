@@ -1,8 +1,8 @@
 package invaded.cc.core.rank;
 
 import com.google.common.collect.Lists;
-import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.common.reflect.TypeToken;
@@ -15,31 +15,31 @@ import java.util.Map;
 
 public class RankHandler {
 
+    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getPriority() - o1.getPriority();
+    // private final List<Rank> priorityOrdered;
     @Getter
     private List<Rank> ranks;
-    // private final List<Rank> priorityOrdered;
-
-    public static Comparator<Rank> PRIORITY_COMPARATOR = (o1, o2) -> o2.getPriority() - o1.getPriority();
 
     public RankHandler() {
         this.ranks = Lists.newArrayList();
         loadAll();
 
-       // priorityOrdered = ranks.values().stream().sorted(PRIORITY_COMPARATOR).collect(Collectors.toList());
+        // priorityOrdered = ranks.values().stream().sorted(PRIORITY_COMPARATOR).collect(Collectors.toList());
     }
 
     public void loadAll() {
         HttpResponse httpResponse = RequestHandler.get("/ranks");
 
-        if(httpResponse.statusCode() != 200) {
+        if (httpResponse.statusCode() != 200) {
             Bukkit.getLogger().severe("RankHandler - Couldn't get all the ranks due to a status code " + httpResponse.statusCode());
             httpResponse.close();
             return;
         }
 
-        if(!this.ranks.isEmpty()) this.ranks.clear();
+        if (!this.ranks.isEmpty()) this.ranks.clear();
 
-        this.ranks = Spotify.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {}.getType());
+        this.ranks = Spotify.GSON.fromJson(httpResponse.bodyText(), new TypeToken<List<Rank>>() {
+        }.getType());
         this.ranks.sort(PRIORITY_COMPARATOR);
         httpResponse.close();
     }
@@ -64,7 +64,7 @@ public class RankHandler {
 
     public Rank getRank(String name) {
         for (Rank rank : ranks) {
-            if(rank.getName().equals(name)) return rank;
+            if (rank.getName().equals(name)) return rank;
         }
 
         return null;
@@ -73,9 +73,9 @@ public class RankHandler {
 
     public Rank getDefault() {
         for (Rank rank : ranks) {
-            if(rank.isDefaultRank()) return rank;
+            if (rank.isDefaultRank()) return rank;
         }
 
-       return null;
+        return null;
     }
 }

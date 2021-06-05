@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ServerUpdateTask extends BukkitRunnable {
 
-    public ServerUpdateTask(){
+    public ServerUpdateTask() {
         runTaskTimerAsynchronously(Spotify.getInstance(), 1L, 3L);
     }
 

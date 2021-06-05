@@ -19,13 +19,13 @@ public class CosmeticsTask extends BukkitRunnable {
     public void run() {
         Iterator<Map.Entry<Entity, Trail>> iterator = Trail.getToDisplay().entrySet().iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Map.Entry<Entity, Trail> entry = iterator.next();
 
             Entity e = entry.getKey();
             Trail val = entry.getValue();
 
-            if(e == null || e.isOnGround() || e.isDead()) {
+            if (e == null || e.isOnGround() || e.isDead()) {
                 iterator.remove();
                 return;
             }

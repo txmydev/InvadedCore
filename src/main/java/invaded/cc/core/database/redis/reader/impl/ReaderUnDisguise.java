@@ -20,11 +20,11 @@ public class ReaderUnDisguise implements Callback<JsonObject> {
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
 
         DisguiseHandler.getDisguisedPlayers().remove(UUID.fromString(profileId));
-        if(profile == null) return;
+        if (profile == null) return;
 
-        if(serverId.equals(currentServer)) {
+        if (serverId.equals(currentServer)) {
             profile.unDisguise();
-        }else {
+        } else {
             profile.setFakeProfile(null);
             profile.setFakeRank(null);
             profile.setFakeSkin(null);

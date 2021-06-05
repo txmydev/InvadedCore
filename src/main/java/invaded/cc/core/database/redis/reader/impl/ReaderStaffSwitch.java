@@ -24,6 +24,7 @@ public class ReaderStaffSwitch implements Callback<JsonObject> {
         String message = "&3[Staff] " + profile.getColoredName() + " ";
 
         if (from.equals(current)) Common.broadcastMessage(PermLevel.STAFF, message + "&cleft &bthis server to &7" + to);
-        else if (to.equals(current)) Common.broadcastMessage(PermLevel.STAFF, message +"&ajoined &bthis server from &7" + from);
+        else if (to.equals(current))
+            Common.broadcastMessage(PermLevel.STAFF, message + "&ajoined &bthis server from &7" + from);
     }
 }

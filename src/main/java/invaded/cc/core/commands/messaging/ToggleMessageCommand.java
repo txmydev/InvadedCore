@@ -17,10 +17,10 @@ public class ToggleMessageCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
-        if(args.length != 0) {
+        if (args.length != 0) {
             sender.sendMessage(Color.translate("&cPlease use /pm"));
             return;
         }

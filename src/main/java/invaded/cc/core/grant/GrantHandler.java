@@ -2,9 +2,9 @@ package invaded.cc.core.grant;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.profile.Profile;
-import invaded.cc.core.Spotify;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import jodd.http.HttpResponse;
@@ -14,7 +14,10 @@ import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -29,10 +32,10 @@ public class GrantHandler {
         map.put("addedAt", grant.getAddedAt());
         map.put("addedBy", grant.getAddedBy());
 
-        if(grant.getRemovedAt() > 0)
+        if (grant.getRemovedAt() > 0)
             map.put("removedAt", grant.getRemovedAt());
 
-        if(grant.getRemovedBy() != null)
+        if (grant.getRemovedBy() != null)
             map.put("removedBy", grant.getRemovedBy());
 
         HttpResponse response = RequestHandler.post("/grants", map);
@@ -61,7 +64,7 @@ public class GrantHandler {
         List<Grant> list = profile.getGrants();
 
         list.forEach(grant -> {
-            if(!grant.isUse()) return;
+            if (!grant.isUse()) return;
             if (profile.getPermissions() == null) profile.setPermissions(Sets.newHashSet());
 
             Rank rank = Spotify.getInstance().getRankHandler().getRank(grant.getRank());
@@ -77,7 +80,7 @@ public class GrantHandler {
 
         HttpResponse response = RequestHandler.get("/grants", query);
 
-        if(response.statusCode() != 200) {
+        if (response.statusCode() != 200) {
             list.add(new Grant(profile, System.currentTimeMillis(), "Default", "CONSOLE"));
             return list;
         }
@@ -90,7 +93,7 @@ public class GrantHandler {
 
             Grant grant = new Grant(profile, jsonObject.get("addedAt").getAsLong(), jsonObject.get("rank").getAsString(), jsonObject.get("addedBy").getAsString());
 
-            if(rankHandler.getRank(grant.getRank()) == null){
+            if (rankHandler.getRank(grant.getRank()) == null) {
                 removeGrant(grant);
                 return;
             }
@@ -98,12 +101,12 @@ public class GrantHandler {
             grant.setRemovedBy(jsonObject.get("removedBy").getAsString());
             grant.setRemovedAt(jsonObject.get("removedAt").getAsLong());
 
-            if(grant.getRemovedAt() != 0) grant.setUse(false);
+            if (grant.getRemovedAt() != 0) grant.setUse(false);
             list.add(grant);
         });
 
         List<Grant> inUse = list.stream().filter(Grant::isUse).collect(Collectors.toList());
-        if(inUse.size() <= 0) list.add(new Grant(profile, System.currentTimeMillis(), "Default", "CONSOLE"));
+        if (inUse.size() <= 0) list.add(new Grant(profile, System.currentTimeMillis(), "Default", "CONSOLE"));
 
         response.close();
         return list;
@@ -118,21 +121,21 @@ public class GrantHandler {
         map.put("addedAt", grant.getAddedAt());
         map.put("addedBy", grant.getAddedBy());
 
-        if(grant.getRemovedAt() > 0)
+        if (grant.getRemovedAt() > 0)
             map.put("removedAt", grant.getRemovedAt());
 
-        if(grant.getRemovedBy() != null)
+        if (grant.getRemovedBy() != null)
             map.put("removedBy", grant.getRemovedBy());
 
         HttpResponse response = RequestHandler.delete("/grants", map);
 
-        if(response.statusCode() == 404) {
+        if (response.statusCode() == 404) {
             Bukkit.getLogger().info("Grant Handler - Couldn't remove grant of " + grant.getProfile().getName() + " with response " + response.bodyText());
         }
     }
 
     public Rank getHighestGrant(List<Grant> grants) {
-       // return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
+        // return grants.stream().filter(Grant::isUse).map(grant -> Optional.of(Core.getInstance().getRankHandler().getRank(grant.getRank())).orElse(Core.getInstance().getRankHandler().getDefault())).sorted((rank, rank1) -> rank1.getPriority() - rank.getPriority()).findFirst().orElse(Core.getInstance().getRankHandler().getDefault());
         RankHandler handler = Spotify.getInstance().getRankHandler();
 
         return grants.stream().filter(Grant::isUse)

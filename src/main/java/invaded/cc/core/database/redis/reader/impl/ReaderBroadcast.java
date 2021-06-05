@@ -13,7 +13,7 @@ public class ReaderBroadcast implements Callback<JsonObject> {
     public void callback(JsonObject jsonObject) {
         String message = jsonObject.get("message").getAsString();
 
-        if(!jsonObject.has("hover") && !jsonObject.has("click")) {
+        if (!jsonObject.has("hover") && !jsonObject.has("click")) {
             Common.broadcastMessage(PermLevel.DEFAULT, message);
             return;
         }
@@ -27,14 +27,14 @@ public class ReaderBroadcast implements Callback<JsonObject> {
         boolean click = Boolean.parseBoolean(clickV[0]);
         String clickCommand = clickV[1];
 
-        if(hover || click) {
+        if (hover || click) {
             Clickable clickable = new Clickable(message);
 
-            if(hover) clickable.hover(HoverEvent.Action.SHOW_TEXT, hoverText);
-            if(click) clickable.clickEvent(ClickEvent.Action.RUN_COMMAND, clickCommand);
+            if (hover) clickable.hover(HoverEvent.Action.SHOW_TEXT, hoverText);
+            if (click) clickable.clickEvent(ClickEvent.Action.RUN_COMMAND, clickCommand);
 
             Common.broadcastMessage(PermLevel.DEFAULT, clickable.get());
-        }else {
+        } else {
             Common.broadcastMessage(PermLevel.DEFAULT, message);
         }
     }

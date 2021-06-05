@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TemporalMuteCMD extends BasicCommand {
 
-    public TemporalMuteCMD(){
+    public TemporalMuteCMD() {
         super("tempmute", PermLevel.STAFF, "tmute");
     }
 
@@ -62,11 +62,11 @@ public class TemporalMuteCMD extends BasicCommand {
 
             if (silent.get()) Common.broadcastMessage(PermLevel.STAFF,
                     new Clickable("&7[Silent] " + executor + " &ahas temporary muted " + targetData.getColoredName())
-            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()+"\n&bLength&7: &f" + DateUtils.formatTime(time - System.currentTimeMillis())).get());
+                            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString() + "\n&bLength&7: &f" + DateUtils.formatTime(time - System.currentTimeMillis())).get());
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas temporary muted " + targetData.getColoredName());
 
-            if(targetData.isMuted()) {
+            if (targetData.isMuted()) {
                 sender.sendMessage(Color.translate("&CPlease unmute him first."));
                 return;
             }
@@ -83,7 +83,7 @@ public class TemporalMuteCMD extends BasicCommand {
 
             targetData.setMute(punishment);
 
-            if(offlinePlayer.getPlayer() != null){
+            if (offlinePlayer.getPlayer() != null) {
                 offlinePlayer.getPlayer().sendMessage(Color.translate("&cYou have been temporarily muted for " + DateUtils.formatTime(targetData.getMute().getExpire() - System.currentTimeMillis())));
             }
         });

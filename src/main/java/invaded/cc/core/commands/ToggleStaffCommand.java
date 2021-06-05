@@ -11,17 +11,17 @@ import org.bukkit.entity.Player;
 
 public class ToggleStaffCommand extends BasicCommand {
 
-    public ToggleStaffCommand(){
+    public ToggleStaffCommand() {
         super("togglestaff", PermLevel.STAFF);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
 
-        if(args.length != 0) {
+        if (args.length != 0) {
             player.sendMessage(Color.translate("&cPlease use /togglestaff"));
             return;
         }

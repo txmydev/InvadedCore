@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MuteCMD extends BasicCommand {
 
-    public MuteCMD(){
+    public MuteCMD() {
         super("mute", PermLevel.ADMIN);
     }
 
@@ -57,13 +57,13 @@ public class MuteCMD extends BasicCommand {
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
             if (targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
-            if(targetData.isMuted()) {
+            if (targetData.isMuted()) {
                 sender.sendMessage(Color.translate("&CPlease unmute him first."));
                 return;
             }
             if (silent.get()) Common.broadcastMessage(PermLevel.STAFF,
                     new Clickable("&7[Silent] " + executor + " &ahas permanently muted " + targetData.getColoredName())
-            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
+                            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently muted " + targetData.getColoredName());
 
@@ -77,7 +77,7 @@ public class MuteCMD extends BasicCommand {
                 return;
             }
 
-            if(offlinePlayer.isOnline()){
+            if (offlinePlayer.isOnline()) {
                 offlinePlayer.getPlayer().sendMessage(Color.translate("&cYou have been permanently muted."));
             }
         });

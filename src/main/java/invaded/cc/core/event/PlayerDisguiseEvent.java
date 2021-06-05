@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-@AllArgsConstructor @Getter
+@AllArgsConstructor
+@Getter
 public class PlayerDisguiseEvent extends BaseEvent {
 
     private final String server;

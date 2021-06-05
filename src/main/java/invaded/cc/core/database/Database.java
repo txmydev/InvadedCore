@@ -17,7 +17,7 @@ public class Database {
     private MongoDatabase mongoDatabase;
     private MongoClient client;*/
 
-    public Database(){
+    public Database() {
      /*   ConfigFile configFile = Core.getInstance().getDatabaseConfig();
         ConfigTracker configTracker = new ConfigTracker(configFile, "mongo");
 

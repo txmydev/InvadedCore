@@ -15,7 +15,7 @@ public class ReaderStaffJoin implements Callback<JsonObject> {
         String name = jsonObject.get("name").getAsString();
 
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
-        if(profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
+        if (profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
 
         Common.broadcastMessage(PermLevel.STAFF
                 , "&3[Staff] &b" + profile.getColoredName()

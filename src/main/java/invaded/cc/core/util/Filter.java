@@ -7,20 +7,18 @@ import java.util.List;
 
 public class Filter {
 
+    public static final String PREFIX = "&c[Filtered]";
     @Getter
     private static final List<String> filterWords = Arrays.asList("l", "kys", "suicidate", "cancer"
-    , "malo", "enfermo", "autista", "pelotudito", "mogo", "mogolico"
-    ,"morite", "feo");
-
+            , "malo", "enfermo", "autista", "pelotudito", "mogo", "mogolico"
+            , "morite", "feo");
     @Getter
     private static final List<String> commandsBlocked = Arrays.asList("//calc", "//calculate"
-    , "//eval", "/me", "/pl");
+            , "//eval", "/me", "/pl");
 
-    public static boolean needFilter(String s){
+    public static boolean needFilter(String s) {
         return filterWords.contains(s.toLowerCase()) || commandsBlocked.contains(s.toLowerCase());
     }
-
-    public static final String PREFIX = "&c[Filtered]";
 
     public static boolean isBlocked(String message) {
         return commandsBlocked.contains(message);

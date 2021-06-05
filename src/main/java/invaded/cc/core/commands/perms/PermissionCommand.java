@@ -41,14 +41,14 @@ public class PermissionCommand extends BasicCommand {
                     String arg = args[1];
                     rank = rankHandler.getRank(arg);
 
-                    if(rank != null) {
+                    if (rank != null) {
                         handleShow(sender, rank);
                         break;
                     }
 
                     Player player = Bukkit.getPlayer(arg);
 
-                    if(player == null) {
+                    if (player == null) {
                         sender.sendMessage(Color.translate("&cThat player is not online!"));
                         return;
                     }
@@ -62,13 +62,14 @@ public class PermissionCommand extends BasicCommand {
                     arg = args[1];
                     rank = rankHandler.getRank(arg);
 
-                    if(rank == null) {
+                    if (rank == null) {
                         sender.sendMessage(Color.translate("&cRank isn't valid."));
                         break;
                     }
 
                     String perm = args[2];
-                    if(rank.getPermissions().contains(perm)) sender.sendMessage(Color.translate("&cThat rank already has that permission."));
+                    if (rank.getPermissions().contains(perm))
+                        sender.sendMessage(Color.translate("&cThat rank already has that permission."));
                     else {
                         rank.getPermissions().add(perm);
                         sender.sendMessage(Color.translate("&aCorrectly added the permission!"));
@@ -83,12 +84,13 @@ public class PermissionCommand extends BasicCommand {
                     arg = args[1];
                     rank = rankHandler.getRank(arg);
 
-                    if(rank == null) {
+                    if (rank == null) {
                         sender.sendMessage(Color.translate("&cRank isn't valid."));
                         break;
                     }
                     perm = args[2];
-                    if(!rank.getPermissions().remove(perm)) sender.sendMessage(Color.translate("&cThat rank does not have that permission."));
+                    if (!rank.getPermissions().remove(perm))
+                        sender.sendMessage(Color.translate("&cThat rank does not have that permission."));
                     else {
                         sender.sendMessage(Color.translate("&aCorrectly removed the permission!"));
                         rank.setChanged(true);
@@ -102,12 +104,12 @@ public class PermissionCommand extends BasicCommand {
     }
 
     public void handleShow(CommandSender sender, Profile profile) {
-        if(sender instanceof Player) new PermissionMenu.ProfileMenu(profile).open((Player) sender);
+        if (sender instanceof Player) new PermissionMenu.ProfileMenu(profile).open((Player) sender);
         else profile.getPermissions().forEach(p -> sender.sendMessage(Color.translate("&f-" + p)));
     }
 
     public void handleShow(CommandSender sender, Rank rank) {
-        if(sender instanceof Player) new PermissionMenu.RankMenu(rank).open((Player) sender);
+        if (sender instanceof Player) new PermissionMenu.RankMenu(rank).open((Player) sender);
         else rank.getPermissions().forEach(p -> sender.sendMessage(Color.translate("&f-" + p)));
     }
 }

@@ -1,16 +1,17 @@
 package invaded.cc.core.grant;
 
-import invaded.cc.core.profile.Profile;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.profile.Profile;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Comparator;
 
-@Getter @Setter
+@Getter
+@Setter
 public class Grant {
 
-    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1,g2) -> Spotify.getInstance().getRankHandler().getRank(g2.getRank()).getPriority()
+    public static Comparator<Grant> WEIGHT_COMPARATOR = (g1, g2) -> Spotify.getInstance().getRankHandler().getRank(g2.getRank()).getPriority()
             - Spotify.getInstance().getRankHandler().getRank(g1.getRank()).getPriority();
 
     private String rank;

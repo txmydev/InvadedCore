@@ -10,12 +10,27 @@ import org.bukkit.entity.Player;
 
 public class GamemodeCommand {
 
-    public GamemodeCommand(){
+    public GamemodeCommand() {
         new CreativeCommand();
         new SurvivalCommand();
         new GlobalCommand();
     }
 
+    private boolean isInt(String s) {
+        try {
+            int i = Integer.parseInt(s);
+            return i < 2;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    private void changeGamemode(Player target, int value) {
+        if (value == 0) target.setGameMode(GameMode.SURVIVAL);
+        else target.setGameMode(GameMode.CREATIVE);
+
+        target.sendMessage(Color.translate("&6You successfully updated your gamemode."));
+    }
 
     private class CreativeCommand extends BasicCommand {
 
@@ -25,14 +40,14 @@ public class GamemodeCommand {
 
         @Override
         public void execute(CommandSender sender, String[] args) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 sender.sendMessage(Color.translate("&CPlayer only command."));
                 return;
             }
 
             Player player = (Player) sender;
 
-            if(args.length != 0) player.sendMessage(Color.translate("&cUse /gmc"));
+            if (args.length != 0) player.sendMessage(Color.translate("&cUse /gmc"));
             else changeGamemode(player, 1);
         }
     }
@@ -45,14 +60,14 @@ public class GamemodeCommand {
 
         @Override
         public void execute(CommandSender sender, String[] args) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 sender.sendMessage(Color.translate("&CPlayer only command."));
                 return;
             }
 
             Player player = (Player) sender;
 
-            if(args.length != 0) player.sendMessage(Color.translate("&cUse /gms"));
+            if (args.length != 0) player.sendMessage(Color.translate("&cUse /gms"));
             else changeGamemode(player, 0);
         }
     }
@@ -100,33 +115,20 @@ public class GamemodeCommand {
                 return;
             }
 
-            if (args.length != 2)  { sender.sendMessage(Color.translate("&cPlease use /gm <0:1> <player>")); return; }
+            if (args.length != 2) {
+                sender.sendMessage(Color.translate("&cPlease use /gm <0:1> <player>"));
+                return;
+            }
 
-            if(!isInt(args[0])){
+            if (!isInt(args[0])) {
                 sender.sendMessage(Color.translate("&cPlease use /gm <0:1> <player>"));
                 return;
             }
 
             Player target = Bukkit.getPlayer(args[1]);
 
-            if(target == null) sender.sendMessage(Color.translate("&cThat player is offline."));
+            if (target == null) sender.sendMessage(Color.translate("&cThat player is offline."));
             else changeGamemode(target, Integer.parseInt(args[0]));
         }
-    }
-
-    private boolean isInt(String s) {
-        try {
-            int i = Integer.parseInt(s);
-            return i < 2;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    private void changeGamemode(Player target, int value) {
-        if (value == 0) target.setGameMode(GameMode.SURVIVAL);
-        else target.setGameMode(GameMode.CREATIVE);
-
-        target.sendMessage(Color.translate("&6You successfully updated your gamemode."));
     }
 }

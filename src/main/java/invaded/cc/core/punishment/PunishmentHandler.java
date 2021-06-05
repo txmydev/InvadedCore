@@ -35,7 +35,8 @@ public class PunishmentHandler {
         HttpResponse response = RequestHandler.post("/activePunishments", punishmentBody);
         response.close();
 
-        if(punishment.getType() == Punishment.Type.MUTE || punishment.getType() ==  Punishment.Type.TEMPORARY_MUTE)return;
+        if (punishment.getType() == Punishment.Type.MUTE || punishment.getType() == Punishment.Type.TEMPORARY_MUTE)
+            return;
 
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         profileHandler.getProfiles().remove(punishment.getCheaterUuid());
@@ -44,7 +45,7 @@ public class PunishmentHandler {
     public void pardon(UUID uuid, Punishment punishment) {
         Task.async(() -> {
             ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
-            Optional<Profile> profileOptional= Optional.ofNullable(profileHandler.getProfile(uuid));
+            Optional<Profile> profileOptional = Optional.ofNullable(profileHandler.getProfile(uuid));
             Profile profile1 = profileOptional.orElse(profileHandler.load(uuid, punishment.getCheaterName(), false));
             profile1.setBan(null);
             move(profile1, punishment);
@@ -59,7 +60,7 @@ public class PunishmentHandler {
 
         HttpResponse response = RequestHandler.get("/activePunishments", query);
 
-        if(response.statusCode() == 200) {
+        if (response.statusCode() == 200) {
             System.out.println();
             JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
 
@@ -68,7 +69,7 @@ public class PunishmentHandler {
 
                 long expire = jsonObject.get("expire").getAsLong();
 
-                if(expire < System.currentTimeMillis() && jsonObject.get("type").getAsString().contains("TEMPORARY")) {
+                if (expire < System.currentTimeMillis() && jsonObject.get("type").getAsString().contains("TEMPORARY")) {
                     move(profile, Spotify.GSON.fromJson(jsonObject.toString(), Punishment.class));
                     continue;
                 }
@@ -109,7 +110,7 @@ public class PunishmentHandler {
         HttpResponse post = RequestHandler.post("/punishments", punishmentBody);
         post.close();
 
-        System.out.println("Moved a punishment from activePunishments to punishments (holder " + name+ ")");
+        System.out.println("Moved a punishment from activePunishments to punishments (holder " + name + ")");
 
         Map<String, Object> deleteQuery = new HashMap<>();
 

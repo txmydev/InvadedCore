@@ -44,35 +44,35 @@ public class ConfigFile {
         configuration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public FileConfiguration get(){
+    public FileConfiguration get() {
         return configuration;
     }
 
-    public String getString(String path){
+    public String getString(String path) {
         return Color.translate(configuration.getString(path));
     }
 
-    public int getInt(String path){
+    public int getInt(String path) {
         return configuration.getInt(path);
     }
 
-    public boolean getBoolean(String path){
+    public boolean getBoolean(String path) {
         return configuration.getBoolean(path);
     }
 
-    public long getLong(String path){
+    public long getLong(String path) {
         return configuration.getLong(path);
     }
 
-    public Object get(String path){
+    public Object get(String path) {
         return configuration.get(path);
     }
 
-    public float getFloat(String path){
+    public float getFloat(String path) {
         return (float) configuration.getDouble(path);
     }
 
-    public double getDouble(String path){
+    public double getDouble(String path) {
         return configuration.getDouble(path);
     }
 

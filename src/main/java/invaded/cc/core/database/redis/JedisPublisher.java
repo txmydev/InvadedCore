@@ -13,16 +13,16 @@ public class JedisPublisher {
     private String channel;
     private JedisConfiguration conf;
 
-    public JedisPublisher(JedisConfiguration conf, String channel){
+    public JedisPublisher(JedisConfiguration conf, String channel) {
         this.channel = channel;
 
         this.conf = conf;
     }
 
-    public void write(JsonObject jsonObject){
+    public void write(JsonObject jsonObject) {
         try {
-           pool.getResource().publish(channel, jsonObject.toString());
-        }catch(JedisConnectionException ex){
+            pool.getResource().publish(channel, jsonObject.toString());
+        } catch (JedisConnectionException ex) {
             ex.printStackTrace();
         }
     }

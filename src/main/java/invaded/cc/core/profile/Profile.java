@@ -1,13 +1,13 @@
 package invaded.cc.core.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.core.tags.Tag;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.rank.Rank;
+import invaded.cc.core.tags.Tag;
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
@@ -95,6 +95,7 @@ public class Profile {
         return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 name;
     }
+
     public String getColoredName() {
         if (name == null)
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
@@ -111,13 +112,13 @@ public class Profile {
 
     public String getChatFormat() {
         if (isDisguised()) {
-               return fakeRank.getPrefix() + fakeRank.getColors() + fakeName
+            return fakeRank.getPrefix() + fakeRank.getColors() + fakeName
                     + fakeRank.getSuffix();
         }
 
         return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
-                (spaceBetweenRank ? " " : "") +name
-                + highestRank.getSuffix() + (activeSuffix != null ?" " + activeSuffix.getDisplay() : "");
+                (spaceBetweenRank ? " " : "") + name
+                + highestRank.getSuffix() + (activeSuffix != null ? " " + activeSuffix.getDisplay() : "");
     }
 
     public boolean hasCustomColor() {
@@ -126,7 +127,7 @@ public class Profile {
 
     public void aggregateCoins(int coins) {
         double multiplier = CosmeticsHandler.getMultiplier(this);
-        if(multiplier == 0) {
+        if (multiplier == 0) {
             this.coins += coins;
             return;
         }
@@ -137,17 +138,18 @@ public class Profile {
 
         boolean onlyGlobalMultiplier = multiplier == CosmeticsHandler.getGLOBAL_MULTIPLIER();
 
-        if(isOnline()) Bukkit.getPlayer(id).sendMessage(Color.translate("&a&l" + (onlyGlobalMultiplier ? "There's an active &e&lGlobal Multiplier of &b&l" + multiplier + "x &a&lso you received an extra &6&l" + dif + " coins&a&l! Hope you enjoy them ;)"
-                : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") +", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
+        if (isOnline())
+            Bukkit.getPlayer(id).sendMessage(Color.translate("&a&l" + (onlyGlobalMultiplier ? "There's an active &e&lGlobal Multiplier of &b&l" + multiplier + "x &a&lso you received an extra &6&l" + dif + " coins&a&l! Hope you enjoy them ;)"
+                    : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") + ", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
     }
 
     public void removeCoins(int coins) {
-        this.coins-=coins;
+        this.coins -= coins;
     }
 
     public boolean isMuted() {
-        if(mute == null) return false;
-        if(mute.getType() == Punishment.Type.MUTE) return true;
+        if (mute == null) return false;
+        if (mute.getType() == Punishment.Type.MUTE) return true;
 
         return mute.getType() == Punishment.Type.TEMPORARY_MUTE && mute.getExpire() > System.currentTimeMillis();
     }
@@ -170,8 +172,8 @@ public class Profile {
     }
 
     public boolean isBanned() {
-        if(ban == null) return false;
-        if(ban.getType() != Punishment.Type.TEMPORARY_BAN) return true;
+        if (ban == null) return false;
+        if (ban.getType() != Punishment.Type.TEMPORARY_BAN) return true;
 
         return ban.getExpire() > System.currentTimeMillis();
     }

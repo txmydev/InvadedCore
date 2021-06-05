@@ -38,7 +38,7 @@ public class KickCMD extends BasicCommand {
 
             StringBuilder reason = new StringBuilder("&cYou've been kicked from Invaded! \n&e\n&cReason&7: &c");
 
-            if (args.length == 1 || (args.length == 2 && args[1].equalsIgnoreCase("-s"))){
+            if (args.length == 1 || (args.length == 2 && args[1].equalsIgnoreCase("-s"))) {
                 reason = new StringBuilder("&cYou've been kicked by a staff member.");
                 silent.set(true);
             } else {
@@ -52,7 +52,8 @@ public class KickCMD extends BasicCommand {
                 }
             }
 
-            String targetName = Common.getName(args[0]); ;
+            String targetName = Common.getName(args[0]);
+            ;
             OfflinePlayer player = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(player.getUniqueId());
@@ -65,7 +66,8 @@ public class KickCMD extends BasicCommand {
             StringBuilder finalReason = reason;
             Task.run(() -> player.getPlayer().kickPlayer(Color.translate(finalReason.toString())));
 
-            if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + executor + " &ahas kicked " + targetData.getColoredName());
+            if (silent.get())
+                Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + executor + " &ahas kicked " + targetData.getColoredName());
             else Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas kicked " + targetData.getColoredName());
         });
     }

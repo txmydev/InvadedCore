@@ -16,16 +16,16 @@ import org.bukkit.entity.Player;
 
 public class HelpOpCommand extends BasicCommand {
 
-    public HelpOpCommand(){
+    public HelpOpCommand() {
         super("helpop", PermLevel.DEFAULT);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
-        if(args.length == 0){
+        if (args.length == 0) {
             sender.sendMessage(Color.translate("&cPlease use /helpop <message>"));
             return;
         }
@@ -33,14 +33,14 @@ public class HelpOpCommand extends BasicCommand {
         Player player = (Player) sender;
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(!profile.getHelpOpCooldown().hasExpired()) {
+        if (!profile.getHelpOpCooldown().hasExpired()) {
             player.sendMessage(Color.translate("&CYou may wait " + profile.getHelpOpCooldown().getTimeLeft() + " seconds until you can use helpop again."));
             return;
         }
 
         StringBuilder builder = new StringBuilder();
 
-        for(String arg : args) builder.append(arg).append(" ");
+        for (String arg : args) builder.append(arg).append(" ");
 
         profile.setHelpOpCooldown(new Cooldown(50_000));
 
@@ -49,11 +49,11 @@ public class HelpOpCommand extends BasicCommand {
                 .addInfo("message", builder.toString())
                 .post();*/
 
-        String message =builder.toString();
+        String message = builder.toString();
 
         Clickable clickable = new Clickable("&9[Helpop] " + profile.getColoredName()
                 + " &7requested help with: &9" + message)
-                .hover(HoverEvent.Action.SHOW_TEXT,  "&bClick to be teleported to him ");
+                .hover(HoverEvent.Action.SHOW_TEXT, "&bClick to be teleported to him ");
 
         clickable.clickEvent(ClickEvent.Action.RUN_COMMAND,
                 "/tp " + profile.getName());

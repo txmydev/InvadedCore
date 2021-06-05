@@ -18,7 +18,7 @@ public class BaseEvent extends Event {
 
     public void call() {
         Task.run(() -> {
-        Bukkit.getPluginManager().callEvent(this);
+            Bukkit.getPluginManager().callEvent(this);
         });
     }
 

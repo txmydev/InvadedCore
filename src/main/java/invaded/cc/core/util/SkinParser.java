@@ -6,7 +6,7 @@ public class SkinParser {
         return skin.getTexture() + ";" + skin.getSignature();
     }
 
-    public static Skin unParse(String[] data){
+    public static Skin unParse(String[] data) {
         return new Skin(data[0], data[1]);
     }
 

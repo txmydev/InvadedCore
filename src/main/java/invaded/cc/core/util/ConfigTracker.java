@@ -16,42 +16,43 @@ public class ConfigTracker {
     private ConfigFile configFile;
     private FileConfiguration config;
 
-    @Setter @Getter
+    @Setter
+    @Getter
     private String path;
 
-    public ConfigTracker(ConfigFile configFile,  String path){
+    public ConfigTracker(ConfigFile configFile, String path) {
         this.configFile = configFile;
         this.config = configFile.get();
         this.path = path;
     }
 
-    public ConfigTracker(FileConfiguration config, String path){
+    public ConfigTracker(FileConfiguration config, String path) {
         this.config = config;
         this.path = path;
-        this.configFile =null;
+        this.configFile = null;
     }
 
-    public String getString(String path){
+    public String getString(String path) {
         return Color.translate(config.getString(this.path + "." + path));
     }
 
-    public int getInt(String path){
-        return config.getInt(this.path+"."+path);
+    public int getInt(String path) {
+        return config.getInt(this.path + "." + path);
     }
 
-    public boolean getBoolean(String path){
-        return config.getBoolean(this.path+"."+path);
+    public boolean getBoolean(String path) {
+        return config.getBoolean(this.path + "." + path);
     }
 
-    public Set<String> getKeys(){
+    public Set<String> getKeys() {
         return config.getConfigurationSection(this.path).getKeys(false);
     }
 
-    public Set<String> getKeys(String path){
-        return config.getConfigurationSection(this.path+"."+path).getKeys(false);
+    public Set<String> getKeys(String path) {
+        return config.getConfigurationSection(this.path + "." + path).getKeys(false);
     }
 
-    public Location getLocation(String path, boolean pitchYaw){
+    public Location getLocation(String path, boolean pitchYaw) {
         try {
             String[] splitted = getString(path).split(",");
 
@@ -69,17 +70,17 @@ public class ConfigTracker {
             }
 
             return pitchYaw ? new Location(world, x, y, z, yaw, pitch) : new Location(world, x, y, z);
-        }catch(IndexOutOfBoundsException ex){
+        } catch (IndexOutOfBoundsException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    private boolean checkNull(){
+    private boolean checkNull() {
         return config == null;
     }
 
-    private boolean checkNull(String path){
+    private boolean checkNull(String path) {
         return config.get(this.path + "." + path) == null;
     }
 
@@ -96,13 +97,13 @@ public class ConfigTracker {
     }
 
     public List<String> getStringList(String path) {
-        return config.getStringList(this.path+"."+path);
+        return config.getStringList(this.path + "." + path);
     }
 
     public void set(String s, Object object) {
-        if(configFile == null) return;
+        if (configFile == null) return;
 
-        config.set(this.path+"."+s,object );
+        config.set(this.path + "." + s, object);
         configFile.save();
     }
 

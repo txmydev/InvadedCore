@@ -16,24 +16,24 @@ import java.util.UUID;
 
 public class UnDisguiseCommand extends BasicCommand {
 
-    public UnDisguiseCommand(){
+    public UnDisguiseCommand() {
         super("undisguise", PermLevel.DEFAULT, "ud");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if(!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()){
+        if (!Permission.test(player, PermLevel.MEDIA) && !profile.isAllowDisguise()) {
             player.sendMessage(Color.translate("&cYou don't have permissions."));
             return;
         }
 
-        if(args.length != 0){
+        if (args.length != 0) {
             sender.sendMessage(Color.translate("&cYou may use /ud"));
             return;
         }
@@ -43,7 +43,7 @@ public class UnDisguiseCommand extends BasicCommand {
             return;
         }*/
 
-        if(!profile.isDisguised()){
+        if (!profile.isDisguised()) {
             player.sendMessage(Color.translate("&cYou aren't disguised."));
             return;
         }

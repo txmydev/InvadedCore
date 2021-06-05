@@ -7,7 +7,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter @Getter
+@Setter
+@Getter
 public class Server {
 
     private String serverId;
@@ -20,14 +21,14 @@ public class Server {
     private long lastUpdate;
     private String motd;
 
-    public Server(String serverId){
+    public Server(String serverId) {
         this.serverId = serverId;
         this.players = new ArrayList<>();
     }
 
     public boolean containsPlayer(String name) {
         for (User player : players) {
-            if(player.getName().equalsIgnoreCase(name)) return true;
+            if (player.getName().equalsIgnoreCase(name)) return true;
         }
         return false;
     }

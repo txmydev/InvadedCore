@@ -15,7 +15,7 @@ public class ReloadRanksCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length != 0){
+        if (args.length != 0) {
             sender.sendMessage(Color.translate("&cThis command ain't that hard bro"));
             return;
         }

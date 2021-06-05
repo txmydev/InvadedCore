@@ -15,30 +15,10 @@ import java.util.Map;
 
 public class RequestHandler {
 
-    @Getter
-    private static class RequestConfig {
-
-        private ConfigFile config;
-
-        private String host, token;
-        private int port;
-        private boolean domain;
-
-        public RequestConfig() {
-            this.config = Spotify.getInstance().getDatabaseConfig();
-
-            ConfigTracker configTracker = new ConfigTracker(config, "http");
-            this.host = configTracker.getString("host");
-            this.port = configTracker.getInt("port");
-            this.token = configTracker.getString("token");
-            this.domain = configTracker.getBoolean("domain");
-        }
-    }
-
     private static final RequestConfig CONFIG = new RequestConfig();
-    private static String BASE = "http://" + (CONFIG.isDomain() ?CONFIG.getHost() : (CONFIG.getHost() + ":" + CONFIG.getPort()));
+    private static String BASE = "http://" + (CONFIG.isDomain() ? CONFIG.getHost() : (CONFIG.getHost() + ":" + CONFIG.getPort()));
 
-    public static HttpResponse get(String query){
+    public static HttpResponse get(String query) {
         HttpRequest httpRequest = HttpRequest.get(BASE + query);
         httpRequest.tokenAuthentication(CONFIG.getToken());
 
@@ -63,7 +43,7 @@ public class RequestHandler {
         JsonObject jsonObject = new JsonObject();
 
         for (Map.Entry<String, Object> e : body.entrySet()) {
-            if(e.getValue() instanceof List) {
+            if (e.getValue() instanceof List) {
                 JsonArray array = new JsonArray();
                 ((List<String>) e.getValue()).forEach(val -> array.add(new JsonPrimitive(val)));
                 jsonObject.add(e.getKey(), array);
@@ -71,10 +51,10 @@ public class RequestHandler {
             }
 
             Object v = e.getValue();
-            if(v instanceof Boolean) jsonObject.addProperty(e.getKey(), (boolean) e.getValue());
-            else if(v instanceof Character) jsonObject.addProperty(e.getKey(), (Character) e.getValue());
-            else if(v instanceof Number) jsonObject.addProperty(e.getKey(), (Number) e.getValue());
-            else if(v instanceof String) jsonObject.addProperty(e.getKey(), (String) e.getValue());
+            if (v instanceof Boolean) jsonObject.addProperty(e.getKey(), (boolean) e.getValue());
+            else if (v instanceof Character) jsonObject.addProperty(e.getKey(), (Character) e.getValue());
+            else if (v instanceof Number) jsonObject.addProperty(e.getKey(), (Number) e.getValue());
+            else if (v instanceof String) jsonObject.addProperty(e.getKey(), (String) e.getValue());
             else throw new IllegalArgumentException("Cannot parse type " + e.getValue().getClass().getName());
         }
 
@@ -90,7 +70,7 @@ public class RequestHandler {
         return request.send();
     }
 
-    public static HttpResponse put(String endpoint, Map<String, Object> body, Map<String, Object> query){
+    public static HttpResponse put(String endpoint, Map<String, Object> body, Map<String, Object> query) {
         HttpRequest request = HttpRequest.put(BASE + endpoint)
                 .body(Spotify.GSON.toJson(body))
                 .tokenAuthentication(CONFIG.getToken());
@@ -104,9 +84,29 @@ public class RequestHandler {
         HttpRequest request = HttpRequest.delete(BASE + endpoint);
         request.tokenAuthentication(CONFIG.getToken());
 
-        if(query != null) query.forEach(request::query);
+        if (query != null) query.forEach(request::query);
 
         return request.send();
+    }
+
+    @Getter
+    private static class RequestConfig {
+
+        private ConfigFile config;
+
+        private String host, token;
+        private int port;
+        private boolean domain;
+
+        public RequestConfig() {
+            this.config = Spotify.getInstance().getDatabaseConfig();
+
+            ConfigTracker configTracker = new ConfigTracker(config, "http");
+            this.host = configTracker.getString("host");
+            this.port = configTracker.getInt("port");
+            this.token = configTracker.getString("token");
+            this.domain = configTracker.getBoolean("domain");
+        }
     }
 
 }

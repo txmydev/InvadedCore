@@ -9,13 +9,13 @@ import org.bukkit.command.CommandSender;
 
 public class BroadcastCommand extends BasicCommand {
 
-    public BroadcastCommand(){
+    public BroadcastCommand() {
         super("broadcast", PermLevel.ADMIN, "alert");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length < 1) sender.sendMessage(Color.translate("&cPlease add a message for the announcement."));
+        if (args.length < 1) sender.sendMessage(Color.translate("&cPlease add a message for the announcement."));
         else {
             StringBuilder stringBuilder = new StringBuilder();
 

@@ -30,7 +30,7 @@ public class UnBlacklistCMD extends BasicCommand {
             ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
             String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
-                .getColoredName() : "&4Console";
+                    .getColoredName() : "&4Console";
 
             AtomicBoolean silent = new AtomicBoolean(false);
 
@@ -52,7 +52,8 @@ public class UnBlacklistCMD extends BasicCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
-            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
+            if (targetData == null)
+                targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
 
             if (targetData.getBan() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't blacklisted."));
@@ -68,12 +69,14 @@ public class UnBlacklistCMD extends BasicCommand {
             punishment.setRemovedAt(System.currentTimeMillis());
             punishment.setRemovedBy(executor);
 
-            if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + targetData.getColoredName()
-                    +" &awas unblacklisted by " +executor).get());
-            else Common.broadcastMessage(PermLevel.STAFF, targetData.getColoredName() + " &awas unblacklisted by " + executor);
+            if (silent.get())
+                Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + targetData.getColoredName()
+                        + " &awas unblacklisted by " + executor).get());
+            else
+                Common.broadcastMessage(PermLevel.STAFF, targetData.getColoredName() + " &awas unblacklisted by " + executor);
 
             PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(targetData.getId(), punishment);
-           });
+        });
     }
 }

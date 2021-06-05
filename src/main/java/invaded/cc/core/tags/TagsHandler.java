@@ -1,8 +1,8 @@
 package invaded.cc.core.tags;
 
 import com.google.common.collect.Lists;
-import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.common.reflect.TypeToken;
@@ -23,8 +23,9 @@ public class TagsHandler {
     public void load() {
         HttpResponse response = RequestHandler.get("/tags");
 
-        if(response.statusCode() != 200) this.tags = Lists.newArrayList();
-        else this.tags = Spotify.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {}.getType());
+        if (response.statusCode() != 200) this.tags = Lists.newArrayList();
+        else this.tags = Spotify.GSON.fromJson(response.bodyText(), new TypeToken<List<Tag>>() {
+        }.getType());
 
         response.close();
 
@@ -35,7 +36,7 @@ public class TagsHandler {
     }
 
     public void save(Tag tag) {
-        if(tag.getId().startsWith("@@symbol_")) return;
+        if (tag.getId().startsWith("@@symbol_")) return;
 
         Map<String, Object> map = new HashMap<>();
         map.put("id", tag.getId());
@@ -60,15 +61,15 @@ public class TagsHandler {
 
     public Tag getTag(String id) {
         for (Tag tag : tags) {
-            if(id.equals(tag.getId())) return tag;
+            if (id.equals(tag.getId())) return tag;
         }
 
         return null;
     }
 
     public Tag getTagByDisplay(String display) {
-        for(Tag tag : tags)
-            if(tag.getDisplay().equalsIgnoreCase(display)) return tag;
+        for (Tag tag : tags)
+            if (tag.getDisplay().equalsIgnoreCase(display)) return tag;
         return null;
     }
 }

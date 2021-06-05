@@ -1,8 +1,8 @@
 package invaded.cc.core.menu;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.profile.Profile;
-import invaded.cc.core.Spotify;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
@@ -32,32 +32,32 @@ public class SellRankMenu extends Menu {
     @Override
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if(event.getSlot() == 44) {
+        if (event.getSlot() == 44) {
             new CosmeticsMenu(profile).open(player);
             return;
         }
 
-        if(event.getSlot() == 20) {
+        if (event.getSlot() == 20) {
             this.buy(player, Ranks.TITAN);
         }
 
-        if(event.getSlot() == 22) {
+        if (event.getSlot() == 22) {
             this.buy(player, Ranks.LEGEND);
         }
 
-        if(event.getSlot() == 24) {
+        if (event.getSlot() == 24) {
             this.buy(player, Ranks.ULTRA);
         }
     }
 
     private void buy(Player player, Ranks rankEnum) {
         Rank rank = Spotify.getInstance().getRankHandler().getRank(rankEnum.getName());
-        if(!profile.canAfford(rankEnum.getPrice())) return;
+        if (!profile.canAfford(rankEnum.getPrice())) return;
 
         profile.removeCoins(rankEnum.getPrice());
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "grant " + profile.getName() + " " + rank.getName());
-        Common.broadcastMessage(PermLevel.ADMIN, "&7[&eRank Sold&7] "+ profile.getColoredName() + " &ejust bought " + rank.getColoredName() + " &erank.");
+        Common.broadcastMessage(PermLevel.ADMIN, "&7[&eRank Sold&7] " + profile.getColoredName() + " &ejust bought " + rank.getColoredName() + " &erank.");
 
         player.sendMessage(Color.translate("&aYou're rank has been updated to " + rank.getColoredName() + "&a, you may relog to see the changes."));
         player.closeInventory();

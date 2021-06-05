@@ -11,15 +11,15 @@ import org.bukkit.entity.Player;
 
 public class FilterCommand extends BasicCommand {
 
-    public FilterCommand(){
+    public FilterCommand() {
         super("filter", PermLevel.STAFF);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
-        if(args.length != 0){
+        if (args.length != 0) {
             sender.sendMessage(Color.translate("&cPlease use /filter instead."));
             return;
         }

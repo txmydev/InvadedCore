@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;
 
-@AllArgsConstructor @Getter
+@AllArgsConstructor
+@Getter
 public class PlayerPunishEvent extends BaseEvent {
 
     private final String executor;

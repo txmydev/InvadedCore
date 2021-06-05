@@ -1,5 +1,6 @@
 package invaded.cc.core.manager;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.commands.*;
 import invaded.cc.core.commands.coins.CoinsCommand;
 import invaded.cc.core.commands.messaging.*;
@@ -14,12 +15,7 @@ import invaded.cc.core.commands.punish.mute.MuteCMD;
 import invaded.cc.core.commands.punish.mute.TemporalMuteCMD;
 import invaded.cc.core.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.core.commands.punish.unpunish.UnMuteCMD;
-import invaded.cc.core.Spotify;
-import invaded.cc.commands.*;
-import invaded.cc.commands.messaging.*;
 import invaded.cc.core.commands.tags.TagsCommand;
-import invaded.core.commands.*;
-import invaded.core.commands.messaging.*;
 import lombok.Getter;
 import me.txmy.command.BaseCommand;
 import me.txmy.command.CommandFramework;
@@ -34,7 +30,7 @@ public class CommandHandler {
     @Getter
     private CommandFramework commandFramework;
 
-    public CommandHandler(){
+    public CommandHandler() {
         this.commandFramework = new CommandFramework(Spotify.getInstance());
         BaseCommand.setFramework(commandFramework);
 

@@ -28,7 +28,7 @@ public class ReaderReport implements Callback<JsonObject> {
         String reason = jsonObject.get("reason").getAsString();
 
         Clickable clickable = new Clickable("&7[&4Report&7] " + profile.getColoredName() + " &fhas reported " + reportedProfile.getColoredName()
-        + " &fwith a reason of &b"  + reason);
+                + " &fwith a reason of &b" + reason);
 
         clickable.hover(HoverEvent.Action.SHOW_TEXT, sameSv ? "&bClick to teleport " + reportedProfile.getColoredName()
                 : "&bClick to go to &e" + serverId);

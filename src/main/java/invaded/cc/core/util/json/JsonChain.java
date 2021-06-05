@@ -7,27 +7,27 @@ public class JsonChain {
 
     private JsonObject jsonObject = new JsonObject();
 
-    public JsonChain addProperty(String propertyId, Number object){
+    public JsonChain addProperty(String propertyId, Number object) {
         this.jsonObject.addProperty(propertyId, object);
         return this;
     }
 
-    public JsonChain addProperty(String propertyId, String object){
+    public JsonChain addProperty(String propertyId, String object) {
         this.jsonObject.addProperty(propertyId, object);
         return this;
     }
 
-    public JsonChain addProperty(String propertyId, Character object){
+    public JsonChain addProperty(String propertyId, Character object) {
         this.jsonObject.addProperty(propertyId, object);
         return this;
     }
 
-    public JsonChain addProperty(String propertyId, Boolean object){
+    public JsonChain addProperty(String propertyId, Boolean object) {
         this.jsonObject.addProperty(propertyId, object);
         return this;
     }
 
-    public JsonChain addAll(JsonObject other){
+    public JsonChain addAll(JsonObject other) {
         other.entrySet().forEach(entry -> {
             this.jsonObject.add(entry.getKey(), entry.getValue());
         });
@@ -35,7 +35,7 @@ public class JsonChain {
         return this;
     }
 
-    public JsonObject get(){
+    public JsonObject get() {
         return jsonObject;
     }
 

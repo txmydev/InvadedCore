@@ -7,7 +7,7 @@ public enum PermLevel {
     DEFAULT("invaded.default"),
     VIP("invaded.vip"),
     MEDIA("invaded.media"),
-    STAFF( "invaded.staff"),
+    STAFF("invaded.staff"),
     ADMIN("invaded.admin"),
     DEVELOPER("invaded.developer");
 

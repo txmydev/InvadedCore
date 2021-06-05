@@ -9,7 +9,8 @@ import org.bukkit.entity.Entity;
 import java.util.HashMap;
 import java.util.Map;
 
-@AllArgsConstructor @Getter
+@AllArgsConstructor
+@Getter
 public enum Trail {
 
     FIREWORKS("fireworksSpark", "Fireworks Trail", 70, Material.FIREWORK),
@@ -22,10 +23,10 @@ public enum Trail {
     HEARTS("heart", "Hearts Trail", 150, Material.REDSTONE),
     EXPLODE("explode", "Explode Trail", 70, Material.TNT),
     WATER("dripWater", "Water Trail", 70, Material.WATER_BUCKET),
-    ENCHANTMENT_GLYPH("enchantmenttable", "Enchant Particles Trail", 70,Material.ENCHANTMENT_TABLE)
-    ;
+    ENCHANTMENT_GLYPH("enchantmenttable", "Enchant Particles Trail", 70, Material.ENCHANTMENT_TABLE);
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static final Map<Entity, Trail> toDisplay = new HashMap<>();
 
     private final String id, display;
@@ -34,8 +35,8 @@ public enum Trail {
     private Material material;
 
     public static Trail getById(String activeTrail) {
-        for(Trail t : values())
-            if(t.getId().equalsIgnoreCase(activeTrail)) return t;
+        for (Trail t : values())
+            if (t.getId().equalsIgnoreCase(activeTrail)) return t;
 
 
         return null;

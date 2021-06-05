@@ -1,7 +1,7 @@
 package invaded.cc.core.util.perms;
 
-import invaded.cc.core.profile.Profile;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.profile.Profile;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

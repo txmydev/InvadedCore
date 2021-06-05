@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UnMuteCMD extends BasicCommand {
 
-    public UnMuteCMD(){
+    public UnMuteCMD() {
         super("unmute", PermLevel.ADMIN);
     }
 
@@ -46,7 +46,8 @@ public class UnMuteCMD extends BasicCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
-            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName());
+            if (targetData == null)
+                targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName());
 
             if (targetData.getMute() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't muted."));
@@ -74,8 +75,10 @@ public class UnMuteCMD extends BasicCommand {
 //                    .addInfo("removedBy", executor)
 //                    .addInfo("removedAt", punishment.getRemovedAt())
 //                    .post();
-            if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unmuted by " + executor);
-            else Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unmuted by " +executor);
+            if (silent.get())
+                Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unmuted by " + executor);
+            else
+                Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unmuted by " + executor);
         });
     }
 }

@@ -41,29 +41,29 @@ public class TagsMenu extends Menu {
         final Player player = (Player) event.getWhoClicked();
         final Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if(event.getSlot() == 1) {
-            if(page == 1) return;
+        if (event.getSlot() == 1) {
+            if (page == 1) return;
             page--;
             this.update();
 
             return;
         }
 
-        if(event.getSlot() == 7){
-            if(page == getMaxPages()) return;
+        if (event.getSlot() == 7) {
+            if (page == getMaxPages()) return;
             page++;
             this.update();
             return;
         }
 
-        if(event.getSlot() == 44){
+        if (event.getSlot() == 44) {
             player.closeInventory();
             Task.later(() -> new CosmeticsMenu(profile).open(player), 2L);
             return;
         }
 
-        if(event.getSlot() == 39) {
-            if(profile.getActivePrefix() != null) {
+        if (event.getSlot() == 39) {
+            if (profile.getActivePrefix() != null) {
                 profile.setActivePrefix(null);
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.6f);
@@ -72,8 +72,8 @@ public class TagsMenu extends Menu {
             return;
         }
 
-        if(event.getSlot() == 41) {
-            if(profile.getActiveSuffix() != null) {
+        if (event.getSlot() == 41) {
+            if (profile.getActiveSuffix() != null) {
                 profile.setActiveSuffix(null);
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0f, 0.6f);
@@ -81,25 +81,26 @@ public class TagsMenu extends Menu {
             }
         }
 
-        if(event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) return;
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta())
+            return;
         ItemMeta meta = event.getCurrentItem().getItemMeta();
         String strippedItemName = Color.translate(meta.getDisplayName());
         Tag tag = check(strippedItemName);
-        if(tag == null) return;
+        if (tag == null) return;
 
-        if(hasTag(tag)) {
+        if (hasTag(tag)) {
             toggle(profile, tag, true);
             return;
         }
 
-        if(hasCoins2Buy(tag)) {
+        if (hasCoins2Buy(tag)) {
             this.buy(profile, tag);
             this.update();
             return;
         }
     }
 
-    private Tag check(String itemName){
+    private Tag check(String itemName) {
         for (Tag tag : Spotify.getInstance().getTagsHandler().getTags()) {
             String displayStripped = Color.translate(tag.getDisplay());
 
@@ -139,16 +140,18 @@ public class TagsMenu extends Menu {
 
     private void togglePrefix(Profile profile, Tag prefix, boolean msg) {
         profile.setActivePrefix(prefix);
-        if(msg) Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + prefix.getId() + " &aprefix."));
+        if (msg)
+            Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + prefix.getId() + " &aprefix."));
     }
 
     private void toggleSuffix(Profile profile, Tag suffix, boolean msg) {
         profile.setActiveSuffix(suffix);
-        if(msg) Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + suffix.getId() + " &asuffix."));
+        if (msg)
+            Bukkit.getPlayer(profile.getId()).sendMessage(Color.translate("&aYou are now using &e" + suffix.getId() + " &asuffix."));
     }
 
     private void toggle(Profile profile, Tag tag, boolean msg) {
-        if(!tag.isSuffix()) togglePrefix(profile, tag ,msg);
+        if (!tag.isSuffix()) togglePrefix(profile, tag, msg);
         else toggleSuffix(profile, tag, msg);
 
         Player player = Bukkit.getPlayer(profile.getId());
@@ -192,26 +195,26 @@ public class TagsMenu extends Menu {
                     .lore(Common.getLine(30),
                             "&bYou'll look like this: " + getFormat(tag),
                             " ",
-                            "&bThis " + tag.getType() +  " costs &6" + tag.getPrice() + " coins&b.",
+                            "&bThis " + tag.getType() + " costs &6" + tag.getPrice() + " coins&b.",
                             boughtIt(tag));
 
-            if(!hasCoins2Buy(tag) && !hasTag(tag)) builder.lore("&bYou can buy coins at &6store.skulluhc.club");
+            if (!hasCoins2Buy(tag) && !hasTag(tag)) builder.lore("&bYou can buy coins at &6store.skulluhc.club");
             builder.lore(Common.getLine(30));
             inventory.setItem(itemSlot, builder.build());
 
-            if(itemSlot == 16 || itemSlot == 25) itemSlot = itemSlot + 2 ;
+            if (itemSlot == 16 || itemSlot == 25) itemSlot = itemSlot + 2;
             itemSlot++;
             index++;
         }
     }
 
-    private boolean hasTag(Tag tag){
+    private boolean hasTag(Tag tag) {
         return profile.getTags().stream().map(Tag::getId)
                 .collect(Collectors.toList()).contains(tag.getId());
     }
 
-    private String boughtIt(Tag tag){
-        return hasTag(tag) ? "&aYou already have this "  + tag.getType() + ", click it to toggle it."
+    private String boughtIt(Tag tag) {
+        return hasTag(tag) ? "&aYou already have this " + tag.getType() + ", click it to toggle it."
                 : hasCoins(tag);
     }
 
@@ -228,7 +231,7 @@ public class TagsMenu extends Menu {
     }
 
     private String getFormat(Tag tag) {
-        if(tag.isSuffix()) {
+        if (tag.isSuffix()) {
             return profile.getHighestRank().getPrefix() + profile.getHighestRank().getColors() + (profile.getChatColor() == null ? "" : profile.getChatColor()) + (profile.isItalic() ? ChatColor.ITALIC : "") +
                     (profile.isSpaceBetweenRank() ? " " : "") + profile.getName()
                     + profile.getHighestRank().getSuffix() + " " + tag.getDisplay();

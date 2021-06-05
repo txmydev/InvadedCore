@@ -15,13 +15,13 @@ public class HubCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
 
         String targetServer = "";
 
-        if(Spotify.getInstance().getServerName().contains("sa")) {
+        if (Spotify.getInstance().getServerName().contains("sa")) {
             targetServer = "sa-hub-1";
         }
 

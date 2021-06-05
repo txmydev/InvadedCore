@@ -25,7 +25,7 @@ public class Rank {
     }
 
     public String getColoredName() {
-        return color + (italic? "" + ChatColor.ITALIC : "") + (bold ? "" + ChatColor.BOLD : "") + name;
+        return color + (italic ? "" + ChatColor.ITALIC : "") + (bold ? "" + ChatColor.BOLD : "") + name;
     }
 
     public String getColors() {

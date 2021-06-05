@@ -59,13 +59,13 @@ public class GrantCommand extends BasicCommand {
                 return;
             }
 
-            Profile senderData = profileHandler.getProfile(((Player)sender).getUniqueId());
+            Profile senderData = profileHandler.getProfile(((Player) sender).getUniqueId());
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
 
             Profile profile = profileHandler.getProfile(offlinePlayer.getUniqueId());
             if (profile == null) profile = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
-            if(profile.getHighestRank().getPriority() > senderData.getHighestRank().getPriority()) {
+            if (profile.getHighestRank().getPriority() > senderData.getHighestRank().getPriority()) {
                 sender.sendMessage(Color.translate("&cYou cannot modify " + profile.getColoredName() + "'s rank."));
                 return;
             }

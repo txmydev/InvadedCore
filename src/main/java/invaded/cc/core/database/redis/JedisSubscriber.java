@@ -17,7 +17,7 @@ public class JedisSubscriber {
 
     private JedisPubSub sub;
 
-    public JedisSubscriber(JedisConfiguration conf, String channel, final JedisHandler handler){
+    public JedisSubscriber(JedisConfiguration conf, String channel, final JedisHandler handler) {
         this.conf = conf;
         this.channel = channel;
         this.handler = handler;
@@ -31,16 +31,16 @@ public class JedisSubscriber {
         };
 
         new Thread(() -> {
-            try{
+            try {
                 pool.getResource().subscribe(this.sub, channel);
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
 
     public void stop() {
-        if(sub != null) sub.unsubscribe();
+        if (sub != null) sub.unsubscribe();
         pool.close();
     }
 

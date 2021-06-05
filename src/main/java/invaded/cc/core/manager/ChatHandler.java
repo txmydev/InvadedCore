@@ -6,7 +6,8 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ChatHandler {
 
     private int slowTime;
@@ -16,20 +17,20 @@ public class ChatHandler {
 
     private Map<String, String> autoReply = new HashMap<>();
 
-    public ChatHandler(){
+    public ChatHandler() {
         this.slowTime = 0;
-        this.commandTime =5;
+        this.commandTime = 5;
 
         this.chatValue = true;
     }
 
-    public boolean isChatSlowed(){
+    public boolean isChatSlowed() {
         return slowTime != -1;
     }
 
     public boolean canBeAutoReplied(String message) {
         for (String s : autoReply.keySet()) {
-            if(message.contains(s)) return true;
+            if (message.contains(s)) return true;
         }
         return false;
     }

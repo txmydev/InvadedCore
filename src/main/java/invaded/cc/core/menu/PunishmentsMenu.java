@@ -1,10 +1,10 @@
 package invaded.cc.core.menu;
 
 import invaded.cc.core.profile.Profile;
+import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ItemBuilder;
 import invaded.cc.core.util.menu.Menu;
-import invaded.cc.core.punishment.Punishment;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -25,41 +25,42 @@ public class PunishmentsMenu extends Menu {
         this.profile = target;
         this.punishments = punishments;
     }
-/*
-        if (profile.getBan() != null) {
-            String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getBan().getPunishedAt()));
-            String formatExpire = profile.getBan().getType() == Punishment.Type.BAN || profile.getBan().getType()
-                    == Punishment.Type.BLACKLIST ? "Never" : DateUtils.formatTime(profile.getBan().getExpire() - System.currentTimeMillis());
 
-            ItemBuilder itemBuilder = new ItemBuilder()
-                    .type(Material.PAPER).name("&bActive Punishment")
-                    .lore("&7&m" + Strings.repeat('-', 20)
-                            , "&fPunished At&7: &b" + formatAt
-                            , "&fPunished By&7: &f" + profile.getBan().getStaffName()
-                            , "&fExpires In&7: &b" + formatExpire
-                            , "&fReason&7: &b" + profile.getBan().getReason()
-                            , "&7&m" + Strings.repeat('-', 20));
+    /*
+            if (profile.getBan() != null) {
+                String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getBan().getPunishedAt()));
+                String formatExpire = profile.getBan().getType() == Punishment.Type.BAN || profile.getBan().getType()
+                        == Punishment.Type.BLACKLIST ? "Never" : DateUtils.formatTime(profile.getBan().getExpire() - System.currentTimeMillis());
 
-            inventory.setItem(slot++, itemBuilder.build());
-        }
+                ItemBuilder itemBuilder = new ItemBuilder()
+                        .type(Material.PAPER).name("&bActive Punishment")
+                        .lore("&7&m" + Strings.repeat('-', 20)
+                                , "&fPunished At&7: &b" + formatAt
+                                , "&fPunished By&7: &f" + profile.getBan().getStaffName()
+                                , "&fExpires In&7: &b" + formatExpire
+                                , "&fReason&7: &b" + profile.getBan().getReason()
+                                , "&7&m" + Strings.repeat('-', 20));
 
-        if (profile.getMute() != null) {
-            String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getMute().getPunishedAt()));
-            String formatExpire = profile.getMute().getType()
-                    == Punishment.Type.MUTE ? "Never" : DateUtils.formatTime(profile.getMute().getExpire() - System.currentTimeMillis());
+                inventory.setItem(slot++, itemBuilder.build());
+            }
 
-            ItemBuilder itemBuilder = new ItemBuilder()
-                    .type(Material.PAPER).name("&bActive Mute")
-                    .lore("&7&m" + Strings.repeat('-', 20)
-                            , "&fPunished At&7: &b" + formatAt
-                            , "&fPunished By&7: &f" + profile.getMute().getStaffName()
-                            , "&fExpires In&7: &b" + formatExpire
-                            , "&fReason&7: &b" + profile.getMute().getReason()
-                            , "&7&m" + Strings.repeat('-', 20));
+            if (profile.getMute() != null) {
+                String formatAt = new SimpleDateFormat("dd'/'MM 'at' hh:mm:ss").format(new Date(profile.getMute().getPunishedAt()));
+                String formatExpire = profile.getMute().getType()
+                        == Punishment.Type.MUTE ? "Never" : DateUtils.formatTime(profile.getMute().getExpire() - System.currentTimeMillis());
 
-            inventory.setItem(slot++, itemBuilder.build());
-        }
-* */
+                ItemBuilder itemBuilder = new ItemBuilder()
+                        .type(Material.PAPER).name("&bActive Mute")
+                        .lore("&7&m" + Strings.repeat('-', 20)
+                                , "&fPunished At&7: &b" + formatAt
+                                , "&fPunished By&7: &f" + profile.getMute().getStaffName()
+                                , "&fExpires In&7: &b" + formatExpire
+                                , "&fReason&7: &b" + profile.getMute().getReason()
+                                , "&7&m" + Strings.repeat('-', 20));
+
+                inventory.setItem(slot++, itemBuilder.build());
+            }
+    * */
     @Override
     public void update() {
         int slot = 9;

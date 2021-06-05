@@ -21,7 +21,7 @@ public class ColorMenu extends Menu {
 
     private Profile profile;
 
-    public ColorMenu(Profile profile){
+    public ColorMenu(Profile profile) {
         super("&eChoose your color.", 45);
 
         this.profile = profile;
@@ -32,7 +32,7 @@ public class ColorMenu extends Menu {
     public void update() {
         int slot = 11;
 
-        for(ChatColor color : ChatColor.values()){
+        for (ChatColor color : ChatColor.values()) {
             if (color == ChatColor.ITALIC || color == ChatColor.MAGIC
                     || color == ChatColor.BOLD || color == ChatColor.UNDERLINE
                     || color == ChatColor.STRIKETHROUGH || color == ChatColor.RESET
@@ -40,26 +40,26 @@ public class ColorMenu extends Menu {
 
             inventory.setItem(slot, new ItemBuilder().type(Material.WOOL).data(getWoolData(color)
             ).name(color + color.name())
-            .lore(Common.getLine(40),
-                    "&7You will look like this: " + getFormat(color),
-                    Common.getLine(40))
-            .build());
+                    .lore(Common.getLine(40),
+                            "&7You will look like this: " + getFormat(color),
+                            Common.getLine(40))
+                    .build());
 
             colors.put(slot, color);
-            if(slot == 16 || slot == 25) slot = slot + 2;
+            if (slot == 16 || slot == 25) slot = slot + 2;
             slot++;
         }
 
         inventory.setItem(slot, new ItemBuilder().type(Material.GLOWSTONE_DUST)
                 .name("&eToggle your italic mode.")
-                .lore(Common.getLine(40), "&7You will look like this: " +profile.getHighestRank().getColors() +
+                .lore(Common.getLine(40), "&7You will look like this: " + profile.getHighestRank().getColors() +
                                 (profile.hasCustomColor() ? profile.getChatColor() + "" : "") +
                                 ChatColor.ITALIC + profile.getName()
                         , Common.getLine(40)
-                        ).build());
+                ).build());
         colors.put(slot, ChatColor.ITALIC);
 
-        if(slot == 16 || slot == 25) slot = slot + 2;
+        if (slot == 16 || slot == 25) slot = slot + 2;
         slot++;
 
         inventory.setItem(slot, new ItemBuilder().type(Material.COOKIE)
@@ -70,12 +70,12 @@ public class ColorMenu extends Menu {
         colors.put(slot, ChatColor.MAGIC);
 
         inventory.setItem(10, new ItemBuilder().type(Material.STAINED_GLASS_PANE)
-        .data(14).name("&cReset Color").build());
+                .data(14).name("&cReset Color").build());
 
         inventory.setItem(44, new ItemBuilder().type(Material.ENDER_CHEST).name("&7Back to &dCosmetics").build());
 
-        for(int i = 0; i < inventory.getSize(); i++) {
-            if(colors.containsKey(i) || i == 10 || i == 45) continue;
+        for (int i = 0; i < inventory.getSize(); i++) {
+            if (colors.containsKey(i) || i == 10 || i == 45) continue;
             inventory.setItem(i, pane());
         }
     }
@@ -93,32 +93,32 @@ public class ColorMenu extends Menu {
     private String getNameWithSpaceBetweenRank(Profile profile, boolean toggle) {
         return profile.getHighestRank().getPrefix() + profile.getHighestRank().getColors() +
                 (profile.getChatColor() == null ? "" : profile.getChatColor()) + (profile.isItalic() ? ChatColor.ITALIC : "") +
-               (toggle ? " " : "") +profile.getName()
+                (toggle ? " " : "") + profile.getName()
                 + profile.getHighestRank().getSuffix();
     }
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        if(!(event.getWhoClicked() instanceof Player)) return;
+        if (!(event.getWhoClicked() instanceof Player)) return;
 
         Player player = (Player) event.getWhoClicked();
 
-        if(event.getSlot() == 10){
+        if (event.getSlot() == 10) {
             profile.setChatColor(null);
             player.sendMessage(Color.translate("&cYou are now using your rank's color."));
             return;
         }
 
-        if(event.getSlot() == 44){
+        if (event.getSlot() == 44) {
             player.closeInventory();
             Task.later(() -> new CosmeticsMenu(profile).open(player), 2L);
             return;
         }
 
-        if(colors.containsKey(event.getSlot())){
+        if (colors.containsKey(event.getSlot())) {
             ChatColor color = colors.get(event.getSlot());
 
-            switch(color){
+            switch (color) {
                 case ITALIC:
                     profile.setItalic(!profile.isItalic());
                     break;

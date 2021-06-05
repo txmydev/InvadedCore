@@ -11,7 +11,7 @@ public class PermissibleInjector {
 
     private static Field PERMISSIBLE_BASE_FIELD;
 
-    public static void inject(Player player){
+    public static void inject(Player player) {
         try {
             if (PERMISSIBLE_BASE_FIELD == null) {
                 PERMISSIBLE_BASE_FIELD = player.getClass().getSuperclass().getDeclaredField("perm");
@@ -25,13 +25,13 @@ public class PermissibleInjector {
 
             PERMISSIBLE_BASE_FIELD.set(player, newPerm);
             newPerm.recalculatePermissions();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     @SneakyThrows
-    private static void copy(PermissibleBase old, PermissibleBase newPerm){
+    private static void copy(PermissibleBase old, PermissibleBase newPerm) {
         Field attachmentField = PermissibleBase.class.getDeclaredField("attachments");
         attachmentField.setAccessible(true);
         List<Object> attachmentPerms = (List<Object>) attachmentField.get(newPerm);
@@ -46,7 +46,7 @@ public class PermissibleInjector {
             PermissibleBase oldOldPerm = oldPerm.getOldBase();
             PERMISSIBLE_BASE_FIELD.set(player, oldOldPerm);
             oldOldPerm.recalculatePermissions();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

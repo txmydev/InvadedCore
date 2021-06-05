@@ -21,15 +21,15 @@ public abstract class BasicCommand extends Command {
     public final PermLevel permLevel;
     public final String[] aliases;
 
-    public BasicCommand(String name, PermLevel permLevel, String... aliases){
-        super(name,"", "", Arrays.asList(aliases));
+    public BasicCommand(String name, PermLevel permLevel, String... aliases) {
+        super(name, "", "", Arrays.asList(aliases));
 
         this.name = name;
         this.aliases = aliases;
         this.permLevel = permLevel;
 
 
-        if(COMMAND_MAP == null){
+        if (COMMAND_MAP == null) {
             try {
                 Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
                 field.setAccessible(true);
@@ -42,7 +42,7 @@ public abstract class BasicCommand extends Command {
         register();
     }
 
-    public void register(){
+    public void register() {
         COMMAND_MAP.register(name, this);
     }
 
@@ -50,7 +50,7 @@ public abstract class BasicCommand extends Command {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        if(!Permission.test(commandSender, permLevel) && commandSender instanceof Player){
+        if (!Permission.test(commandSender, permLevel) && commandSender instanceof Player) {
             commandSender.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
             return true;
         }

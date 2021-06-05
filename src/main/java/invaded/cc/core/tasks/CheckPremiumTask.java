@@ -10,20 +10,18 @@ import java.net.URL;
 public class CheckPremiumTask implements Runnable {
 
     private static final JsonParser PARSER = new JsonParser();
-
-    public static boolean runCheck(String name){
-        CheckPremiumTask checkPremiumTask = new CheckPremiumTask(name);
-        checkPremiumTask.run();
-        return checkPremiumTask.result;
-    }
-
     private final String name;
-
     @Getter
     private boolean result;
 
-    public CheckPremiumTask(String name){
+    public CheckPremiumTask(String name) {
         this.name = name;
+    }
+
+    public static boolean runCheck(String name) {
+        CheckPremiumTask checkPremiumTask = new CheckPremiumTask(name);
+        checkPremiumTask.run();
+        return checkPremiumTask.result;
     }
 
     @Override
@@ -34,9 +32,9 @@ public class CheckPremiumTask implements Runnable {
             URL url = new URL(link);
             PARSER.parse(new InputStreamReader(url.openStream())).getAsJsonObject();
             result = true;
-        }catch(IllegalStateException ex) {
+        } catch (IllegalStateException ex) {
             result = false;
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

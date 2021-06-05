@@ -21,7 +21,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class TagsCommand extends BasicCommand {
 
@@ -31,26 +34,26 @@ public class TagsCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         TagsHandler tagsHandler = Spotify.getInstance().getTagsHandler();
 
-        if(args.length == 0) {
+        if (args.length == 0) {
             Profile profile = profileHandler.getProfile(player);
             new CosmeticsMenu(profile).open(player);
             return;
         }
 
         String arg1 = args[0].toLowerCase();
-        if(arg1.equals("create")) {
-            if(!Permission.test(sender, PermLevel.ADMIN)) {
+        if (arg1.equals("create")) {
+            if (!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
                 return;
             }
 
-            if(args.length != 5) {
+            if (args.length != 5) {
                 player.sendMessage(Color.translate("&c/tags create <prefix:suffix> <id> <display> <price>"));
                 return;
             }
@@ -60,55 +63,55 @@ public class TagsCommand extends BasicCommand {
             String display = args[3];
             int price = getInt(args[4]);
 
-            if(price == -1){
+            if (price == -1) {
                 player.sendMessage(Color.translate("&cYou may enter a valid price."));
                 return;
             }
 
-            if(tagsHandler.getTag(id) != null) {
+            if (tagsHandler.getTag(id) != null) {
                 player.sendMessage(Color.translate("&cThat tag already exists, you may use /prefix modify."));
                 return;
             }
 
             Tag tag;
-            if(type.equalsIgnoreCase("suffix")) {
+            if (type.equalsIgnoreCase("suffix")) {
                 Tag suffix = new Tag(id, display, price, true);
                 tagsHandler.getTags().add(suffix);
-                tag =suffix;
-            }else {
+                tag = suffix;
+            } else {
                 Tag prefix = new Tag(id, display, price, false);
                 tagsHandler.getTags().add(prefix);
                 tag = prefix;
             }
 
-            player.sendMessage(Color.translate("&aYou've created the " + tag.getType() +" &6" +id+" &awith display &r" + display + " &aand price &6" + price + " coins&a."));
-        } else if(arg1.equals("delete") || arg1.equals("remove")) {
-            if(!Permission.test(sender, PermLevel.ADMIN)) {
+            player.sendMessage(Color.translate("&aYou've created the " + tag.getType() + " &6" + id + " &awith display &r" + display + " &aand price &6" + price + " coins&a."));
+        } else if (arg1.equals("delete") || arg1.equals("remove")) {
+            if (!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
                 return;
             }
 
-            if(args.length != 2) {
+            if (args.length != 2) {
                 player.sendMessage(Color.translate("&c/tags delete/remove <id>"));
                 return;
             }
 
             String id = args[1];
             Tag tag = tagsHandler.getTag(id);
-            if(tag == null){
+            if (tag == null) {
                 player.sendMessage(Color.translate("&cThat prefix doesn't exist."));
                 return;
             }
 
             Task.async(() -> tagsHandler.remove(tag));
-            player.sendMessage(Color.translate("&cYou've removed " + tag.getType() + " &6"+id+"&c."));
-        } else if(arg1.equals("modify")) {
-            if(!Permission.test(sender, PermLevel.ADMIN)) {
+            player.sendMessage(Color.translate("&cYou've removed " + tag.getType() + " &6" + id + "&c."));
+        } else if (arg1.equals("modify")) {
+            if (!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
                 return;
             }
 
-            if(args.length != 4) {
+            if (args.length != 4) {
                 player.sendMessage(Color.translate("&c/prefix modify <id> <display> <price>"));
                 return;
             }
@@ -118,7 +121,7 @@ public class TagsCommand extends BasicCommand {
             int price = getInt(args[3]);
 
             Tag tag = tagsHandler.getTag(id);
-            if(tag == null){
+            if (tag == null) {
                 player.sendMessage(Color.translate("&cThat tag doesn't exist."));
                 return;
             }
@@ -126,13 +129,13 @@ public class TagsCommand extends BasicCommand {
             tag.setDisplay(display.equals("@@stay") ? tag.getDisplay() : display);
             tag.setPrice(price);
             player.sendMessage(Color.translate("&aYou've modified &6" + id + "&a's display to &r" + display + " &aand price &6" + price + " coins&a."));
-        } else if(arg1.equals("deleteall")) {
-            if(!Permission.test(sender, PermLevel.ADMIN)) {
+        } else if (arg1.equals("deleteall")) {
+            if (!Permission.test(sender, PermLevel.ADMIN)) {
                 player.sendMessage(Color.translate("&cYou don't have permissions to perform this action."));
                 return;
             }
 
-            if(args.length != 1) {
+            if (args.length != 1) {
                 player.sendMessage(Color.translate("&c/prefix deleteall"));
                 return;
             }
@@ -143,9 +146,9 @@ public class TagsCommand extends BasicCommand {
     }
 
     private int getInt(String arg) {
-        try{
+        try {
             return Integer.parseInt(arg);
-        }catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             return -1;
         }
     }
@@ -153,12 +156,16 @@ public class TagsCommand extends BasicCommand {
     private void deleteAll(Player player) {
         Task.async(() -> {
 
-            if(deletePrefixes().equals("ok")) player.sendMessage(Color.translate("&aAll the prefixes have been removed successfully, so now we are removing all of them from the players, this may take several minutes."));
-            else player.sendMessage(Color.translate("&cAn error has ocurred while trying to delete all the prefixes, you should check http console."));
+            if (deletePrefixes().equals("ok"))
+                player.sendMessage(Color.translate("&aAll the prefixes have been removed successfully, so now we are removing all of them from the players, this may take several minutes."));
+            else
+                player.sendMessage(Color.translate("&cAn error has ocurred while trying to delete all the prefixes, you should check http console."));
 
-            if(deleteFromPlayers().equals("ok")) {
-                if(player != null) player.sendMessage(Color.translate("&aSuccessfully deleted all the prefixes from all the users."));
-                else Bukkit.getConsoleSender().sendMessage(Color.translate("&aSuccessfully deleted all the prefixes from all the users."));
+            if (deleteFromPlayers().equals("ok")) {
+                if (player != null)
+                    player.sendMessage(Color.translate("&aSuccessfully deleted all the prefixes from all the users."));
+                else
+                    Bukkit.getConsoleSender().sendMessage(Color.translate("&aSuccessfully deleted all the prefixes from all the users."));
             }
         });
     }
@@ -177,7 +184,7 @@ public class TagsCommand extends BasicCommand {
 
         response.close();
         data.forEach((id, name) -> {
-            if(Bukkit.getPlayer(name) != null) {
+            if (Bukkit.getPlayer(name) != null) {
                 Task.run(() -> Bukkit.getPlayer(name).kickPlayer(Color.translate("&cAn admin has ran a command to delete all the prefixes from users, \nyou cannot enter right now.")));
                 Spotify.getInstance().getProfileHandler().getDeletingPrefix().add(UUID.fromString(id));
             }
@@ -203,10 +210,10 @@ public class TagsCommand extends BasicCommand {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response.bodyText()).getAsJsonObject();
 
-        if(jsonObject.get("message").getAsString().equals("ok")) {
+        if (jsonObject.get("message").getAsString().equals("ok")) {
             response.close();
             return "ok";
-        }else {
+        } else {
             response.close();
             return "not ok";
         }

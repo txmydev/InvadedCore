@@ -4,7 +4,7 @@ ranks:
     #
     default: true
     #
-    permissions: []
+    permissions: [ ]
     #
     options:
       prefix: ''

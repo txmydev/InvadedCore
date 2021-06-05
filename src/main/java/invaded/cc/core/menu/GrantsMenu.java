@@ -1,5 +1,6 @@
 package invaded.cc.core.menu;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.profile.Profile;
@@ -11,7 +12,6 @@ import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ItemBuilder;
 import invaded.cc.core.util.Task;
 import invaded.cc.core.util.menu.Menu;
-import invaded.cc.core.Spotify;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -43,18 +43,18 @@ public class GrantsMenu extends Menu {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd'/'MM hh:mm:ss");
 
-        for(Grant grant : list) {
+        for (Grant grant : list) {
             Rank rank = rankHandler.getRank(grant.getRank());
             ItemBuilder itemBuilder = new ItemBuilder().type(Material.PAPER);
 
-            itemBuilder.name("&bGrant of " + rank.getColoredName() +" &brank");
+            itemBuilder.name("&bGrant of " + rank.getColoredName() + " &brank");
             itemBuilder.lore(Common.getLine(20));
             itemBuilder.lore("&fAdded By&7: &b" + grant.getAddedBy());
             itemBuilder.lore("&fAdded At&7: &b" + simpleDateFormat.format(new Date(grant.getAddedAt())));
             itemBuilder.lore("&fDuration&7: &bPermanent");
             itemBuilder.lore(Common.getLine(20));
 
-            if(grant.isUse()) {
+            if (grant.isUse()) {
                 itemBuilder.lore("&bClick to remove this grant");
                 itemBuilder.lore(Common.getLine(20));
                 grants.put(slot, grant);
@@ -76,13 +76,13 @@ public class GrantsMenu extends Menu {
         Profile profile = profileHandler.getProfile(player.getUniqueId());
         int pr = profile.getHighestRank().getPriority();
 
-        if(grants.containsKey(event.getSlot())) {
+        if (grants.containsKey(event.getSlot())) {
             RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
             Grant grant = grants.get(event.getSlot());
             Rank rank = rankHandler.getRank(grant.getRank());
 
-            if(pr < rank.getPriority()) {
+            if (pr < rank.getPriority()) {
                 player.sendMessage(Color.translate("&cYou cannot remove this grant."));
                 return;
             }

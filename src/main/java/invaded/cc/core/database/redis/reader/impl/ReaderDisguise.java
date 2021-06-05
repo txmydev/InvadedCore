@@ -25,7 +25,8 @@ public class ReaderDisguise implements Callback<JsonObject> {
         String profileId = jsonObject.get("profileId").getAsString();
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
 
-        if(profile == null) profile = profileHandler.load(UUID.fromString(profileId), jsonObject.get("realName").getAsString());
+        if (profile == null)
+            profile = profileHandler.load(UUID.fromString(profileId), jsonObject.get("realName").getAsString());
 
         String fakeName = jsonObject.get("name").getAsString();
         String[] skin = jsonObject.get("skin").getAsString().split(";");
@@ -41,12 +42,12 @@ public class ReaderDisguise implements Callback<JsonObject> {
 
         profile.setFakeProfile(gameProfile);
 
-        if(serverId.equals(currentServer)) {
+        if (serverId.equals(currentServer)) {
             profile.disguise();
         }
 
-        String info = profile.getFakeName()+";" + profile.getFakeRank().getName()
-                +";" + profile.getFakeSkin().getTexture() +";" + profile.getFakeSkin().getSignature();
+        String info = profile.getFakeName() + ";" + profile.getFakeRank().getName()
+                + ";" + profile.getFakeSkin().getTexture() + ";" + profile.getFakeSkin().getSignature();
 
         DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
         System.out.println("Successfully added " + profile.getName() + " to the map");

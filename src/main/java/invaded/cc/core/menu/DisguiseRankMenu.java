@@ -1,5 +1,6 @@
 package invaded.cc.core.menu;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -9,7 +10,6 @@ import invaded.cc.core.util.Common;
 import invaded.cc.core.util.Skin;
 import invaded.cc.core.util.Task;
 import invaded.cc.core.util.menu.Menu;
-import invaded.cc.core.Spotify;
 import lombok.SneakyThrows;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
@@ -21,7 +21,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DisguiseRankMenu extends Menu {
 
@@ -85,7 +88,7 @@ public class DisguiseRankMenu extends Menu {
 
         Skin skin = profile.getRealSkin();
 
-        if(Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
+        if (Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().size() == 0) {
             profile.setFakeSkin(skin);
             disguise();
 
@@ -94,9 +97,9 @@ public class DisguiseRankMenu extends Menu {
             return;
         }
 
-        Task.asyncLater(() ->{
+        Task.asyncLater(() -> {
             new SkinMenu(player, nick, Spotify.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)).open(player);
-        } , 2L);
+        }, 2L);
     }
 
     public void disguise() {
@@ -105,8 +108,8 @@ public class DisguiseRankMenu extends Menu {
 
         profile.setFakeProfile(gameProfile);
 
-        String info = profile.getFakeName()+";" + profile.getFakeRank().getName()
-                +";" + profile.getFakeSkin().getTexture() +";" + profile.getFakeSkin().getSignature();
+        String info = profile.getFakeName() + ";" + profile.getFakeRank().getName()
+                + ";" + profile.getFakeSkin().getTexture() + ";" + profile.getFakeSkin().getSignature();
 
         profile.disguise();
         DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);

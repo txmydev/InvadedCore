@@ -49,12 +49,12 @@ public class ReplyCommand extends BasicCommand {
             return;
         }
 
-        if(!profile.isMessages()){
+        if (!profile.isMessages()) {
             player.sendMessage(Color.translate("&cYour pm's are off."));
             return;
         }
 
-        if(!targetData.isMessages()){
+        if (!targetData.isMessages()) {
             player.sendMessage(Color.translate("&cThat player has pm's toggled off."));
             return;
         }
@@ -84,8 +84,8 @@ public class ReplyCommand extends BasicCommand {
         profile.setRecentTalker(targetData);
         targetData.setRecentTalker(profile);
 
-        if(profile.isMessagesSound()) player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
-        if(targetData.isMessagesSound()) target.playSound(target.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+        if (profile.isMessagesSound()) player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+        if (targetData.isMessagesSound()) target.playSound(target.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 
         if (Filter.needFilter(stringBuilder.toString())) {
             String filter = Filter.PREFIX + " &e(" + profile.getColoredName() + " &eto " + targetData.getColoredName() + "&e) " + stringBuilder.toString();

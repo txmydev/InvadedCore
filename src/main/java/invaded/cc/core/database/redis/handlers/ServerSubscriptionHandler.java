@@ -24,7 +24,8 @@ public class ServerSubscriptionHandler implements JedisHandler {
         String motd = jsonObject.get("motd").getAsString();
 
         ServerHandler serverHandler = null;// Core.getInstance().getServerHandler();
-        if(!serverHandler.getServers().containsKey(serverId)) Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fAdded server &b" +serverId +"&f...");
+        if (!serverHandler.getServers().containsKey(serverId))
+            Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fAdded server &b" + serverId + "&f...");
 
         serverHandler.getServers().putIfAbsent(serverId, new Server(serverId));
         Server server = serverHandler.getServer(serverId);
@@ -42,8 +43,8 @@ public class ServerSubscriptionHandler implements JedisHandler {
         for (; iterator.hasNext(); ) {
             Server target = iterator.next();
 
-            if(System.currentTimeMillis() - target.getLastUpdate() >= 3000L) {
-                Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fRemoved server &b" + target.getServerId() +"&f...");
+            if (System.currentTimeMillis() - target.getLastUpdate() >= 3000L) {
+                Common.broadcastMessage(PermLevel.ADMIN, "&7[&bServer Heartbeat&7] &fRemoved server &b" + target.getServerId() + "&f...");
                 iterator.remove();
             }
         }

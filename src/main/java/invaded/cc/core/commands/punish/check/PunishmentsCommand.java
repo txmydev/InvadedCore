@@ -56,13 +56,14 @@ public class PunishmentsCommand extends BasicCommand {
             HttpResponse response = RequestHandler.get("/punishments", query);
             List<Punishment> punishmentList = new ArrayList<>();
 
-            if(response.statusCode() == 200) {
+            if (response.statusCode() == 200) {
                 JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
-                for (JsonElement element : jsonArray) punishmentList.add(Spotify.GSON.fromJson(element, Punishment.class));
+                for (JsonElement element : jsonArray)
+                    punishmentList.add(Spotify.GSON.fromJson(element, Punishment.class));
             }
 
-            if(target.getMute() != null) punishmentList.add(target.getMute());
-            if(target.getBan() != null) punishmentList.add(target.getBan());
+            if (target.getMute() != null) punishmentList.add(target.getMute());
+            if (target.getBan() != null) punishmentList.add(target.getBan());
 
             Profile finalTarget = target;
             Task.run(() -> new PunishmentsMenu(finalTarget, punishmentList).open(player));

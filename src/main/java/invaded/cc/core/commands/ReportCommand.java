@@ -15,28 +15,28 @@ import org.bukkit.entity.Player;
 
 public class ReportCommand extends BasicCommand {
 
-    public ReportCommand(){
+    public ReportCommand() {
         super("report", PermLevel.DEFAULT);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length < 2) {
+        if (args.length < 2) {
             sender.sendMessage(Color.translate("&cPlease use /report <player> <reason>"));
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
 
-        if(target == null){
+        if (target == null) {
             sender.sendMessage(Color.translate("&cThat player is offline."));
             return;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(String s : args){
-            if(s.equalsIgnoreCase(target.getName())) continue;
+        for (String s : args) {
+            if (s.equalsIgnoreCase(target.getName())) continue;
 
             stringBuilder.append(s).append(" ");
         }
@@ -54,9 +54,9 @@ public class ReportCommand extends BasicCommand {
         String reason = stringBuilder.toString();
 
         Clickable clickable = new Clickable("&7[&4Report&7] " + profile.getColoredName() + " &fhas reported " + targetProfile.getColoredName()
-                + " &fwith a reason of &b"  + reason);
+                + " &fwith a reason of &b" + reason);
 
-        clickable.hover(HoverEvent.Action.SHOW_TEXT,  "&bClick to teleport to " + targetProfile.getColoredName());
+        clickable.hover(HoverEvent.Action.SHOW_TEXT, "&bClick to teleport to " + targetProfile.getColoredName());
 
         clickable.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + targetProfile.getName());
 

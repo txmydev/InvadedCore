@@ -1,5 +1,6 @@
 package invaded.cc.core.menu;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.profile.Profile;
@@ -9,7 +10,6 @@ import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.ItemBuilder;
 import invaded.cc.core.util.menu.Menu;
-import invaded.cc.core.Spotify;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,7 +26,7 @@ public class GrantMenu extends Menu {
 
     private final RankHandler rankHandler = Spotify.getInstance().getRankHandler();
 
-    public GrantMenu(Profile profile){
+    public GrantMenu(Profile profile) {
         super("&eChange rank of " + profile.getColoredName(), 27);
 
         this.values = new ConcurrentHashMap<>();
@@ -37,13 +37,13 @@ public class GrantMenu extends Menu {
     public void update() {
         int slot = 0;
 
-        for(Rank rank : rankHandler.getRanks()){
+        for (Rank rank : rankHandler.getRanks()) {
             inventory.setItem(slot, new ItemBuilder()
-            .type(Material.WOOL).data(getWoolData(rank.getColor()))
-            .name(rank.getColoredName())
+                    .type(Material.WOOL).data(getWoolData(rank.getColor()))
+                    .name(rank.getColoredName())
                     .lore("&7&m---------------------------"
-                    , "&bClick to grant " + rank.getColoredName() +" &bto " + profile.getColoredName()
-                    ,"&7&m---------------------------").build());
+                            , "&bClick to grant " + rank.getColoredName() + " &bto " + profile.getColoredName()
+                            , "&7&m---------------------------").build());
 
             values.put(slot, rank);
             slot++;
@@ -56,10 +56,10 @@ public class GrantMenu extends Menu {
         Player player = (Player) event.getWhoClicked();
         Profile whoClicked = profileHandler.getProfile(player.getUniqueId());
 
-        if(values.containsKey(event.getSlot())){
+        if (values.containsKey(event.getSlot())) {
             Rank rank = values.get(event.getSlot());
 
-            if(rank.getPriority() > whoClicked.getHighestRank().getPriority() && !player.getName().equalsIgnoreCase("txmy")) {
+            if (rank.getPriority() > whoClicked.getHighestRank().getPriority() && !player.getName().equalsIgnoreCase("txmy")) {
                 player.sendMessage(Color.translate("&cFailed to set that rank."));
                 return;
             }
@@ -67,9 +67,9 @@ public class GrantMenu extends Menu {
             GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
             grantHandler.updateGrant(new Grant(profile, System.currentTimeMillis(), rank.getName(), player.getName()));
 
-            player.sendMessage(Color.translate(profile.getColoredName()+ "'s &arank is now " + rank.getColoredName()));
+            player.sendMessage(Color.translate(profile.getColoredName() + "'s &arank is now " + rank.getColoredName()));
             Player user = Bukkit.getPlayer(profile.getId());
-            if(user == null)return;
+            if (user == null) return;
             user.sendMessage(Color.translate("&aYou're rank has been updated to " + rank.getColoredName() + "&a, you may relog to see the changes."));
         }
     }

@@ -16,10 +16,10 @@ public class ReaderStaffLeave implements Callback<JsonObject> {
         String from = jsonObject.get("from").getAsString();
 
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
-        if(profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
+        if (profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
 
         Common.broadcastMessage(PermLevel.STAFF
                 , "&3[Staff] &b" + profile.getColoredName()
-                        + " &4left &bthe network. &7(from " + from+ ")");
+                        + " &4left &bthe network. &7(from " + from + ")");
     }
 }

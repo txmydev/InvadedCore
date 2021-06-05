@@ -46,7 +46,8 @@ public class UnBanCMD extends BasicCommand {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             Profile targetData = profileHandler.getProfile(offlinePlayer.getUniqueId());
-            if(targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
+            if (targetData == null)
+                targetData = profileHandler.load(offlinePlayer.getUniqueId(), offlinePlayer.getName(), false);
 
             if (targetData.getBan() == null) {
                 sender.sendMessage(Color.translate("&cThat player isn't banned."));
@@ -65,8 +66,10 @@ public class UnBanCMD extends BasicCommand {
             PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
             punishmentHandler.pardon(offlinePlayer.getUniqueId(), punishment);
 
-            if(silent.get()) Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unbanned by " + executor);
-            else Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unbanned by " +executor);
+            if (silent.get())
+                Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + targetData.getColoredName() + " &awas unbanned by " + executor);
+            else
+                Common.broadcastMessage(PermLevel.DEFAULT, targetData.getColoredName() + " &awas unbanned by " + executor);
         });
     }
 }

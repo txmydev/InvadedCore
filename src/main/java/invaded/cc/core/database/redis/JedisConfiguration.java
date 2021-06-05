@@ -14,16 +14,16 @@ public class JedisConfiguration {
                               int port,
                               String username,
                               String password,
-                              boolean auth){
+                              boolean auth) {
         this.host = host;
-        this.port =port;
+        this.port = port;
         this.username = username;
         this.password = password;
         this.auth = auth;
     }
 
     public JedisConfiguration(String host,
-                              int port){
+                              int port) {
         this(host, port, null, null, false);
     }
 

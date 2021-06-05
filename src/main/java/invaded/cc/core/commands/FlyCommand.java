@@ -27,7 +27,7 @@ public class FlyCommand extends BasicCommand {
             return;
         }
 
-        if(!Spotify.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
+        if (!Spotify.getInstance().getCommandHandler().getFlyWorlds().contains(player.getWorld().getName())) {
             player.sendMessage(Color.translate("&cYou cannot fly in this world!"));
             return;
         }
@@ -36,10 +36,10 @@ public class FlyCommand extends BasicCommand {
             if (player.getAllowFlight()) player.setAllowFlight(false);
             player.setFlying(false);
         } else {
-            if(!player.getAllowFlight()) player.setAllowFlight(true);
+            if (!player.getAllowFlight()) player.setAllowFlight(true);
             player.setFlying(true);
         }
 
-        player.sendMessage(Color.translate( (player.isFlying() ? "&a" : "&7") + "You toggled your fly mode."));
+        player.sendMessage(Color.translate((player.isFlying() ? "&a" : "&7") + "You toggled your fly mode."));
     }
 }

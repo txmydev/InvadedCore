@@ -1,8 +1,8 @@
 package invaded.cc.core.permission;
 
 import invaded.cc.core.Spotify;
-import invaded.cc.core.util.Common;
 import invaded.cc.core.injector.PermissibleInjector;
+import invaded.cc.core.util.Common;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -20,10 +20,10 @@ public class PermissionHandler {
         attachments.putIfAbsent(player.getUniqueId(), player.addAttachment(Spotify.getInstance()));
         PermissionAttachment attachment = attachments.get(player.getUniqueId());
 
-        try{
+        try {
             Common.modifyField("permissions", attachment, permissions, false);
-        }catch(Exception ex){
-             ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         PermissibleInjector.inject(player);

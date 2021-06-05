@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class IgnoreCommand extends BasicCommand {
 
-    public IgnoreCommand(){
+    public IgnoreCommand() {
         super("ignore", PermLevel.DEFAULT);
     }
 
@@ -36,15 +36,15 @@ public class IgnoreCommand extends BasicCommand {
             return;
         }
 
-        if(player.getUniqueId() == target.getUniqueId()){
+        if (player.getUniqueId() == target.getUniqueId()) {
             player.sendMessage(Color.translate("&cYou cannot ignore yourself."));
             return;
         }
 
         Profile profile = profileHandler.getProfile(player.getUniqueId());
-        Profile targetData  = profileHandler.getProfile(target.getUniqueId());
+        Profile targetData = profileHandler.getProfile(target.getUniqueId());
 
-        if(profile.getIgnoreList().contains(target.getName())) {
+        if (profile.getIgnoreList().contains(target.getName())) {
             profile.getIgnoreList().remove(target.getName());
             player.sendMessage(Color.translate("&aYou have removed " + targetData.getDisguisedName() + " &afrom your ignore list."));
             return;

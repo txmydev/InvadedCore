@@ -15,21 +15,21 @@ public class SudoCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length <= 1) {
+        if (args.length <= 1) {
             sender.sendMessage(Color.translate("&cPlease use /sudo <player> <c:cmd:>"));
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
 
-        if(target==null) {
+        if (target == null) {
             sender.sendMessage(Color.translate("&cThat player is offline"));
             return;
         }
 
         String toDo = args[1];
 
-        if(toDo.split(":").length == 0){
+        if (toDo.split(":").length == 0) {
             sender.sendMessage(Color.translate("&cPlease use /sudo <player> <c:cmd:>"));
             return;
         }
@@ -37,18 +37,18 @@ public class SudoCommand extends BasicCommand {
         String type = toDo.split(":")[0];
         StringBuilder message = new StringBuilder();
 
-        for(int i = 1; i < args.length; i++) {
-            if(args[i].contains(":")) message.append(args[i].substring(args[i].lastIndexOf(":") + 1)).append(" ");
+        for (int i = 1; i < args.length; i++) {
+            if (args[i].contains(":")) message.append(args[i].substring(args[i].lastIndexOf(":") + 1)).append(" ");
             else message.append(args[i]).append(" ");
         }
 
         SudoType sudoType = getType(type);
-        if(sudoType == null) {
+        if (sudoType == null) {
             sender.sendMessage(Color.translate("&cThat player is offline"));
             return;
         }
 
-        switch(sudoType) {
+        switch (sudoType) {
             case CHAT:
                 target.chat(message.toString());
                 break;
@@ -59,9 +59,9 @@ public class SudoCommand extends BasicCommand {
     }
 
     private SudoType getType(String type) {
-        if(type.equals("c")) {
+        if (type.equals("c")) {
             return SudoType.CHAT;
-        }else if(type.equals("cmd"))
+        } else if (type.equals("cmd"))
             return SudoType.COMMAND;
 
         return null;

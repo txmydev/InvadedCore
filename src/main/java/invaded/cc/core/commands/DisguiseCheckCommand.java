@@ -13,13 +13,13 @@ public class DisguiseCheckCommand extends BaseCommand {
 
     @Command(name = "checkdisguise", aliases = {"isd", "checkd", "dcheck"}, permission = "invaded.staff")
     public void onCommand(CommandArgs command) {
-        if(command.getArgs().length != 1){
+        if (command.getArgs().length != 1) {
             command.getSender().sendMessage(Color.translate("&cUse /checkdisguise <player>."));
             return;
         }
 
         Player player = Bukkit.getPlayer(command.getArgs()[0]);
-        if(player == null) {
+        if (player == null) {
             command.getSender().sendMessage(Color.translate("&cThat player is offline."));
             return;
         }
@@ -27,8 +27,10 @@ public class DisguiseCheckCommand extends BaseCommand {
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         profileHandler.ifPresent(player.getUniqueId(), profile -> {
-            if(!profile.isDisguised()) command.getSender().sendMessage(Color.translate(profile.getColoredName() + " &cisn't disguised."));
-            else command.getSender().sendMessage(Color.translate(profile.getRealColoredName() + " &ais disguised as " + profile.getColoredName()));
+            if (!profile.isDisguised())
+                command.getSender().sendMessage(Color.translate(profile.getColoredName() + " &cisn't disguised."));
+            else
+                command.getSender().sendMessage(Color.translate(profile.getRealColoredName() + " &ais disguised as " + profile.getColoredName()));
         }, command.getSender(), "That player is offline.");
     }
 }

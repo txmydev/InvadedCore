@@ -1,11 +1,11 @@
 package invaded.cc.core.util;
 
 import com.google.common.base.Strings;
+import invaded.cc.core.Spotify;
 import invaded.cc.core.profile.Profile;
+import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import invaded.cc.core.Spotify;
-import invaded.cc.core.punishment.Punishment;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_7_R4.Packet;
@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 
 public class Common {
 
-    public static Collection<? extends Player> getOnlinePlayers(){
+    public static Collection<? extends Player> getOnlinePlayers() {
         return Bukkit.getServer().getOnlinePlayers();
     }
 
@@ -33,7 +33,7 @@ public class Common {
 
         for (Predicate<Player> playerPredicate : predicate) {
             for (Player player : list) {
-                if(!playerPredicate.test(player)) continue;
+                if (!playerPredicate.test(player)) continue;
 
                 list.add(player);
             }
@@ -45,16 +45,16 @@ public class Common {
     public static ChatColor getRandomColor() {
         ChatColor[] colors = Arrays.asList(ChatColor.AQUA, ChatColor.BLUE, ChatColor.RED, ChatColor.YELLOW, ChatColor.LIGHT_PURPLE).toArray(new ChatColor[0]);
 
-        return colors[ThreadLocalRandom.current().nextInt(colors.length -1)];
+        return colors[ThreadLocalRandom.current().nextInt(colors.length - 1)];
     }
 
     public static String getDisallowedReason(Punishment punishment) {
-        if(punishment.getType().name().contains("MUTE")
-        || punishment.getType().name().contains("WARN")) return "?";
+        if (punishment.getType().name().contains("MUTE")
+                || punishment.getType().name().contains("WARN")) return "?";
 
         List<String> info = new ArrayList<>();
 
-        if(punishment.getType() == Punishment.Type.TEMPORARY_BAN) {
+        if (punishment.getType() == Punishment.Type.TEMPORARY_BAN) {
             long left = punishment.getExpire() - System.currentTimeMillis();
 
             info.add("&cYour account has been temporary suspended from SkullUHC");
@@ -64,13 +64,13 @@ public class Common {
             info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
-        }else if (punishment.getType() == Punishment.Type.BAN) {
+        } else if (punishment.getType() == Punishment.Type.BAN) {
             info.add("&cYour account has been permanently suspended from SkullUHC.");
             info.add("&e");
             info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
-        } else if(punishment.getType() == Punishment.Type.BLACKLIST) {
+        } else if (punishment.getType() == Punishment.Type.BLACKLIST) {
             info.add("&cYour account has been blacklisted from SkullUHC.");
             info.add("&e");
             info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
@@ -83,7 +83,7 @@ public class Common {
 
     public static void broadcastMessage(PermLevel permLevel, String message) {
         getOnlinePlayers().forEach(player -> {
-            if(!Permission.test(player, permLevel)) return;
+            if (!Permission.test(player, permLevel)) return;
 
             player.sendMessage(Color.translate(message));
         });
@@ -94,7 +94,7 @@ public class Common {
 
     public static void broadcastMessage(PermLevel permLevel, TextComponent message) {
         getOnlinePlayers().forEach(player -> {
-            if(!Permission.test(player, permLevel)) return;
+            if (!Permission.test(player, permLevel)) return;
 
             player.spigot().sendMessage((message));
         });
@@ -102,13 +102,13 @@ public class Common {
         Bukkit.getConsoleSender().sendMessage(Color.translate(message.getText()));
     }
 
-    public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, String message){
+    public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, String message) {
         broadcastMessage(permLevel, predicate, new TextComponent(Color.translate(message)));
     }
 
-    public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, TextComponent message){
+    public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, TextComponent message) {
         getOnlinePlayers().stream().filter(predicate).forEach(player -> {
-            if(!Permission.test(player, permLevel)) return;
+            if (!Permission.test(player, permLevel)) return;
 
             player.spigot().sendMessage(message);
         });
@@ -138,12 +138,12 @@ public class Common {
         return list;
     }
 
-    public static String wrapList(List<String> list){
+    public static String wrapList(List<String> list) {
         StringBuilder stringBuilder = new StringBuilder();
         int index = 0;
 
-        for(String s : list){
-            if(index == list.size() - 1 || index == list.size()) stringBuilder.append(s);
+        for (String s : list) {
+            if (index == list.size() - 1 || index == list.size()) stringBuilder.append(s);
             else stringBuilder.append(s).append(",");
 
             index++;
@@ -152,23 +152,22 @@ public class Common {
         return stringBuilder.toString();
     }
 
-    public static List<String> wrapStringToList(String s){
+    public static List<String> wrapStringToList(String s) {
         String[] split = s.split(",");
 
         return new ArrayList<>(Arrays.asList(split));
     }
 
     public static boolean validDisguise(String arg) {
-        if(arg.length() >= 16 || arg.length() < 3) return false;
+        if (arg.length() >= 16 || arg.length() < 3) return false;
 
         List<String> list = new ArrayList<>(Arrays.asList("$", "!", "#", "$", "%", "&", "/", "(", ")", "=", "'", "¿"
                 , "?", "¡", "|", "°", "´", "+", "¨", "*", "{", "}", "[", "]", "^", "`", ".", ","
                 , ";", ":", "-", "@", "\n"));
 
 
-
         for (String s : list) {
-            if(arg.contains(s)) return false;
+            if (arg.contains(s)) return false;
         }
 
         return true;
@@ -179,7 +178,7 @@ public class Common {
     }
 
     @SneakyThrows
-    public static void modifyField(String fieldName, Object object, Object value, boolean superclazz){
+    public static void modifyField(String fieldName, Object object, Object value, boolean superclazz) {
         Field field = superclazz ? object.getClass().getSuperclass().getDeclaredField(fieldName) : object.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         field.set(object, value);
@@ -187,7 +186,7 @@ public class Common {
     }
 
     public static Map<String, Boolean> convertListToMap(Set<String> list) {
-        if(list == null) return new HashMap<>();
+        if (list == null) return new HashMap<>();
 
         Map<String, Boolean> map = new HashMap<>();
         list.forEach(string -> map.putIfAbsent(string, true));
@@ -200,8 +199,8 @@ public class Common {
     }
 
     public static String getName(String arg) {
-        for(Profile profile : Spotify.getInstance().getProfileHandler().getProfiles().values()) {
-            if(profile.getName().equals(arg) || profile.getFakeName().equals(arg)) return profile.getName();
+        for (Profile profile : Spotify.getInstance().getProfileHandler().getProfiles().values()) {
+            if (profile.getName().equals(arg) || profile.getFakeName().equals(arg)) return profile.getName();
         }
 
         return arg;

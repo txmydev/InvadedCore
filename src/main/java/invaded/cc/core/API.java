@@ -21,7 +21,7 @@ public class API {
     public boolean isDisguised(UUID id) {
         ProfileHandler profileHandler = plugin.getProfileHandler();
         Profile profile = profileHandler.getProfile(id);
-        if(profile == null) return false;
+        if (profile == null) return false;
         return profile.isDisguised();
     }
 
@@ -29,7 +29,7 @@ public class API {
         return plugin.getProfileHandler().load(id, name, false).isBanned();
     }
 
-    public boolean isBanned(UUID id){
+    public boolean isBanned(UUID id) {
         return isBanned(id, Bukkit.getOfflinePlayer(id).getName());
     }
 
@@ -53,31 +53,31 @@ public class API {
         return plugin.getProfileHandler().getProfile(id).getHighestRank();
     }
 
-    public String getColoredName(Player player){
+    public String getColoredName(Player player) {
         return getColoredName(player.getUniqueId());
     }
 
-    public String getColoredName(UUID uuid){
+    public String getColoredName(UUID uuid) {
         return plugin.getProfileHandler().getProfile(uuid).getColoredName();
     }
 
-    public List<String> getFlyEnabledWorlds(){
+    public List<String> getFlyEnabledWorlds() {
         return plugin.getCommandHandler().getFlyWorlds();
     }
 
-    public void allowFly(String world){
+    public void allowFly(String world) {
         plugin.getCommandHandler().getFlyWorlds().add(world);
     }
 
-    public void disallowFly(String world){
+    public void disallowFly(String world) {
         plugin.getCommandHandler().getFlyWorlds().remove(world);
     }
 
-    public boolean isFlyable(String world){
+    public boolean isFlyable(String world) {
         return plugin.getCommandHandler().getFlyWorlds().contains(world);
     }
 
-    public int getRankWeight(UUID id){
+    public int getRankWeight(UUID id) {
         return plugin.getProfileHandler().getProfile(id).getHighestRank().getPriority();
     }
 
@@ -93,11 +93,11 @@ public class API {
         return getChatFormat(player.getUniqueId());
     }
 
-    public void awardCoins (Player player, int coins) {
+    public void awardCoins(Player player, int coins) {
         Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins);
     }
 
-    public void removeCoins(Player player, int coins){
+    public void removeCoins(Player player, int coins) {
         Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).removeCoins(coins);
     }
 }

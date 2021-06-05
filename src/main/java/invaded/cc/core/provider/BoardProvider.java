@@ -16,7 +16,8 @@ import java.util.UUID;
 @Getter
 public abstract class BoardProvider {
 
-    @Getter private static HashMap<UUID, BoardProvider> boards = new HashMap<>();
+    @Getter
+    private static HashMap<UUID, BoardProvider> boards = new HashMap<>();
 
     private Player player;
     private Scoreboard scoreboard;
@@ -76,11 +77,12 @@ public abstract class BoardProvider {
         String entry = genEntry(slot);
         if (scoreboard.getEntries().contains(entry)) scoreboard.resetScores(entry);
     }
-   public void setSlotsFromList(List<String> list) {
+
+    public void setSlotsFromList(List<String> list) {
         int slot = list.size();
         if (slot < 15) for (int i = (slot + 1); i <= 15; i++) removeSlot(i);
 
-       for (String line : list) {
+        for (String line : list) {
             setSlot(slot, line);
             slot--;
         }

@@ -10,17 +10,17 @@ import org.bukkit.entity.Player;
 
 public class ColorCommand extends BasicCommand {
 
-    public ColorCommand(){
+    public ColorCommand() {
         super("color", PermLevel.DEFAULT);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
 
-        if(args.length != 0){
+        if (args.length != 0) {
             player.sendMessage(Color.translate("&cPlease use /color."));
             return;
         }

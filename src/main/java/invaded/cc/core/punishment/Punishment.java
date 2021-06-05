@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@AllArgsConstructor @Getter @Setter
+@AllArgsConstructor
+@Getter
+@Setter
 public class Punishment {
 
     private Type type;
@@ -25,11 +27,11 @@ public class Punishment {
 
     private String reason;
 
-    public Punishment(Type type, long punishedAt, long expire,String cheaterName, UUID cheaterUuid, String staffname, boolean silent, String reason) {
+    public Punishment(Type type, long punishedAt, long expire, String cheaterName, UUID cheaterUuid, String staffname, boolean silent, String reason) {
         this.type = type;
         this.punishedAt = punishedAt;
         this.expire = expire;
-        this.cheaterName =cheaterName;
+        this.cheaterName = cheaterName;
         this.cheaterUuid = cheaterUuid;
         this.staffName = staffname;
         this.silent = silent;
@@ -45,15 +47,15 @@ public class Punishment {
 
     public enum Type {
         BAN("Ban"),
-        BLACKLIST ("Blacklist"),
-        WARN ( "Warning"),
-        MUTE ("Mute"),
+        BLACKLIST("Blacklist"),
+        WARN("Warning"),
+        MUTE("Mute"),
         TEMPORARY_BAN("Temp Ban"),
         TEMPORARY_MUTE("Temp Mute");
 
         String nice;
 
-        Type(String nice){
+        Type(String nice) {
             this.nice = nice;
         }
 

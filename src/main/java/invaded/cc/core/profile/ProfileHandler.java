@@ -1,12 +1,12 @@
 package invaded.cc.core.profile;
 
 import com.google.common.collect.Lists;
-import invaded.cc.core.tags.Tag;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.manager.RequestHandler;
-import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.punishment.PunishmentHandler;
+import invaded.cc.core.tags.Tag;
+import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Color;
 import jodd.http.HttpResponse;
@@ -80,7 +80,8 @@ public class ProfileHandler {
     public Profile getProfile(UUID uuid) {
         return profiles.get(uuid);
     }
-    public Profile getProfile(Player player){
+
+    public Profile getProfile(Player player) {
         return getProfile(player.getUniqueId());
     }
 
@@ -96,7 +97,7 @@ public class ProfileHandler {
     }
 
     public Profile load(UUID uuid, String name, boolean cache) {
-        if(cache) {
+        if (cache) {
             profiles.putIfAbsent(uuid, new Profile(uuid, name));
         }
 
@@ -110,7 +111,8 @@ public class ProfileHandler {
 
         JsonObject jsonObject = new JsonParser().parse(response.bodyText()).getAsJsonObject();
 
-        if (jsonObject.has("color")) profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
+        if (jsonObject.has("color"))
+            profile.setChatColor(jsonObject.get("color").getAsString().equals("none") ? null : ChatColor.valueOf(jsonObject.get("color").getAsString()));
         if (jsonObject.has("italic")) profile.setItalic(jsonObject.get("italic").getAsBoolean());
         if (jsonObject.has("privateMessages")) profile.setMessages(jsonObject.get("privateMessages").getAsBoolean());
         if (jsonObject.has("privateMessagesSound"))
@@ -123,43 +125,44 @@ public class ProfileHandler {
         TagsHandler tagsHandler = Spotify.getInstance().getTagsHandler();
 
 
-        if(jsonObject.has("tags")) {
+        if (jsonObject.has("tags")) {
             jsonObject.get("tags").getAsJsonArray().forEach(element -> {
                 Tag tag = tagsHandler.getTag(element.getAsString());
-                if(tag == null) return;
+                if (tag == null) return;
                 profile.getTags().add(tag);
             });
         }
 
-        if(jsonObject.has("activePrefix")) {
+        if (jsonObject.has("activePrefix")) {
             String pref = jsonObject.get("activePrefix").getAsString();
 
-            if(pref.equals("none")) {
+            if (pref.equals("none")) {
                 profile.setActivePrefix(null);
-            }else {
+            } else {
                 profile.setActivePrefix(tagsHandler.getTag(pref));
             }
         }
 
-        if(jsonObject.has("activeSuffix")) {
+        if (jsonObject.has("activeSuffix")) {
             String suffix = jsonObject.get("activeSuffix").getAsString();
-            if(suffix.equals("none") || tagsHandler.getTag(suffix) == null) profile.setActiveSuffix(null);
+            if (suffix.equals("none") || tagsHandler.getTag(suffix) == null) profile.setActiveSuffix(null);
             else profile.setActiveSuffix(tagsHandler.getTag(suffix));
         }
 
-        if(jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());
-        if(jsonObject.has("spaceBetweenRank")) profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
+        if (jsonObject.has("coins")) profile.setCoins(jsonObject.get("coins").getAsInt());
+        if (jsonObject.has("spaceBetweenRank"))
+            profile.setSpaceBetweenRank(jsonObject.get("spaceBetweenRank").getAsBoolean());
 
-        if(jsonObject.has("activeTrail")) {
+        if (jsonObject.has("activeTrail")) {
             String activeTrail = jsonObject.get("activeTrail").getAsString();
-            if(activeTrail.equals("none")) profile.setActiveTrail(null);
+            if (activeTrail.equals("none")) profile.setActiveTrail(null);
             else profile.setActiveTrail(Trail.getById(activeTrail));
         }
 
-        if(jsonObject.has("trails")) {
+        if (jsonObject.has("trails")) {
             jsonObject.get("trails").getAsJsonArray().forEach(trail1 -> {
                 Trail trail = Trail.getById(trail1.getAsString());
-                if (trail==null) return;
+                if (trail == null) return;
                 profile.getTrails().add(trail);
             });
         }
@@ -186,7 +189,7 @@ public class ProfileHandler {
 
     public void ifPresent(UUID id, ProfileCallback callback, CommandSender sender, String s) {
         Profile profile = getProfile(id);
-        if(profile == null) {
+        if (profile == null) {
             sender.sendMessage(Color.translate(s));
             return;
         }

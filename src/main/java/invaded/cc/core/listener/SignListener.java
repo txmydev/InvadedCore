@@ -9,8 +9,8 @@ public class SignListener implements Listener {
 
     @EventHandler
     public void onSignCreate(SignChangeEvent event) {
-        for(int i = 0; i < event.getLines().length; i++) {
-            if(event.getLine(i) == null) continue;
+        for (int i = 0; i < event.getLines().length; i++) {
+            if (event.getLine(i) == null) continue;
             event.setLine(i, Color.translate(event.getLine(i)));
         }
     }

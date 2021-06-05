@@ -19,8 +19,8 @@ public class ReaderStaffChat implements Callback<JsonObject> {
 
         ChatColor color = ChatColor.AQUA;
 
-        if(serverId.contains("uhc")) color = ChatColor.LIGHT_PURPLE;
-        else if(serverId.contains("meetup")) color = ChatColor.GREEN;
+        if (serverId.contains("uhc")) color = ChatColor.LIGHT_PURPLE;
+        else if (serverId.contains("meetup")) color = ChatColor.GREEN;
 
         String sv = serverId.replace("sa-", "");
         Common.broadcastMessage(PermLevel.STAFF, color + "[" + sv + "] " + profile.getRealColoredName() + "&7: " + color + message);

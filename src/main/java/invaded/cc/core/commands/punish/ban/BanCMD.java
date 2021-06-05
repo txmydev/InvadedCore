@@ -63,7 +63,7 @@ public class BanCMD extends BasicCommand {
                 return;
             }
             Punishment punishment = new Punishment(Punishment.Type.BAN, System.currentTimeMillis(), -1L, targetData.getName()
-            , targetData.getId(), executor, silent.get(),reason.toString());
+                    , targetData.getId(), executor, silent.get(), reason.toString());
 
             PlayerPunishEvent event = new PlayerPunishEvent(executor, offlinePlayer, punishment, false);
             event.call();
@@ -72,10 +72,13 @@ public class BanCMD extends BasicCommand {
                 return;
             }
 
-            if (silent.get()) Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + executor + " &ahas permanently banned " + targetData.getColoredName()).hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
-            else Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently banned " + targetData.getColoredName());
+            if (silent.get())
+                Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + executor + " &ahas permanently banned " + targetData.getColoredName()).hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
+            else
+                Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently banned " + targetData.getColoredName());
 
-            if(offlinePlayer.getPlayer() != null) Task.run(() -> offlinePlayer.getPlayer().kickPlayer(Common.getDisallowedReason(punishment)));
+            if (offlinePlayer.getPlayer() != null)
+                Task.run(() -> offlinePlayer.getPlayer().kickPlayer(Common.getDisallowedReason(punishment)));
         });
     }
 }

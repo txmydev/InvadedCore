@@ -1,13 +1,18 @@
 package invaded.cc.core;
 
 import invaded.cc.core.grant.GrantHandler;
+import invaded.cc.core.listener.PlayerListener;
+import invaded.cc.core.listener.SecurityListener;
 import invaded.cc.core.listener.SignListener;
 import invaded.cc.core.listener.TrailsListener;
 import invaded.cc.core.manager.ChatHandler;
 import invaded.cc.core.manager.CommandHandler;
+import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.permission.PermissionHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
+import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.tags.TagsHandler;
@@ -17,11 +22,6 @@ import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.menu.MenuListener;
-import invaded.cc.core.listener.PlayerListener;
-import invaded.cc.core.listener.SecurityListener;
-import invaded.cc.core.manager.CosmeticsHandler;
-import invaded.cc.core.permission.PermissionHandler;
-import invaded.cc.core.punishment.PunishmentHandler;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.com.google.gson.Gson;
@@ -35,7 +35,8 @@ public class Spotify extends JavaPlugin {
 
     public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static API API;
 
     @Getter
@@ -55,10 +56,10 @@ public class Spotify extends JavaPlugin {
     private CosmeticsHandler cosmeticsHandler;
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         instance = this;
 
-        this.mainConfig = new ConfigFile("config.yml", null ,false);
+        this.mainConfig = new ConfigFile("config.yml", null, false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
 
         this.setupHandlers();
@@ -120,7 +121,7 @@ public class Spotify extends JavaPlugin {
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         this.savePlayers();
         this.savePrefixes();
         this.saveRanks();
@@ -131,7 +132,7 @@ public class Spotify extends JavaPlugin {
     private void savePlayers() {
         Common.getOnlinePlayers().forEach(player -> {
             Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
-            if(profile.isDisguised()){
+            if (profile.isDisguised()) {
                 profile.unDisguise();
             }
             profileHandler.save(profile);
@@ -147,7 +148,7 @@ public class Spotify extends JavaPlugin {
         tagsHandler.getTags().forEach(tagsHandler::save);
     }
 
-    public String getServerName(){
+    public String getServerName() {
         return mainConfig.getString("server-name");
     }
 

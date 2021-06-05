@@ -17,15 +17,15 @@ public class SkullCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
-        if(args.length != 1){
+        if (args.length != 1) {
             sender.sendMessage(Color.translate("&c/skull <player>"));
             return;
         }
 
         String target = args[0];
-        ItemStack item = new ItemStack(Material.SKULL_ITEM,1,(short) 3);
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
 
         meta.setOwner(target);

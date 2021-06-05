@@ -17,9 +17,9 @@ public class SoundCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if (!(sender instanceof Player)) return;
 
-        if(args.length != 0) {
+        if (args.length != 0) {
             sender.sendMessage(Color.translate("&cPlease use /pm"));
             return;
         }

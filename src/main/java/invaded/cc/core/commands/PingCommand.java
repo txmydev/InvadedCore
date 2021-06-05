@@ -13,16 +13,15 @@ import org.bukkit.entity.Player;
 
 public class PingCommand extends BasicCommand {
 
-    public PingCommand(){
+    public PingCommand() {
         super("ping", PermLevel.DEFAULT);
     }
-
 
 
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(Color.translate("&cPlayer only command."));
             return;
         }
@@ -30,7 +29,7 @@ public class PingCommand extends BasicCommand {
         Player player = (Player) sender;
         int ping;
 
-        switch(args.length){
+        switch (args.length) {
             case 0:
                 ping = ((CraftPlayer) player).getHandle().ping;
                 player.sendMessage(Color.translate("&6Your ping is&7: &f" + pretty(ping)));
@@ -38,17 +37,14 @@ public class PingCommand extends BasicCommand {
             case 1:
                 Player target = Bukkit.getPlayer(args[0]);
 
-                if(target == null){
+                if (target == null) {
                     player.sendMessage(Color.translate("&cThat player is offline"));
                     return;
-                }
-
-                else
-                {
+                } else {
                     ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
                     Profile profile = profileHandler.getProfile(target.getUniqueId());
-                    if(profile == null){
-                        player.sendMessage(Color.translate("&c" + target.getName() +"'s data haven't loaded, he need's to relog."));
+                    if (profile == null) {
+                        player.sendMessage(Color.translate("&c" + target.getName() + "'s data haven't loaded, he need's to relog."));
                         return;
                     }
 
@@ -65,8 +61,8 @@ public class PingCommand extends BasicCommand {
     private String pretty(int ping) {
         String s = "";
 
-        if(ping > 210) s = "&c" + ping;
-        else if(ping > 120) s = "&e" + ping;
+        if (ping > 210) s = "&c" + ping;
+        else if (ping > 120) s = "&e" + ping;
         else s = "&a" + ping;
 
         s = s + "ms";

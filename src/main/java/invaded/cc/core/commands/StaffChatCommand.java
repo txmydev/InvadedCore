@@ -12,41 +12,41 @@ import org.bukkit.entity.Player;
 
 public class StaffChatCommand extends BasicCommand {
 
-    public StaffChatCommand(){
+    public StaffChatCommand() {
         super("staffchat", PermLevel.STAFF, "sc");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)){
-            if(args.length < 1){
+        if (!(sender instanceof Player)) {
+            if (args.length < 1) {
                 sender.sendMessage(Color.translate("&cPlease use /sc <message>"));
                 return;
             }
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            for(String s : args) stringBuilder.append(s).append(" ");
+            for (String s : args) stringBuilder.append(s).append(" ");
 
             ChatColor prefixColor = ChatColor.GRAY;
             ChatColor messageColor = ChatColor.DARK_PURPLE;
-            Common.broadcastMessage(PermLevel.STAFF, prefixColor+ "[UHC-1] &4Console" + "&7: " + messageColor + stringBuilder.toString());
+            Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] &4Console" + "&7: " + messageColor + stringBuilder.toString());
             return;
         }
 
         Player player = (Player) sender;
         Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if(args.length == 0){
+        if (args.length == 0) {
             boolean v = !profile.isStaffChat();
             profile.setStaffChat(v);
-            player.sendMessage(Color.translate((v ?"&a" : "&7") + "You've toggled your staff mode."));
+            player.sendMessage(Color.translate((v ? "&a" : "&7") + "You've toggled your staff mode."));
             return;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(String s : args) stringBuilder.append(s).append(" ");
+        for (String s : args) stringBuilder.append(s).append(" ");
 
        /* Task.async(() -> {
             new JedisPoster(JedisAction.STAFF_CHAT)

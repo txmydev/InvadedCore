@@ -3,6 +3,7 @@ package invaded.cc.core.listener;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.event.PlayerDisguiseEvent;
 import invaded.cc.core.event.PlayerPunishEvent;
+import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.profile.Profile;
@@ -13,9 +14,6 @@ import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.*;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import invaded.cc.core.injector.PermissibleInjector;
-import invaded.cc.util.*;
-import invaded.core.util.*;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.ChatColor;
@@ -97,7 +95,7 @@ public class PlayerListener implements Listener {
                             + " &ajoined &bthe network.");
         }
 
-        if(CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) {
+        if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) {
             player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
         }
     }

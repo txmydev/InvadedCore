@@ -75,7 +75,8 @@ public class BlacklistCMD extends BasicCommand {
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently blacklisted " + targetData.getColoredName());
 
-            if (offlinePlayer.getPlayer() != null) Task.run(() -> offlinePlayer.getPlayer().kickPlayer(Common.getDisallowedReason(punishment)));
+            if (offlinePlayer.getPlayer() != null)
+                Task.run(() -> offlinePlayer.getPlayer().kickPlayer(Common.getDisallowedReason(punishment)));
         });
     }
 }

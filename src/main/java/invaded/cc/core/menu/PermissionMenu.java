@@ -25,7 +25,7 @@ public class PermissionMenu {
             this.page = 1;
         }
 
-        private int getTotalPages(){
+        private int getTotalPages() {
             return profile.getPermissions().size() / 27 + 1;
         }
 
@@ -37,63 +37,9 @@ public class PermissionMenu {
             int index = page * 27 - 27;
 
             this.inventory.setItem(0, new ItemBuilder().type(Material.CARPET).data(page == 1 ? 7 : 14).name((page == 1 ? ChatColor.GRAY : ChatColor.RED) + "Previous Page").build());
-            this.inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data( page + 1 > getTotalPages() ? 7 : 13).name((page + 1 > getTotalPages() ? ChatColor.GRAY : ChatColor.GREEN) + "Next Page").build());
+            this.inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data(page + 1 > getTotalPages() ? 7 : 13).name((page + 1 > getTotalPages() ? ChatColor.GRAY : ChatColor.GREEN) + "Next Page").build());
 
-            while(slot < 27 && index < list.size()) {
-                inventory.setItem(slot++,
-                        new ItemBuilder()
-                        .type(Material.BOOK_AND_QUILL)
-                        .name("&fPermission #" + index)
-                        .lore(Common.getLine(20))
-                        .lore("&fValue&7: &b" + list.get(index))
-                        .lore(Common.getLine(20))
-                        .build()
-                );
-
-                index++;
-            }
-        }
-
-        @Override
-        public void onClick(InventoryClickEvent event) {
-            if(event.getSlot() == 0) {
-                if(page == 1) return;
-                page--;
-                update();
-            }
-            else if(event.getSlot() == 8) {
-                if(page == getTotalPages()) return;
-                page++;
-            }
-        }
-    }
-
-    public static class RankMenu extends Menu {
-
-        private final Rank rank;
-        private int page;
-
-        public RankMenu(Rank rank) {
-            super("&bPermissions of " + rank.getColoredName(), 27);
-            this.rank = rank;
-            this.page = 1;
-        }
-
-        private int getTotalPages(){
-            return rank.getPermissions().size() / 27 + 1;
-        }
-
-        @Override
-        public void update() {
-            List<String> list = new ArrayList<>(rank.getPermissions());
-
-            int slot = 9;
-            int index = page * 27 - 27;
-
-            this.inventory.setItem(0, new ItemBuilder().type(Material.CARPET).data(page == 1 ? 7 : 14).name((page == 1 ? ChatColor.GRAY : ChatColor.RED) + "Previous Page").build());
-            this.inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data( page + 1 > getTotalPages() ? 7 : 13).name((page + 1 > getTotalPages() ? ChatColor.GRAY : ChatColor.GREEN) + "Next Page").build());
-
-            while(slot < 27 && index < list.size()) {
+            while (slot < 27 && index < list.size()) {
                 inventory.setItem(slot++,
                         new ItemBuilder()
                                 .type(Material.BOOK_AND_QUILL)
@@ -110,13 +56,65 @@ public class PermissionMenu {
 
         @Override
         public void onClick(InventoryClickEvent event) {
-            if(event.getSlot() == 0) {
-                if(page == 1) return;
+            if (event.getSlot() == 0) {
+                if (page == 1) return;
                 page--;
                 update();
+            } else if (event.getSlot() == 8) {
+                if (page == getTotalPages()) return;
+                page++;
             }
-            else if(event.getSlot() == 8) {
-                if(page == getTotalPages()) return;
+        }
+    }
+
+    public static class RankMenu extends Menu {
+
+        private final Rank rank;
+        private int page;
+
+        public RankMenu(Rank rank) {
+            super("&bPermissions of " + rank.getColoredName(), 27);
+            this.rank = rank;
+            this.page = 1;
+        }
+
+        private int getTotalPages() {
+            return rank.getPermissions().size() / 27 + 1;
+        }
+
+        @Override
+        public void update() {
+            List<String> list = new ArrayList<>(rank.getPermissions());
+
+            int slot = 9;
+            int index = page * 27 - 27;
+
+            this.inventory.setItem(0, new ItemBuilder().type(Material.CARPET).data(page == 1 ? 7 : 14).name((page == 1 ? ChatColor.GRAY : ChatColor.RED) + "Previous Page").build());
+            this.inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data(page + 1 > getTotalPages() ? 7 : 13).name((page + 1 > getTotalPages() ? ChatColor.GRAY : ChatColor.GREEN) + "Next Page").build());
+
+            while (slot < 27 && index < list.size()) {
+                inventory.setItem(slot++,
+                        new ItemBuilder()
+                                .type(Material.BOOK_AND_QUILL)
+                                .name("&fPermission #" + index)
+                                .lore(Common.getLine(20))
+                                .lore("&fValue&7: &b" + list.get(index))
+                                .lore(Common.getLine(20))
+                                .build()
+                );
+
+                index++;
+            }
+        }
+
+        @Override
+        public void onClick(InventoryClickEvent event) {
+            if (event.getSlot() == 0) {
+                if (page == 1) return;
+                page--;
+                update();
+            } else if (event.getSlot() == 8) {
+                if (page == getTotalPages()) return;
                 page++;
             }
         }

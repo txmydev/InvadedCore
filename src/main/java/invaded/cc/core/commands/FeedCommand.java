@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class FeedCommand extends BasicCommand {
 
-    public FeedCommand(){
+    public FeedCommand() {
         super("feed", PermLevel.STAFF);
     }
 
@@ -21,9 +21,9 @@ public class FeedCommand extends BasicCommand {
         Player player = null;
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
-        switch(args.length){
+        switch (args.length) {
             case 0:
-                if(!(sender instanceof Player)){
+                if (!(sender instanceof Player)) {
                     sender.sendMessage(Color.translate("&cYou can only heal other players."));
                     break;
                 }
@@ -34,12 +34,12 @@ public class FeedCommand extends BasicCommand {
                 player.sendMessage(Color.translate("&aYou have been feeded."));
                 break;
             case 1:
-                if(args[0].equalsIgnoreCase("all")){
+                if (args[0].equalsIgnoreCase("all")) {
                     Common.getOnlinePlayers().forEach(other -> {
                         other.setHealth(other.getMaxHealth());
 
                         other.sendMessage(Color.translate("&aYou have been feeded by " + (sender instanceof Player ?
-                                profileHandler.getProfile(((Player)sender).getUniqueId()).getColoredName() :
+                                profileHandler.getProfile(((Player) sender).getUniqueId()).getColoredName() :
                                 "&4Console") + "&a."));
                     });
                     return;
@@ -47,7 +47,7 @@ public class FeedCommand extends BasicCommand {
 
                 player = Bukkit.getPlayer(args[0]);
 
-                if(player == null){
+                if (player == null) {
                     sender.sendMessage(Color.translate("&cThat player is offline."));
                     return;
                 }

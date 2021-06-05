@@ -30,9 +30,9 @@ public class ReaderPunishment implements Callback<JsonObject> {
 
         Punishment punishment = new Punishment(type, punishedAt, expire, cheaterName, cheaterUuid, staffName, s, reason);
 
-        if(type == Punishment.Type.MUTE || type == Punishment.Type.TEMPORARY_MUTE){
+        if (type == Punishment.Type.MUTE || type == Punishment.Type.TEMPORARY_MUTE) {
             profile.setMute(punishment);
-        } else if( type != Punishment.Type.WARN) {
+        } else if (type != Punishment.Type.WARN) {
             profile.setBan(punishment);
         }
     }
