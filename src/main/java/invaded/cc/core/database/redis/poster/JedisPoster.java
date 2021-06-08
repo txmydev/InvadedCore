@@ -29,7 +29,7 @@ public class JedisPoster {
     private String channel = "invaded-channel";
 
     public JedisPoster(JedisAction jedisAction) {
-        jsonObject.addProperty("server-id", Spotify.getInstance().getServerName());
+        jsonObject.addProperty("server-id", Spotify.SERVER_NAME);
         jsonObject.addProperty("action", jedisAction.name());
 
         if (INVADED_CHANNEL_PUBLISHER == null) INVADED_CHANNEL_PUBLISHER = new JedisPublisher(CONF, channel);

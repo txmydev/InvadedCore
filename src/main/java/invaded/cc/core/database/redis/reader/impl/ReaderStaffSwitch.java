@@ -20,7 +20,7 @@ public class ReaderStaffSwitch implements Callback<JsonObject> {
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
         if (profile == null) profile = profileHandler.load(UUID.fromString(profileId), name, false);
 
-        String current = Spotify.getInstance().getServerName();
+        String current = Spotify.SERVER_NAME;
         String message = "&3[Staff] " + profile.getColoredName() + " ";
 
         if (from.equals(current)) Common.broadcastMessage(PermLevel.STAFF, message + "&cleft &bthis server to &7" + to);

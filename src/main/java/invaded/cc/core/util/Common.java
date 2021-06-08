@@ -60,6 +60,7 @@ public class Common {
             info.add("&cYour account has been temporary suspended from SkullUHC");
             info.add("&e");
             info.add("&cThis punishment will be removed in " + DateUtils.formatTime(left));
+            if(!punishment.getReason().equals("")) info.add("&cYou have been banned for " + punishment.getReason());
             info.add("&2");
             info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
@@ -67,13 +68,15 @@ public class Common {
         } else if (punishment.getType() == Punishment.Type.BAN) {
             info.add("&cYour account has been permanently suspended from SkullUHC.");
             info.add("&e");
+            if(!punishment.getReason().equals("")) info.add("&cYou have been banned for " + punishment.getReason());
+            info.add("&7");
             info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
 
             return StringUtils.join(formatList(info), "\n");
         } else if (punishment.getType() == Punishment.Type.BLACKLIST) {
             info.add("&cYour account has been blacklisted from SkullUHC.");
             info.add("&e");
-            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
+            info.add("&7You cannot appeal this punishment.");
 
             return StringUtils.join(formatList(info), "\n");
         }
@@ -200,7 +203,7 @@ public class Common {
 
     public static String getName(String arg) {
         for (Profile profile : Spotify.getInstance().getProfileHandler().getProfiles().values()) {
-            if (profile.getName().equals(arg) || profile.getFakeName().equals(arg)) return profile.getName();
+            if (profile.getName().equals(arg) || (profile.isDisguised() && profile.getFakeName().equals(arg))) return profile.getName();
         }
 
         return arg;

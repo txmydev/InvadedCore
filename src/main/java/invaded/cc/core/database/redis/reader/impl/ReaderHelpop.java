@@ -16,7 +16,7 @@ public class ReaderHelpop implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
         String serverId = jsonObject.get("server-id").getAsString();
-        String currentServer = Spotify.getInstance().getServerName();
+        String currentServer = Spotify.SERVER_NAME;
         String profileId = jsonObject.get("profileId").getAsString();
         Profile profile = profileHandler.getProfile(UUID.fromString(profileId));
 

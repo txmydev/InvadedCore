@@ -1,5 +1,6 @@
 package invaded.cc.core;
 
+import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.PlayerListener;
 import invaded.cc.core.listener.SecurityListener;
@@ -9,6 +10,7 @@ import invaded.cc.core.manager.ChatHandler;
 import invaded.cc.core.manager.CommandHandler;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.permission.PermissionHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -16,6 +18,7 @@ import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.tags.TagsHandler;
+import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.tasks.CosmeticsTask;
 import invaded.cc.core.tasks.MenuTask;
 import invaded.cc.core.util.Color;
@@ -34,6 +37,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Spotify extends JavaPlugin {
 
     public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
+    public static String SERVER_NAME;
 
     @Getter
     @Setter
@@ -54,6 +58,8 @@ public class Spotify extends JavaPlugin {
     private RankHandler rankHandler;
     private TagsHandler tagsHandler;
     private CosmeticsHandler cosmeticsHandler;
+    private BossbarHandler bossbarHandler;
+    private NetworkHandler networkHandler;
 
     @Override
     public void onEnable() {
@@ -73,7 +79,13 @@ public class Spotify extends JavaPlugin {
         this.setupWorlds();
         this.sendMessage();
 
+        this.setServerName();
+
         setAPI(new API(this));
+    }
+
+    private void setServerName() {
+        SERVER_NAME = getServerName();
     }
 
     private void sendMessage() {
@@ -95,11 +107,14 @@ public class Spotify extends JavaPlugin {
         rankHandler = new RankHandler();
         tagsHandler = new TagsHandler();
         cosmeticsHandler = new CosmeticsHandler();
+        networkHandler = new NetworkHandler();
+        //bossbarHandler = new BossbarHandler();
     }
 
     private void setupTasks() {
         new MenuTask();
         new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
+        //new BossBarThread().runTaskTimer(this, 0L, 20L);
     }
 
     private void loadPlayers() {
@@ -148,7 +163,7 @@ public class Spotify extends JavaPlugin {
         tagsHandler.getTags().forEach(tagsHandler::save);
     }
 
-    public String getServerName() {
+    private String getServerName() {
         return mainConfig.getString("server-name");
     }
 

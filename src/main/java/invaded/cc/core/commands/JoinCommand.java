@@ -1,8 +1,11 @@
 package invaded.cc.core.commands;
 
+import invaded.cc.core.util.Color;
+import invaded.cc.core.util.Common;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class JoinCommand extends BasicCommand {
 
@@ -12,6 +15,15 @@ public class JoinCommand extends BasicCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        Player player = (Player) sender;
+
+        if (args.length != 1) {
+            player.sendMessage(Color.translate("&cPlease use /join <server>"));
+            return;
+        }
+
+        Common.joinServer(player, args[0]);
+
        /* if (!(sender instanceof Player)) return;
 
         Player player = (Player) sender;

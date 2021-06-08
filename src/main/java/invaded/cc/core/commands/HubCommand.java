@@ -21,7 +21,7 @@ public class HubCommand extends BasicCommand {
 
         String targetServer = "";
 
-        if (Spotify.getInstance().getServerName().contains("sa")) {
+        if (Spotify.SERVER_NAME.contains("sa")) {
             targetServer = "sa-hub-1";
         }
 

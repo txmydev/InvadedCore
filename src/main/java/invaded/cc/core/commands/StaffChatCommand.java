@@ -1,6 +1,7 @@
 package invaded.cc.core.commands;
 
 import invaded.cc.core.Spotify;
+import invaded.cc.core.network.packet.PacketStaffChat;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
@@ -28,9 +29,10 @@ public class StaffChatCommand extends BasicCommand {
 
             for (String s : args) stringBuilder.append(s).append(" ");
 
-            ChatColor prefixColor = ChatColor.GRAY;
-            ChatColor messageColor = ChatColor.DARK_PURPLE;
-            Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] &4Console" + "&7: " + messageColor + stringBuilder.toString());
+           // ChatColor prefixColor = ChatColor.GRAY;
+            //ChatColor messageColor = ChatColor.DARK_PURPLE;
+            Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffChat("&4Console", Spotify.SERVER_NAME, stringBuilder.toString()));
+
             return;
         }
 
@@ -48,14 +50,6 @@ public class StaffChatCommand extends BasicCommand {
 
         for (String s : args) stringBuilder.append(s).append(" ");
 
-       /* Task.async(() -> {
-            new JedisPoster(JedisAction.STAFF_CHAT)
-                    .addInfo("profileId", ((Player)sender).getUniqueId().toString())
-                    .addInfo("message", stringBuilder.toString())
-                    .post();
-        });*/
-        ChatColor prefixColor = ChatColor.GRAY;
-        ChatColor messageColor = ChatColor.LIGHT_PURPLE;
-        Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] " + profile.getRealColoredName() + "&7: " + messageColor + stringBuilder.toString());
+        Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffChat(profile.getColoredName(), Spotify.SERVER_NAME, stringBuilder.toString()));
     }
 }

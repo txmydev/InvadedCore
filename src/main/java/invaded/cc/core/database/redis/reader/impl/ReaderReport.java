@@ -16,7 +16,7 @@ public class ReaderReport implements Callback<JsonObject> {
     @Override
     public void callback(JsonObject jsonObject) {
         String serverId = jsonObject.get("server-id").getAsString();
-        String currentServer = Spotify.getInstance().getServerName();
+        String currentServer = Spotify.SERVER_NAME;
         boolean sameSv = serverId.equals(currentServer);
 
         String profileId = jsonObject.get("profileId").getAsString();

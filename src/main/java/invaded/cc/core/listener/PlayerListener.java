@@ -6,6 +6,9 @@ import invaded.cc.core.event.PlayerPunishEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.network.packet.PacketStaffChat;
+import invaded.cc.core.network.packet.PacketStaffJoin;
+import invaded.cc.core.network.packet.PacketStaffLeave;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.Punishment;
@@ -56,8 +59,6 @@ public class PlayerListener implements Listener {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             event.setKickMessage(Common.getDisallowedReason(ban));
         }
-
-
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -89,11 +90,7 @@ public class PlayerListener implements Listener {
 
         setProperties(player, profile);
 
-        if (Permission.test(player, PermLevel.STAFF)) {
-            Common.broadcastMessage(PermLevel.STAFF
-                    , "&9[Staff] " + profile.getColoredName()
-                            + " &ajoined &bthe network.");
-        }
+        //if (Permission.test(player, PermLevel.STAFF)) Task.later(() -> Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffJoin(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
 
         if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) {
             player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
@@ -121,13 +118,7 @@ public class PlayerListener implements Listener {
 
         if (profile.isDisguised()) profile.unDisguise();
 
-        if (Permission.test(profile, PermLevel.STAFF) || Permission.test(profile, PermLevel.ADMIN)) {
-            Common.broadcastMessage(PermLevel.STAFF
-                    , "&9[Staff] " + profile.getColoredName()
-                            + " &cleft &bthe network.");
-        }
-
-
+      //  if (Permission.test(profile, PermLevel.STAFF) || Permission.test(profile, PermLevel.ADMIN)) Task.later(() -> Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffLeave(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
         PermissibleInjector.unInject(player);
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
@@ -210,7 +201,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onDisguise(PlayerDisguiseEvent event) {
-        if (!Spotify.getInstance().getServerName().equalsIgnoreCase(event.getServer())) return;
+        if (!Spotify.SERVER_NAME.equalsIgnoreCase(event.getServer())) return;
 
         Player player = event.getPlayer();
 
@@ -229,10 +220,8 @@ public class PlayerListener implements Listener {
 
         if (profile.isStaffChat()) {
             event.setCancelled(true);
-            ChatColor prefixColor = ChatColor.GRAY;
-            ChatColor messageColor = ChatColor.LIGHT_PURPLE;
-            Common.broadcastMessage(PermLevel.STAFF, prefixColor + "[UHC-1] " + profile.getRealColoredName() + "&7: " + messageColor + event.getMessage());
-        }
+            Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffChat(profile.getColoredName(), Spotify.SERVER_NAME, event.getMessage()));
+         }
     }
 
     @EventHandler

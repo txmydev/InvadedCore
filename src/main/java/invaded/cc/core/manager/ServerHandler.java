@@ -48,7 +48,7 @@ public class ServerHandler {
     }
 
     public Server getCurrentServer() {
-        return servers.get(Spotify.getInstance().getServerName());
+        return servers.get(Spotify.SERVER_NAME);
     }
 
     public User find(String name) {

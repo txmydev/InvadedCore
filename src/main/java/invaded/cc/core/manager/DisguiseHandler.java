@@ -112,7 +112,7 @@ public class DisguiseHandler {
 
         Common.sendPacket(player, respawn);
 
-        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.getInstance().getServerName(), player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
+        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
         Task.later(event::call, 2L);
     }
 

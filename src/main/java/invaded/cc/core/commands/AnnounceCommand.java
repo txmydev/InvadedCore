@@ -26,16 +26,16 @@ public class AnnounceCommand extends BasicCommand {
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if (Spotify.getInstance().getServerName().contains("hub")) {
+        if (Spotify.SERVER_NAME.contains("hub")) {
             player.sendMessage(Color.translate("&cYou are trying to announce you are in the hub??"));
             return;
         }
 
         new JedisPoster(JedisAction.BROADCAST)
-                .addInfo("message", profile.getChatFormat() + " &bis playing in &f'" + Spotify.getInstance().getServerName() + "'&b, you think you can destroy him? Type &f'/join " + Spotify.getInstance().getServerName()
+                .addInfo("message", profile.getChatFormat() + " &bis playing in &f'" + Spotify.SERVER_NAME + "'&b, you think you can destroy him? Type &f'/join " + Spotify.SERVER_NAME
                         + "' &bor &eClick here&b!")
                 .addInfo("hover", "false;xd")
-                .addInfo("click", "true;/join " + Spotify.getInstance().getServerName())
+                .addInfo("click", "true;/join " + Spotify.SERVER_NAME)
                 .post();
     }
 }
