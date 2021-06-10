@@ -20,7 +20,7 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
     @Override
     public void sendPacket(SpotifyPacket packet) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
-        output.writeUTF(packet.toJson());
+        output.writeUTF(packet.toJson().toString());
         byte[] data = output.toByteArray();
 
         Map<String, PacketListener> map = Spotify.getInstance().getNetworkHandler().getPacketListenerMap();
@@ -28,7 +28,8 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
         if(map.containsKey(packet.getPacketId()))
             map.get(packet.getPacketId()).onSendPacket(packet);
 
-        Bukkit.getOnlinePlayers().stream().findAny().ifPresent(player -> player.sendPluginMessage(Spotify.getInstance(), "invaded-network", data));
+        Bukkit.getServer().sendPluginMessage(Spotify.getInstance(), "invaded-network", data);
+        // Bukkit.getOnlinePlayers().stream().findAny().ifPresent(player -> player.sendPluginMessage(Spotify.getInstance(), ));
     }
 
     @Override
@@ -47,9 +48,5 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
         ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
         JsonObject jsonObject = new JsonParser().parse(input.readUTF()).getAsJsonObject();
         receivePacket(jsonObject);
-        System.out.println("received packet " + jsonObject.toString());
-        System.out.println(" ");
-        System.out.println(" ");
-        System.out.println(" ");
     }
 }

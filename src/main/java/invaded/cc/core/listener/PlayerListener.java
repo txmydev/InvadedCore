@@ -6,6 +6,7 @@ import invaded.cc.core.event.PlayerPunishEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
 import invaded.cc.core.network.packet.PacketStaffJoin;
 import invaded.cc.core.network.packet.PacketStaffLeave;
@@ -89,12 +90,9 @@ public class PlayerListener implements Listener {
         }
 
         setProperties(player, profile);
+        Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
 
-        //if (Permission.test(player, PermLevel.STAFF)) Task.later(() -> Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffJoin(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
-
-        if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) {
-            player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
-        }
+        if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
     }
 
     private void setProperties(Player player, Profile profile) {

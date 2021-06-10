@@ -1,20 +1,19 @@
-package invaded.cc.core.database.redis;
+package invaded.cc.core.util.jedis;
 
-import lombok.Setter;
+import invaded.cc.core.Spotify;
 import net.minecraft.util.com.google.gson.JsonObject;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class JedisPublisher {
 
-    @Setter
-    private static JedisPool pool;
-
     private String channel;
     private JedisConfiguration conf;
+    private JedisPool pool;
 
     public JedisPublisher(JedisConfiguration conf, String channel) {
         this.channel = channel;
+        this.pool = Spotify.getInstance().getRedisDatabase().getJedisPool();
 
         this.conf = conf;
     }
@@ -27,8 +26,4 @@ public class JedisPublisher {
         }
     }
 
-
-    public void close() {
-        pool.close();
-    }
 }

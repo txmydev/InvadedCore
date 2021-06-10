@@ -14,7 +14,7 @@ public class PacketStaffSwitch extends PacketListener {
         String to = packet.get("to").getAsString();
 
         if(from.equals(Spotify.SERVER_NAME)) Common.broadcastMessage(PermLevel.STAFF, "&9[Staff] "+ name + " &bleft your server. &7(To " + to + ")");
-        else if(to.equals(Spotify.SERVER_NAME)) Common.broadcastMessage(PermLevel.STAFF, "&9[Staff] " + name + " &ajoined &byour server. &7(From " + from +")");
+        else if(to.equals(Spotify.SERVER_NAME)) Common.broadcastMessage(PermLevel.STAFF, "&9[Staff] " + name + " &bjoined your server. &7(From " + from +")");
         else Common.broadcastMessage(PermLevel.STAFF, "&9[Staff] " + name + " &bjoined to " + to + " &bfrom " + from + ".");
     }
 }

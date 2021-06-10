@@ -1,8 +1,8 @@
 package invaded.cc.core.manager;
 
 import invaded.cc.core.Spotify;
-import invaded.cc.core.database.redis.JedisPublisher;
-import invaded.cc.core.database.redis.JedisSubscriber;
+import invaded.cc.core.util.jedis.JedisPublisher;
+import invaded.cc.core.util.jedis.JedisSubscriber;
 import invaded.cc.core.profile.User;
 import invaded.cc.core.server.Server;
 import lombok.Getter;

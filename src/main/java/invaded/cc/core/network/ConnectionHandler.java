@@ -7,4 +7,7 @@ public abstract class ConnectionHandler {
     public abstract void sendPacket(SpotifyPacket packet);
     public abstract void receivePacket(JsonObject jsonObject);
 
+    public void close() {
+    }
+
 }

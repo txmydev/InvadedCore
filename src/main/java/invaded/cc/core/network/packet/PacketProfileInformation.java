@@ -1,7 +1,12 @@
 package invaded.cc.core.network.packet;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.network.SpotifyPacket;
+import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.json.JsonChain;
+import invaded.cc.core.util.perms.PermLevel;
+import invaded.cc.core.util.perms.Permission;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 public class PacketProfileInformation extends SpotifyPacket {
 
@@ -20,7 +25,7 @@ public class PacketProfileInformation extends SpotifyPacket {
     }
 
     @Override
-    public String toJson() {
+    public JsonObject toJson() {
         return new JsonChain().addProperty("packet-id", getPacketId())
                 .addProperty("id", id)
                 .addProperty("name", name)
@@ -28,7 +33,10 @@ public class PacketProfileInformation extends SpotifyPacket {
                 .addProperty("rank", rank)
                 .addProperty("staff", staff)
                 .addProperty("server", server)
-                .get()
-                .toString();
+                .get();
+    }
+
+    public static PacketProfileInformation createPacket(Profile profile){
+        return new PacketProfileInformation(profile.getId().toString(), profile.getColoredName(), profile.getRealColoredName(), profile.getHighestRank().getName(), Spotify.SERVER_NAME, Permission.test(profile, PermLevel.STAFF) || Permission.test(profile, PermLevel.ADMIN));
     }
 }

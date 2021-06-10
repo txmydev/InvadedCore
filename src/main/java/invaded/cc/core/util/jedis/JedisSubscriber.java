@@ -1,6 +1,6 @@
-package invaded.cc.core.database.redis;
+package invaded.cc.core.util.jedis;
 
-import lombok.Setter;
+import invaded.cc.core.Spotify;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
 import redis.clients.jedis.JedisPool;
@@ -8,8 +8,7 @@ import redis.clients.jedis.JedisPubSub;
 
 public class JedisSubscriber {
 
-    @Setter
-    private static JedisPool pool;
+    private JedisPool pool;
 
     private String channel;
     private JedisHandler handler;
@@ -21,6 +20,7 @@ public class JedisSubscriber {
         this.conf = conf;
         this.channel = channel;
         this.handler = handler;
+        this.pool = Spotify.getInstance().getRedisDatabase().getJedisPool();
 
         this.sub = new JedisPubSub() {
             @Override
@@ -41,7 +41,6 @@ public class JedisSubscriber {
 
     public void stop() {
         if (sub != null) sub.unsubscribe();
-        pool.close();
     }
 
 }

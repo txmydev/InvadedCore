@@ -23,13 +23,13 @@ public class PacketStaffChat extends SpotifyPacket {
     }
 
     @Override
-    public String toJson() {
+    public JsonObject toJson() {
         return new JsonChain()
                 .addProperty("packet-id", getPacketId())
                 .addProperty("name", name)
                 .addProperty("message", message)
                 .addProperty("server", server)
-                .get().toString();
+                .get();
     }
 
     public static class Listener extends PacketListener {

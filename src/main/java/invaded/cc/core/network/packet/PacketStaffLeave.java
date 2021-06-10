@@ -22,11 +22,11 @@ public class PacketStaffLeave extends SpotifyPacket {
     }
 
     @Override
-    public String toJson() {
+    public JsonObject toJson() {
         return new JsonChain()
                 .addProperty("packet-id", getPacketId())
                 .addProperty("name", name)
-                .addProperty("server", server).get().toString();
+                .addProperty("server", server).get();
     }
 
     public static class Listener extends PacketListener {

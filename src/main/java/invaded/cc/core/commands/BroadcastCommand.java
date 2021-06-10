@@ -1,7 +1,5 @@
 package invaded.cc.core.commands;
 
-import invaded.cc.core.database.redis.JedisAction;
-import invaded.cc.core.database.redis.poster.JedisPoster;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
@@ -23,7 +21,7 @@ public class BroadcastCommand extends BasicCommand {
                 stringBuilder.append(Color.translate(arg)).append(" ");
             }
 
-            new JedisPoster(JedisAction.BROADCAST).addInfo("message", "&8[&4Alert&8] &b" + stringBuilder.toString());
+            //new JedisPoster(JedisAction.BROADCAST).addInfo("message", "&8[&4Alert&8] &b" + stringBuilder.toString());
         }
     }
 }

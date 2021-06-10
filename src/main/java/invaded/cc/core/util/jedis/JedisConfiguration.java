@@ -1,4 +1,4 @@
-package invaded.cc.core.database.redis;
+package invaded.cc.core.util.jedis;
 
 import lombok.Getter;
 

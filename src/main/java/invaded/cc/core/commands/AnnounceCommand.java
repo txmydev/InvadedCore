@@ -1,8 +1,6 @@
 package invaded.cc.core.commands;
 
 import invaded.cc.core.Spotify;
-import invaded.cc.core.database.redis.JedisAction;
-import invaded.cc.core.database.redis.poster.JedisPoster;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.util.Color;
@@ -31,11 +29,11 @@ public class AnnounceCommand extends BasicCommand {
             return;
         }
 
-        new JedisPoster(JedisAction.BROADCAST)
+        /*new JedisPoster(JedisAction.BROADCAST)
                 .addInfo("message", profile.getChatFormat() + " &bis playing in &f'" + Spotify.SERVER_NAME + "'&b, you think you can destroy him? Type &f'/join " + Spotify.SERVER_NAME
                         + "' &bor &eClick here&b!")
                 .addInfo("hover", "false;xd")
                 .addInfo("click", "true;/join " + Spotify.SERVER_NAME)
-                .post();
+                .post();*/
     }
 }

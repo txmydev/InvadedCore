@@ -2,6 +2,7 @@ package invaded.cc.core.network;
 
 import invaded.cc.core.Spotify;
 import lombok.Getter;
+import net.minecraft.util.com.google.gson.JsonObject;
 
 @Getter
 public abstract class SpotifyPacket {
@@ -12,7 +13,7 @@ public abstract class SpotifyPacket {
         this.packetId = packetId;
     }
 
-    public abstract String toJson();
+    public abstract JsonObject toJson();
 
 
 }

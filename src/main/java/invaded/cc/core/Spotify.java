@@ -1,6 +1,7 @@
 package invaded.cc.core;
 
 import invaded.cc.core.bossbar.BossbarHandler;
+import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.PlayerListener;
 import invaded.cc.core.listener.SecurityListener;
@@ -48,6 +49,8 @@ public class Spotify extends JavaPlugin {
 
     private ConfigFile mainConfig, databaseConfig;
 
+    private RedisDatabase redisDatabase;
+
     private CommandHandler commandHandler;
     private ChatHandler chatHandler;
     private DisguiseHandler disguiseHandler;
@@ -68,6 +71,7 @@ public class Spotify extends JavaPlugin {
         this.mainConfig = new ConfigFile("config.yml", null, false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
 
+        this.setupRedis();
         this.setupHandlers();
 
         this.setupTasks();
@@ -82,6 +86,10 @@ public class Spotify extends JavaPlugin {
         this.setServerName();
 
         setAPI(new API(this));
+    }
+
+    private void setupRedis() {
+        this.redisDatabase = new RedisDatabase();
     }
 
     private void setServerName() {
@@ -140,6 +148,8 @@ public class Spotify extends JavaPlugin {
         this.savePlayers();
         this.savePrefixes();
         this.saveRanks();
+        this.networkHandler.shutdown();
+        this.redisDatabase.shutdown();
 
         instance = null;
     }
