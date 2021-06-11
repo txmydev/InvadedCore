@@ -13,6 +13,7 @@ import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.server.ServerHandler;
+import invaded.cc.core.network.server.ServerHeartbeatTask;
 import invaded.cc.core.permission.PermissionHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -33,6 +34,8 @@ import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.TimeZone;
 
 @Getter
 public class Spotify extends JavaPlugin {
@@ -72,6 +75,8 @@ public class Spotify extends JavaPlugin {
         this.mainConfig = new ConfigFile("config.yml", null, false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
 
+        this.setServerName();
+
         this.setupRedis();
         this.setupHandlers();
 
@@ -83,8 +88,6 @@ public class Spotify extends JavaPlugin {
 
         this.setupWorlds();
         this.sendMessage();
-
-        this.setServerName();
 
         setAPI(new API(this));
     }
@@ -106,6 +109,8 @@ public class Spotify extends JavaPlugin {
     }
 
     private void setupHandlers() {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+
         commandHandler = new CommandHandler();
         chatHandler = new ChatHandler();
         disguiseHandler = new DisguiseHandler();
@@ -124,6 +129,7 @@ public class Spotify extends JavaPlugin {
     private void setupTasks() {
         new MenuTask();
         new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
+
         //new BossBarThread().runTaskTimer(this, 0L, 20L);
     }
 

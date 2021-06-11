@@ -5,9 +5,14 @@ import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.network.SpotifyPacket;
 import invaded.cc.core.network.server.Server;
 import invaded.cc.core.network.server.ServerHandler;
+import invaded.cc.core.util.Common;
 import invaded.cc.core.util.json.JsonChain;
+import invaded.cc.core.util.perms.PermLevel;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
+import org.bukkit.Bukkit;
+
+import java.util.Iterator;
 
 @Getter
 public class PacketServerInformation extends SpotifyPacket {
@@ -17,8 +22,9 @@ public class PacketServerInformation extends SpotifyPacket {
     private final boolean maintenance;
     private final int online;
     private final long lastUpdate;
+    private final String extraInfo;
 
-    public PacketServerInformation(String name, boolean testing, boolean maintenance, int online, long lastUpdate){
+    public PacketServerInformation(String name, boolean testing, boolean maintenance, int online, long lastUpdate, String extraInfo){
         super("packet-server-information");
 
         this.name = name;
@@ -26,12 +32,12 @@ public class PacketServerInformation extends SpotifyPacket {
         this.maintenance = maintenance;
         this.online = online;
         this.lastUpdate = lastUpdate;
+        this.extraInfo = extraInfo;
     }
 
     public static SpotifyPacket createPacket() {
-        Server server = Spotify.getInstance().getServerHandler().getServer(Spotify.SERVER_NAME);
-        if(server == null) server = new Server(Spotify.SERVER_NAME);
-        return new PacketServerInformation(server.getName(), server.isTesting(), server.isMaintenance(), server.getOnline(), System.currentTimeMillis());
+        ServerHandler serverHandler = Spotify.getInstance().getServerHandler();
+        return new PacketServerInformation(Spotify.SERVER_NAME, serverHandler.isTesting(), serverHandler.isMaintenance(), Bukkit.getOnlinePlayers().size(), System.currentTimeMillis(), serverHandler.getExtraInfo());
     }
 
     @Override
@@ -43,6 +49,7 @@ public class PacketServerInformation extends SpotifyPacket {
                 .addProperty("maintenance", maintenance)
                 .addProperty("online", online)
                 .addProperty("lastUpdate", lastUpdate)
+                .addProperty("extraInfo", extraInfo)
                 .get();
     }
 
@@ -58,11 +65,15 @@ public class PacketServerInformation extends SpotifyPacket {
 
             ServerHandler serverHandler = Spotify.getInstance().getServerHandler();
             Server server = serverHandler.getServer(name);
+            if(server != null) server.setRecentlyCreated(false);
             if(server == null) server = serverHandler.createServer(name);
+            server.setLastUpdate(lastUpdate);
+            server.setOnline(online);
+
             if(server.isTesting() != testing) serverHandler.setTestingMode(name, testing);
             if(server.isMaintenance() != maintenance) serverHandler.setMaintenanceMode(name, maintenance);
-            server.setOnline(online);
-            server.setLastUpdate(lastUpdate);
+
+            server.setExtraInfo(packet.get("extraInfo").getAsString());
         }
     }
 }

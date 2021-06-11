@@ -3,6 +3,8 @@ package invaded.cc.core.util.jedis;
 import invaded.cc.core.Spotify;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
+import org.bukkit.scheduler.BukkitRunnable;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
@@ -13,6 +15,7 @@ public class JedisSubscriber {
     private String channel;
     private JedisHandler handler;
     private JedisConfiguration conf;
+    private Thread thread;
 
     private JedisPubSub sub;
 
@@ -30,16 +33,24 @@ public class JedisSubscriber {
             }
         };
 
-        new Thread(() -> {
-            try {
-                pool.getResource().subscribe(this.sub, channel);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        Jedis jedis = pool.getResource();
+
+        thread = new Thread(() -> {
+            while(true) {
+                System.out.println("subscribing to " + channel);
+                try {
+                    if (jedis != null) jedis.subscribe(sub, channel);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-        }).start();
+        });
+
+        thread.start();
     }
 
     public void stop() {
+        if (thread.isAlive()) thread.stop();
         if (sub != null) sub.unsubscribe();
     }
 

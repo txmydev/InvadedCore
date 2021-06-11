@@ -1,5 +1,6 @@
 package invaded.cc.core;
 
+import invaded.cc.core.network.server.Server;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
@@ -7,6 +8,7 @@ import invaded.cc.core.util.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,5 +101,25 @@ public class API {
 
     public void removeCoins(Player player, int coins) {
         Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).removeCoins(coins);
+    }
+
+    public int getOnline(String serverId) {
+        return Spotify.getInstance().getServerHandler().getServer(serverId).getOnline();
+    }
+
+    public boolean isTesting(String serverId) {
+        return Spotify.getInstance().getServerHandler().getServer(serverId).isTesting();
+    }
+
+    public boolean isMaintenance(String serverId) {
+        return Spotify.getInstance().getServerHandler().getServer(serverId).isMaintenance();
+    }
+
+    public String getExtraInfo(String serverId) {
+        return Spotify.getInstance().getServerHandler().getServer(serverId).getExtraInfo();
+    }
+
+    public Collection<Server> getServerList() {
+        return Spotify.getInstance().getServerHandler().getServerMap().values();
     }
 }

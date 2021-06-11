@@ -7,16 +7,13 @@ import lombok.Setter;
 public class Server {
 
     private String name;
-    private boolean onlineState, testing, maintenance;
+    private boolean recentlyCreated, testing, maintenance;
     private int online;
     private long lastUpdate;
+    private String extraInfo = "";
 
     public Server(String name){
         this.name = name;
-    }
-
-    public boolean isOnline(){
-        return System.currentTimeMillis() - lastUpdate <= 5000L;
     }
 
 }

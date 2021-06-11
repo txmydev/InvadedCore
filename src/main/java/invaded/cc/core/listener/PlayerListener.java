@@ -59,6 +59,8 @@ public class PlayerListener implements Listener {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             event.setKickMessage(Common.getDisallowedReason(ban));
         }
+
+        Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -89,7 +91,7 @@ public class PlayerListener implements Listener {
         }
 
         setProperties(player, profile);
-        Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
+
 
         if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
     }
