@@ -78,6 +78,7 @@ public class CommandHandler {
         new CoinsCommand();
         new CosmeticsCommand();
         new TagsCommand();
+        new BuildCommand();
     }
 
 }

@@ -52,7 +52,7 @@ public class Profile {
     private ChatColor chatColor = null;
     private boolean italic = false, spaceBetweenRank = false;
     private boolean messages;
-    private boolean messagesSound;
+    private boolean messagesSound, buildMode;
 
     private boolean staffChat = false;
 
@@ -71,7 +71,7 @@ public class Profile {
     private Skin fakeSkin;
 
     private List<Trail> trails = new ArrayList<>();
-    private Trail activeTrail = Trail.CLOUD;
+    private Trail activeTrail = null;
 
     private int coins;
 

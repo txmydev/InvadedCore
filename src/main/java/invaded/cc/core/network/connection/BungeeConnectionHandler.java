@@ -28,8 +28,7 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
         if(map.containsKey(packet.getPacketId()))
             map.get(packet.getPacketId()).onSendPacket(packet);
 
-        Bukkit.getServer().sendPluginMessage(Spotify.getInstance(), "invaded-network", data);
-        // Bukkit.getOnlinePlayers().stream().findAny().ifPresent(player -> player.sendPluginMessage(Spotify.getInstance(), ));
+        Bukkit.getOnlinePlayers().stream().findAny().ifPresent(player -> player.sendPluginMessage(Spotify.getInstance(), "invaded-network", data));
     }
 
     @Override

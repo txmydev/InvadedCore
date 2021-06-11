@@ -4,10 +4,7 @@ import com.google.gson.JsonObject;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.network.connection.BungeeConnectionHandler;
 import invaded.cc.core.network.connection.JedisConnectionHandler;
-import invaded.cc.core.network.packet.PacketStaffChat;
-import invaded.cc.core.network.packet.PacketStaffJoin;
-import invaded.cc.core.network.packet.PacketStaffLeave;
-import invaded.cc.core.network.packet.PacketStaffSwitch;
+import invaded.cc.core.network.packet.*;
 import lombok.Getter;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -44,6 +41,7 @@ public class NetworkHandler {
         packetListenerMap.put("packet-staff-leave", new PacketStaffLeave.Listener());
         packetListenerMap.put("packet-staffchat", new PacketStaffChat.Listener());
         packetListenerMap.put("packet-staff-switch", new PacketStaffSwitch());
+        packetListenerMap.put("packet-server-information", new PacketServerInformation.Listener());
     }
 
     public void sendPacket(SpotifyPacket packet) {

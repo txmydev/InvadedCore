@@ -12,6 +12,7 @@ import invaded.cc.core.manager.CommandHandler;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.network.NetworkHandler;
+import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.permission.PermissionHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -19,7 +20,6 @@ import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.tags.TagsHandler;
-import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.tasks.CosmeticsTask;
 import invaded.cc.core.tasks.MenuTask;
 import invaded.cc.core.util.Color;
@@ -63,6 +63,7 @@ public class Spotify extends JavaPlugin {
     private CosmeticsHandler cosmeticsHandler;
     private BossbarHandler bossbarHandler;
     private NetworkHandler networkHandler;
+    private ServerHandler serverHandler;
 
     @Override
     public void onEnable() {
@@ -116,6 +117,7 @@ public class Spotify extends JavaPlugin {
         tagsHandler = new TagsHandler();
         cosmeticsHandler = new CosmeticsHandler();
         networkHandler = new NetworkHandler();
+        serverHandler = new ServerHandler();
         //bossbarHandler = new BossbarHandler();
     }
 

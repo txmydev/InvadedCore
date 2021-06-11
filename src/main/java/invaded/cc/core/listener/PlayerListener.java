@@ -8,8 +8,6 @@ import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
-import invaded.cc.core.network.packet.PacketStaffJoin;
-import invaded.cc.core.network.packet.PacketStaffLeave;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.Punishment;
@@ -20,12 +18,13 @@ import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
-import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 
 import java.util.UUID;
@@ -104,6 +103,18 @@ public class PlayerListener implements Listener {
             profile.setRealProfile(gameProfile);
         } catch (Exception ignored) {
         }
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockBreakEvent(BlockBreakEvent event) {
+        Profile profile = Spotify.getInstance().getProfileHandler().getProfile(event.getPlayer());
+        if(profile.isBuildMode()) event.setCancelled(false);
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        Profile profile = Spotify.getInstance().getProfileHandler().getProfile(event.getPlayer());
+        if(profile.isBuildMode()) event.setCancelled(false);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
