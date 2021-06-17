@@ -122,4 +122,8 @@ public class API {
     public Collection<Server> getServerList() {
         return Spotify.getInstance().getServerHandler().getServerMap().values();
     }
+
+    public Server getServer(String serverId) {
+        return Spotify.getInstance().getServerHandler().getServer(serverId);
+    }
 }

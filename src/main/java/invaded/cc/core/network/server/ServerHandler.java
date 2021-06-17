@@ -51,6 +51,7 @@ public class ServerHandler {
 
     public void setMaintenanceMode(String name, boolean value) {
         Server server = serverMap.get(name);
+        if(name.equals(Spotify.SERVER_NAME)) this.maintenance = value;
         if(server != null) {
             server.setMaintenance(value);
             Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + (value ? "' &eis now in" : "&eis no longer in")
@@ -60,6 +61,8 @@ public class ServerHandler {
 
     public void setTestingMode(String name, boolean value) {
         Server server = serverMap.get(name);
+        if(name.equals(Spotify.SERVER_NAME)) this.testing = value;
+
         if(server != null) {
             server.setTesting(value);
             Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + (value ? "' &eis now in" : "&eis no longer in")

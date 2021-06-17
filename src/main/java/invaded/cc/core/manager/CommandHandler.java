@@ -79,6 +79,7 @@ public class CommandHandler {
         new CosmeticsCommand();
         new TagsCommand();
         new BuildCommand();
+        new ServerTestingCommand();
     }
 
 }

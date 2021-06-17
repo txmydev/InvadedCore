@@ -8,6 +8,7 @@ import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
+import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.Punishment;
@@ -60,6 +61,7 @@ public class PlayerListener implements Listener {
             event.setKickMessage(Common.getDisallowedReason(ban));
         }
 
+
         Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
     }
 
@@ -77,10 +79,27 @@ public class PlayerListener implements Listener {
 
         if (!profile.getName().equals(player.getName())) profile.setName(player.getName());
         profile.updatePermissions(player);
+
+
+        ServerHandler serverHandler = Spotify.getInstance().getServerHandler();
+        if(serverHandler.isTesting() && !Permission.test(player, PermLevel.STAFF)) {
+            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+            event.setKickMessage(Color.translate("&cThis server is currently in &etesting mode&c, and you cannot join at the moment."));
+            return;
+        }
+
+        if(serverHandler.isMaintenance() && !Permission.test(player, PermLevel.STAFF)) {
+            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+            event.setKickMessage(Color.translate("&cThis server is currently in &emaintenance mode&c, and you cannot join at the moment."));
+            return;
+        }
+
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
+
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
@@ -107,13 +126,13 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Profile profile = Spotify.getInstance().getProfileHandler().getProfile(event.getPlayer());
         if(profile.isBuildMode()) event.setCancelled(false);
     }
 
-    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Profile profile = Spotify.getInstance().getProfileHandler().getProfile(event.getPlayer());
         if(profile.isBuildMode()) event.setCancelled(false);
@@ -121,6 +140,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
+
         Player player = event.getPlayer();
 
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
@@ -133,6 +154,7 @@ public class PlayerListener implements Listener {
         PermissibleInjector.unInject(player);
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
+
     }
 
     @EventHandler(priority = EventPriority.LOW)

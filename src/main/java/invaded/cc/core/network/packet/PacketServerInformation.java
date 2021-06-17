@@ -5,14 +5,10 @@ import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.network.SpotifyPacket;
 import invaded.cc.core.network.server.Server;
 import invaded.cc.core.network.server.ServerHandler;
-import invaded.cc.core.util.Common;
 import invaded.cc.core.util.json.JsonChain;
-import invaded.cc.core.util.perms.PermLevel;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
-
-import java.util.Iterator;
 
 @Getter
 public class PacketServerInformation extends SpotifyPacket {

@@ -57,7 +57,6 @@ public class DisguiseHandler {
         });
 
         GameProfile profile = playerData.getRealProfile();
-        player.setPlayerListName(profile.getName());
 
         Common.modifyField("i", entityPlayer, profile, true);
 
