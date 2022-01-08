@@ -5,10 +5,8 @@ import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
-import invaded.cc.core.util.Color;
-import invaded.cc.core.util.Common;
-import invaded.cc.core.util.Skin;
-import invaded.cc.core.util.Task;
+import invaded.cc.core.tasks.SkinFetcherTask;
+import invaded.cc.core.util.*;
 import invaded.cc.core.util.menu.Menu;
 import lombok.SneakyThrows;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
@@ -98,7 +96,16 @@ public class DisguiseRankMenu extends Menu {
         }
 
         Task.asyncLater(() -> {
-            new SkinMenu(player, nick, Spotify.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)).open(player);
+            if (SkinFetcherTask.hasRequestPending(player)) {
+                SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
+                player.sendMessage(CC.GREEN + "We're trying to get " + nick + "'s skin, please wait a moment.");
+
+                while(!fetch.isReady() && !fetch.isFailed() && fetch.getSkin() == null) {
+                    continue;
+                }
+            }
+
+            new SkinMenu(player, nick, null/*Spotify.getInstance().getDisguiseHandler().getSkinManager().fetchSkin(nick)*/).open(player);
         }, 2L);
     }
 

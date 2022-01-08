@@ -5,8 +5,10 @@ import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
+import invaded.cc.core.tasks.SkinFetcherTask;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Skin;
+import invaded.cc.core.util.SkinFetch;
 import invaded.cc.core.util.menu.Menu;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
@@ -29,12 +31,14 @@ public class SkinMenu extends Menu {
 
     private static final ConcurrentMap<String, String> datas = new ConcurrentHashMap<>();
 
+    private Player player;
     private String nick;
     private Skin nickSkin;
 
     public SkinMenu(Player player, String nick, Skin skin) {
         super("&bChoose your skin!", 54);
 
+        this.player = player;
         datas.put(player.getName(), nick);
         this.nick = nick;
         this.nickSkin = skin;
@@ -67,6 +71,20 @@ public class SkinMenu extends Menu {
             chestplate.setItemMeta(meta);
 
             inventory.setItem(slot++, chestplate);
+        }
+
+        if (SkinFetcherTask.hasRequestPending(player)) {
+            SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
+            ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+            meta = (LeatherArmorMeta) chestplate.getItemMeta();
+
+            dyeColor = DyeColor.YELLOW;
+            meta.setColor(dyeColor.getColor());
+
+            meta.setDisplayName(Color.translate("&b" + fetch.getTarget()));
+            leggings.setItemMeta(meta);
+
+            inventory.setItem(slot++, leggings);
         }
 
         if (nickSkin == null) return;
@@ -105,7 +123,9 @@ public class SkinMenu extends Menu {
 
         Skin skin;
 
-        if (display.equals(nick) && nickSkin != null) skin = nickSkin;
+        SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
+        if (fetch != null && display.equals(fetch.getTarget())) skin = fetch.getSkin();
+
         else if (!display.equals("Own"))
             skin = Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkinOf(display);
         else skin = profile.getRealSkin();
@@ -116,6 +136,10 @@ public class SkinMenu extends Menu {
         }
 
         Rank rank = profile.getFakeRank();
+
+        if(SkinFetcherTask.hasRequestPending(player)) {
+            SkinFetcherTask.remove(player);
+        }
 
         if (rank == null) {
             player.closeInventory();

@@ -1,6 +1,5 @@
 package invaded.cc.core.network;
 
-import com.google.gson.JsonObject;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.network.connection.BungeeConnectionHandler;
 import invaded.cc.core.network.connection.JedisConnectionHandler;
@@ -16,10 +15,12 @@ public class NetworkHandler {
 
     private final Map<String, PacketListener> packetListenerMap;
     private final ConnectionHandler connectionHandler;
+    private final boolean networkMode;
 
-    public NetworkHandler() {
+    public NetworkHandler(Spotify plugin) {
         this.packetListenerMap = new HashMap<>();
         this.connectionHandler = Spotify.getInstance().getRedisDatabase().isRedisMode() ? new JedisConnectionHandler() : new BungeeConnectionHandler();
+        this.networkMode = plugin.getMainConfig().get().getBoolean("network-mode", false);
 
         this.registerPacketReaders();
         this.registerChannels();

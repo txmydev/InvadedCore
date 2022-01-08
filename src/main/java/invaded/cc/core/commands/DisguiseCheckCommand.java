@@ -3,24 +3,28 @@ package invaded.cc.core.commands;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.util.Color;
-import me.txmy.command.BaseCommand;
-import me.txmy.command.Command;
-import me.txmy.command.CommandArgs;
+import invaded.cc.core.util.command.BasicCommand;
+import invaded.cc.core.util.perms.PermLevel;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DisguiseCheckCommand extends BaseCommand {
+public class DisguiseCheckCommand extends BasicCommand {
 
-    @Command(name = "checkdisguise", aliases = {"isd", "checkd", "dcheck"}, permission = "invaded.staff")
-    public void onCommand(CommandArgs command) {
-        if (command.getArgs().length != 1) {
-            command.getSender().sendMessage(Color.translate("&cUse /checkdisguise <player>."));
+    public DisguiseCheckCommand() {
+        super("checkdisguise", PermLevel.ADMIN, "checkd");
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length != 1) {
+            sender.sendMessage(Color.translate("&cUse /checkdisguise <player>."));
             return;
         }
 
-        Player player = Bukkit.getPlayer(command.getArgs()[0]);
+        Player player = Bukkit.getPlayer(args[0]);
         if (player == null) {
-            command.getSender().sendMessage(Color.translate("&cThat player is offline."));
+            sender.sendMessage(Color.translate("&cThat player is offline."));
             return;
         }
 
@@ -28,9 +32,9 @@ public class DisguiseCheckCommand extends BaseCommand {
 
         profileHandler.ifPresent(player.getUniqueId(), profile -> {
             if (!profile.isDisguised())
-                command.getSender().sendMessage(Color.translate(profile.getColoredName() + " &cisn't disguised."));
+                sender.sendMessage(Color.translate(profile.getColoredName() + " &cisn't disguised."));
             else
-                command.getSender().sendMessage(Color.translate(profile.getRealColoredName() + " &ais disguised as " + profile.getColoredName()));
-        }, command.getSender(), "That player is offline.");
+                sender.sendMessage(Color.translate(profile.getRealColoredName() + " &ais disguised as " + profile.getColoredName()));
+        }, sender, "That player is offline.");
     }
 }

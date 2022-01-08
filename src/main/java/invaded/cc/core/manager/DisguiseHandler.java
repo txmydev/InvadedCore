@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 public class DisguiseHandler {
 
     private static final Map<UUID, String> disguisedPlayers = new HashMap<>();
-    private SkinManager skinManager;
+    private final SkinHandler skinManager;
 
     public DisguiseHandler() {
-        skinManager = new SkinManager();
+        skinManager = new SkinHandler();
     }
 
     public static Map<UUID, String> getDisguisedPlayers() {
@@ -115,79 +115,6 @@ public class DisguiseHandler {
         Task.later(event::call, 2L);
     }
 
-    @Getter
-    public class SkinManager {
 
-        private final ConfigFile skinsFile;
-        private final Map<String, Skin> skins;
-
-        public SkinManager() {
-            skinsFile = new ConfigFile("nicks.yml", null, false);
-            skins = new HashMap<>();
-
-            setupSkins();
-        }
-
-        public void setupSkins() {
-            Task.async(() -> {
-                ConfigTracker configTracker = new ConfigTracker(skinsFile.get(), "");
-
-                for (String key : configTracker.getStringList("skins")) {
-                    String[] val = key.split(":");
-
-                    if (val.length != 2) {
-                        Bukkit.getLogger().info("Error trying to load skin for " + key + " in nicks.yml file, check the syntax.");
-                        continue;
-                    }
-
-                    String display = val[0];
-                    String username = val[1];
-
-                    if (!CheckPremiumTask.runCheck(username)) {
-                        Bukkit.getLogger().info(username + " is not a premium player, cannot extract an skin from him.");
-                        continue;
-                    }
-
-                    Skin skin = fetchSkin(username);
-
-                    if (skin == null) {
-                        Bukkit.getLogger().info("Couldn't fetch skin for username " + username + ", please check the username field is correct.");
-                        continue;
-                    }
-
-                    skins.put(display, skin);
-                }
-            });
-        }
-
-        public Skin fetchSkin(String username) {
-            String link1 = "https://api.mojang.com/users/profiles/minecraft/" + username;
-            String link2 = "https://sessionserver.mojang.com/session/minecraft/profile/";
-
-            Skin skin = null;
-
-            try {
-                URL url1 = new URL(link1);
-                InputStreamReader reader1 = new InputStreamReader(url1.openStream());
-                String id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
-
-                URL url2 = new URL(link2 + id + "?unsigned=false");
-                InputStreamReader reader2 = new InputStreamReader(url2.openStream());
-                JsonObject jsonObject = new JsonParser().parse(reader2).getAsJsonObject().get("properties").getAsJsonArray().get(0).getAsJsonObject();
-
-                skin = new Skin(jsonObject.get("value").getAsString(), jsonObject.get("signature").getAsString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (IllegalStateException ignored) {
-            }
-
-            return skin;
-        }
-
-        public Skin getSkinOf(String display) {
-            return skins.get(display);
-        }
-
-    }
 
 }

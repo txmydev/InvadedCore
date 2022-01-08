@@ -22,6 +22,6 @@ public class BuildCommand extends BasicCommand {
 
         boolean newValue = !profile.isBuildMode();
         profile.setBuildMode(newValue);
-        player.sendMessage(Color.translate("&eYou " + (newValue ? "&aare now in " : "&care no longer in ") + " &ebuild mode."));
+        player.sendMessage(Color.translate("&eYou " + (newValue ? "&eare &anow" : "&eare &cno longer") + " &ein build mode."));
     }
 }

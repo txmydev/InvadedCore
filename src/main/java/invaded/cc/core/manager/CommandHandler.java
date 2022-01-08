@@ -17,8 +17,6 @@ import invaded.cc.core.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.core.commands.punish.unpunish.UnMuteCMD;
 import invaded.cc.core.commands.tags.TagsCommand;
 import lombok.Getter;
-import me.txmy.command.BaseCommand;
-import me.txmy.command.CommandFramework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +25,8 @@ public class CommandHandler {
 
     @Getter
     private final List<String> flyWorlds = new ArrayList<>();
-    @Getter
-    private CommandFramework commandFramework;
 
     public CommandHandler() {
-        this.commandFramework = new CommandFramework(Spotify.getInstance());
-        BaseCommand.setFramework(commandFramework);
-
         new GamemodeCommand();
         new FlyCommand();
         new StaffChatCommand();
@@ -80,6 +73,9 @@ public class CommandHandler {
         new TagsCommand();
         new BuildCommand();
         new ServerTestingCommand();
+        new ColorCommand();
+        new UnbreakableCommand();
+        new MoreCommand();
     }
 
 }

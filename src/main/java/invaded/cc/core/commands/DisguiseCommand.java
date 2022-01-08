@@ -3,6 +3,7 @@ package invaded.cc.core.commands;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.menu.DisguiseRankMenu;
 import invaded.cc.core.profile.Profile;
+import invaded.cc.core.tasks.SkinFetcherTask;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.command.BasicCommand;
@@ -48,6 +49,8 @@ public class DisguiseCommand extends BasicCommand {
         }
 
         String disguiseNick = args[0];
+
+        SkinFetcherTask.startRequest(player, disguiseNick);
         new DisguiseRankMenu(player, disguiseNick).open(player);
     }
 }

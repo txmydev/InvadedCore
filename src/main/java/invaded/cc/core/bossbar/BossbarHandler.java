@@ -1,13 +1,9 @@
 package invaded.cc.core.bossbar;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketBossBar;
-import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_7_R4.*;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEnderDragon;
 import org.bukkit.entity.EntityType;

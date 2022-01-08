@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class SudoCommand extends BasicCommand {
 
     public SudoCommand() {
-        super("sudo", PermLevel.ADMIN);
+        super("sudo", PermLevel.DEVELOPER);
     }
 
     @Override
