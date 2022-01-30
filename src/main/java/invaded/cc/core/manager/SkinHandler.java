@@ -76,10 +76,15 @@ public class SkinHandler {
 
         Skin skin = null;
 
-        URL url1 = new URL(link1);
-        InputStreamReader reader1 = new InputStreamReader(url1.openStream());
-        String id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+        String id = null;
 
+        if(Bukkit.getPlayer(username) == null) {
+            URL url1 = new URL(link1);
+            InputStreamReader reader1 = new InputStreamReader(url1.openStream());
+            id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+        } else {
+            id = Bukkit.getPlayer(username).getUniqueId().toString().replace("-", "");
+        }
         URL url2 = new URL(link2 + id + "?unsigned=false");
         InputStreamReader reader2 = new InputStreamReader(url2.openStream());
         JsonObject jsonObject = new JsonParser().parse(reader2).getAsJsonObject().get("properties").getAsJsonArray().get(0).getAsJsonObject();
@@ -90,15 +95,28 @@ public class SkinHandler {
     }
 
     public Skin fetchSkin(String username) {
+        try {
+            return this.fetchSkinRaw(username);
+        }catch( IllegalStateException ignored){
+        }catch(IOException ex) {
+            return null;
+        }
+/*
         String link1 = "https://api.mojang.com/users/profiles/minecraft/" + username;
         String link2 = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
         Skin skin = null;
 
         try {
-            URL url1 = new URL(link1);
-            InputStreamReader reader1 = new InputStreamReader(url1.openStream());
-            String id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+            String id = null;
+
+            if(Bukkit.getPlayer(username) == null) {
+                URL url1 = new URL(link1);
+                InputStreamReader reader1 = new InputStreamReader(url1.openStream());
+                id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+            } else {
+                id = Bukkit.getPlayer(username).getUniqueId().toString().replace("-", "");
+            }
 
             URL url2 = new URL(link2 + id + "?unsigned=false");
             InputStreamReader reader2 = new InputStreamReader(url2.openStream());
@@ -110,7 +128,8 @@ public class SkinHandler {
             ex.printStackTrace();
         }
 
-        return skin;
+        return skin;*/
+        return null;
     }
 
     public Skin getSkinOf(String display) {
