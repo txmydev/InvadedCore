@@ -76,6 +76,7 @@ public class CommandHandler {
         new ColorCommand();
         new UnbreakableCommand();
         new MoreCommand();
+        new SocialSpyCommand();
     }
 
 }

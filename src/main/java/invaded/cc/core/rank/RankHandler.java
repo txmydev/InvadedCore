@@ -7,6 +7,7 @@ import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.common.reflect.TypeToken;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -77,5 +78,15 @@ public class RankHandler {
         }
 
         return null;
+    }
+
+    public Rank getHighestRank(){
+        return this.ranks.get(0);
+    }
+
+    public boolean isHighestRank(Player player) {
+        return Spotify.getInstance().getProfileHandler().getRank(player).getName()
+                .equalsIgnoreCase(getHighestRank().getName());
+
     }
 }

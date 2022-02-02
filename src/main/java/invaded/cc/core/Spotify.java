@@ -4,10 +4,7 @@ import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.*;
-import invaded.cc.core.manager.ChatHandler;
-import invaded.cc.core.manager.CommandHandler;
-import invaded.cc.core.manager.CosmeticsHandler;
-import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.manager.*;
 import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.permission.PermissionHandler;
@@ -64,6 +61,7 @@ public class Spotify extends JavaPlugin {
     private BossbarHandler bossbarHandler;
     private NetworkHandler networkHandler;
     private ServerHandler serverHandler;
+    private SocialSpyHandler socialSpyHandler;
 
     @Override
     public void onEnable() {
@@ -121,6 +119,7 @@ public class Spotify extends JavaPlugin {
         cosmeticsHandler = new CosmeticsHandler();
         networkHandler = new NetworkHandler(this);
         serverHandler = new ServerHandler();
+        socialSpyHandler = new SocialSpyHandler(this);
         //bossbarHandler = new BossbarHandler();
     }
 

@@ -278,8 +278,6 @@ public class PlayerListener implements Listener {
             PunishmentHandler punishmentHandler = Spotify.getInstance().getPunishmentHandler();
             punishmentHandler.punish(event.getTarget().getUniqueId(), event.getTarget().getName(), punishment);
         }
-
-
     }
 
 
@@ -299,5 +297,4 @@ public class PlayerListener implements Listener {
             profile.disguise();
         }
     }
-
 }

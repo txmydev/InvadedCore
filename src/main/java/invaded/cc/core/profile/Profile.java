@@ -59,6 +59,7 @@ public class Profile {
     // Staff stuff
     private boolean filter = true;
     private boolean staffAlerts = true;
+    private boolean socialSpy;
 
     private Tag activePrefix;
     private Tag activeSuffix;

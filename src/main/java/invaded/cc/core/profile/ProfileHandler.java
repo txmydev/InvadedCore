@@ -5,10 +5,12 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.punishment.PunishmentHandler;
+import invaded.cc.core.rank.Rank;
 import invaded.cc.core.tags.Tag;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Color;
+import invaded.cc.core.util.Common;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
@@ -195,6 +197,10 @@ public class ProfileHandler {
         }
 
         callback.apply(profile);
+    }
+
+    public Rank getRank(Player player) {
+        return this.getProfile(player).getHighestRank();
     }
 
     public interface ProfileCallback {

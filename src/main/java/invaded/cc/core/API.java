@@ -83,6 +83,10 @@ public class API {
         return plugin.getProfileHandler().getProfile(id).getHighestRank().getPriority();
     }
 
+    public int getRankWeight(Player player) {
+        return this.getRankWeight(player.getUniqueId());
+    }
+
     public boolean hasRank(UUID id) {
         return !getRankObj(id).isDefaultRank();
     }

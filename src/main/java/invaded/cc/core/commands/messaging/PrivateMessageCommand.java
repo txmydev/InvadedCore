@@ -1,8 +1,12 @@
 package invaded.cc.core.commands.messaging;
 
+import invaded.cc.core.API;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.manager.SocialSpyHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
+import invaded.cc.core.rank.RankHandler;
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.Filter;
@@ -84,8 +88,10 @@ public class PrivateMessageCommand extends BasicCommand {
             stringBuilder.append(args[i]).append(" ");
         }
 
-        from = from + stringBuilder.toString();
-        to = to + stringBuilder.toString();
+        String message = stringBuilder.toString();
+        
+        from = from + message;
+        to = to + message;
 
         player.sendMessage(Color.translate(to));
         if (!targetData.getIgnoreList().contains(player.getName())) target.sendMessage(Color.translate(from));
@@ -97,8 +103,8 @@ public class PrivateMessageCommand extends BasicCommand {
         profile.setRecentTalker(targetData);
         targetData.setRecentTalker(profile);
 
-        if (Filter.needFilter(stringBuilder.toString().trim())) {
-            String filter = Filter.PREFIX + " &e(" + profile.getColoredName() + " &eto " + targetData.getColoredName() + "&e) " + stringBuilder.toString();
+        if (Filter.needFilter(message.trim())) {
+            String filter = Filter.PREFIX + " &e(" + profile.getColoredName() + " &eto " + targetData.getColoredName() + "&e) " + message;
 
             Common.getOnlinePlayers().forEach(other -> {
                 if (!Permission.test(other, PermLevel.STAFF)) return;
@@ -109,5 +115,19 @@ public class PrivateMessageCommand extends BasicCommand {
                 other.sendMessage(Color.translate(filter));
             });
         }
+
+        SocialSpyHandler socialSpyHandler = Spotify.getInstance().getSocialSpyHandler();
+        if (!socialSpyHandler.isEnabled()) return;
+
+        RankHandler rankHandler = Spotify.getInstance().getRankHandler();
+        if (rankHandler.isHighestRank(player) || rankHandler.isHighestRank(target)) return;
+
+        Common.getOnlinePlayers().forEach(other -> {
+            Profile otherProfile = profileHandler.getProfile(other);
+            if (!otherProfile.isSocialSpy()) return;
+
+            other.sendMessage(Filter.SOCIAL_SPY_PREFIX + profile.getColoredName() + CC.GRAY + " to " 
+                    + targetData.getColoredName() + CC.GRAY + ": " + message);
+        });
     }
 }
