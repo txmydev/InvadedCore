@@ -119,8 +119,8 @@ public class PlayerListener implements Listener {
             networkHandler.sendPacket(new PacketStaffJoin(profile.getRealColoredName(), Spotify.SERVER_NAME));
         }
 
-
-        if (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + CosmeticsHandler.getGLOBAL_MULTIPLIER() + "x" + "&a&lmore coins, enjoy it!"));
+        CosmeticsHandler cosmeticsHandler = Spotify.getInstance().getCosmeticsHandler();;
+        if (cosmeticsHandler.getGlobalMultiplier() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + cosmeticsHandler.getGlobalMultiplier() + "x" + "&a&lmore coins, enjoy it!"));
     }
 
     private void setProperties(Player player, Profile profile) {

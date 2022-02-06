@@ -127,7 +127,9 @@ public class Profile {
     }
 
     public void aggregateCoins(int coins) {
-        double multiplier = CosmeticsHandler.getMultiplier(this);
+        CosmeticsHandler cosmeticsHandler = Spotify.getInstance().getCosmeticsHandler();;
+
+        double multiplier = cosmeticsHandler.getMultiplier(this);
         if (multiplier == 0) {
             this.coins += coins;
             return;
@@ -137,11 +139,11 @@ public class Profile {
         int dif = finalCoins - coins;
         this.coins = this.coins + finalCoins;
 
-        boolean onlyGlobalMultiplier = multiplier == CosmeticsHandler.getGLOBAL_MULTIPLIER();
+        boolean onlyGlobalMultiplier = multiplier == cosmeticsHandler.getGlobalMultiplier();
 
         if (isOnline())
             Bukkit.getPlayer(id).sendMessage(Color.translate("&a&l" + (onlyGlobalMultiplier ? "There's an active &e&lGlobal Multiplier of &b&l" + multiplier + "x &a&lso you received an extra &6&l" + dif + " coins&a&l! Hope you enjoy them ;)"
-                    : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (CosmeticsHandler.getGLOBAL_MULTIPLIER() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") + ", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
+                    : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (cosmeticsHandler.getGlobalMultiplier() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") + ", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
     }
 
     public void removeCoins(int coins) {

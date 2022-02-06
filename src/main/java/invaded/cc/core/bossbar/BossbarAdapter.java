@@ -6,6 +6,12 @@ import java.util.List;
 
 public interface BossbarAdapter {
 
+    default int getEntityId(){
+        return 1392;
+    }
+
+    long getInterval();
+
     String getTitle();
     double getHealth();
 

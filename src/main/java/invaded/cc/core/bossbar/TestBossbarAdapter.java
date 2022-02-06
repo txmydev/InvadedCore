@@ -7,10 +7,15 @@ import java.util.List;
 
 public class TestBossbarAdapter implements BossbarAdapter {
     @Override
+    public long getInterval() {
+        return 20L;
+    }
+
+    @Override
     public String getTitle() {
         return "Im dumb";
     }
-    double hp = 20;
+    double hp = 200;
 
     @Override
     public double getHealth() {

@@ -15,6 +15,7 @@ import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.tasks.AnnounceTask;
+import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.tasks.CosmeticsTask;
 import invaded.cc.core.tasks.MenuTask;
 import invaded.cc.core.util.Color;
@@ -97,7 +98,7 @@ public class Spotify extends JavaPlugin {
     }
 
     private void sendMessage() {
-        Bukkit.getConsoleSender().sendMessage(Color.translate("&7[&aSpotify&7] &eWe now playin' music round the server LOL"));
+        //Bukkit.getConsoleSender().sendMessage(Color.translate("&7[&aSpotify&7] &eWe now playin' music round the server LOL"));
     }
 
     private void setupWorlds() {
@@ -120,14 +121,15 @@ public class Spotify extends JavaPlugin {
         networkHandler = new NetworkHandler(this);
         serverHandler = new ServerHandler();
         socialSpyHandler = new SocialSpyHandler(this);
-        //bossbarHandler = new BossbarHandler();
+        bossbarHandler = new BossbarHandler();
     }
 
     private void setupTasks() {
         new MenuTask();
         new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
         new AnnounceTask(this).runTaskTimerAsynchronously(this, 100L, announcesConfig.getInt("period-time") * 60L * 20L);
-        //new BossBarThread().runTaskTimer(this, 0L, 20L);
+
+        bossbarHandler.start();
     }
 
     private void loadPlayers() {
@@ -156,6 +158,7 @@ public class Spotify extends JavaPlugin {
         this.saveRanks();
         this.networkHandler.shutdown();
         this.redisDatabase.shutdown();
+        this.bossbarHandler.stop();
 
         instance = null;
     }
