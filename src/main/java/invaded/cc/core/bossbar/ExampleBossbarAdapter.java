@@ -31,7 +31,6 @@ public class ExampleBossbarAdapter implements BossbarAdapter{
         }
     }
 
-
     @Override
     public long getInterval() {
         return 20L;

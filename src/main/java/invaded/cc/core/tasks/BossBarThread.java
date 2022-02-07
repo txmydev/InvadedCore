@@ -19,7 +19,6 @@ public class BossBarThread extends Thread {
             if(handler.getAdapter() != null){
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     if(player.getTicksLived() <= 20 * 3) return;
-
                     handler.display(player);
                 });
 

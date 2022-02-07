@@ -1,16 +1,20 @@
 package invaded.cc.core.bossbar;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.util.Common;
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.server.v1_7_R4.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 @Getter
-@Setter
 public class BossbarHandler {
 
     private BossbarAdapter adapter;
@@ -18,18 +22,38 @@ public class BossbarHandler {
 
     public BossbarHandler() {
         thread = new BossBarThread();
+
+        Bukkit.getPluginManager().registerEvents(new Listener() {
+
+            @EventHandler
+            public void onQuit(PlayerQuitEvent event) {
+                Player player = event.getPlayer();
+                player.removeMetadata("spawned_bossbar", Spotify.getInstance());
+            }
+
+        }, Spotify.getInstance());
+    }
+
+    public void setAdapter(BossbarAdapter adapter) {
+        Bukkit.getLogger().info("A change in a BossBar adapter has been made.");
+        if (adapter == null) {
+            Bukkit.getScheduler().runTaskAsynchronously(Spotify.getInstance(), () -> Bukkit.getOnlinePlayers().forEach(this::remove));
+        }
+
+        this.adapter = adapter;
+        if (!thread.isAlive()) thread.start();
     }
 
     public void stop() {
-        if(thread.isAlive()) thread.stop();
+        if (thread.isAlive()) thread.stop();
     }
 
-    public void start(){
+    public void start() {
         thread.start();
     }
 
     public void display(Player player) {
-        //if (adapter.getIgnoredPlayers().contains(player)) return;
+        if (adapter.getIgnoredPlayers() != null && adapter.getIgnoredPlayers().contains(player)) return;
 
         String title = adapter.getTitle();
         double health = adapter.getHealth();
@@ -39,23 +63,23 @@ public class BossbarHandler {
         dataWatcher.a(10, title);
         dataWatcher.a(2, title);
         dataWatcher.a(6, (float) health);
-        dataWatcher.a(0, (byte)(0x20 | 1 << 5));
-
+        dataWatcher.a(0, (byte) (0x20 | 1 << 5));
 
         PacketPlayOutSpawnEntityLiving spawn = new PacketPlayOutSpawnEntityLiving();
         spawn.a = adapter.getEntityId();
         spawn.b = EntityType.ENDER_DRAGON.getTypeId();
-        spawn.c = location.getBlockX();
-        spawn.d = location.getBlockY();
-        spawn.e = location.getBlockZ();
+        spawn.c = (int) Math.floor(location.getBlockX() * 32.0D);
+        spawn.d = (int) Math.floor((location.getBlockY() - 100) * 32.0D);
+        spawn.e = (int) Math.floor(location.getBlockZ() * 32.0D);
         spawn.i = (byte) 0;
         spawn.j = (byte) 0;
         spawn.k = (byte) 0;
         spawn.l = dataWatcher;
 
+        player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
         Common.sendPacket(player, spawn);
 
-        PacketPlayOutEntityMetadata metadata =  new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
+        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
         Common.sendPacket(player, metadata);
     }
 
@@ -71,6 +95,8 @@ public class BossbarHandler {
 
         Common.sendPacket(player, metadata);
         Common.sendPacket(player, destroy);
+
+        player.removeMetadata("spawned_bossbar", Spotify.getInstance());
     }
 
 }
