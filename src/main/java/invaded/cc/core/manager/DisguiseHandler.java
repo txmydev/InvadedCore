@@ -98,6 +98,7 @@ public class DisguiseHandler {
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
         PacketPlayOutPlayerInfo updateDisplayName = PacketPlayOutPlayerInfo.updateDisplayName(entityPlayer);
+
         PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(entityPlayer.world.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.worldData.getType(), entityPlayer.playerInteractManager.getGameMode());
         updateDisplayName.player = gameProfile;
         updateDisplayName.username = gameProfile.getName();

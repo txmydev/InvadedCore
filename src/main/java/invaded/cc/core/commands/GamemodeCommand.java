@@ -1,5 +1,6 @@
 package invaded.cc.core.commands;
 
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
@@ -47,7 +48,18 @@ public class GamemodeCommand {
 
             Player player = (Player) sender;
 
-            if (args.length != 0) player.sendMessage(Color.translate("&cUse /gmc"));
+            if (args.length != 0)
+                if (args.length == 1) {
+                    String name = args[0];
+                    Player target = Bukkit.getPlayer(name);
+
+                    if (target == null) {
+                        sender.sendMessage(CC.RED + "The player is not online.");
+                        return;
+                    }
+
+                    changeGamemode(target, 1);
+                } else player.sendMessage(Color.translate("&cUse /gmc"));
             else changeGamemode(player, 1);
         }
     }
@@ -67,7 +79,18 @@ public class GamemodeCommand {
 
             Player player = (Player) sender;
 
-            if (args.length != 0) player.sendMessage(Color.translate("&cUse /gms"));
+            if (args.length != 0)
+                if (args.length == 1) {
+                    String name = args[0];
+                    Player target = Bukkit.getPlayer(name);
+
+                    if (target == null) {
+                        sender.sendMessage(CC.RED + "The player is not online.");
+                        return;
+                    }
+
+                    changeGamemode(target, 0);
+                } else player.sendMessage(Color.translate("&cUse /gms"));
             else changeGamemode(player, 0);
         }
     }
