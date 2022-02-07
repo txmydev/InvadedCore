@@ -102,7 +102,7 @@ public class Spotify extends JavaPlugin {
     }
 
     private void setupWorlds() {
-        this.commandHandler.getFlyWorlds().add("world");
+        this.commandHandler.getFlyWorlds().add("Lobby");
     }
 
     private void setupHandlers() {

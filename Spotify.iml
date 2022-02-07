@@ -10,8 +10,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: invaded.cc:Common:1.0" level="project" />
+    <orderEntry type="library" name="Common" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: invaded.cc:Common:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Dependencias/Common.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.skulluhc:spigot:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: net.skulluhc:spigot:1.0-SNAPSHOT">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Dependencias/skullspigot.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
