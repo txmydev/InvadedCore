@@ -43,3 +43,4 @@ public class FlyCommand extends BasicCommand {
         player.sendMessage(Color.translate((player.isFlying() ? "&a" : "&7") + "You toggled your fly mode."));
     }
 }
+
