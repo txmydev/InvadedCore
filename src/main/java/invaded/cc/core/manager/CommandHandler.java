@@ -77,6 +77,7 @@ public class CommandHandler {
         new UnbreakableCommand();
         new MoreCommand();
         new SocialSpyCommand();
+        new PluginCommand();
     }
 
 }

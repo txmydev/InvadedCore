@@ -43,6 +43,7 @@ public abstract class BasicCommand extends Command {
     }
 
     public void register() {
+        if(COMMAND_MAP.getCommand(name) != null) COMMAND_MAP.getCommand(name).unregister(COMMAND_MAP);
         COMMAND_MAP.register(name, this);
     }
 
