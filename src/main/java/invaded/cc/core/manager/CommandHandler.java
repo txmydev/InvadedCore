@@ -78,6 +78,7 @@ public class CommandHandler {
         new MoreCommand();
         new SocialSpyCommand();
         new PluginCommand();
+        new SettingsCommand();
     }
 
 }

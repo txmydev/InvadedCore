@@ -5,6 +5,7 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
+import invaded.cc.core.profile.settings.DayCycle;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.tags.Tag;
@@ -53,6 +54,7 @@ public class Profile {
     private boolean italic = false, spaceBetweenRank = false;
     private boolean messages;
     private boolean messagesSound, buildMode;
+    private boolean bossBar = true, lunarBorder;
 
     private boolean staffChat = false;
 
@@ -60,6 +62,8 @@ public class Profile {
     private boolean filter = true;
     private boolean staffAlerts = true;
     private boolean socialSpy;
+
+    private DayCycle timeCycle = DayCycle.DAY;
 
     private Tag activePrefix;
     private Tag activeSuffix;
@@ -193,5 +197,9 @@ public class Profile {
 
     public boolean canAfford(int coins) {
         return this.coins >= coins;
+    }
+
+    public void sendMessage(String s) {
+        if(Common.getPlayer(this) != null) Common.getPlayer(this).sendMessage(Color.translate(s));
     }
 }

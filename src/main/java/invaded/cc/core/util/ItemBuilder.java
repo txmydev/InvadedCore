@@ -7,6 +7,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class ItemBuilder {
 
@@ -36,6 +38,11 @@ public class ItemBuilder {
     public ItemBuilder lore(String... lines) {
         for (String s : lines)
             this.lore.add(Color.translate(s));
+        return this;
+    }
+
+    public ItemBuilder loreIf(Supplier<Boolean> condition, String... lines){
+        if(condition.get()) lore(lines);
         return this;
     }
 

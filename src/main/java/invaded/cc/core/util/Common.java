@@ -208,4 +208,8 @@ public class Common {
 
         return arg;
     }
+
+    public static Player getPlayer(Profile profile) {
+        return Bukkit.getPlayer(profile.getId());
+    }
 }

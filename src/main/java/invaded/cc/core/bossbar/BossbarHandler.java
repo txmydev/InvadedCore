@@ -52,7 +52,12 @@ public class BossbarHandler {
         thread.start();
     }
 
+    private boolean isBossbar(Player player) {
+        return Spotify.getInstance().getProfileHandler().getProfile(player).isBossBar();
+    }
+
     public void display(Player player) {
+        if(!isBossbar(player)) return;
         if (adapter.getIgnoredPlayers() != null && adapter.getIgnoredPlayers().contains(player)) return;
 
         String title = adapter.getTitle();
