@@ -1,5 +1,6 @@
 package invaded.cc.core.profile.settings;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Common;
@@ -26,23 +27,25 @@ public enum Settings {
                            "&7to the current gamemode, this may cause FPS problems",
                            "&7so feel free to disable it if you're experiencing some." ,
                     Common.getLine(40)).build(), profile -> {
-        boolean v = !profile.isBossBar();
 
-        profile.setBossBar(v);
-        profile.sendMessage((v ? "&a" : "&c") + "You've toggled your bossbar.");
+        profile.setBossBar(!profile.isBossBar());
+        profile.sendMessage((profile.isBossBar() ? "&a" : "&c") + "You've toggled your bossbar.");
+
+        if(!profile.isBossBar()) Spotify.getInstance().getBossbarHandler().remove(Common.getPlayer(profile));
     })
     ,
     LUNAR_BORDER("lunarBorder", "Lunar Border",
                  profile -> new ItemBuilder()
                                     .type(Material.NETHER_STAR)
-                                    .name("&7Lunar Border")
+                                    .name((profile.isLunarBorder() ? "&a" : "&c") + "Lunar Border")
                                     .lore(  Common.getLine(40),
                                                     "&7When enabled, this setting allows you to display",
                                                     "&7the 1.8 border among the current border of the world",
-                                                    " ",
-                                                    "&7Coming soon!",
                                             Common.getLine(40))
-                                    .build(), profile -> profile.sendMessage(CC.GRAY + "This feature is under development.")),
+                                    .build(), profile -> {
+        profile.setLunarBorder(!profile.isLunarBorder());
+        profile.sendMessage((profile.isLunarBorder() ? "&a" : "&7") + "You've toggled your lunar border.");
+    }),
 
     PRIVATE_MESSAGE("privateMessages",
             "Private Messages",

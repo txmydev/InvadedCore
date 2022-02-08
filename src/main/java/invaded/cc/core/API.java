@@ -127,6 +127,15 @@ public class API {
         return Spotify.getInstance().getServerHandler().getServerMap().values();
     }
 
+    public boolean isBossBar(Player player) {
+        return Spotify.getInstance().getProfileHandler().getProfile(player).isBossBar();
+    }
+
+    public boolean isLunarBorder(Player player) {
+        return Spotify.getInstance().getProfileHandler().getProfile(player).isLunarBorder();
+    }
+
+
     public Server getServer(String serverId) {
         return Spotify.getInstance().getServerHandler().getServer(serverId);
     }

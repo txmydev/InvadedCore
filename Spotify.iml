@@ -13,6 +13,7 @@
     <orderEntry type="library" name="Common" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: invaded.cc:Common:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.skulluhc:lunar-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.skulluhc:spigot:1.0-SNAPSHOT" level="project" />
   </component>
 </module>

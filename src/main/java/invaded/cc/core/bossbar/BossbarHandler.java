@@ -1,5 +1,7 @@
 package invaded.cc.core.bossbar;
 
+import com.lunarclient.bukkitapi.LunarClientAPI;
+import com.lunarclient.bukkitapi.nethandler.client.LCPacketBossBar;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.util.Common;
@@ -64,6 +66,14 @@ public class BossbarHandler {
         double health = adapter.getHealth();
         Location location = player.getLocation();
 
+        player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
+
+        LunarClientAPI lunarApi = LunarClientAPI.getInstance();
+        if(lunarApi.isRunningLunarClient(player)) {
+            lunarApi.sendPacket(player, new LCPacketBossBar(0, title, (float) health));
+            return;
+        }
+
         DataWatcher dataWatcher = new DataWatcher((Entity) null);
         dataWatcher.a(10, title);
         dataWatcher.a(2, title);
@@ -81,7 +91,6 @@ public class BossbarHandler {
         spawn.k = (byte) 0;
         spawn.l = dataWatcher;
 
-        player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
         Common.sendPacket(player, spawn);
 
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
@@ -89,11 +98,19 @@ public class BossbarHandler {
     }
 
     public void remove(Player player) {
+        player.removeMetadata("spawned_bossbar", Spotify.getInstance());
+
+        LunarClientAPI lunarApi = LunarClientAPI.getInstance();
+        if(lunarApi.isRunningLunarClient(player)) {
+            lunarApi.sendPacket(player, new LCPacketBossBar(1, "", 0));
+            return;
+        }
+
         DataWatcher dataWatcher = new DataWatcher((Entity) null);
-        dataWatcher.watch(2, " ");
-        dataWatcher.watch(10, " ");
-        dataWatcher.watch(0, (byte) 0x20 & ~(1 << 5));
-        dataWatcher.watch(6, (float) 0);
+        dataWatcher.a(2, " ");
+        dataWatcher.a(10, " ");
+        dataWatcher.a(0, (byte) 0x20 & ~(1 << 5));
+        dataWatcher.a(6, (float) 0);
 
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(this.adapter.getEntityId(), dataWatcher.c(), false);
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(this.adapter.getEntityId());
@@ -101,7 +118,6 @@ public class BossbarHandler {
         Common.sendPacket(player, metadata);
         Common.sendPacket(player, destroy);
 
-        player.removeMetadata("spawned_bossbar", Spotify.getInstance());
     }
 
 }
