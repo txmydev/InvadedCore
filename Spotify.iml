@@ -10,8 +10,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Common" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: invaded.cc:Common:1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.mongodb:mongo-java-driver:3.12.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: redis.clients:jedis:3.3.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.commons:commons-pool2:2.6.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jodd:jodd-http:5.1.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jodd:jodd-core:5.1.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.skulluhc:lunar-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.skulluhc:spigot:1.0-SNAPSHOT" level="project" />

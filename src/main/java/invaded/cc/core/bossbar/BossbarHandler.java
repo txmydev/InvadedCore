@@ -1,7 +1,5 @@
 package invaded.cc.core.bossbar;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketBossBar;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.util.Common;
@@ -59,52 +57,72 @@ public class BossbarHandler {
     }
 
     public void display(Player player) {
-        if(!isBossbar(player)) return;
+        if (!isBossbar(player)) return;
         if (adapter.getIgnoredPlayers() != null && adapter.getIgnoredPlayers().contains(player)) return;
 
         String title = adapter.getTitle();
         double health = adapter.getHealth();
         Location location = player.getLocation();
 
-        player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
-
-        LunarClientAPI lunarApi = LunarClientAPI.getInstance();
+        // Lunar Api not working idk why :(
+        /*LunarClientAPI lunarApi = LunarClientAPI.getInstance();
         if(lunarApi.isRunningLunarClient(player)) {
             lunarApi.sendPacket(player, new LCPacketBossBar(0, title, (float) health));
             return;
+        }*/
+
+        if (!player.hasMetadata("spawned_bossbar")) {
+            player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
+
+            DataWatcher dataWatcher = new DataWatcher((Entity) null);
+            dataWatcher.a(10, title);
+            dataWatcher.a(2, title);
+            dataWatcher.a(6, (float) health);
+            dataWatcher.a(0, (byte) (0x20 | 1 << 5));
+            dataWatcher.a(16, 10);
+
+            PacketPlayOutSpawnEntityLiving spawn = new PacketPlayOutSpawnEntityLiving();
+            spawn.a = adapter.getEntityId();
+            spawn.b = EntityType.ENDER_DRAGON.getTypeId();
+            spawn.c = (int) Math.floor(location.getBlockX() * 32.0D);
+            spawn.d = (int) Math.floor((location.getBlockY() - 100) * 32.0D);
+            spawn.e = (int) Math.floor(location.getBlockZ() * 32.0D);
+            spawn.i = (byte) 0;
+            spawn.j = (byte) 0;
+            spawn.k = (byte) 0;
+            spawn.l = dataWatcher;
+
+            Common.sendPacket(player, spawn);
+
+            PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
+            Common.sendPacket(player, metadata);
+        } else {
+            DataWatcher dataWatcher = new DataWatcher((Entity) null);
+            dataWatcher.a(10, adapter.getTitle());
+            dataWatcher.a(2, adapter.getTitle());
+            dataWatcher.a(6, (float) adapter.getHealth());
+            dataWatcher.a(0, (byte) (0x20 | 1 << 5));
+
+            PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport();
+            teleport.a = adapter.getEntityId();
+            teleport.b = (int) Math.floor(location.getBlockX() * 32.0D);
+            teleport.c = (int) Math.floor((location.getBlockY() - 100) * 32.0D);
+            teleport.d = (int) Math.floor(location.getBlockZ() * 32.0D);
+
+            PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
+            Common.sendPacket(player, metadata);
+            Common.sendPacket(player, teleport);
         }
-
-        DataWatcher dataWatcher = new DataWatcher((Entity) null);
-        dataWatcher.a(10, title);
-        dataWatcher.a(2, title);
-        dataWatcher.a(6, (float) health);
-        dataWatcher.a(0, (byte) (0x20 | 1 << 5));
-
-        PacketPlayOutSpawnEntityLiving spawn = new PacketPlayOutSpawnEntityLiving();
-        spawn.a = adapter.getEntityId();
-        spawn.b = EntityType.ENDER_DRAGON.getTypeId();
-        spawn.c = (int) Math.floor(location.getBlockX() * 32.0D);
-        spawn.d = (int) Math.floor((location.getBlockY() - 100) * 32.0D);
-        spawn.e = (int) Math.floor(location.getBlockZ() * 32.0D);
-        spawn.i = (byte) 0;
-        spawn.j = (byte) 0;
-        spawn.k = (byte) 0;
-        spawn.l = dataWatcher;
-
-        Common.sendPacket(player, spawn);
-
-        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
-        Common.sendPacket(player, metadata);
     }
 
     public void remove(Player player) {
         player.removeMetadata("spawned_bossbar", Spotify.getInstance());
 
-        LunarClientAPI lunarApi = LunarClientAPI.getInstance();
+        /*LunarClientAPI lunarApi = LunarClientAPI.getInstance();
         if(lunarApi.isRunningLunarClient(player)) {
             lunarApi.sendPacket(player, new LCPacketBossBar(1, "", 0));
             return;
-        }
+        }*/
 
         DataWatcher dataWatcher = new DataWatcher((Entity) null);
         dataWatcher.a(2, " ");

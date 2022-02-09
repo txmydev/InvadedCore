@@ -15,10 +15,8 @@ import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.tasks.AnnounceTask;
-import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.tasks.CosmeticsTask;
 import invaded.cc.core.tasks.MenuTask;
-import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.menu.MenuListener;
@@ -29,8 +27,6 @@ import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.TimeZone;
 
 @Getter
 public class Spotify extends JavaPlugin {
