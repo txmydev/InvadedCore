@@ -53,7 +53,8 @@ public class BossbarHandler {
     }
 
     private boolean isBossbar(Player player) {
-        return Spotify.getInstance().getProfileHandler().getProfile(player).isBossBar();
+        return Spotify.getInstance().getProfileHandler().getProfile(player) != null &&
+                Spotify.getInstance().getProfileHandler().getProfile(player).isBossBar();
     }
 
     public void display(Player player) {

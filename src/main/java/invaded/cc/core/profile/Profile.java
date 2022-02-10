@@ -62,6 +62,7 @@ public class Profile {
     private boolean filter = true;
     private boolean staffAlerts = true;
     private boolean socialSpy;
+    private boolean lunarPrefix;
 
     private DayCycle timeCycle = DayCycle.DAY;
 
@@ -121,7 +122,7 @@ public class Profile {
                     + fakeRank.getSuffix();
         }
 
-        return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
+        return (lunarPrefix ? Spotify.getInstance().getTagsHandler().getLunarPrefix() : "") + (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
                 (spaceBetweenRank ? " " : "") + name
                 + highestRank.getSuffix() + (activeSuffix != null ? " " + activeSuffix.getDisplay() : "");
     }

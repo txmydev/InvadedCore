@@ -1,5 +1,6 @@
 package invaded.cc.core.profile.settings;
 
+import com.lunarclient.bukkitapi.LunarClientAPI;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
@@ -81,17 +82,7 @@ public enum Settings {
             "&cyou can buy it at &bstore.skulluhc.club",
             " ").build(), profile -> Common.getPlayer(profile).performCommand("fly")),
 
-    SIDEBAR("sidebar", "Sidebar",
-            profile -> new ItemBuilder()
-                            .type(Material.BLAZE_POWDER)
-                            .name("&7Toggle Scoreboard")
-                            .lore(Common.getLine(40),
-                                    "&7Trying to free up some space on the screen",
-                                    "&7you can disable the scoreboard by clicking",
-                                    "&7this item.",
-                                    Common.getLine(40)).build(), profile -> profile.sendMessage(CC.GRAY + "Not available now."))
-    ,
-    TIME("time", "Time Item", profile -> new ItemBuilder()
+      TIME("time", "Time Item", profile -> new ItemBuilder()
                                                             .type(Material.WATCH)
                                                             .name("&dChange Time &e(To " + profile.getTimeCycle().getNext().name() + ")")
                                                             .lore(Common.getLine(40),
@@ -114,6 +105,20 @@ public enum Settings {
         }
 
         profile.setTimeCycle(to);
+    }),
+
+    LUNAR_PREFIX("lunarPrefix", "Lunar Prefix", profile -> new ItemBuilder().type(Material.NAME_TAG)
+                .name((profile.isLunarPrefix() ? CC.GREEN : CC.RED)+ "Lunar Prefix").lore(Common.getLine(40),
+                    CC.GRAY + "When running lunar client, your name will appear like this:",
+                    Spotify.getInstance().getTagsHandler().getLunarPrefix() + profile.getChatFormat(),
+                    Common.getLine(40))
+            .loreIf(() -> !LunarClientAPI.getInstance().isRunningLunarClient(Common.getPlayer(profile)),
+                    CC.RED + "You aren't using Lunar Client, you can't use this feature.",
+                    Common.getLine(40)).build(), profile -> {
+        if(!LunarClientAPI.getInstance().isRunningLunarClient(Common.getPlayer(profile))) return;
+
+        profile.setLunarPrefix(!profile.isLunarPrefix());
+        profile.sendMessage(CC.getByBoolean(profile.isLunarPrefix()) + "You've toggled your lunar prefix.");
     });
     ;
 

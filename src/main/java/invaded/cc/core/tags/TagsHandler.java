@@ -3,6 +3,7 @@ package invaded.cc.core.tags;
 import com.google.common.collect.Lists;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.RequestHandler;
+import invaded.cc.core.util.CC;
 import jodd.http.HttpResponse;
 import lombok.Getter;
 import net.minecraft.util.com.google.common.reflect.TypeToken;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class TagsHandler {
 
     private List<Tag> tags;
+    private final String lunarPrefix = CC.GRAY + "[" + CC.AQUA + "Lunar" + CC.GRAY + "] " + CC.RESET;
 
     public TagsHandler() {
         this.load();

@@ -56,6 +56,9 @@ public class ProfileHandler {
         body.put("activeTrail", profile.getActiveTrail() == null ? "none" : profile.getActiveTrail().getId());
         body.put("trails", this.getTrailsToJson(profile));
         body.put("coins", profile.getCoins());
+        body.put("bossBar", profile.isBossBar());
+        body.put("lunarPrefix", profile.isLunarPrefix());
+        body.put("lunarBorder", profile.isLunarBorder());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
@@ -168,6 +171,10 @@ public class ProfileHandler {
                 profile.getTrails().add(trail);
             });
         }
+
+        if(jsonObject.has("bossBar")) profile.setBossBar(jsonObject.get("bossBar").getAsBoolean());
+        if(jsonObject.has("lunarPrefix")) profile.setLunarPrefix(jsonObject.get("lunarPrefix").getAsBoolean());
+        if(jsonObject.has("lunarBorder")) profile.setLunarBorder(jsonObject.get("lunarBorder").getAsBoolean());
 
         GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
 

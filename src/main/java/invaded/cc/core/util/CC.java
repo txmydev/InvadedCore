@@ -99,5 +99,8 @@ public final class CC {
     public static String toColor(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
+    public static String getByBoolean(boolean v) {
+        return v ? GREEN : GRAY;
+    }
 }
 
