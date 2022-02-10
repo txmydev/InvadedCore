@@ -14,7 +14,7 @@ public class PlayerDisguiseEvent extends BaseEvent {
 
     private final String server;
     private final Player player;
-    private final String fakeName;
+    private final String fakeName, realName;
     private final Skin fakeSkin;
     private final Rank fakeRankData;
     @Setter

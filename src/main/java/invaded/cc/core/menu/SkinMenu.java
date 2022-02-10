@@ -75,16 +75,18 @@ public class SkinMenu extends Menu {
 
         if (SkinFetcherTask.hasRequestPending(player)) {
             SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
-            ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
-            meta = (LeatherArmorMeta) chestplate.getItemMeta();
+            if(fetch != null) {
+                ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+                meta = (LeatherArmorMeta) chestplate.getItemMeta();
 
-            dyeColor = DyeColor.YELLOW;
-            meta.setColor(dyeColor.getColor());
+                dyeColor = DyeColor.YELLOW;
+                meta.setColor(dyeColor.getColor());
 
-            meta.setDisplayName(Color.translate("&b" + fetch.getTarget()));
-            leggings.setItemMeta(meta);
+                meta.setDisplayName(Color.translate("&b" + fetch.getTarget()));
+                leggings.setItemMeta(meta);
 
-            inventory.setItem(slot++, leggings);
+                inventory.setItem(slot++, leggings);
+            }
         }
 
         if (nickSkin == null) return;

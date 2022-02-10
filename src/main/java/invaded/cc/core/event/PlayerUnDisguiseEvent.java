@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class PlayerUnDisguiseEvent extends BaseEvent {
 
-    private Profile profile;
+    private final Profile profile;
+    private final String server;
+    private final String disguisedName;
 
 }

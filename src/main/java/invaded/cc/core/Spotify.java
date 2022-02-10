@@ -5,6 +5,7 @@ import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.*;
 import invaded.cc.core.manager.*;
+import invaded.cc.core.nametag.NametagManager;
 import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.permission.PermissionHandler;
@@ -13,6 +14,7 @@ import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
+import invaded.cc.core.tablist.TablistHandler;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.tasks.AnnounceTask;
 import invaded.cc.core.tasks.CosmeticsTask;
@@ -25,6 +27,7 @@ import lombok.Setter;
 import net.minecraft.util.com.google.gson.Gson;
 import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -59,6 +62,8 @@ public class Spotify extends JavaPlugin {
     private NetworkHandler networkHandler;
     private ServerHandler serverHandler;
     private SocialSpyHandler socialSpyHandler;
+    private NametagManager nametagHandler;
+    private TablistHandler tablistHandler;
 
     @Override
     public void onEnable() {
@@ -118,6 +123,9 @@ public class Spotify extends JavaPlugin {
         serverHandler = new ServerHandler();
         socialSpyHandler = new SocialSpyHandler(this);
         bossbarHandler = new BossbarHandler();
+        //nametagHandler = new NametagManager(this);
+        tablistHandler = new TablistHandler(this);
+
     }
 
     private void setupTasks() {
@@ -182,4 +190,7 @@ public class Spotify extends JavaPlugin {
         return SERVER_NAME;
     }
 
+    public void registerListener(Listener listener) {
+        this.getServer().getPluginManager().registerEvents(listener, this);
+    }
 }

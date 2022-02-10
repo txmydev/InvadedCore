@@ -34,8 +34,8 @@ public abstract class BoardProvider {
         name.setDisplaySlot(DisplaySlot.BELOW_NAME);
         name.setDisplayName("§4❤");
 
-        Objective tab = scoreboard.registerNewObjective("tab", "health");
-        tab.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        /*Objective tab = scoreboard.registerNewObjective("tab", "health");
+        tab.setDisplaySlot(DisplaySlot.PLAYER_LIST);*/
 
         player.setScoreboard(scoreboard);
 

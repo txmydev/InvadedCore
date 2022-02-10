@@ -23,7 +23,7 @@ public class BossBarThread extends Thread {
                 });
 
                 try {
-                    Thread.sleep(handler.getAdapter().getInterval());
+                    Thread.sleep(50L * handler.getAdapter().getInterval());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -5,6 +5,7 @@ import invaded.cc.core.util.jedis.JedisConfiguration;
 import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.ConfigTracker;
 import lombok.Getter;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -36,7 +37,20 @@ public class RedisDatabase {
         this.jedisPool = new JedisPool(new JedisPoolConfig(), config.getHost(), config.getPort(), 4000, config.getPassword());
     }
 
+    public <T> T executeCommand(RedisCommand<T> command) {
+        Jedis resource = this.jedisPool.getResource();
+        T result = command.execute(resource);
+        resource.close();
+        return result;
+    }
+
     public void shutdown() {
+        this.executeCommand((jedis) ->{
+            jedis.hset("server-" + Spotify.SERVER_NAME, "lastRestart", System.currentTimeMillis() +"");
+            System.out.println("saving lastRestart to " + jedis.hget("server-"+Spotify.SERVER_NAME, "lastRestart"));
+            return null;
+        });
+
         if(!this.jedisPool.isClosed()) this.jedisPool.close();
     }
 }

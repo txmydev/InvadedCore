@@ -102,6 +102,14 @@ public class Profile {
                 name;
     }
 
+    public String getColors() {
+        if (name == null)
+            name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
+
+        if (isDisguised()) return fakeRank.getColors();
+        else return highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "");
+    }
+
     public String getColoredName() {
         if (name == null)
             name = (Bukkit.getPlayer(id) != null ? Bukkit.getPlayer(id).getName() : Bukkit.getOfflinePlayer(id).getName());
@@ -114,6 +122,13 @@ public class Profile {
 
     public boolean isDisguised() {
         return fakeProfile != null;
+    }
+
+    public String getChatFormat(boolean lunarPrefix){
+        if(lunarPrefix) return getChatFormat();
+        else return (activePrefix != null ? activePrefix.getDisplay() : "") + (activePrefix != null ? " " : "") + highestRank.getPrefix() + highestRank.getColors() + (chatColor == null ? "" : chatColor) + (italic ? ChatColor.ITALIC : "") +
+                (spaceBetweenRank ? " " : "") + name
+                + highestRank.getSuffix() + (activeSuffix != null ? " " + activeSuffix.getDisplay() : "");
     }
 
     public String getChatFormat() {
@@ -202,5 +217,9 @@ public class Profile {
 
     public void sendMessage(String s) {
         if(Common.getPlayer(this) != null) Common.getPlayer(this).sendMessage(Color.translate(s));
+    }
+
+    public Rank getCurrentRank() {
+        return isDisguised() ? fakeRank : highestRank;
     }
 }

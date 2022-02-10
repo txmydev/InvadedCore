@@ -99,9 +99,9 @@ public class BossbarHandler {
             Common.sendPacket(player, metadata);
         } else {
             DataWatcher dataWatcher = new DataWatcher((Entity) null);
-            dataWatcher.a(10, adapter.getTitle());
-            dataWatcher.a(2, adapter.getTitle());
-            dataWatcher.a(6, (float) adapter.getHealth());
+            dataWatcher.a(10, title);
+            dataWatcher.a(2, title);
+            dataWatcher.a(6, (float) health);
             dataWatcher.a(0, (byte) (0x20 | 1 << 5));
 
             PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport();

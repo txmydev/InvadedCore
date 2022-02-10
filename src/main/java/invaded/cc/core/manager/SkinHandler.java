@@ -1,5 +1,8 @@
 package invaded.cc.core.manager;
 
+import com.google.common.collect.Maps;
+import invaded.cc.core.Spotify;
+import invaded.cc.core.database.RedisCommand;
 import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.ConfigTracker;
@@ -9,6 +12,7 @@ import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
+import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,13 +24,67 @@ import java.util.Map;
 public class SkinHandler {
 
     private final ConfigFile skinsFile;
-    private final Map<String, Skin> skins;
+    private Map<String, Skin> skins;
 
     public SkinHandler() {
         skinsFile = new ConfigFile("nicks.yml", null, false);
         skins = new HashMap<>();
 
-        setupSkins();
+        Spotify.getInstance().getRedisDatabase().executeCommand((jedis) -> {
+            if(!jedis.hexists("server-" + Spotify.SERVER_NAME, "lastRestart")) {
+                System.out.println("lastRestart field doesn't exist");
+                this.setupSkins();
+                return null;
+            }
+
+            if(System.currentTimeMillis() -
+                    Long.parseLong(jedis.hget("server-"+Spotify.SERVER_NAME, "lastRestart")) > 50000) {
+                setupSkins();
+            } else {
+                attemptFromCache();
+            }
+
+            return null;
+        });
+    }
+
+    private boolean attemptFromCache() {
+        return Spotify.getInstance().getRedisDatabase().executeCommand(jedis -> {
+            if(!jedis.exists("skins")) return false;
+
+            this.skins = stringToMap(jedis.get("skins"));
+            return true;
+        });
+    }
+
+    private void cache() {
+        Spotify.getInstance().getRedisDatabase().executeCommand((jedis) -> {
+            String skinsToString = mapToString(this.skins);
+            jedis.set("skins", skinsToString);
+            return null;
+        });
+    }
+
+    private Map<String, Skin> stringToMap(String s){
+        Map<String, Skin> skins = Maps.newHashMap();
+
+        String[] global = s.split(";");
+        for (String s1 : global) {
+            String[] entrySplit = s1.split(",");
+            String name = entrySplit[0];
+            String[] skinSplit = entrySplit[1].split(":");
+            Skin skin = new Skin(skinSplit[0], skinSplit[1]);
+
+            skins.put(name, skin);
+        }
+
+        return skins;
+    }
+
+    private String mapToString(Map<String, Skin> map) {
+        StringBuilder builder = new StringBuilder();
+        map.forEach((key, value) -> builder.append(key).append(",").append(value.toString()).append(";"));
+        return builder.toString();
     }
 
     public void setupSkins() {
@@ -67,6 +125,8 @@ public class SkinHandler {
 
                 skins.put(display, skin);
             }
+
+            this.cache();
         });
     }
 

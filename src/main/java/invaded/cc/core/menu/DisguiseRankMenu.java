@@ -99,8 +99,9 @@ public class DisguiseRankMenu extends Menu {
             if (SkinFetcherTask.hasRequestPending(player)) {
                 SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
                 player.sendMessage(CC.GREEN + "We're trying to get " + nick + "'s skin, please wait a moment.");
+                long now = System.currentTimeMillis();
 
-                while(!fetch.isReady() && !fetch.isFailed() && fetch.getSkin() == null) {
+                while(!fetch.isReady() && !fetch.isFailed() && fetch.getSkin() == null && System.currentTimeMillis() - now < 5000L) {
                     continue;
                 }
             }

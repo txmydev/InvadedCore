@@ -50,6 +50,7 @@ public class DisguiseHandler {
         Player player = Bukkit.getPlayer(playerData.getId());
         if (player == null) return;
 
+        String fakeName = playerData.getFakeName();
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
         Common.getOnlinePlayers().forEach(other -> {
@@ -73,7 +74,7 @@ public class DisguiseHandler {
             other.showPlayer(player);
         });
 
-        PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData);
+        PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData, Spotify.SERVER_NAME, fakeName);
         Task.later(event::call, 2L);
     }
 
@@ -112,7 +113,7 @@ public class DisguiseHandler {
 
         Common.sendPacket(player, respawn);
 
-        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getFakeSkin(), profile.getFakeRank(), false);
+        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getName(), profile.getFakeSkin(), profile.getFakeRank(), false);
         Task.later(event::call, 2L);
     }
 

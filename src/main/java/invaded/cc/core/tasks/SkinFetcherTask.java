@@ -62,8 +62,6 @@ public class SkinFetcherTask extends BukkitRunnable {
         SkinHandler skinHandler = Spotify.getInstance().getDisguiseHandler().getSkinManager();
         try {
             Skin skin = skinHandler.fetchSkinRaw(name);
-            System.out.println(skin.getTexture());
-            System.out.println(skin.getSignature());
             finish(skin);
         }catch(IllegalStateException ex){
             ex.printStackTrace();

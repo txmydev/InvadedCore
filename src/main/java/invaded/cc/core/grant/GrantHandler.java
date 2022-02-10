@@ -116,7 +116,6 @@ public class GrantHandler {
         Map<String, Object> map = new HashMap<>();
 
         map.put("uuid", grant.getProfile().getId().toString());
-        map.put("name", grant.getName());
         map.put("rank", grant.getRank());
         map.put("addedAt", grant.getAddedAt());
         map.put("addedBy", grant.getAddedBy());
