@@ -14,7 +14,7 @@ public class WeightTablistAdapter implements TabAdapter{
 
     @Override
     public void updateTab(Player player, Tablist tab) {
-        int index = 1;
+        int index = 0;
         int maxIndex = 60;
 
         /*

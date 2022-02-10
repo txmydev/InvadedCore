@@ -23,9 +23,9 @@ public class Tablist {
     public void setup() {
         Bukkit.getOnlinePlayers().forEach(other -> Common.sendPacket(player, PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) other).getHandle())));
 
-        IntStream.rangeClosed(1, 20).forEach(y -> {
+        IntStream.rangeClosed(0, 19).forEach(y -> {
             IntStream.range(0, 3).forEach(x -> {
-                create(x * 20 + y);
+                create(y * 3 + x);
             });
         });
     }
