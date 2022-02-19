@@ -36,8 +36,10 @@ public class Tablist {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
         GameProfile profile = new GameProfile(UUID.randomUUID(), name);
         packet.username = profile.getName();
-        packet.action = 3;
+        packet.action = 1;
         packet.player = profile;
+        packet.gamemode = -1;
+        packet.ping = 2;
 
         sendPacket(packet);
         sendPacket(getScoreboardPacket(name, "", "", name, 0));
