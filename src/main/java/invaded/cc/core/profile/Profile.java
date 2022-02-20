@@ -178,7 +178,8 @@ public class Profile {
     }
 
     public void unDisguise() {
-        DisguiseHandler.undisguise(this);
+        Spotify plugin = Spotify.getInstance();
+        plugin.getDisguiseHandler().undisguise(this);
 
         fakeProfile = null;
         fakeName = null;
@@ -187,7 +188,8 @@ public class Profile {
     }
 
     public void disguise() {
-        DisguiseHandler.disguise(this);
+        Spotify plugin = Spotify.getInstance();
+        plugin.getDisguiseHandler().disguise(this);
     }
 
     public String getDisguisedName() {

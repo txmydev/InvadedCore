@@ -79,6 +79,7 @@ public class CommandHandler {
         new SocialSpyCommand();
         new PluginCommand();
         new SettingsCommand();
+        new AltsCommand(Spotify.getInstance());
     }
 
 }

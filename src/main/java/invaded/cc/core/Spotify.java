@@ -1,5 +1,6 @@
 package invaded.cc.core;
 
+import invaded.cc.core.alts.AltHandler;
 import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.grant.GrantHandler;
@@ -63,6 +64,7 @@ public class Spotify extends JavaPlugin {
     private ServerHandler serverHandler;
     private SocialSpyHandler socialSpyHandler;
     private NametagManager nametagHandler;
+    private AltHandler altHandler;
     private TablistHandler tablistHandler;
 
     @Override
@@ -125,6 +127,7 @@ public class Spotify extends JavaPlugin {
         bossbarHandler = new BossbarHandler();
         //nametagHandler = new NametagManager(this);
         tablistHandler = new TablistHandler(this);
+        altHandler = new AltHandler(this);
 
     }
 
@@ -160,11 +163,17 @@ public class Spotify extends JavaPlugin {
         this.savePlayers();
         this.savePrefixes();
         this.saveRanks();
+        this.saveAlts();
+
         this.networkHandler.shutdown();
         this.redisDatabase.shutdown();
         this.bossbarHandler.stop();
 
         instance = null;
+    }
+
+    private void saveAlts() {
+        altHandler.save();
     }
 
     private void savePlayers() {

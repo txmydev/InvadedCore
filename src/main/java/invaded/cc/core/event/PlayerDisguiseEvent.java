@@ -18,5 +18,6 @@ public class PlayerDisguiseEvent extends BaseEvent {
     private final Skin fakeSkin;
     private final Rank fakeRankData;
     @Setter
-    private boolean cancelled;
+    private boolean sendRespawnPacket;
+
 }

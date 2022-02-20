@@ -169,6 +169,8 @@ public class SkinMenu extends Menu {
                 + ";" + profile.getFakeSkin().getTexture() + ";" + profile.getFakeSkin().getSignature();
 
         profile.disguise();
-        DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
+
+        Spotify plugin = Spotify.getInstance();
+        plugin.getDisguiseHandler().getDisguisedPlayers().put(profile.getId(), info);
     }
 }

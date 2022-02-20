@@ -3,6 +3,7 @@ package invaded.cc.core.listener;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.event.PlayerDisguiseEvent;
 import invaded.cc.core.event.PlayerPunishEvent;
+import invaded.cc.core.event.PlayerUnDisguiseEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.manager.DisguiseHandler;
@@ -22,6 +23,7 @@ import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -121,6 +123,8 @@ public class PlayerListener implements Listener {
 
         CosmeticsHandler cosmeticsHandler = Spotify.getInstance().getCosmeticsHandler();;
         if (cosmeticsHandler.getGlobalMultiplier() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + cosmeticsHandler.getGlobalMultiplier() + "x" + "&a&lmore coins, enjoy it!"));
+
+        player.setDisplayName(profile.getColoredName());
     }
 
     private void setProperties(Player player, Profile profile) {
@@ -248,12 +252,18 @@ public class PlayerListener implements Listener {
         if (!Spotify.SERVER_NAME.equalsIgnoreCase(event.getServer())) return;
 
         Player player = event.getPlayer();
+        player.setDisplayName(Spotify.getAPI().getColoredName(player));
 
         Task.async(() -> {
             player.sendMessage(Color.translate("&6If you disguise as a famous player or with an offensive name, your rank will be removed."));
             if (!CheckPremiumTask.runCheck(event.getFakeName())) return;
             player.sendMessage(Color.translate("&6You are disguising as a real player, if he enters, you will be kicked. "));
         });
+    }
+
+    @EventHandler
+    public void onUnDisguise(PlayerUnDisguiseEvent event) {
+        Bukkit.getPlayer(event.getProfile().getId()).setDisplayName(event.getProfile().getColoredName());
     }
 
     @EventHandler
@@ -286,9 +296,10 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
+        Spotify plugin = Spotify.getInstance();
 
-        if (DisguiseHandler.getDisguisedPlayers().containsKey(player.getUniqueId())) {
-            String[] info = DisguiseHandler.getDisguisedPlayers().get(player.getUniqueId()).split(";");
+        if (plugin.getDisguiseHandler().getDisguisedPlayers().containsKey(player.getUniqueId())) {
+            String[] info = plugin.getDisguiseHandler().getDisguisedPlayers().get(player.getUniqueId()).split(";");
 
             profile.setFakeName(info[0]);
             profile.setFakeRank(Spotify.getInstance().getRankHandler().getRank(info[1]));

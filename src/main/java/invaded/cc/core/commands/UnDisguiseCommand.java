@@ -53,7 +53,8 @@ public class UnDisguiseCommand extends BasicCommand {
                 .post();*/
 
         profile.unDisguise();
-        Map<UUID, String> map = DisguiseHandler.getDisguisedPlayers();
+        Spotify plugin = Spotify.getInstance();
+        Map<UUID, String> map = plugin.getDisguiseHandler().getDisguisedPlayers();
         map.remove(player.getUniqueId());
 
         player.sendMessage(Color.translate("&aYou've been undisguised."));

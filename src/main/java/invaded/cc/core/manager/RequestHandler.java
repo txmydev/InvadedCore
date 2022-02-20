@@ -10,6 +10,7 @@ import net.minecraft.util.com.google.gson.JsonArray;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonPrimitive;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +36,15 @@ public class RequestHandler {
         return req.send();
     }
 
-    public static HttpResponse post(String endpoint, Map<String, Object> body) {
+    public static HttpResponse post(String endpoint, Map<String, Object> body){
+        return post(endpoint, body, Collections.emptyMap());
+    }
+
+    public static HttpResponse post(String endpoint, Map<String, Object> body, Map<String, Object> query) {
         HttpRequest req = HttpRequest.post(BASE + endpoint);
         req.tokenAuthentication(CONFIG.getToken());
         req.contentTypeJson();
+        query.forEach(req::query);
 
         JsonObject jsonObject = new JsonObject();
 

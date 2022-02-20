@@ -18,6 +18,7 @@ import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,54 +32,55 @@ import java.util.stream.Collectors;
 @Getter
 public class DisguiseHandler {
 
-    private static final Map<UUID, String> disguisedPlayers = new HashMap<>();
+    private final Map<UUID, String> disguisedPlayers = new HashMap<>();
     private final SkinHandler skinManager;
 
     public DisguiseHandler() {
         skinManager = new SkinHandler();
     }
 
-    public static Map<UUID, String> getDisguisedPlayers() {
+    public Map<UUID, String> getDisguisedPlayers() {
         return disguisedPlayers;
     }
 
-    public static List<Rank> getAvailableDisguiseRanks(Profile profile) {
+    public List<Rank> getAvailableDisguiseRanks(Profile profile) {
         return Spotify.getInstance().getRankHandler().getRanks().stream().filter(rank -> rank.getPriority() <= profile.getHighestRank().getPriority() && !rank.isMedia()).collect(Collectors.toList());
     }
 
-    public static void undisguise(Profile playerData) {
-        Player player = Bukkit.getPlayer(playerData.getId());
+    public void undisguise(Profile profile) {
+        Player player = Bukkit.getPlayer(profile.getId());
         if (player == null) return;
 
-        String fakeName = playerData.getFakeName();
+        String fakeName = profile.getFakeName();
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
         Common.getOnlinePlayers().forEach(other -> {
             other.hidePlayer(player);
         });
 
-        GameProfile profile = playerData.getRealProfile();
+        GameProfile gameProfile = profile.getRealProfile();
 
-        Common.modifyField("i", entityPlayer, profile, true);
+        Common.modifyField("i", entityPlayer, gameProfile, true);
 
-        player.setPlayerListName(playerData.getName());
+        player.setPlayerListName(gameProfile.getName());
 
         PacketPlayOutPlayerInfo updateDisplayName = PacketPlayOutPlayerInfo.updateDisplayName(entityPlayer);
-        updateDisplayName.player = profile;
-        updateDisplayName.username = profile.getName();
+        updateDisplayName.player = gameProfile;
+        updateDisplayName.username = gameProfile.getName();
 
-        player.setPlayerListName(profile.getName());
+        player.setPlayerListName(gameProfile.getName());
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, updateDisplayName);
             other.showPlayer(player);
         });
 
-        PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(playerData, Spotify.SERVER_NAME, fakeName);
+
+        PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(profile, Spotify.SERVER_NAME, fakeName);
         Task.later(event::call, 2L);
     }
 
-    public static void disguise(Profile profile) {
+    public void disguise(Profile profile) {
         Player player = Bukkit.getPlayer(profile.getId());
         if (player == null) return;
 
@@ -100,7 +102,6 @@ public class DisguiseHandler {
 
         PacketPlayOutPlayerInfo updateDisplayName = PacketPlayOutPlayerInfo.updateDisplayName(entityPlayer);
 
-        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(entityPlayer.world.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.worldData.getType(), entityPlayer.playerInteractManager.getGameMode());
         updateDisplayName.player = gameProfile;
         updateDisplayName.username = gameProfile.getName();
 
@@ -111,10 +112,33 @@ public class DisguiseHandler {
 
         player.setPlayerListName(gameProfile.getName());
 
-        Common.sendPacket(player, respawn);
 
-        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getName(), profile.getFakeSkin(), profile.getFakeRank(), false);
-        Task.later(event::call, 2L);
+
+        PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getName(), profile.getFakeSkin(), profile.getFakeRank(), true);
+        event.call();
+
+        if(event.isSendRespawnPacket()) {
+            sendRespawnPacket(player);
+        }
+    }
+
+    private void sendRespawnPacket(Player player) {
+        /*Task.later(() -> {
+            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+
+            PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(entityPlayer.world.getWorld().getEnvironment().getId(), entityPlayer.server.getDifficulty(), entityPlayer.world.worldData.getType(), entityPlayer.playerInteractManager.getGameMode());
+            Common.sendPacket(player, respawn);
+
+            player.setExp(player.getExp());
+            player.setWalkSpeed(player.getWalkSpeed());
+            ((CraftPlayer) player).updateScaledHealth();
+            player.setFoodLevel(player.getFoodLevel());
+
+            PlayerInventory inventory = player.getInventory();
+            inventory.setHeldItemSlot(inventory.getHeldItemSlot());
+            inventory.setContents(inventory.getContents());
+            inventory.setArmorContents(inventory.getArmorContents());
+        }, 5L);*/
     }
 
 

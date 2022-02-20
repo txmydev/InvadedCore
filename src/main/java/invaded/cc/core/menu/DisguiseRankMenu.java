@@ -42,7 +42,8 @@ public class DisguiseRankMenu extends Menu {
 
     @Override
     public void update() {
-        List<Rank> ranks = DisguiseHandler.getAvailableDisguiseRanks(profile);
+        Spotify plugin = Spotify.getInstance();
+        List<Rank> ranks = plugin.getDisguiseHandler().getAvailableDisguiseRanks(profile);
         ranks.sort((rank1, rank2) -> rank2.getPriority() - rank1.getPriority());
 
         int slot = 0;
@@ -120,7 +121,9 @@ public class DisguiseRankMenu extends Menu {
                 + ";" + profile.getFakeSkin().getTexture() + ";" + profile.getFakeSkin().getSignature();
 
         profile.disguise();
-        DisguiseHandler.getDisguisedPlayers().put(profile.getId(), info);
+
+        Spotify plugin = Spotify.getInstance();
+        plugin.getDisguiseHandler().getDisguisedPlayers().put(profile.getId(), info);
     }
 
     private int getWoolData(ChatColor color) {

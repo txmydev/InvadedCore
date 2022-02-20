@@ -1,5 +1,7 @@
 package invaded.cc.core.util.command;
 
+import invaded.cc.core.Spotify;
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
@@ -44,7 +46,7 @@ public abstract class BasicCommand extends Command {
 
     public void register() {
         if(COMMAND_MAP.getCommand(name) != null) COMMAND_MAP.getCommand(name).unregister(COMMAND_MAP);
-        COMMAND_MAP.register(name, this);
+        COMMAND_MAP.register(name, "Spotify", this);
     }
 
     public abstract void execute(CommandSender sender, String[] args);
@@ -58,5 +60,14 @@ public abstract class BasicCommand extends Command {
 
         this.execute(commandSender, strings);
         return true;
+    }
+
+    public Player getPlayer(String name, CommandSender sender, String fallbackText) {
+        Player player = Bukkit.getPlayer(name);
+        if(player == null) {
+            sender.sendMessage(CC.RED + fallbackText);
+            return null;
+        }
+        return player;
     }
 }
