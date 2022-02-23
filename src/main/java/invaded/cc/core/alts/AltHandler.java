@@ -70,7 +70,7 @@ public class AltHandler  {
 
     public void loadPlayer(String address, UUID id) {
         // I may actually add a date to track when the ip was registered, and remove it after 30 days
-        checkForChange(address, id);
+       // checkForChange(address, id);
 
         if(altsMap.containsKey(address)) add(address, id);
         else altsMap.put(address, new ArrayList<>(Collections.singletonList(id)));

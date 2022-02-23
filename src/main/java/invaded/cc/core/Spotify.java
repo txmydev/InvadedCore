@@ -28,9 +28,11 @@ import lombok.Setter;
 import net.minecraft.util.com.google.gson.Gson;
 import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 @Getter
 public class Spotify extends JavaPlugin {
@@ -89,6 +91,7 @@ public class Spotify extends JavaPlugin {
         this.setupWorlds();
         this.sendMessage();
 
+
         setAPI(new API(this));
     }
 
@@ -128,7 +131,6 @@ public class Spotify extends JavaPlugin {
         //nametagHandler = new NametagManager(this);
         tablistHandler = new TablistHandler(this);
         altHandler = new AltHandler(this);
-
     }
 
     private void setupTasks() {
@@ -180,7 +182,7 @@ public class Spotify extends JavaPlugin {
         Common.getOnlinePlayers().forEach(player -> {
             Profile profile = profileHandler.getProfiles().get(player.getUniqueId());
             if (profile.isDisguised()) {
-                profile.unDisguise();
+                profile.unDisguise(true);
             }
             profileHandler.save(profile);
         });

@@ -141,7 +141,11 @@ public class SkinHandler {
         if(Bukkit.getPlayer(username) == null) {
             URL url1 = new URL(link1);
             InputStreamReader reader1 = new InputStreamReader(url1.openStream());
-            id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+            try{
+                id = new JsonParser().parse(reader1).getAsJsonObject().get("id").getAsString();
+            } catch (IllegalStateException ex) {
+                return Skin.STEVE_SKIN;
+            }
         } else {
             id = Bukkit.getPlayer(username).getUniqueId().toString().replace("-", "");
         }

@@ -52,7 +52,7 @@ public class UnDisguiseCommand extends BasicCommand {
                 .addInfo("profileId", profile.getId().toString())
                 .post();*/
 
-        profile.unDisguise();
+        profile.unDisguise(false);
         Spotify plugin = Spotify.getInstance();
         Map<UUID, String> map = plugin.getDisguiseHandler().getDisguisedPlayers();
         map.remove(player.getUniqueId());

@@ -17,10 +17,13 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.punishment.PunishmentHandler;
+import invaded.cc.core.tablist.TabAdapter;
+import invaded.cc.core.tablist.TablistHandler;
 import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.*;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
+import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -160,7 +163,7 @@ public class PlayerListener implements Listener {
         Profile profile = profileHandler.getProfile(player.getUniqueId());
         if (profile == null) return;
 
-        if (profile.isDisguised()) profile.unDisguise();
+        if (profile.isDisguised()) profile.unDisguise(true);
 
         NetworkHandler networkHandler = Spotify.getInstance().getNetworkHandler();
         if (!networkHandler.isNetworkMode() && Permission.test(profile, PermLevel.STAFF)) Task.later(() -> networkHandler.sendPacket(new PacketStaffLeave(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);

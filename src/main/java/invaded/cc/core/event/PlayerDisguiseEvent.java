@@ -5,10 +5,11 @@ import invaded.cc.core.rank.Rank;
 import invaded.cc.core.util.Skin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class PlayerDisguiseEvent extends BaseEvent {
 
@@ -18,6 +19,7 @@ public class PlayerDisguiseEvent extends BaseEvent {
     private final Skin fakeSkin;
     private final Rank fakeRankData;
     @Setter
-    private boolean sendRespawnPacket;
+    private boolean sendRespawnPacket = true;
+
 
 }

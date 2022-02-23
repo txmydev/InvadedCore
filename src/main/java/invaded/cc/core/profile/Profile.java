@@ -177,9 +177,9 @@ public class Profile {
         return mute.getType() == Punishment.Type.TEMPORARY_MUTE && mute.getExpire() > System.currentTimeMillis();
     }
 
-    public void unDisguise() {
+    public void unDisguise(boolean quit) {
         Spotify plugin = Spotify.getInstance();
-        plugin.getDisguiseHandler().undisguise(this);
+        plugin.getDisguiseHandler().undisguise(this, quit);
 
         fakeProfile = null;
         fakeName = null;

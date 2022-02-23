@@ -32,8 +32,7 @@ public class AltsCommand extends BasicCommand {
             Player player = getPlayer(args[0], sender, "Player offline.");
             if (player == null) return;
             List<UUID> uuids = plugin.getAltHandler().getAlts(player).stream().filter(id -> !id.equals(player.getUniqueId())).collect(Collectors.toList());
-            sender.sendMessage(" ");
-            sender.sendMessage(CC.B_GREEN + "Alts found for " + player.getDisplayName());
+            sender.sendMessage(CC.GREEN + "Alts found for " + player.getDisplayName());
             sender.sendMessage(" ");
             uuids.forEach(id ->
                     sender.sendMessage(CC.GRAY + "- " + CC.GOLD + Bukkit.getOfflinePlayer(id).getName())

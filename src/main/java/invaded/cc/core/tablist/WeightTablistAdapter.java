@@ -15,12 +15,12 @@ public class WeightTablistAdapter implements TabAdapter{
     @Override
     public void updateTab(Player player, Tablist tab) {
         int index = 0;
-        int maxIndex = 60;
+        int maxIndex = tab.isLegacy() ? 60 : 80;
 
-        /*
-           0 21 41
-
-         */
+        // clear the other ones
+        for(int i = index; i < maxIndex; i++) {
+            tab.set(i, "");
+        }
 
         Map<Profile, Integer> indexes = new HashMap<>();
         List<Profile> organized = plugin.getProfileHandler().getProfiles().values().stream()
@@ -35,9 +35,6 @@ public class WeightTablistAdapter implements TabAdapter{
 
         indexes.forEach((profile, position) -> tab.set(position, profile.getColoredName()));
 
-        // clear the other ones
-        for(int i = index; i < maxIndex; i++) {
-            tab.set(i, "");
-        }
+
     }
 }

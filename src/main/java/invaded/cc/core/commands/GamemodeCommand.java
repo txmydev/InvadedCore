@@ -121,6 +121,11 @@ public class GamemodeCommand {
                             break;
                         }
 
+                        if(args[1].equalsIgnoreCase("all")) {
+                            Bukkit.getOnlinePlayers().forEach(other -> changeGamemode(other, Integer.parseInt(args[0])));
+                            break;
+                        }
+
                         Player target = Bukkit.getPlayer(args[1]);
 
                         if (target == null) {

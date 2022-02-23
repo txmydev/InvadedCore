@@ -12,5 +12,6 @@ public class PlayerUnDisguiseEvent extends BaseEvent {
     private final Profile profile;
     private final String server;
     private final String disguisedName;
+    private final boolean quit;
 
 }

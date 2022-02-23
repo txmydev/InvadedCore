@@ -4,6 +4,7 @@ import invaded.cc.core.network.server.Server;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
+import invaded.cc.core.tablist.TabAdapter;
 import invaded.cc.core.util.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -133,6 +134,10 @@ public class API {
 
     public boolean isLunarBorder(Player player) {
         return Spotify.getInstance().getProfileHandler().getProfile(player).isLunarBorder();
+    }
+
+    public void setTabAdapter(TabAdapter adapter) {
+        Spotify.getInstance().getTablistHandler().setAdapter(adapter);
     }
 
 

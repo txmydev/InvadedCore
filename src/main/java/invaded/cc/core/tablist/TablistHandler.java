@@ -2,8 +2,12 @@ package invaded.cc.core.tablist;
 
 import com.google.common.collect.Maps;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.util.Common;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +38,8 @@ public class TablistHandler {
         this.plugin.registerListener(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
-                init(event.getPlayer());
+                Player player = event.getPlayer();
+                init(player);
             }
 
             @EventHandler

@@ -33,6 +33,7 @@ public class PermissionMenu {
         public void update() {
             List<String> list = new ArrayList<>(profile.getPermissions());
 
+
             int slot = 9;
             int index = page * 27 - 27;
 
@@ -40,6 +41,8 @@ public class PermissionMenu {
             this.inventory.setItem(8, new ItemBuilder().type(Material.CARPET).data(page + 1 > getTotalPages() ? 7 : 13).name((page + 1 > getTotalPages() ? ChatColor.GRAY : ChatColor.GREEN) + "Next Page").build());
 
             while (slot < 27 && index < list.size()) {
+                System.out.println("Index " + index);
+
                 inventory.setItem(slot++,
                         new ItemBuilder()
                                 .type(Material.BOOK_AND_QUILL)
@@ -61,7 +64,7 @@ public class PermissionMenu {
                 page--;
                 update();
             } else if (event.getSlot() == 8) {
-                if (page == getTotalPages()) return;
+                if (page >= getTotalPages()) return;
                 page++;
             }
         }
@@ -116,6 +119,8 @@ public class PermissionMenu {
             } else if (event.getSlot() == 8) {
                 if (page == getTotalPages()) return;
                 page++;
+                update();
+
             }
         }
     }
