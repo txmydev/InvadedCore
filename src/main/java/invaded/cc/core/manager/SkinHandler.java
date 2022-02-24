@@ -72,6 +72,7 @@ public class SkinHandler {
         for (String s1 : global) {
             String[] entrySplit = s1.split(",");
             String name = entrySplit[0];
+            if(entrySplit.length < 2) continue;
             String[] skinSplit = entrySplit[1].split(":");
             Skin skin = new Skin(skinSplit[0], skinSplit[1]);
 

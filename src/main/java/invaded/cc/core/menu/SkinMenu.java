@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,11 @@ public class SkinMenu extends Menu {
 
     @Override
     public void update() {
+        if(player.getVersion() > 5) updateNormal();
+        else updateLegacy();
+    }
+
+    private void updateLegacy() {
         int slot = 0;
         List<String> displays = new ArrayList<>(Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
 
@@ -58,7 +64,22 @@ public class SkinMenu extends Menu {
         meta.setDisplayName(Color.translate("&bOwn"));
         chestplate.setItemMeta(meta);
 
-        inventory.setItem(slot++, chestplate);
+        int slotOwn = slot++;
+
+        inventory.setItem(slotOwn, chestplate);
+
+
+        /*ItemStack skull = new ItemStack(Mateal.SKUL, 1);
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+
+        DyeColor dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
+        meta.setColor(dyeColor.getColor());
+
+        skullMeta.setDisplayName(Color.translate("&bOwn"));
+        skullMeta.setOwner(this.player.getName());
+        skull.setItemMeta(skullMeta);
+
+        inventory.setItem(slotOwn, skull);*/
 
         for (String display : displays) {
             chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -101,6 +122,71 @@ public class SkinMenu extends Menu {
         chestplate.setItemMeta(meta);
 
         inventory.setItem(slot, chestplate);
+    }
+
+    private void updateNormal() {
+        int slot = 0;
+        List<String> displays = new ArrayList<>(Spotify.getInstance().getDisguiseHandler().getSkinManager().getSkins().keySet());
+
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
+
+        /*DyeColor dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
+        meta.setColor(dyeColor.getColor());*/
+
+        meta.setDisplayName(Color.translate("&bOwn"));
+        meta.setOwner(this.player.getName());
+        skull.setItemMeta(meta);
+
+        inventory.setItem(slot++, skull);
+
+        for (String display : displays) {
+            skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+            meta = (SkullMeta) skull.getItemMeta();
+
+            meta.setOwner(ChatColor.stripColor(display));
+            /*dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
+            meta.setColor(dyeColor.getColor());*/
+
+            meta.setDisplayName(Color.translate("&b" + display));
+            meta.setOwner(display);
+
+            skull.setItemMeta(meta);
+
+            inventory.setItem(slot++, skull);
+        }
+
+        if (SkinFetcherTask.hasRequestPending(player)) {
+            SkinFetch fetch = SkinFetcherTask.getPendingFetch(player);
+            if(fetch != null) {
+                ItemStack fetchedItem = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                meta = (SkullMeta) skull.getItemMeta();
+
+                /*dyeColor = DyeColor.YELLOW;
+                meta.setColor(dyeColor.getColor());*/
+
+                meta.setOwner(fetch.getTarget());
+                meta.setDisplayName(Color.translate("&b" + fetch.getTarget()));
+                fetchedItem.setItemMeta(meta);
+
+                inventory.setItem(slot++, fetchedItem);
+            }
+        }
+
+        player.updateInventory();
+/*
+        if (nickSkin == null) return;
+
+        skull = new ItemStack(Material.LEATHER_CHESTPLATE);
+        meta = (LeatherArmorMeta) skull.getItemMeta();
+
+        dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
+        meta.setColor(dyeColor.getColor());
+
+        meta.setDisplayName(Color.translate("&5" + nick));
+        skull.setItemMeta(meta);*/
+
+        //inventory.setItem(slot, skull);
     }
 
     @Override
