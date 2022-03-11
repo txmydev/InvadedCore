@@ -83,6 +83,8 @@ public class Profile {
 
     private List<Tag> tags = Lists.newArrayList();
 
+    private String address = "";
+
     private Cooldown commandCooldown = new Cooldown(0), chatCooldown = new Cooldown(0), helpOpCooldown = new Cooldown(0);
 
     protected Profile(UUID uuid, String name) {

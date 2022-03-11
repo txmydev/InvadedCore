@@ -79,7 +79,12 @@ public class CommandHandler {
         new SocialSpyCommand();
         new PluginCommand();
         new SettingsCommand();
-        new AltsCommand(Spotify.getInstance());
+
+        Spotify plugin = Spotify.getInstance();
+
+        new AltsCommand(plugin);
+        new SkinCommand(plugin);
+        new TestLunarAPICommand(plugin);
     }
 
 }

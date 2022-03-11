@@ -60,7 +60,13 @@ public class DisguiseHandler {
 
     }
 
-    private void sendPackets(Player player, GameProfile gameProfile, Skin skin) {
+    public void sendPackets(Player player, GameProfile gameProfile, Skin skin) {
+        this.sendPackets(player, gameProfile, skin, true);
+    }
+
+
+
+    public void sendPackets(Player player, GameProfile gameProfile, Skin skin, boolean changeProfile) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
@@ -70,7 +76,9 @@ public class DisguiseHandler {
             Common.sendPacket(other, remove);
         });
 
-        Common.modifyField("i", entityPlayer, gameProfile, true);
+        if(changeProfile) Common.modifyField("i", entityPlayer, gameProfile, true);
+
+        gameProfile.getProperties().clear();
         gameProfile.getProperties().put("textures", new Property("textures", skin.getTexture(), skin.getSignature()));
 
         PacketPlayOutPlayerInfo addPlayer = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
@@ -79,8 +87,6 @@ public class DisguiseHandler {
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, addPlayer);
             if (!other.getUniqueId().equals(player.getUniqueId())) Common.sendPacket(other, spawn);
-
-
         });
 
 
@@ -105,7 +111,7 @@ public class DisguiseHandler {
 
     }
 
-    private void sendRespawnPacket(Player player, Consumer<?> onFinish) {
+    public void sendRespawnPacket(Player player, Consumer<?> onFinish) {
          ItemStack[] contents = player.getInventory().getContents();
         ItemStack[] armor = player.getInventory().getArmorContents();
         double health = player.getHealth();

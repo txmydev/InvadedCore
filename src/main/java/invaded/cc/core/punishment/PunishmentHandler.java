@@ -31,6 +31,7 @@ public class PunishmentHandler {
         punishmentBody.put("type", punishment.getType().name());
         punishmentBody.put("punishedAt", punishment.getPunishedAt());
         punishmentBody.put("expire", punishment.getExpire());
+        punishmentBody.put("address", punishment.getAddress());
 
         HttpResponse response = RequestHandler.post("/activePunishments", punishmentBody);
         response.close();
@@ -56,12 +57,10 @@ public class PunishmentHandler {
         Map<String, Object> query = new HashMap<>();
 
         query.put("cheaterUuid", profile.getId().toString());
-        query.put("cheaterName", profile.getName());
 
         HttpResponse response = RequestHandler.get("/activePunishments", query);
 
         if (response.statusCode() == 200) {
-            System.out.println();
             JsonArray jsonArray = new JsonParser().parse(response.bodyText()).getAsJsonArray();
 
             for (JsonElement jsonElement : jsonArray) {
@@ -106,6 +105,7 @@ public class PunishmentHandler {
         punishmentBody.put("punishedAt", punishment.getPunishedAt());
         punishmentBody.put("removedBy", punishment.getRemovedBy());
         punishmentBody.put("removedAt", punishment.getRemovedAt());
+        punishmentBody.put("address", punishment.getAddress());
 
         HttpResponse post = RequestHandler.post("/punishments", punishmentBody);
         post.close();
@@ -115,7 +115,7 @@ public class PunishmentHandler {
         Map<String, Object> deleteQuery = new HashMap<>();
 
         deleteQuery.put("cheaterUuid", id.toString());
-        deleteQuery.put("cheaterName", name);
+        // deleteQuery.put("cheaterName", name);
         deleteQuery.put("type", punishment.getType().name());
         deleteQuery.put("expire", punishment.getExpire());
         deleteQuery.put("staffName", punishment.getStaffName());

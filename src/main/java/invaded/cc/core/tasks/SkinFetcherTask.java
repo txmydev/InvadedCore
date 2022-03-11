@@ -3,6 +3,7 @@ package invaded.cc.core.tasks;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.SkinHandler;
 import invaded.cc.core.util.CC;
+import invaded.cc.core.util.Cooldown;
 import invaded.cc.core.util.Skin;
 import invaded.cc.core.util.SkinFetch;
 import org.bukkit.Bukkit;
@@ -19,12 +20,19 @@ public class SkinFetcherTask extends BukkitRunnable {
     private static final Map<UUID, SkinFetch> skinRequests = new HashMap<>();
 
     private SkinFetch fetch;
+    private Cooldown cooldown;
 
     public static void startRequest(Player player, String target) {
         SkinFetch fetch = new SkinFetch(player, target, false, null);
         skinRequests.put(player.getUniqueId(), fetch);
 
-        Bukkit.getScheduler().runTaskAsynchronously(Spotify.getInstance(), () -> new SkinFetcherTask(fetch).run());
+        Bukkit.getScheduler().runTaskAsynchronously(Spotify.getInstance(), () ->new SkinFetcherTask(fetch).run() );
+    }
+
+    public static Skin inmeadiateRequest(Player player, String target){
+        SkinFetch fetch = new SkinFetch(player, target, false, null);
+        new SkinFetcherTask(fetch).run();
+        return fetch.getSkin();
     }
 
     public static boolean hasRequestPending(Player player) {
@@ -63,6 +71,8 @@ public class SkinFetcherTask extends BukkitRunnable {
         try {
             Skin skin = skinHandler.fetchSkinRaw(name);
             finish(skin);
+
+            System.out.println("AYOO IVE FINISHED");
         }catch(IllegalStateException ex){
             ex.printStackTrace();
             if(fetch.getRequester() != null) {
@@ -77,4 +87,5 @@ public class SkinFetcherTask extends BukkitRunnable {
            // if(fetch.getRequester() != null) fetch.getRequester().sendMessage(CC.RED + "There was an error and we couldn't retrieve " + name + "'s skin, you may need to choose between the ones provided.");
         }
     }
+
 }

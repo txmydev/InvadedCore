@@ -60,10 +60,10 @@ public class ChatControlCommand {
                 return;
             }
 
-            boolean b = !Spotify.getInstance().getChatHandler().isChatValue();
+            boolean b = !Spotify.getInstance().getChatHandler().isChat();
 
             Bukkit.broadcastMessage(String.format(Color.translate((b ? "&a" : "&c") + "The public chat was %s."), b ? "enabled" : "disabled"));
-            Spotify.getInstance().getChatHandler().setChatValue(b);
+            Spotify.getInstance().getChatHandler().setChat(b);
         }
     }
 

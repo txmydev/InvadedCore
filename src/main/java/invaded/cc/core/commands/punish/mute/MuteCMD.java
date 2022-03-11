@@ -68,7 +68,7 @@ public class MuteCMD extends BasicCommand {
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently muted " + targetData.getColoredName());
 
             Punishment punishment = new Punishment(Punishment.Type.MUTE, System.currentTimeMillis(), -1L, targetData.getName(),
-                    offlinePlayer.getUniqueId(), executor, silent.get(), reason.toString());
+                    offlinePlayer.getUniqueId(), executor, silent.get(), reason.toString(), targetData.getAddress());
 
             PlayerPunishEvent event = new PlayerPunishEvent(executor, offlinePlayer, punishment, false);
             event.call();

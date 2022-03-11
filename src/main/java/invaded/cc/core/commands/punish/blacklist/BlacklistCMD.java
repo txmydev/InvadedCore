@@ -61,7 +61,7 @@ public class BlacklistCMD extends BasicCommand {
             }
 
             Punishment punishment = new Punishment(Punishment.Type.BLACKLIST, System.currentTimeMillis(), -1L,
-                    offlinePlayer.getName(), offlinePlayer.getUniqueId(), executor, silent.get(), "Blacklisted");
+                    offlinePlayer.getName(), offlinePlayer.getUniqueId(), executor, silent.get(), "Blacklisted", targetData.getAddress());
 
             PlayerPunishEvent event = new PlayerPunishEvent(executor, offlinePlayer, punishment, false);
             event.call();

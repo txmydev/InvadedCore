@@ -50,16 +50,17 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>net.skulluhc</groupId>
-            <artifactId>lunar-api</artifactId>
+            <artifactId>Spigot</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.skulluhc</groupId>
-            <artifactId>Spigot</artifactId>
+            <artifactId>Log4jExploitFixer</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>

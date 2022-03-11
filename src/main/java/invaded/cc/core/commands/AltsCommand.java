@@ -6,6 +6,7 @@ import invaded.cc.core.util.Task;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,20 @@ public class AltsCommand extends BasicCommand {
     public void execute(CommandSender sender, String[] args) {
         Task.async(() -> {
             if (args.length != 1) {
+                if(args.length == 2) {
+                    if(args[1].equalsIgnoreCase("findip")) {
+                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                        String address = plugin.getAltHandler().getIpAddress(offlinePlayer);
+                        if(address == null) {
+                            sender.sendMessage(CC.RED + "IP not found.");
+                            return;
+                        }
+
+                        sender.sendMessage(CC.GREEN + address);
+                        return;
+                    }
+                }
+
                 sender.sendMessage(CC.RED + "Please use: /alts <player>");
                 return;
             }

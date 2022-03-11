@@ -5,6 +5,7 @@ import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.*;
+import invaded.cc.core.lunarapi.LunarAPIHandler;
 import invaded.cc.core.manager.*;
 import invaded.cc.core.nametag.NametagManager;
 import invaded.cc.core.network.NetworkHandler;
@@ -68,6 +69,7 @@ public class Spotify extends JavaPlugin {
     private NametagManager nametagHandler;
     private AltHandler altHandler;
     private TablistHandler tablistHandler;
+    private LunarAPIHandler lunarHandler;
 
     @Override
     public void onEnable() {
@@ -131,6 +133,7 @@ public class Spotify extends JavaPlugin {
         //nametagHandler = new NametagManager(this);
         tablistHandler = new TablistHandler(this);
         altHandler = new AltHandler(this);
+        lunarHandler = new LunarAPIHandler(this);
     }
 
     private void setupTasks() {
@@ -158,6 +161,10 @@ public class Spotify extends JavaPlugin {
         pm.registerEvents(new TrailsListener(), this);
         pm.registerEvents(new SignListener(), this);
         pm.registerEvents(new MotdListener(), this);
+
+        if(pm.isPluginEnabled("Log4JExploitFix")) {
+            pm.registerEvents(new ExploitListener(), this);
+        }
     }
 
     @Override

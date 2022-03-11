@@ -13,7 +13,7 @@ public class ChatHandler {
     private int slowTime;
     private int commandTime;
 
-    private boolean chatValue;
+    private boolean chat;
 
     private Map<String, String> autoReply = new HashMap<>();
 
@@ -21,7 +21,7 @@ public class ChatHandler {
         this.slowTime = 0;
         this.commandTime = 5;
 
-        this.chatValue = true;
+        this.chat = true;
     }
 
     public boolean isChatSlowed() {

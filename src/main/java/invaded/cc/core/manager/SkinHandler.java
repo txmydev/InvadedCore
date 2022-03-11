@@ -2,8 +2,6 @@ package invaded.cc.core.manager;
 
 import com.google.common.collect.Maps;
 import invaded.cc.core.Spotify;
-import invaded.cc.core.database.RedisCommand;
-import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.ConfigTracker;
 import invaded.cc.core.util.Skin;
@@ -11,8 +9,11 @@ import invaded.cc.core.util.Task;
 import lombok.Getter;
 import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParser;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
-import redis.clients.jedis.Jedis;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -202,4 +203,25 @@ public class SkinHandler {
     }
 
 
+    public Skin getSkinOf(Player player) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        GameProfile profile = craftPlayer.getProfile();
+
+        Property property = profile.getProperties().get("textures").stream().findAny().orElse(null);
+        if (property == null) {
+            System.out.println("Didn't find skin of " + player.getName());
+            return null;
+        }
+
+        return new Skin(property.getValue(), property.getSignature());
+    }
+
+    public void applySkin(Player player, Skin skin) {
+        Spotify plugin = Spotify.getInstance();
+
+        System.out.println(skin);
+
+        plugin.getDisguiseHandler().sendPackets(player, ((CraftPlayer) player).getProfile(), skin, false);
+        plugin.getDisguiseHandler().sendRespawnPacket(player, (none) -> {});
+    }
 }

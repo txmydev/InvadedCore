@@ -8,6 +8,7 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.RequestHandler;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -97,9 +98,21 @@ public class AltHandler  {
             body.put("uuids", list.stream().map(UUID::toString).collect(Collectors.toList()));
 
             HttpResponse response = RequestHandler.post("/alts", body, query);
-            System.out.println("Saving " + address + " with " + list.size() + " uuid's. response code is " + response.statusCode());
+       //     System.out.println("Saving " + address + " with " + list.size() + " uuid's. response code is " + response.statusCode());
             response.close();
         });
+    }
+
+    public String getIpAddress(OfflinePlayer offlinePlayer) {
+        for (Map.Entry<String, List<UUID>> entry : this.altsMap.entrySet()) {
+            for(UUID id : entry.getValue()) {
+                if(id.equals(offlinePlayer.getUniqueId())){
+                    return entry.getKey();
+                }
+            }
+        }
+
+        return null;
     }
 
     public List<UUID> getAlts(Player player) {

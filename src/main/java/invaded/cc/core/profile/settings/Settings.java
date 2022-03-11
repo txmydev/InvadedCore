@@ -1,6 +1,5 @@
 package invaded.cc.core.profile.settings;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
@@ -112,10 +111,10 @@ public enum Settings {
                     CC.GRAY + "When running lunar client, your name will appear like this:",
                     Spotify.getInstance().getTagsHandler().getLunarPrefix() + profile.getChatFormat(false),
                     Common.getLine(40))
-            .loreIf(() -> !LunarClientAPI.getInstance().isRunningLunarClient(Common.getPlayer(profile)),
+            .loreIf(() -> !Spotify.getInstance().getLunarHandler().isRunningLunarClient(Common.getPlayer(profile)),
                     CC.RED + "You aren't using Lunar Client, you can't use this feature.",
                     Common.getLine(40)).build(), profile -> {
-        if(!LunarClientAPI.getInstance().isRunningLunarClient(Common.getPlayer(profile))) return;
+        if(!Spotify.getInstance().getLunarHandler().isRunningLunarClient(Common.getPlayer(profile))) return;
 
         profile.setLunarPrefix(!profile.isLunarPrefix());
         profile.sendMessage(CC.getByBoolean(profile.isLunarPrefix()) + "You've toggled your lunar prefix.");

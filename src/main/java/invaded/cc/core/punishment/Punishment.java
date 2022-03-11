@@ -26,8 +26,9 @@ public class Punishment {
     private boolean silent;
 
     private String reason;
+    private String address;
 
-    public Punishment(Type type, long punishedAt, long expire, String cheaterName, UUID cheaterUuid, String staffname, boolean silent, String reason) {
+    public Punishment(Type type, long punishedAt, long expire, String cheaterName, UUID cheaterUuid, String staffname, boolean silent, String reason, String address) {
         this.type = type;
         this.punishedAt = punishedAt;
         this.expire = expire;
@@ -38,6 +39,7 @@ public class Punishment {
         this.reason = reason;
         this.removedBy = "";
         this.removedAt = 0L;
+        this.address = address;
     }
 
     public boolean isBan() {

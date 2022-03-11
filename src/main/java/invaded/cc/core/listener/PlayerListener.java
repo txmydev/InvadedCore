@@ -6,7 +6,6 @@ import invaded.cc.core.event.PlayerPunishEvent;
 import invaded.cc.core.event.PlayerUnDisguiseEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
-import invaded.cc.core.manager.DisguiseHandler;
 import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
@@ -17,13 +16,10 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.punishment.PunishmentHandler;
-import invaded.cc.core.tablist.TabAdapter;
-import invaded.cc.core.tablist.TablistHandler;
 import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.*;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -35,6 +31,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.metadata.LazyMetadataValue;
 
 import java.util.UUID;
 
@@ -44,7 +41,9 @@ public class PlayerListener implements Listener {
     public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
         String name = event.getName();
-        ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
+        Spotify plugin = Spotify.getInstance();
+
+        ProfileHandler profileHandler = plugin.getProfileHandler();
 
         if (profileHandler.getDeletingPrefix().contains(uuid)) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
@@ -61,6 +60,9 @@ public class PlayerListener implements Listener {
             profileHandler.getProfiles().remove(uuid);
             return;
         }
+
+        PunishmentHandler punishmentHandler = plugin.getPunishmentHandler();
+
 
         if (profile.isBanned()) {
             Punishment ban = profile.getBan();
@@ -108,6 +110,7 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
 
+        Spotify plugin = Spotify.getInstance();
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
@@ -128,6 +131,7 @@ public class PlayerListener implements Listener {
         if (cosmeticsHandler.getGlobalMultiplier() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + cosmeticsHandler.getGlobalMultiplier() + "x" + "&a&lmore coins, enjoy it!"));
 
         player.setDisplayName(profile.getColoredName());
+        player.setMetadata("chatformat", new LazyMetadataValue(plugin, () -> profile.getChatFormat()));
     }
 
     private void setProperties(Player player, Profile profile) {
@@ -213,14 +217,14 @@ public class PlayerListener implements Listener {
         profile.setCommandCooldown(new Cooldown(Spotify.getInstance().getChatHandler().getCommandTime() * 1000L));
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncPlayerChatEvent event) {
         ProfileHandler profileHandler = Spotify.getInstance().getProfileHandler();
 
         Player player = event.getPlayer();
         Profile profile = profileHandler.getProfile(player.getUniqueId());
 
-        if (!Spotify.getInstance().getChatHandler().isChatValue() && !Permission.test(player, PermLevel.STAFF)) {
+        if (!Spotify.getInstance().getChatHandler().isChat() && !Permission.test(player, PermLevel.STAFF)) {
             event.setCancelled(true);
             player.sendMessage(Color.translate("&cPublic chat is currently muted."));
             return;
@@ -311,4 +315,6 @@ public class PlayerListener implements Listener {
             profile.disguise();
         }
     }
+
+
 }

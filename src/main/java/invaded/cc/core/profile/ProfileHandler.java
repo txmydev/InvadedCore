@@ -59,6 +59,7 @@ public class ProfileHandler {
         body.put("bossBar", profile.isBossBar());
         body.put("lunarPrefix", profile.isLunarPrefix());
         body.put("lunarBorder", profile.isLunarBorder());
+        body.put("address", profile.getAddress());
 
         HttpResponse response = RequestHandler.post("/profiles", body);
         response.close();
@@ -175,6 +176,7 @@ public class ProfileHandler {
         if(jsonObject.has("bossBar")) profile.setBossBar(jsonObject.get("bossBar").getAsBoolean());
         if(jsonObject.has("lunarPrefix")) profile.setLunarPrefix(jsonObject.get("lunarPrefix").getAsBoolean());
         if(jsonObject.has("lunarBorder")) profile.setLunarBorder(jsonObject.get("lunarBorder").getAsBoolean());
+        if(jsonObject.has("address")) profile.setAddress(jsonObject.get("address").getAsString());
 
         GrantHandler grantHandler = Spotify.getInstance().getGrantHandler();
 

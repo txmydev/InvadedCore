@@ -64,9 +64,7 @@ public class SkinMenu extends Menu {
         meta.setDisplayName(Color.translate("&bOwn"));
         chestplate.setItemMeta(meta);
 
-        int slotOwn = slot++;
-
-        inventory.setItem(slotOwn, chestplate);
+        inventory.setItem(slot++, chestplate);
 
 
         /*ItemStack skull = new ItemStack(Mateal.SKUL, 1);

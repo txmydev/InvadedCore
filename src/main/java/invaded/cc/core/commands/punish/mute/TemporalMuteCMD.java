@@ -72,7 +72,7 @@ public class TemporalMuteCMD extends BasicCommand {
             }
 
             Punishment punishment = new Punishment(Punishment.Type.TEMPORARY_MUTE, System.currentTimeMillis(), time, targetData.getName(),
-                    offlinePlayer.getUniqueId(), executor, silent.get(), reason.toString());
+                    offlinePlayer.getUniqueId(), executor, silent.get(), reason.toString(), targetData.getAddress());
 
             PlayerPunishEvent event = new PlayerPunishEvent(executor, offlinePlayer, punishment, false);
             event.call();

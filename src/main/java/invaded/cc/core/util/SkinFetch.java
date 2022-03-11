@@ -24,4 +24,7 @@ public class SkinFetch {
         this.skin = skin;
     }
 
+    public boolean isDone() {
+        return ready || failed;
+    }
 }

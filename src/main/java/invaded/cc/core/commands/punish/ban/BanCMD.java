@@ -62,8 +62,9 @@ public class BanCMD extends BasicCommand {
                 sender.sendMessage(Color.translate("&cThat player is already banned, unban him before banning him again."));
                 return;
             }
+
             Punishment punishment = new Punishment(Punishment.Type.BAN, System.currentTimeMillis(), -1L, targetData.getName()
-                    , targetData.getId(), executor, silent.get(), reason.toString());
+                    , targetData.getId(), executor, silent.get(), reason.toString(), targetData.getAddress());
 
             PlayerPunishEvent event = new PlayerPunishEvent(executor, offlinePlayer, punishment, false);
             event.call();
