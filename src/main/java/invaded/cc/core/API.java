@@ -1,5 +1,6 @@
 package invaded.cc.core;
 
+import invaded.cc.core.lunarapi.nethandler.LCPacket;
 import invaded.cc.core.network.server.Server;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
@@ -42,6 +43,10 @@ public class API {
 
     public boolean isMuted(UUID id) {
         return isMuted(id, Bukkit.getOfflinePlayer(id).getName());
+    }
+
+    public void sendLunarPacket(Player player, LCPacket packet) {
+        plugin.getLunarHandler().sendPacket(player, packet);
     }
 
     public String getRank(Player player) {

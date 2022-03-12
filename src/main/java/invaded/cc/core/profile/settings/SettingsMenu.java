@@ -1,5 +1,6 @@
 package invaded.cc.core.profile.settings;
 
+import invaded.cc.core.event.PlayerChangeSettingEvent;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
 import invaded.cc.core.util.ItemBuilder;
@@ -27,6 +28,7 @@ public class SettingsMenu extends Menu {
         for(Settings setting : Settings.values()) {
             if(setting.getStack().apply(profile).isSimilar(event.getCurrentItem())) {
                 setting.getClick().accept(profile);
+                new PlayerChangeSettingEvent(player, setting).call();
                 this.update();
                 break;
             }
