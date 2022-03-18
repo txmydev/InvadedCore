@@ -159,6 +159,7 @@ public class Spotify extends JavaPlugin {
         pm.registerEvents(new TrailsListener(), this);
         pm.registerEvents(new SignListener(), this);
         pm.registerEvents(new MotdListener(), this);
+        pm.registerEvents(new ServerListener(this), this);
 
         if(pm.isPluginEnabled("Log4JExploitFix")) {
             pm.registerEvents(new ExploitListener(), this);
@@ -175,6 +176,7 @@ public class Spotify extends JavaPlugin {
         this.networkHandler.shutdown();
         this.redisDatabase.shutdown();
         this.bossbarHandler.stop();
+        this.serverHandler.shutdown();
 
         instance = null;
     }

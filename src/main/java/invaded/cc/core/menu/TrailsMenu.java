@@ -2,10 +2,7 @@ package invaded.cc.core.menu;
 
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.trails.Trail;
-import invaded.cc.core.util.Color;
-import invaded.cc.core.util.Common;
-import invaded.cc.core.util.ItemBuilder;
-import invaded.cc.core.util.Task;
+import invaded.cc.core.util.*;
 import invaded.cc.core.util.menu.Menu;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -49,6 +46,10 @@ public class TrailsMenu extends Menu {
         Trail trail = trailMap.get(event.getSlot());
 
         if (hasTrail(trail)) {
+            if(trail == Trail.FIREWORKS) {
+                player.sendMessage(CC.RED + "This trail is deactivated for now.");
+                return;
+            }
             toggle(player, trail, true);
             return;
         }
@@ -90,6 +91,7 @@ public class TrailsMenu extends Menu {
                 Common.getLine(40)).build());
         int slot = 11;
         for (Trail trail : Trail.values()) {
+            if(trail == Trail.FIREWORKS) continue;
             if (slot > 34) break;
 
             ItemBuilder item = new ItemBuilder().type(trail.getMaterial()).name("&e" + trail.getDisplay());

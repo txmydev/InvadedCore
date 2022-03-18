@@ -3,6 +3,7 @@ package invaded.cc.core.tablist;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.Common;
 import net.minecraft.util.com.mojang.authlib.UserType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class WeightTablistAdapter implements TabAdapter{
 
         // clear the other ones
         for(int i = index; i < maxIndex; i++) {
+            //if(tab.names[i].isEmpty()) tab.setPing(index, -1);
             tab.set(i, "");
         }
 
@@ -33,7 +35,10 @@ public class WeightTablistAdapter implements TabAdapter{
             indexes.put(profile, index++);
         }
 
-        indexes.forEach((profile, position) -> tab.set(position, profile.getColoredName()));
+        indexes.forEach((profile, position) -> {
+            tab.set(position, profile.getColoredName());
+            // tab.setPing(position, Common.getPing(profile));
+        });
 
 
     }

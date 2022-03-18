@@ -10,7 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -27,6 +29,12 @@ public class BossbarHandler {
 
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
+                Player player = event.getPlayer();
+                player.removeMetadata("spawned_bossbar", Spotify.getInstance());
+            }
+
+            @EventHandler (ignoreCancelled = true, priority = EventPriority.MONITOR)
+            public void onChangeWorld(PlayerChangedWorldEvent event) {
                 Player player = event.getPlayer();
                 player.removeMetadata("spawned_bossbar", Spotify.getInstance());
             }

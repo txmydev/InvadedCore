@@ -3,8 +3,12 @@ package invaded.cc.core.manager;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.commands.*;
 import invaded.cc.core.commands.coins.CoinsCommand;
+import invaded.cc.core.commands.disguise.DisguiseCheckCommand;
+import invaded.cc.core.commands.disguise.DisguiseCommand;
+import invaded.cc.core.commands.disguise.UnDisguiseCommand;
 import invaded.cc.core.commands.messaging.*;
 import invaded.cc.core.commands.perms.PermissionCommand;
+import invaded.cc.core.commands.player.*;
 import invaded.cc.core.commands.punish.ban.BanCMD;
 import invaded.cc.core.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.core.commands.punish.blacklist.BlacklistCMD;
@@ -15,6 +19,7 @@ import invaded.cc.core.commands.punish.mute.MuteCMD;
 import invaded.cc.core.commands.punish.mute.TemporalMuteCMD;
 import invaded.cc.core.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.core.commands.punish.unpunish.UnMuteCMD;
+import invaded.cc.core.commands.staff.*;
 import invaded.cc.core.commands.tags.TagsCommand;
 import lombok.Getter;
 
@@ -79,12 +84,14 @@ public class CommandHandler {
         new SocialSpyCommand();
         new PluginCommand();
         new SettingsCommand();
+        new MaintenanceCommand();
 
         Spotify plugin = Spotify.getInstance();
 
         new AltsCommand(plugin);
         new SkinCommand(plugin);
         new TestLunarAPICommand(plugin);
+        new ServerCommand(plugin);
     }
 
 }

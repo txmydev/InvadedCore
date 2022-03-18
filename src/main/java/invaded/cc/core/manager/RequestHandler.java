@@ -61,6 +61,7 @@ public class RequestHandler {
             else if (v instanceof Character) jsonObject.addProperty(e.getKey(), (Character) e.getValue());
             else if (v instanceof Number) jsonObject.addProperty(e.getKey(), (Number) e.getValue());
             else if (v instanceof String) jsonObject.addProperty(e.getKey(), (String) e.getValue());
+            else if(v == null) continue;
             else throw new IllegalArgumentException("Cannot parse type " + e.getValue().getClass().getName());
         }
 

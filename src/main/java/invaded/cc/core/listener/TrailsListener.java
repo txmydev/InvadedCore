@@ -23,7 +23,7 @@ public class TrailsListener implements Listener {
         Player player = (Player) proj.getShooter();
         Profile profile = Spotify.getInstance().getProfileHandler().getProfile(player);
 
-        if (profile.getActiveTrail() == null) return;
+        if (profile.getActiveTrail() == null || profile.getActiveTrail() == Trail.FIREWORKS) return;
 
         Trail.getToDisplay().put(proj, profile.getActiveTrail());
     }

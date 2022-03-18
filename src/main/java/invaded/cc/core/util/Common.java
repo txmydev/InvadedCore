@@ -84,6 +84,16 @@ public class Common {
         return "Couldn't fetch information to get this.";
     }
 
+    public static void broadcastIf(PermLevel level, String message, Predicate<Profile> predicate) {
+        Spotify.getInstance().getProfileHandler().getProfiles()
+                .values()
+                .stream()
+                .filter(profile -> profile.isOnline())
+                .filter(predicate)
+                .filter(profile -> Permission.test(profile, level))
+                .forEach(profile -> profile.sendMessage(message));
+    }
+
     public static void broadcastMessage(PermLevel permLevel, String message) {
         getOnlinePlayers().forEach(player -> {
             if (!Permission.test(player, permLevel)) return;
@@ -211,5 +221,9 @@ public class Common {
 
     public static Player getPlayer(Profile profile) {
         return Bukkit.getPlayer(profile.getId());
+    }
+
+    public static int getPing(Profile profile) {
+        return ((CraftPlayer)(Bukkit.getPlayer(profile.getId()))).getHandle().ping;
     }
 }

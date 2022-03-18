@@ -96,7 +96,7 @@ public class PunishmentHandler {
     private void move(UUID id, String name, Punishment punishment) {
         Map<String, Object> punishmentBody = new HashMap<>();
 
-        punishmentBody.put("cheaterName", name);
+        punishmentBody.put("cheaterName", name == null ? "null" : name);
         punishmentBody.put("cheaterUuid", id.toString());
         punishmentBody.put("staffName", punishment.getStaffName());
         punishmentBody.put("reason", punishment.getReason());

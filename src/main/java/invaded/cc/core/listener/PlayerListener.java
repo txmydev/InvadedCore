@@ -92,6 +92,7 @@ public class PlayerListener implements Listener {
 
 
         ServerHandler serverHandler = Spotify.getInstance().getServerHandler();
+
         if(serverHandler.isTesting() && !Permission.test(player, PermLevel.STAFF)) {
             event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
             event.setKickMessage(Color.translate("&cThis server is currently in &etesting mode&c, and you cannot join at the moment."));

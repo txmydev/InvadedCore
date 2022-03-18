@@ -63,7 +63,7 @@ public class PacketServerInformation extends SpotifyPacket {
             Server server = serverHandler.getServer(name);
             if(server != null) server.setRecentlyCreated(false);
             if(server == null) server = serverHandler.createServer(name);
-            server.setLastUpdate(lastUpdate);
+            server.setLastUpdate(System.currentTimeMillis());
             server.setOnline(online);
 
             if(server.isTesting() != testing) serverHandler.setTestingMode(name, testing);

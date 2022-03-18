@@ -1,6 +1,8 @@
 package invaded.cc.core.network.server;
 
 import invaded.cc.core.Spotify;
+import invaded.cc.core.profile.Profile;
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.Task;
 import invaded.cc.core.util.perms.PermLevel;
@@ -14,13 +16,20 @@ import java.util.concurrent.ConcurrentMap;
 public class ServerHandler {
 
     private ConcurrentMap<String, Server> serverMap;
+    private ConcurrentMap<String, Long> lastCreatedTime;
 
     private boolean testing;
     private boolean maintenance;
     private String extraInfo = "";
 
+    private final ServerHeartbeatTask heartbeatTask;
+    private final ServerTimeoutTask timeoutTask;
+
+    private final String prefix = CC.D_GRAY + "[" + CC.YELLOW + "Server Monitor" + CC.D_GRAY + "] " + CC.RESET;
+
     public ServerHandler() {
         this.serverMap = new ConcurrentHashMap<>();
+        this.lastCreatedTime = new ConcurrentHashMap<>();
 
         serverMap.computeIfAbsent(Spotify.SERVER_NAME, val -> {
             Server server = new Server(val);
@@ -28,8 +37,13 @@ public class ServerHandler {
             return server;
         });
 
-        new ServerHeartbeatTask().runTaskTimerAsynchronously(Spotify.getInstance(), 20L, 20L);
-        new ServerTimeoutTask().runTaskTimerAsynchronously(Spotify.getInstance(), 60L, 20L);
+        heartbeatTask = new ServerHeartbeatTask(); heartbeatTask.runTaskTimerAsynchronously(Spotify.getInstance(), 20L, 3L * 20L);
+        timeoutTask = new ServerTimeoutTask(); timeoutTask.runTaskTimerAsynchronously(Spotify.getInstance(), 60L, 5L * 20L);
+    }
+
+    public void shutdown() {
+        heartbeatTask.cancel();
+        timeoutTask.cancel();
     }
 
     public Server getServer(String name) {
@@ -40,7 +54,9 @@ public class ServerHandler {
         Server server = new Server(name);
 
         serverMap.computeIfAbsent(name, n -> {
-            Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + "' &eis back &aonline&e.");
+            Common.broadcastIf(PermLevel.ADMIN, prefix + CC.YELLOW + name + CC.RESET + " is back " + CC.GREEN + "online" + CC.WHITE + ".", Profile::isStaffAlerts);
+
+            // if((System.currentTimeMillis() - lastCreatedTime.computeIfAbsent(name, str -> System.currentTimeMillis()) > 8000)) Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + "' &eis back &aonline&e.");
             return server;
         });
 
@@ -54,8 +70,8 @@ public class ServerHandler {
         if(name.equals(Spotify.SERVER_NAME)) this.maintenance = value;
         if(server != null) {
             server.setMaintenance(value);
-            Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + (value ? "' &eis now in" : "&eis no longer in")
-                    + " &bmaintenance mode&e.");
+            Common.broadcastIf(PermLevel.ADMIN, prefix + CC.YELLOW + name + " &fis " + (value ? "&anow" : "&cno longer") + " &fin maintenance.", Profile::isStaffAlerts
+            );
         }
     }
 
@@ -65,8 +81,7 @@ public class ServerHandler {
 
         if(server != null) {
             server.setTesting(value);
-            Common.broadcastMessage(PermLevel.ADMIN, "&7[&d&lServer Heartbeat&7] &eServer &f'" + name + (value ? "' &eis now in" : "&eis no longer in")
-                    + " &btesting mode&e.");
+            Common.broadcastIf(PermLevel.ADMIN, prefix + CC.YELLOW + name + " &fis " + (value ? "&anow" : "&cno longer") + " &ftesting.", Profile::isStaffAlerts);
         }
     }
 }

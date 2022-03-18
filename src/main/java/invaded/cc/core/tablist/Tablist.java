@@ -19,11 +19,14 @@ import java.util.stream.IntStream;
 public class Tablist {
 
     private final Player player;
-    private String[] names;
+    public String[] names;
+   // private TabEntry[] entries;
 
     public void setup() {
         Bukkit.getOnlinePlayers().forEach(other -> Common.sendPacket(player, PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) other).getHandle())));
         names = new String[isLegacy() ? 61 : 81];
+      //  entries = new TabEntry[isLegacy() ? 61 : 81];
+
 
         if(isLegacy()) setupLegacy();
         else setupNormal();
@@ -56,7 +59,6 @@ public class Tablist {
             packet.action = 1;
             packet.player = profile;
             packet.gamemode = -1;
-            packet.ping = 2;
         } else {
             packet.username = profile.getName();
             profile.getProperties().removeAll("textures");
@@ -68,6 +70,8 @@ public class Tablist {
         sendPacket(packet);
         sendPacket(getScoreboardPacket(name, "", "", name, 0));
 
+        //TabEntry entry = new TabEntry(profile, index, 0);
+
         /*packet = new PacketPlayOutPlayerInfo();
         packet.action = 2;
         packet.username = profile.getName();
@@ -77,7 +81,26 @@ public class Tablist {
         sendPacket(packet);*/
 
         names[index] = name;
+        //entries[index] = entry;
     }
+
+
+    public void setPing(int index, int ping) {
+     /*   TabEntry entry = entries[index];
+        if(entry == null || ping == entry.ping) return;
+
+        GameProfile player = entry.profile;
+
+        PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+        packet.player = entry.profile;
+        packet.action = 2;
+        packet.username = player.getName();
+        packet.player = player;
+        packet.ping = ping;
+
+        sendPacket(packet);*/
+    }
+
 
     public void set(int index, String line){
         if(player == null) return;
