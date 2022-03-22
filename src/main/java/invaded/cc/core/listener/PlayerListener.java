@@ -61,9 +61,6 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        PunishmentHandler punishmentHandler = plugin.getPunishmentHandler();
-
-
         if (profile.isBanned()) {
             Punishment ban = profile.getBan();
 

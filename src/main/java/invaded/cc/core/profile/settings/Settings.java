@@ -118,7 +118,13 @@ public enum Settings {
 
         profile.setLunarPrefix(!profile.isLunarPrefix());
         profile.sendMessage(CC.getByBoolean(profile.isLunarPrefix()) + "You've toggled your lunar prefix.");
-    });
+    }),
+
+    SCOREBOARD_TYPE("scoreboardType", "Scoreboard Type", profile ->
+        new ItemBuilder().type(Material.PAINTING).name(CC.GREEN + "Customize your Scoreboard!")
+                .lore(CC.GRAY + "This item allows you to change your scoreboard style",
+                        CC.GRAY + "to " + CC.YELLOW + "Badlion, Ultra, Lunar and Skull").build()
+    , profile -> Common.getPlayer(profile).performCommand("togglescoreboardtype"))
     ;
 
 

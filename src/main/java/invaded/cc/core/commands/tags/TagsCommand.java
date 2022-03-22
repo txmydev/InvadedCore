@@ -76,10 +76,12 @@ public class TagsCommand extends BasicCommand {
             Tag tag;
             if (type.equalsIgnoreCase("suffix")) {
                 Tag suffix = new Tag(id, display, price, true);
+                suffix.setModified(true);
                 tagsHandler.getTags().add(suffix);
                 tag = suffix;
             } else {
                 Tag prefix = new Tag(id, display, price, false);
+                prefix.setModified(true);
                 tagsHandler.getTags().add(prefix);
                 tag = prefix;
             }
@@ -128,6 +130,7 @@ public class TagsCommand extends BasicCommand {
 
             tag.setDisplay(display.equals("@@stay") ? tag.getDisplay() : display);
             tag.setPrice(price);
+            tag.setModified(true);
             player.sendMessage(Color.translate("&aYou've modified &6" + id + "&a's display to &r" + display + " &aand price &6" + price + " coins&a."));
         } else if (arg1.equals("deleteall")) {
             if (!Permission.test(sender, PermLevel.ADMIN)) {

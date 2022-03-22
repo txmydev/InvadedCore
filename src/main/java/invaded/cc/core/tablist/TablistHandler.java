@@ -31,7 +31,7 @@ public class TablistHandler {
         this.plugin = plugin;
         this.thread = new TablistThread(this);
 
-        this.adapter = new WeightTablistAdapter();
+         // this.adapter = new WeightTablistAdapter();
 
         this.thread.start();
 
@@ -55,7 +55,8 @@ public class TablistHandler {
     }
 
     public void setup(Player player) {
-        getPlayerTab(player).setup();
+        if(adapter != null)
+            getPlayerTab(player).setup();
     }
 
     public Tablist getPlayerTab(Player player) {

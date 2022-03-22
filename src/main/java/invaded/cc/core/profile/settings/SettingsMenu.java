@@ -16,7 +16,7 @@ public class SettingsMenu extends Menu {
     private Profile profile;
 
     public SettingsMenu(Profile profile) {
-        super(CC.PINK + "Settings", 3 * 9);
+        super(CC.PINK + "Settings", 4 * 9);
         this.profile = profile;
     }
 
@@ -40,9 +40,11 @@ public class SettingsMenu extends Menu {
         inventory.clear();
         for(int i = 0; i < inventory.getSize(); i++) this.inventory.setItem(i, new ItemBuilder().type(Material.STAINED_GLASS_PANE).data(7).name(" ").build());
 
-        int startIndex = 10, endIndex = 16;
+        int startIndex = 10, endIndex = 25;
+
         for (Settings setting : Settings.values()) {
             if(startIndex > endIndex) return;
+            if(startIndex == 17 || startIndex == 18) startIndex = 19;
 
             inventory.setItem(startIndex++, setting.getStack().apply(profile));
 

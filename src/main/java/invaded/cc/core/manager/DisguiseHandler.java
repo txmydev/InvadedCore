@@ -52,6 +52,9 @@ public class DisguiseHandler {
         GameProfile gameProfile = profile.getRealProfile();
 
         sendPackets(player, gameProfile, profile.getRealSkin());
+
+        player.setPlayerListName(gameProfile.getName());
+
         sendRespawnPacket(player, (n) -> {
             PlayerUnDisguiseEvent event = new PlayerUnDisguiseEvent(profile, Spotify.SERVER_NAME, fakeName, quit);
             event.call();
@@ -71,6 +74,7 @@ public class DisguiseHandler {
 
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
         PacketPlayOutPlayerInfo remove = PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
+
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, destroy);
             Common.sendPacket(other, remove);
@@ -84,12 +88,12 @@ public class DisguiseHandler {
         PacketPlayOutPlayerInfo addPlayer = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
         PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
 
+
+
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, addPlayer);
             if (!other.getUniqueId().equals(player.getUniqueId())) Common.sendPacket(other, spawn);
         });
-
-
     }
 
     public void disguise(Profile profile) {
@@ -102,6 +106,8 @@ public class DisguiseHandler {
         GameProfile gameProfile = profile.getFakeProfile();
 
         sendPackets(player, gameProfile, profile.getFakeSkin());
+
+        player.setPlayerListName(name);
 
         sendRespawnPacket(player, (none) -> {
             PlayerDisguiseEvent event = new PlayerDisguiseEvent(Spotify.SERVER_NAME, player, profile.getFakeName(), profile.getName(), profile.getFakeSkin(), profile.getFakeRank());

@@ -89,7 +89,8 @@ public class AltHandler  {
     }
 
     public void save() {
-        altsMap.forEach((address, list) -> {
+        // TODO: MAKE SAVING ALL THE ARRAY AT ONCE BC IT'LL TAKE FOREVER IOF NOT
+        /*altsMap.forEach((address, list) -> {
             Map<String, Object> query = Maps.newHashMap();
             query.put("address", address);
 
@@ -100,7 +101,7 @@ public class AltHandler  {
             HttpResponse response = RequestHandler.post("/alts", body, query);
        //     System.out.println("Saving " + address + " with " + list.size() + " uuid's. response code is " + response.statusCode());
             response.close();
-        });
+        });*/
     }
 
     public String getIpAddress(OfflinePlayer offlinePlayer) {

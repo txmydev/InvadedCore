@@ -184,7 +184,7 @@ public final class NametagManager extends Thread implements Listener {
         if (true) {
             Scoreboard scoreboard = player.getScoreboard();
             if (scoreboard.getObjective(DisplaySlot.BELOW_NAME) == null) {
-                Objective objective = scoreboard.registerNewObjective("PlayerHealth", "dummy");
+                Objective objective = scoreboard.registerNewObjective("PlayerHealth", "health");
                 objective.setDisplayName(ChatColor.RED + "❤");
                 objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
             }
