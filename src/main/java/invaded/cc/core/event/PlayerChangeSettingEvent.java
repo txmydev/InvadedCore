@@ -1,7 +1,7 @@
 package invaded.cc.core.event;
 
 import invaded.cc.core.event.base.BaseEvent;
-import invaded.cc.core.profile.settings.Settings;
+import invaded.cc.core.settings.SettingsOption;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -10,6 +10,6 @@ import org.bukkit.entity.Player;
 public class PlayerChangeSettingEvent extends BaseEvent {
 
     private final Player player;
-    private final Settings setting;
+    private final SettingsOption setting;
 
 }

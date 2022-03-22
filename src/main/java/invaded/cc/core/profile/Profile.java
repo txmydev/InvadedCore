@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.Grant;
 import invaded.cc.core.manager.CosmeticsHandler;
-import invaded.cc.core.manager.DisguiseHandler;
-import invaded.cc.core.profile.settings.DayCycle;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.tags.Tag;
@@ -63,8 +61,6 @@ public class Profile {
     private boolean staffAlerts = true;
     private boolean socialSpy;
     private boolean lunarPrefix;
-
-    private DayCycle timeCycle = DayCycle.DAY;
 
     private Tag activePrefix;
     private Tag activeSuffix;

@@ -18,7 +18,7 @@ public final class ScoreboardManager extends Thread implements Listener {
 
     @Getter private invaded.cc.core.scoreboard.ScoreboardProvider provider;
 
-    private final Map<UUID,invaded.cc.core.scoreboard.PlayerScoreboard> scoreboards = new ConcurrentHashMap<>();
+    private final Map<UUID, PlayerScoreboard> scoreboards = new ConcurrentHashMap<>();
 
     public ScoreboardManager(Spotify plugin) {
         super("Spotify - Scoreboard Update Thread");
@@ -66,13 +66,13 @@ public final class ScoreboardManager extends Thread implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        scoreboards.put(player.getUniqueId(), new invaded.cc.core.scoreboard.PlayerScoreboard(provider, player));
+        scoreboards.put(player.getUniqueId(), new PlayerScoreboard(provider, player));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-       invaded.cc.core.scoreboard.PlayerScoreboard scoreboard = getScoreboard(player);
+        PlayerScoreboard scoreboard = getScoreboard(player);
         if (scoreboard != null) {
             scoreboard.unregister();
             scoreboards.remove(player.getUniqueId());

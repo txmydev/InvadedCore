@@ -8,8 +8,8 @@ import org.bukkit.ChatColor;
  */
 public final class CC {
 
-    public static final String PRIMARY = ChatColor.DARK_RED.toString(); // DARK_AQUA
-    public static final String SECONDARY = ChatColor.RED.toString(); // AQUA
+    public static final String PRIMARY = ChatColor.AQUA.toString(); // DARK_AQUA
+    public static final String SECONDARY = ChatColor.WHITE.toString(); // AQUA
 
     public static final String B_PRIMARY = PRIMARY + ChatColor.BOLD;
     public static final String B_SECONDARY = SECONDARY + ChatColor.BOLD;

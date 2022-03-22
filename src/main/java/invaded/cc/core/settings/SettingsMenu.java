@@ -1,5 +1,6 @@
-package invaded.cc.core.profile.settings;
+package invaded.cc.core.settings;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.event.PlayerChangeSettingEvent;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
@@ -9,14 +10,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.Arrays;
-
 public class SettingsMenu extends Menu {
 
     private Profile profile;
+    private SettingsHandler settingsHandler = Spotify.getInstance().getSettingsHandler();
 
     public SettingsMenu(Profile profile) {
-        super(CC.PINK + "Settings", 4 * 9);
+        super(CC.PINK + "Settings", Spotify.getInstance().getSettingsHandler().getSettings().size() > 7 ? 9 * 4 : 9 * 3);
         this.profile = profile;
     }
 
@@ -25,7 +25,7 @@ public class SettingsMenu extends Menu {
         Player player = (Player) event.getWhoClicked();
         if(player.getUniqueId() != profile.getId()) return;
 
-        for(Settings setting : Settings.values()) {
+        for(SettingsOption setting : settingsHandler.getSettings()) {
             if(setting.getStack().apply(profile).isSimilar(event.getCurrentItem())) {
                 setting.getClick().accept(profile);
                 new PlayerChangeSettingEvent(player, setting).call();
@@ -42,12 +42,11 @@ public class SettingsMenu extends Menu {
 
         int startIndex = 10, endIndex = 25;
 
-        for (Settings setting : Settings.values()) {
+        for (SettingsOption setting : settingsHandler.getSettings()) {
             if(startIndex > endIndex) return;
             if(startIndex == 17 || startIndex == 18) startIndex = 19;
 
             inventory.setItem(startIndex++, setting.getStack().apply(profile));
-
         }
     }
 }

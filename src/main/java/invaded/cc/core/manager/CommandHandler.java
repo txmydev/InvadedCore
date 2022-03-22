@@ -9,6 +9,7 @@ import invaded.cc.core.commands.disguise.UnDisguiseCommand;
 import invaded.cc.core.commands.messaging.*;
 import invaded.cc.core.commands.perms.PermissionCommand;
 import invaded.cc.core.commands.player.*;
+import invaded.cc.core.commands.poll.PollCommand;
 import invaded.cc.core.commands.punish.ban.BanCMD;
 import invaded.cc.core.commands.punish.ban.TemporalBanCMD;
 import invaded.cc.core.commands.punish.blacklist.BlacklistCMD;
@@ -92,6 +93,7 @@ public class CommandHandler {
         new SkinCommand(plugin);
         new TestLunarAPICommand(plugin);
         new ServerCommand(plugin);
+        new PollCommand(plugin);
     }
 
 }

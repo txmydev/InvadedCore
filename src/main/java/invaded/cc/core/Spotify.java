@@ -11,8 +11,10 @@ import invaded.cc.core.nametag.NametagManager;
 import invaded.cc.core.network.NetworkHandler;
 import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.permission.PermissionHandler;
+import invaded.cc.core.poll.PollHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
+import invaded.cc.core.settings.SettingsHandler;
 import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
@@ -71,6 +73,8 @@ public class Spotify extends JavaPlugin {
     private TablistHandler tablistHandler;
     private LunarAPIHandler lunarHandler;
     private ScoreboardManager scoreboardManager;
+    private SettingsHandler settingsHandler;
+    private PollHandler pollHandler;
 
     @Override
     public void onEnable() {
@@ -136,6 +140,8 @@ public class Spotify extends JavaPlugin {
         altHandler = new AltHandler(this);
         lunarHandler = new LunarAPIHandler(this);
         scoreboardManager = new ScoreboardManager(this);
+        settingsHandler = new SettingsHandler();
+        pollHandler = new PollHandler(this);
     }
 
     private void setupTasks() {
@@ -177,6 +183,7 @@ public class Spotify extends JavaPlugin {
         this.saveRanks();
         this.saveAlts();
 
+        this.pollHandler.shutdown();
         this.networkHandler.shutdown();
         this.redisDatabase.shutdown();
         this.bossbarHandler.stop();

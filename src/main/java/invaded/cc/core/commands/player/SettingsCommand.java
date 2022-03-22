@@ -1,8 +1,7 @@
 package invaded.cc.core.commands.player;
 
 import invaded.cc.core.Spotify;
-import invaded.cc.core.profile.Profile;
-import invaded.cc.core.profile.settings.SettingsMenu;
+import invaded.cc.core.settings.SettingsMenu;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
 import org.bukkit.command.CommandSender;
