@@ -22,7 +22,9 @@ public class HubCommand extends BasicCommand {
         String targetServer = "";
 
         if (Spotify.SERVER_NAME.contains("sa")) {
-            targetServer = "sa-hub-1";
+            targetServer = "sa-hub-01";
+        } else if(Spotify.SERVER_NAME.contains("na")) {
+            targetServer = "na-hub-01";
         }
 
         Common.joinServer(player, targetServer);

@@ -7,7 +7,7 @@ import invaded.cc.core.network.server.Server;
 import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.util.json.JsonChain;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 import org.bukkit.Bukkit;
 
 @Getter

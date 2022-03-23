@@ -1,5 +1,7 @@
 package invaded.cc.core;
 
+import invaded.cc.common.library.gson.Gson;
+import invaded.cc.common.library.gson.GsonBuilder;
 import invaded.cc.core.alts.AltHandler;
 import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.database.RedisDatabase;
@@ -30,8 +32,6 @@ import invaded.cc.core.util.ConfigFile;
 import invaded.cc.core.util.menu.MenuListener;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.com.google.gson.Gson;
-import net.minecraft.util.com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -188,6 +188,7 @@ public class Spotify extends JavaPlugin {
         this.redisDatabase.shutdown();
         this.bossbarHandler.stop();
         this.serverHandler.shutdown();
+        this.tablistHandler.shutdown();
 
         instance = null;
     }

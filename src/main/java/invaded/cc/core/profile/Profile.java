@@ -145,6 +145,10 @@ public class Profile {
     }
 
     public void aggregateCoins(int coins) {
+        aggregateCoins(coins, true);
+    }
+
+    public void aggregateCoins(int coins, boolean message) {
         CosmeticsHandler cosmeticsHandler = Spotify.getInstance().getCosmeticsHandler();;
 
         double multiplier = cosmeticsHandler.getMultiplier(this);
@@ -159,7 +163,7 @@ public class Profile {
 
         boolean onlyGlobalMultiplier = multiplier == cosmeticsHandler.getGlobalMultiplier();
 
-        if (isOnline())
+        if (isOnline() && message)
             Bukkit.getPlayer(id).sendMessage(Color.translate("&a&l" + (onlyGlobalMultiplier ? "There's an active &e&lGlobal Multiplier of &b&l" + multiplier + "x &a&lso you received an extra &6&l" + dif + " coins&a&l! Hope you enjoy them ;)"
                     : "&a&lYour rank has provided you a &e&lCoin Multiplier &a&lof &b&l" + multiplier + "x &a&lbecause you have the rank " + highestRank.getColoredName() + (cosmeticsHandler.getGlobalMultiplier() > 0.0 ? " &a&lplus the &e&lGlobal Multiplier &a&lactive" : "&a&l") + ", so you received &6&l" + dif + " extra coins&a&l! Hope you enjoy them")));
     }

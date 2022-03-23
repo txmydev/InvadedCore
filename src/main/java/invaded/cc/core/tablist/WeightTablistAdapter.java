@@ -21,7 +21,7 @@ public class WeightTablistAdapter implements TabAdapter{
         // clear the other ones
         for(int i = index; i < maxIndex; i++) {
             //if(tab.names[i].isEmpty()) tab.setPing(index, -1);
-            tab.set(i, "");
+            tab.set(i, "asdasdadad");
         }
 
         Map<Profile, Integer> indexes = new HashMap<>();
@@ -36,7 +36,7 @@ public class WeightTablistAdapter implements TabAdapter{
         }
 
         indexes.forEach((profile, position) -> {
-            tab.set(position, profile.getColoredName());
+            tab.set(position, "adfasdada");
             // tab.setPing(position, Common.getPing(profile));
         });
 

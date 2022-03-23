@@ -1,7 +1,7 @@
 package invaded.cc.core.tasks;
 
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonParser;
+import invaded.cc.common.library.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

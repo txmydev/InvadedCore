@@ -6,7 +6,7 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 public class PacketProfileInformation extends SpotifyPacket {
 

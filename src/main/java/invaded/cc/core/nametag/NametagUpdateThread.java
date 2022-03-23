@@ -14,6 +14,8 @@ public class NametagUpdateThread extends Thread {
         int exceptionsOccurred = 0;
         while(true) {
             try{
+                if(nametagManager.getProvider() == null) return;
+
                 nametagManager.updateAll();
                 Thread.sleep(50L * nametagManager.getProvider().getUpdateInterval());
             }catch(Exception ex) {

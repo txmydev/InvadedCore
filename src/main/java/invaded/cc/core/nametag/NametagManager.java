@@ -89,6 +89,7 @@ public final class NametagManager extends Thread implements Listener {
     @EventHandler
     public void onPlayerHealthChange(PlayerHealthChangeEvent event) {
         Player player = event.getPlayer();
+        if(provider == null) return;
         if (!player.isOnline()) return;
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
@@ -111,6 +112,7 @@ public final class NametagManager extends Thread implements Listener {
             while (true) {
                 updateQueue.forEach((update, ignored) -> {
                     Player player = update.getPlayer(), target = update.getTarget();
+                    if(provider == null) return;
                     if (player == null || target == null) return;
 
                     Nametag nametag = provider.getNametag(player, target);
@@ -148,7 +150,7 @@ public final class NametagManager extends Thread implements Listener {
                 });
 
                 try {
-                    Thread.sleep(provider.getUpdateInterval() * 50L);
+                    Thread.sleep(provider != null ? provider.getUpdateInterval() : 5L * 50L);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }

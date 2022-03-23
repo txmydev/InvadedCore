@@ -7,10 +7,10 @@ import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.util.Task;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonArray;
-import net.minecraft.util.com.google.gson.JsonElement;
-import net.minecraft.util.com.google.gson.JsonObject;
-import net.minecraft.util.com.google.gson.JsonParser;
+import invaded.cc.common.library.gson.JsonArray;
+import invaded.cc.common.library.gson.JsonElement;
+import invaded.cc.common.library.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonParser;
 
 import java.util.HashMap;
 import java.util.Map;

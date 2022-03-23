@@ -29,9 +29,7 @@ public class TablistHandler {
 
     public TablistHandler(Spotify plugin) {
         this.plugin = plugin;
-        this.thread = new TablistThread(this);
-
-         // this.adapter = new WeightTablistAdapter();
+        this.thread = new TablistThread();
 
         this.thread.start();
 
@@ -49,14 +47,18 @@ public class TablistHandler {
         });
     }
 
+
     public void init(Player player) {
         playerTabs.putIfAbsent(player.getUniqueId(), new Tablist(player));
         setup(player);
     }
 
+    public void shutdown() {
+        this.thread.stop();
+    }
+
     public void setup(Player player) {
-        if(adapter != null)
-            getPlayerTab(player).setup();
+        getPlayerTab(player).setup();
     }
 
     public Tablist getPlayerTab(Player player) {

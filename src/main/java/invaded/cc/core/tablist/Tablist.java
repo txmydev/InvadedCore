@@ -24,18 +24,20 @@ public class Tablist {
 
     public void setup() {
         Bukkit.getOnlinePlayers().forEach(other -> Common.sendPacket(player, PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) other).getHandle())));
-        names = new String[isLegacy() ? 61 : 81];
+        names = new String[81];
       //  entries = new TabEntry[isLegacy() ? 61 : 81];
 
-
-        if(isLegacy()) setupLegacy();
+        if(isLegacy()) {
+            System.out.println("Setting up legacy tab for " + player.getName());
+            setupLegacy();
+        }
         else setupNormal();
     }
 
     private void setupLegacy() {
-        IntStream.rangeClosed(0, 19).forEach(y -> {
-            IntStream.range(0, 3).forEach(x -> {
-                create(y * 3 + x);
+        IntStream.rangeClosed(1, 20).forEach((y) -> {
+            IntStream.range(0, 3).forEach((x) -> {
+                create(x * 20 + y);
             });
         });
     }
@@ -45,7 +47,7 @@ public class Tablist {
     }
 
     public boolean isLegacy() {
-        return player.getVersion() <= 5;
+        return ! (player.getVersion() > 5);
     }
 
     private void create(int index) {

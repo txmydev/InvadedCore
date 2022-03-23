@@ -8,7 +8,7 @@ import invaded.cc.core.util.jedis.JedisConfiguration;
 import invaded.cc.core.util.jedis.JedisPublisher;
 import invaded.cc.core.util.jedis.JedisSubscriber;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 import java.util.Map;
 

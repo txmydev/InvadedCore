@@ -1,5 +1,6 @@
 package invaded.cc.core.scoreboard;
 
+import invaded.cc.core.Spotify;
 import invaded.cc.core.util.CC;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -47,13 +48,15 @@ public final class PlayerScoreboard {
             objective = scoreboard.registerNewObjective("PlayerScoreboard", "dummy");
         }
 
-        Objective name = scoreboard.registerNewObjective("name", "health");
-        name.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        name.setDisplayName("§4❤");
+        if(Spotify.SERVER_NAME.contains("uhc")) {
+            Objective name = scoreboard.registerNewObjective("name", "health");
+            name.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            name.setDisplayName("§4❤");
 
-        Objective tab = scoreboard.registerNewObjective("tabHealth", "health");
-        tab.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        tab.setDisplayName(CC.YELLOW);
+            Objective tab = scoreboard.registerNewObjective("tabHealth", "health");
+            tab.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+            tab.setDisplayName(CC.YELLOW);
+        }
 
 
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);

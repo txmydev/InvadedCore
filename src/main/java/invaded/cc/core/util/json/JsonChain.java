@@ -1,7 +1,7 @@
 package invaded.cc.core.util.json;
 
 
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 public class JsonChain {
 

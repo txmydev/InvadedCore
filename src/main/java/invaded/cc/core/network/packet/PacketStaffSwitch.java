@@ -4,7 +4,7 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.perms.PermLevel;
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 public class PacketStaffSwitch extends PacketListener {
     @Override

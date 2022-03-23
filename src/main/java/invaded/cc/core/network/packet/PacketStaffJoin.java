@@ -7,7 +7,7 @@ import invaded.cc.core.util.Common;
 import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 @Getter
 public class PacketStaffJoin extends SpotifyPacket {

@@ -1,6 +1,6 @@
 package invaded.cc.core.network;
 
-import net.minecraft.util.com.google.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonObject;
 
 public abstract class PacketListener {
 

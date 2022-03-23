@@ -9,9 +9,9 @@ import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonArray;
-import net.minecraft.util.com.google.gson.JsonObject;
-import net.minecraft.util.com.google.gson.JsonParser;
+import invaded.cc.common.library.gson.JsonArray;
+import invaded.cc.common.library.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonParser;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;

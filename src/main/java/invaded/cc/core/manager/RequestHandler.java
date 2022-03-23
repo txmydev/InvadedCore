@@ -6,9 +6,9 @@ import invaded.cc.core.util.ConfigTracker;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import net.minecraft.util.com.google.gson.JsonArray;
-import net.minecraft.util.com.google.gson.JsonObject;
-import net.minecraft.util.com.google.gson.JsonPrimitive;
+import invaded.cc.common.library.gson.JsonArray;
+import invaded.cc.common.library.gson.JsonObject;
+import invaded.cc.common.library.gson.JsonPrimitive;
 
 import java.util.Collections;
 import java.util.List;

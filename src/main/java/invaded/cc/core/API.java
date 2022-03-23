@@ -105,8 +105,12 @@ public class API {
         return getChatFormat(player.getUniqueId());
     }
 
+    public void awardCoins(Player player, int coins, boolean message) {
+        Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins, message);
+    }
+
     public void awardCoins(Player player, int coins) {
-        Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins);
+        Spotify.getInstance().getProfileHandler().getProfile(player.getUniqueId()).aggregateCoins(coins, true);
     }
 
     public void removeCoins(Player player, int coins) {
