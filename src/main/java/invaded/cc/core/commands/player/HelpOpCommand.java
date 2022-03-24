@@ -1,16 +1,19 @@
 package invaded.cc.core.commands.player;
 
 import invaded.cc.core.Spotify;
+import invaded.cc.core.commands.staff.RedisFailingCommand;
+import invaded.cc.core.network.packet.PacketRequestHelp;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
-import invaded.cc.core.util.Clickable;
-import invaded.cc.core.util.Color;
-import invaded.cc.core.util.Common;
-import invaded.cc.core.util.Cooldown;
+import invaded.cc.core.util.*;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
+import invaded.cc.core.util.perms.Permission;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -49,7 +52,10 @@ public class HelpOpCommand extends BasicCommand {
                 .addInfo("message", builder.toString())
                 .post();*/
 
-        String message = builder.toString();
+        PacketRequestHelp helpRequest = new PacketRequestHelp(profile, builder.toString(), Spotify.SERVER_NAME);
+        Spotify.getInstance().getNetworkHandler().sendPacket(helpRequest);
+
+        /*String message = builder.toString();
 
         Clickable clickable = new Clickable("&9[Helpop] " + profile.getColoredName()
                 + " &7requested help with: &9" + message)
@@ -58,8 +64,23 @@ public class HelpOpCommand extends BasicCommand {
         clickable.clickEvent(ClickEvent.Action.RUN_COMMAND,
                 "/tp " + profile.getName());
 
-        Common.broadcastMessage(PermLevel.STAFF, clickable.get());
+        Common.broadcastMessage(PermLevel.STAFF, clickable.get());*/
 
         player.sendMessage(Color.translate("&aWe received your request."));
+
+        if(RedisFailingCommand.FAILING) {
+            ComponentBuilder componentBuilder = new ComponentBuilder(CC.BLUE + "[Helpop] " + CC.GRAY + "[" + Spotify.SERVER_NAME + "] " + CC.AQUA + name + CC.GRAY + " asked for help: ");
+            ComponentBuilder reasonBuilder = new ComponentBuilder("   " +CC.BLUE + "Reason: " + CC.GRAY + builder.toString());
+
+                componentBuilder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + name));
+                componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(CC.GREEN + "Click to teleport to " + name).create()));
+            Common.getOnlinePlayers().forEach(other -> {
+                if(Permission.test(other, PermLevel.STAFF)) {
+                    other.spigot().sendMessage(componentBuilder.create());
+                    other.spigot().sendMessage(reasonBuilder.create());
+                }
+            });
+            Bukkit.getConsoleSender().sendMessage(TextComponent.toPlainText(componentBuilder.create()));
+        }
     }
 }

@@ -1,6 +1,5 @@
 package invaded.cc.core.nametag;
 
-import invaded.cc.core.Spotify;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

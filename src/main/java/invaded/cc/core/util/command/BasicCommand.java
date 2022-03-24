@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 public abstract class BasicCommand extends Command {
 
-    private static CommandMap COMMAND_MAP;
+    protected static CommandMap COMMAND_MAP;
 
     public final String name;
     public final PermLevel permLevel;

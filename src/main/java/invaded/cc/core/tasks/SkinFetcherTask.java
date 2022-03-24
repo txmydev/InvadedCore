@@ -70,6 +70,7 @@ public class SkinFetcherTask extends BukkitRunnable {
         SkinHandler skinHandler = Spotify.getInstance().getDisguiseHandler().getSkinManager();
         try {
             Skin skin = skinHandler.fetchSkinRaw(name);
+            loadHead(skin);
             finish(skin);
 
             System.out.println("AYOO IVE FINISHED");
@@ -86,6 +87,12 @@ public class SkinFetcherTask extends BukkitRunnable {
             skinRequests.remove(fetch.getRequesterId());
            // if(fetch.getRequester() != null) fetch.getRequester().sendMessage(CC.RED + "There was an error and we couldn't retrieve " + name + "'s skin, you may need to choose between the ones provided.");
         }
+    }
+
+    private void loadHead(Skin skin) {
+        /*SkinHandler skinHandler = Spotify.getInstance().getDisguiseHandler().getSkinManager();
+        skin.setImage(skinHandler.getHead(fetch.getTarget()));
+        skin.setLoreHead(skinHandler.getHeadToLore(skin.getImage()));*/
     }
 
 }

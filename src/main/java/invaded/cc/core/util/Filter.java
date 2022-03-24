@@ -16,7 +16,7 @@ public class Filter {
             , "morite", "feo", "down");
     @Getter
     private static final List<String> commandsBlocked = Arrays.asList("//calc", "//calculate"
-            , "//eval", "/me", "/pl");
+            , "//eval", "/me");
 
     public static boolean needFilter(String s) {
         return filterWords.contains(s.toLowerCase()) || commandsBlocked.contains(s.toLowerCase());

@@ -15,8 +15,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -225,5 +227,25 @@ public class Common {
 
     public static int getPing(Profile profile) {
         return ((CraftPlayer)(Bukkit.getPlayer(profile.getId()))).getHandle().ping;
+    }
+
+
+    public static String imgToBase64String(RenderedImage img, final String formatName) {
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(img, formatName, os);
+            return Base64.getEncoder().encodeToString(os.toByteArray());
+        } catch (IOException ioe) {
+            throw new UncheckedIOException(ioe);
+        }
+    }
+
+    public static BufferedImage base64StringToImg(final String base64String) {
+        try {
+            return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64String)));
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException(ioe);
+        }
     }
 }

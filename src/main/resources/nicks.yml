@@ -1,2 +1,8 @@
 skins: #format <display>:<username>
   - ''
+
+newSkinData:
+  name:
+    texture: 'bla bla'
+    signature: 'bla bla'
+    head_encoded: 'setup'

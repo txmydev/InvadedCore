@@ -178,6 +178,7 @@ public class Spotify extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
         this.savePlayers();
         this.savePrefixes();
         this.saveRanks();
@@ -189,6 +190,10 @@ public class Spotify extends JavaPlugin {
         this.bossbarHandler.stop();
         this.serverHandler.shutdown();
         this.tablistHandler.shutdown();
+
+        if(!Spotify.SERVER_NAME.contains("hub")) {
+            Bukkit.getOnlinePlayers().forEach(player -> Common.joinServer(player, "na-hub-01"));
+        }
 
         instance = null;
     }

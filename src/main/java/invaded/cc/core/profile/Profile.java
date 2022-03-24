@@ -47,7 +47,7 @@ public class Profile {
 
     // Conversation stuff
     private Profile recentTalker;
-    private List<String> ignoreList = new ArrayList<>();
+    private Set<String> ignoreList = new HashSet<>();
     private ChatColor chatColor = null;
     private boolean italic = false, spaceBetweenRank = false;
     private boolean messages;
@@ -72,12 +72,12 @@ public class Profile {
     private String fakeName;
     private Skin fakeSkin;
 
-    private List<Trail> trails = new ArrayList<>();
+    private Set<Trail> trails = new HashSet<>();
     private Trail activeTrail = null;
 
     private int coins;
 
-    private List<Tag> tags = Lists.newArrayList();
+    private Set<Tag> tags = new HashSet<>();
 
     private String address = "";
 
@@ -225,5 +225,9 @@ public class Profile {
 
     public Rank getCurrentRank() {
         return isDisguised() ? fakeRank : highestRank;
+    }
+
+    public String getRawName() {
+        return isDisguised() ? fakeName : name;
     }
 }

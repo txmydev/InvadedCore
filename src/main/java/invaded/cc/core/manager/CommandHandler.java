@@ -86,6 +86,8 @@ public class CommandHandler {
         new PluginCommand();
         new SettingsCommand();
         new MaintenanceCommand();
+        new SearchCommand();
+        new RedisFailingCommand();
 
         Spotify plugin = Spotify.getInstance();
 

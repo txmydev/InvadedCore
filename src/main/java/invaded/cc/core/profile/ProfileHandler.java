@@ -1,6 +1,7 @@
 package invaded.cc.core.profile;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.manager.RequestHandler;
@@ -15,12 +16,15 @@ import jodd.http.HttpResponse;
 import lombok.Getter;
 import invaded.cc.common.library.gson.JsonObject;
 import invaded.cc.common.library.gson.JsonParser;
+import net.minecraft.util.com.google.common.base.Strings;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Getter
 public class ProfileHandler {
@@ -48,7 +52,7 @@ public class ProfileHandler {
         body.put("privateMessages", profile.isMessages());
         body.put("privateMessagesSound", profile.isMessagesSound());
         body.put("allowDisguise", profile.isAllowDisguise());
-        body.put("ignoreList", profile.getIgnoreList());
+        body.put("ignoreList", getIgnoreListToJson(profile));
         body.put("spaceBetweenRank", profile.isSpaceBetweenRank());
         body.put("tags", getTagListToJson(profile));
         body.put("activePrefix", profile.getActivePrefix() == null ? "none" : profile.getActivePrefix().getId());
@@ -65,22 +69,30 @@ public class ProfileHandler {
         response.close();
     }
 
+    private List<String> getIgnoreListToJson(Profile profile) {
+        return new ArrayList<>(profile.getIgnoreList());
+    }
+
     private List<String> getTrailsToJson(Profile profile) {
-        List<String> list = Lists.newArrayList();
+        Set<String> list = Sets.newHashSet();
         profile.getTrails().forEach(trail -> {
+            // if(list.contains(trail.getId())) return;
             list.add(trail.getId());
         });
-        return list;
+
+        System.out.println("Tag List for " + profile.getName());
+        System.out.println(StringUtils.join(list, ", "));
+        return new ArrayList<>(list);
     }
 
     private List<String> getTagListToJson(Profile profile) {
-        List<String> list = Lists.newArrayList();
+        Set<String> set = new HashSet<>();
 
         profile.getTags().forEach(tag -> {
-            list.add(tag.getId());
+            set.add(tag.getId());
         });
 
-        return list;
+        return new ArrayList<>(set);
     }
 
     public Profile getProfile(UUID uuid) {
@@ -134,7 +146,7 @@ public class ProfileHandler {
         if (jsonObject.has("tags")) {
             jsonObject.get("tags").getAsJsonArray().forEach(element -> {
                 Tag tag = tagsHandler.getTag(element.getAsString());
-                if (tag == null) return;
+                if (tag == null || profile.getTags().contains(tag)) return;
                 profile.getTags().add(tag);
             });
         }
@@ -168,7 +180,7 @@ public class ProfileHandler {
         if (jsonObject.has("trails")) {
             jsonObject.get("trails").getAsJsonArray().forEach(trail1 -> {
                 Trail trail = Trail.getById(trail1.getAsString());
-                if (trail == null) return;
+                if (trail == null || profile.getTrails().contains(trail)) return;
                 profile.getTrails().add(trail);
             });
         }

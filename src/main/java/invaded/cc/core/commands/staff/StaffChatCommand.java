@@ -3,6 +3,7 @@ package invaded.cc.core.commands.staff;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.network.packet.PacketStaffChat;
 import invaded.cc.core.profile.Profile;
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.command.BasicCommand;
@@ -49,7 +50,10 @@ public class StaffChatCommand extends BasicCommand {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : args) stringBuilder.append(s).append(" ");
-
         Spotify.getInstance().getNetworkHandler().sendPacket(new PacketStaffChat(profile.getColoredName(), Spotify.SERVER_NAME, stringBuilder.toString()));
+
+        if(RedisFailingCommand.FAILING) {
+            Common.broadcastMessage(PermLevel.STAFF, "&7[" + Spotify.SERVER_NAME + "&7] " + CC.DARK_PURPLE + name + "&7: &d" + stringBuilder.toString());
+        }
     }
 }

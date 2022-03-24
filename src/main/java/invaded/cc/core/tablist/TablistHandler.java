@@ -58,7 +58,8 @@ public class TablistHandler {
     }
 
     public void setup(Player player) {
-        getPlayerTab(player).setup();
+        if(adapter != null)
+            getPlayerTab(player).setup();
     }
 
     public Tablist getPlayerTab(Player player) {

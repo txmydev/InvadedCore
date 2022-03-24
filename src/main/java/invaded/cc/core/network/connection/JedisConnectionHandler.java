@@ -38,6 +38,8 @@ public class JedisConnectionHandler extends ConnectionHandler {
     @Override
     public void receivePacket(JsonObject jsonObject) {
         String packetId = jsonObject.get("packet-id").getAsString();
+        if(Spotify.getInstance().getNetworkHandler() == null) return;
+
         Map<String, PacketListener> map = Spotify.getInstance().getNetworkHandler().getPacketListenerMap();
 
         if (map.containsKey(packetId))

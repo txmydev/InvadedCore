@@ -6,6 +6,7 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.tasks.SkinFetcherTask;
+import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Skin;
 import invaded.cc.core.util.SkinFetch;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -66,19 +68,6 @@ public class SkinMenu extends Menu {
 
         inventory.setItem(slot++, chestplate);
 
-
-        /*ItemStack skull = new ItemStack(Mateal.SKUL, 1);
-        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-
-        DyeColor dyeColor = DyeColor.values()[ThreadLocalRandom.current().nextInt(DyeColor.values().length - 1)];
-        meta.setColor(dyeColor.getColor());
-
-        skullMeta.setDisplayName(Color.translate("&bOwn"));
-        skullMeta.setOwner(this.player.getName());
-        skull.setItemMeta(skullMeta);
-
-        inventory.setItem(slotOwn, skull);*/
-
         for (String display : displays) {
             chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
             meta = (LeatherArmorMeta) chestplate.getItemMeta();
@@ -102,6 +91,15 @@ public class SkinMenu extends Menu {
                 meta.setColor(dyeColor.getColor());
 
                 meta.setDisplayName(Color.translate("&b" + fetch.getTarget()));
+
+                if(fetch.getSkin() != null && fetch.getSkin().getLoreHead() != null) {
+                    List<String> list = new ArrayList<>(fetch.getSkin().getLoreHead());
+                    list.add(" ");
+                    list.add(CC.YELLOW + "Click to disguise as " + CC.WHITE + nick);
+
+                    meta.setLore(list);
+                }
+
                 leggings.setItemMeta(meta);
 
                 inventory.setItem(slot++, leggings);

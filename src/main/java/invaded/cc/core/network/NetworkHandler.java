@@ -43,6 +43,8 @@ public class NetworkHandler {
         packetListenerMap.put("packet-staffchat", new PacketStaffChat.Listener());
         packetListenerMap.put("packet-staff-switch", new PacketStaffSwitch());
         packetListenerMap.put("packet-server-information", new PacketServerInformation.Listener());
+        packetListenerMap.put("packet-request-help", new PacketRequestHelp.Listener());
+        packetListenerMap.put("packet-report-player", new PacketReportPlayer.Listener());
     }
 
     public void sendPacket(SpotifyPacket packet) {

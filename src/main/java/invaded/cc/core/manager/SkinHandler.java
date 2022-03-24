@@ -1,24 +1,28 @@
 package invaded.cc.core.manager;
 
 import com.google.common.collect.Maps;
-import invaded.cc.core.Spotify;
-import invaded.cc.core.util.ConfigFile;
-import invaded.cc.core.util.ConfigTracker;
-import invaded.cc.core.util.Skin;
-import invaded.cc.core.util.Task;
-import lombok.Getter;
 import invaded.cc.common.library.gson.JsonObject;
 import invaded.cc.common.library.gson.JsonParser;
+import invaded.cc.core.Spotify;
+import invaded.cc.core.util.*;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -26,6 +30,7 @@ public class SkinHandler {
 
     private final ConfigFile skinsFile;
     private Map<String, Skin> skins;
+    private Map<String, Skin> newDataSkins = new HashMap<>();
 
     public SkinHandler() {
         skinsFile = new ConfigFile("nicks.yml", null, false);
@@ -89,9 +94,56 @@ public class SkinHandler {
         return builder.toString();
     }
 
+    @SneakyThrows
+    public BufferedImage getHead(String name) {
+        URL url = new URL("https://minotar.net/avatar/" + name + "/8");
+        return ImageIO.read(url);
+    }
+
+    public List<String> getHeadToLore(BufferedImage imageIO) {
+        StringBuilder builder = new StringBuilder();
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < imageIO.getHeight(); i++) {
+            for (int j = 0; j < imageIO.getWidth(); j++) {
+                Color color = new java.awt.Color(imageIO.getRGB(j, i));
+                org.bukkit.Color color1 = org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
+
+                ChatColor chatColor = ColorUtil.fromRGB(color1.getRed(), color1.getGreen(), color1.getBlue());
+                builder.append(chatColor).append("\u2588");
+            }
+            list.add(builder.toString());
+            builder = new StringBuilder();
+        }
+
+        return list;
+    }
+
     public void setupSkins() {
         Task.async(() -> {
             ConfigTracker configTracker = new ConfigTracker(skinsFile.get(), "");
+            if(configTracker.contains("newSkinData")) {
+                ConfigTracker newDataTracker = new ConfigTracker(skinsFile.get(), "newSkinData");
+
+                for (String key : newDataTracker.getKeys()) {
+                    newDataTracker.setPath("newSkinData." + key);
+
+                    String texture = newDataTracker.getString("texture");
+                    String signature = newDataTracker.getString("signature");
+
+                    Skin skin = new Skin(texture, signature);
+                    String head = newDataTracker.getString("head_encoded");
+
+                    if (head.isEmpty() || head.equalsIgnoreCase("setup")) {
+
+                        skin.setImage(getHead(key));
+                    } else skin.setImage(Common.base64StringToImg(head));
+
+                    skin.setHead(Common.imgToBase64String(skin.getImage(), "png"));
+                    skin.setLoreHead(getHeadToLore(skin.getImage()));
+                    newDataSkins.putIfAbsent(key, skin);
+                }
+            }
 
             for (String key : configTracker.getStringList("skins")) {
                 String[] val = key.split(":");

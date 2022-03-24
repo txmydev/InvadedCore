@@ -12,18 +12,4 @@ public class ServerListener implements Listener {
 
     private final Spotify plugin;
 
-    @EventHandler
-    public void onServerListPing(ServerListPingEvent event) {
-        ServerHandler serverHandler = plugin.getServerHandler();
-        if(serverHandler.isMaintenance()) {
-            event.setCustomProtocol(true);
-            event.setProtocol(180);
-            event.setProtocolMessage("Maintenance");
-        } else if(serverHandler.isTesting()) {
-            event.setCustomProtocol(true);
-            event.setProtocol(180);
-            event.setProtocolMessage("Testing");
-        }
-    }
-
 }

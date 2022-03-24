@@ -1,6 +1,7 @@
 package invaded.cc.core.commands.player;
 
 import invaded.cc.core.Spotify;
+import invaded.cc.core.network.packet.PacketReportPlayer;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.Clickable;
 import invaded.cc.core.util.Color;
@@ -53,13 +54,17 @@ public class ReportCommand extends BasicCommand {
         Profile targetProfile = Spotify.getInstance().getProfileHandler().getProfile(target.getUniqueId());
         String reason = stringBuilder.toString();
 
-        Clickable clickable = new Clickable("&7[&4Report&7] " + profile.getColoredName() + " &fhas reported " + targetProfile.getColoredName()
+        PacketReportPlayer reportPacket = new PacketReportPlayer(profile, targetProfile.getRawName(), reason, Spotify.SERVER_NAME);
+        Spotify.getInstance().getNetworkHandler().sendPacket(reportPacket);
+
+
+      /*  Clickable clickable = new Clickable("&7[&4Report&7] " + profile.getColoredName() + " &fhas reported " + targetProfile.getColoredName()
                 + " &fwith a reason of &b" + reason);
 
         clickable.hover(HoverEvent.Action.SHOW_TEXT, "&bClick to teleport to " + targetProfile.getColoredName());
 
         clickable.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + targetProfile.getName());
 
-        Common.broadcastMessage(PermLevel.STAFF, clickable.get());
+        Common.broadcastMessage(PermLevel.STAFF, clickable.get());*/
     }
 }

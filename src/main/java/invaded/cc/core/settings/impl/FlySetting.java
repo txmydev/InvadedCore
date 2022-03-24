@@ -1,16 +1,11 @@
 package invaded.cc.core.settings.impl;
 
-import invaded.cc.core.profile.Profile;
 import invaded.cc.core.settings.SettingsOption;
-import invaded.cc.core.util.BooleanUtils;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ItemBuilder;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import net.minecraft.server.ItemStack;
 import org.bukkit.Material;
-
-import java.util.function.Function;
 
 public class FlySetting extends SettingsOption {
 

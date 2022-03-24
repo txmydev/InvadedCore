@@ -2,6 +2,7 @@ package invaded.cc.core.util.jedis;
 
 import invaded.cc.common.library.gson.JsonObject;
 import invaded.cc.common.library.gson.JsonParser;
+import invaded.cc.core.util.ExceptionCounter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -16,6 +17,7 @@ public class JedisSubscriber {
     private Jedis jedis;
 
     private JedisPubSub sub;
+    private ExceptionCounter counter = new ExceptionCounter(5);
 
     public JedisSubscriber(JedisConfiguration config, String channel, final JedisHandler handler) {
         this.config = config;
@@ -36,9 +38,11 @@ public class JedisSubscriber {
 
                 jedis.subscribe(this.sub, channel);
 
-                Thread.sleep(50L * 5L);
+                Thread.sleep(50L);
             } catch (Exception ex) {
+                counter.add();
                 System.out.println("Jedis got broken mate, im trying to re open it...");
+                if(!counter.hasFinished()) ex.printStackTrace();
 
                 stop();
                 initPool();
