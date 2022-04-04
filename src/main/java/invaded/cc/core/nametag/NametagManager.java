@@ -93,7 +93,7 @@ public final class NametagManager extends Thread implements Listener {
         if (!player.isOnline()) return;
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
-        player.sendPacket(getHealthPacket(player, craftPlayer));
+        Common.sendPacket(player, getHealthPacket(player, craftPlayer));
         EntityPlayer entity = craftPlayer.getHandle();
         EntityTracker tracker = ((WorldServer) entity.world).tracker;
         EntityTrackerEntry entry = (EntityTrackerEntry) tracker.trackedEntities.get(entity.getId());
@@ -119,10 +119,10 @@ public final class NametagManager extends Thread implements Listener {
                     String team = nametag.getTeam();
                     if (!isRegistered(player, team)) {
                         registerTeam(player, team);
-                        player.sendPacket(nametag.createTeamPacket());
+                        Common.sendPacket(player, nametag.createTeamPacket());
                     }
 
-                    player.sendPacket(nametag.addPlayerPacket(target));
+                    Common.sendPacket(player, nametag.addPlayerPacket(target));
 
                     CraftPlayer craftTarget = (CraftPlayer) target;
 
@@ -135,15 +135,15 @@ public final class NametagManager extends Thread implements Listener {
                             }
 
                             PacketPlayOutPlayerInfo packet = PacketPlayOutPlayerInfo.updateDisplayName(craftTarget.getHandle());
-                            packet.username = ChatColor.translateAlternateColorCodes('&', name + nametag.getSuffix());
+                           // packet.username = ChatColor.translateAlternateColorCodes('&', name + nametag.getSuffix());
                             //packet.getData().add(new PacketPlayOutPlayerInfo.PlayerInfoData(craftTarget.getProfile(), 1, WorldSettings.EnumGamemode.SURVIVAL, new ChatMessage(ChatColor.translateAlternateColorCodes('&', name + nametag.getSuffix()))));
-                            player.sendPacket(packet);
+                            Common.sendPacket(player, packet);
                         }
                     }
 
                     // Health shown
                     if (true) {
-                        player.sendPacket(getHealthPacket(target, craftTarget));
+                        Common.sendPacket(player, getHealthPacket(target, craftTarget));
                     }
 
                     updateQueue.remove(update);

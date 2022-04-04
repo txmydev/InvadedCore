@@ -1,11 +1,11 @@
 package invaded.cc.core.rank;
 
 import com.google.common.collect.Lists;
+import invaded.cc.common.library.gson.reflect.TypeToken;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.manager.RequestHandler;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import net.minecraft.util.com.google.common.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

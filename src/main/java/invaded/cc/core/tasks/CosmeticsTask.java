@@ -3,6 +3,7 @@ package invaded.cc.core.tasks;
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Common;
 import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;

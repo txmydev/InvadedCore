@@ -18,7 +18,6 @@ public class JedisSubscriber {
 
     private JedisPubSub sub;
     private ExceptionCounter counter = new ExceptionCounter(5);
-
     public JedisSubscriber(JedisConfiguration config, String channel, final JedisHandler handler) {
         this.config = config;
         this.channel = channel;
@@ -35,7 +34,6 @@ public class JedisSubscriber {
 
         new Thread(() -> {
             try {
-
                 jedis.subscribe(this.sub, channel);
 
                 Thread.sleep(50L);

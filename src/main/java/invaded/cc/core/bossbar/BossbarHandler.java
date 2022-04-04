@@ -81,7 +81,7 @@ public class BossbarHandler {
         }*/
 
         if (!player.hasMetadata("spawned_bossbar")) {
-            player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
+            /*player.setMetadata("spawned_bossbar", new FixedMetadataValue(Spotify.getInstance(), true));
 
             DataWatcher dataWatcher = new DataWatcher((Entity) null);
             dataWatcher.a(10, title);
@@ -99,14 +99,14 @@ public class BossbarHandler {
             spawn.i = (byte) 0;
             spawn.j = (byte) 0;
             spawn.k = (byte) 0;
-            spawn.l = dataWatcher;
+            spawn.l = dataWatcher;*/
 
-            Common.sendPacket(player, spawn);
+           // Common.sendPacket(player, spawn);
 
-            PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
-            Common.sendPacket(player, metadata);
+         //   PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
+         //   Common.sendPacket(player, metadata);
         } else {
-            DataWatcher dataWatcher = new DataWatcher((Entity) null);
+         /*   DataWatcher dataWatcher = new DataWatcher((Entity) null);
             dataWatcher.a(10, title);
             dataWatcher.a(2, title);
             dataWatcher.a(6, (float) health);
@@ -120,7 +120,7 @@ public class BossbarHandler {
 
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(adapter.getEntityId(), dataWatcher, true);
             Common.sendPacket(player, metadata);
-            Common.sendPacket(player, teleport);
+            Common.sendPacket(player, teleport);*/
         }
     }
 

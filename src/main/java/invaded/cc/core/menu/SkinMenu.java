@@ -6,10 +6,7 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.tasks.SkinFetcherTask;
-import invaded.cc.core.util.CC;
-import invaded.cc.core.util.Color;
-import invaded.cc.core.util.Skin;
-import invaded.cc.core.util.SkinFetch;
+import invaded.cc.core.util.*;
 import invaded.cc.core.util.menu.Menu;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
@@ -49,7 +46,7 @@ public class SkinMenu extends Menu {
 
     @Override
     public void update() {
-        if(player.getVersion() > 5) updateNormal();
+        if(Common.getVersion(player) > 5) updateNormal();
         else updateLegacy();
     }
 

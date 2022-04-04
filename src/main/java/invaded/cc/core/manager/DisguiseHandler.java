@@ -68,7 +68,6 @@ public class DisguiseHandler {
     }
 
 
-
     public void sendPackets(Player player, GameProfile gameProfile, Skin skin, boolean changeProfile) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
@@ -87,8 +86,6 @@ public class DisguiseHandler {
 
         PacketPlayOutPlayerInfo addPlayer = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
         PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-
-
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, addPlayer);

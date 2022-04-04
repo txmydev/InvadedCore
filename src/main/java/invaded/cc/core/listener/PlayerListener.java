@@ -7,6 +7,7 @@ import invaded.cc.core.event.PlayerUnDisguiseEvent;
 import invaded.cc.core.injector.PermissibleInjector;
 import invaded.cc.core.manager.CosmeticsHandler;
 import invaded.cc.core.network.NetworkHandler;
+import invaded.cc.core.network.connection.BungeeConnectionHandler;
 import invaded.cc.core.network.packet.PacketProfileInformation;
 import invaded.cc.core.network.packet.PacketStaffChat;
 import invaded.cc.core.network.packet.PacketStaffJoin;
@@ -37,7 +38,7 @@ import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOW)
     public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
         String name = event.getName();
@@ -69,7 +70,7 @@ public class PlayerListener implements Listener {
         }
 
 
-        Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
+        if(Spotify.getInstance().getNetworkHandler().getConnectionHandler() instanceof BungeeConnectionHandler) Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -86,7 +87,6 @@ public class PlayerListener implements Listener {
 
         if (!profile.getName().equals(player.getName())) profile.setName(player.getName());
         profile.updatePermissions(player);
-
 
         ServerHandler serverHandler = Spotify.getInstance().getServerHandler();
 
@@ -170,11 +170,10 @@ public class PlayerListener implements Listener {
         NetworkHandler networkHandler = Spotify.getInstance().getNetworkHandler();
         if (!networkHandler.isNetworkMode() && Permission.test(profile, PermLevel.STAFF)) Task.later(() -> networkHandler.sendPacket(new PacketStaffLeave(profile.getColoredName(), Spotify.SERVER_NAME)), 4L);
 
-
         PermissibleInjector.unInject(player);
-        profileHandler.save(profile);
         profileHandler.getProfiles().remove(player.getUniqueId());
 
+        Task.async(() -> profileHandler.save(profile));;
     }
 
     @EventHandler(priority = EventPriority.LOW)

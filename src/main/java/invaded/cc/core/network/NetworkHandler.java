@@ -48,6 +48,7 @@ public class NetworkHandler {
     }
 
     public void sendPacket(SpotifyPacket packet) {
+
         connectionHandler.sendPacket(packet);
     }
 }

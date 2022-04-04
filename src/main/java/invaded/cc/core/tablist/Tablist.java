@@ -47,7 +47,7 @@ public class Tablist {
     }
 
     public boolean isLegacy() {
-        return ! (player.getVersion() > 5);
+        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion() <= 5;
     }
 
     private void create(int index) {

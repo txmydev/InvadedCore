@@ -83,7 +83,7 @@ public class Profile {
 
     private Cooldown commandCooldown = new Cooldown(0), chatCooldown = new Cooldown(0), helpOpCooldown = new Cooldown(0);
 
-    protected Profile(UUID uuid, String name) {
+    public Profile(UUID uuid, String name) {
         this.id = uuid;
         this.name = name;
     }

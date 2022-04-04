@@ -7,6 +7,7 @@ import invaded.cc.core.util.CC;
 import invaded.cc.core.util.Cooldown;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
+import invaded.cc.core.util.perms.Permission;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class PollCommand extends BasicCommand {
     private final Spotify plugin;
 
     public PollCommand(Spotify plugin){
-        super("poll", PermLevel.STAFF);
+        super("poll", PermLevel.DEFAULT);
 
         this.plugin = plugin;
     }
@@ -38,6 +39,11 @@ public class PollCommand extends BasicCommand {
         }
 
         PollHandler handler = plugin.getPollHandler();
+
+        if(!Permission.test(sender, PermLevel.STAFF) && !args[0].equalsIgnoreCase("vote")) {
+            sender.sendMessage(CC.RED + "You don't have permissions.");
+            return;
+        }
 
         switch(args[0]) {
             case "create":

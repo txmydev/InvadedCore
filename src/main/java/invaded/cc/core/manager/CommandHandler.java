@@ -88,6 +88,7 @@ public class CommandHandler {
         new MaintenanceCommand();
         new SearchCommand();
         new RedisFailingCommand();
+        new TeleportWorldCommand();
 
         Spotify plugin = Spotify.getInstance();
 

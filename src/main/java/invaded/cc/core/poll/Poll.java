@@ -47,7 +47,7 @@ public class Poll {
                 "    " + CC.B_GREEN + option1 + ": " + CC.B_YELLOW + oneVotes + " votes",
                 "    " + CC.B_RED + option2 + ": " + CC.B_YELLOW + twoVotes + " votes",
                 " ",
-                CC.B_GREEN + (oneVotes > twoVotes ? option1 : option2) + " won!",
+                CC.B_GREEN + ((oneVotes == twoVotes) ? "Draw!" : oneVotes > twoVotes ? option1 : option2) + " won!",
                 " "
         ).forEach(s -> Common.broadcastMessage(PermLevel.DEFAULT, s));
     }

@@ -2,6 +2,7 @@ package invaded.cc.core.util;
 
 import com.google.common.base.Strings;
 import invaded.cc.core.Spotify;
+import invaded.cc.core.network.packet.PacketJoinServer;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.util.perms.PermLevel;
@@ -133,6 +134,8 @@ public class Common {
 
     @SneakyThrows
     public static void joinServer(Player player, String server) {
+       // Spotify.getInstance().getNetworkHandler().sendPacket(new PacketJoinServer(player.getName(), server));
+
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream data = new DataOutputStream(b);
 
@@ -247,5 +250,9 @@ public class Common {
         } catch (final IOException ioe) {
             throw new UncheckedIOException(ioe);
         }
+    }
+
+    public static int getVersion(Player player) {
+        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion();
     }
 }

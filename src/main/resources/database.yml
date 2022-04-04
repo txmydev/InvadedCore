@@ -10,3 +10,13 @@ http:
   port: 5000
   token: none
   domain: false
+mongo:
+  enabled: false
+  host: localhost
+  port: 27017
+  database: spotify_db
+  auth:
+    enabled: false
+    username: username
+    password: password
+    loginDatabase: admin

@@ -37,7 +37,7 @@ public class ServerHandler {
             return server;
         });
 
-        heartbeatTask = new ServerHeartbeatTask(); heartbeatTask.runTaskTimerAsynchronously(Spotify.getInstance(), 20L, 10L);
+        heartbeatTask = new ServerHeartbeatTask(); heartbeatTask.runTaskTimerAsynchronously(Spotify.getInstance(), 20L, 20L);
         timeoutTask = new ServerTimeoutTask(); timeoutTask.runTaskTimerAsynchronously(Spotify.getInstance(), 60L, 5L * 20L);
     }
 

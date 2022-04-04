@@ -5,7 +5,6 @@ import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
 import invaded.cc.core.util.Color;
 import invaded.cc.core.util.Common;
-import invaded.cc.core.util.Task;
 import invaded.cc.core.util.command.BasicCommand;
 import invaded.cc.core.util.perms.PermLevel;
 import org.bukkit.Bukkit;
@@ -28,7 +27,6 @@ public class KickCMD extends BasicCommand {
         String executor = sender instanceof Player ? profileHandler.getProfile(((Player) sender).getUniqueId())
                 .getColoredName() : "&4Console";
 
-        Task.async(() -> {
             AtomicBoolean silent = new AtomicBoolean(false);
 
             if (args.length < 1) {
@@ -64,11 +62,10 @@ public class KickCMD extends BasicCommand {
             }
 
             StringBuilder finalReason = reason;
-            Task.run(() -> player.getPlayer().kickPlayer(Color.translate(finalReason.toString())));
+            player.getPlayer().kickPlayer(Color.translate(finalReason.toString()));
 
             if (silent.get())
                 Common.broadcastMessage(PermLevel.STAFF, "&7[Silent] " + executor + " &ahas kicked " + targetData.getColoredName());
             else Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas kicked " + targetData.getColoredName());
-        });
     }
 }
