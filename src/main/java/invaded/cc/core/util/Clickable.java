@@ -4,34 +4,51 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Clickable {
 
-    private TextComponent textComponent;
-    private String text;
+    private List<TextComponent> components = new ArrayList<>();
 
-    public Clickable(String text) {
-        this.textComponent = new TextComponent(Color.translate(text));
-        this.text = text;
+    public Clickable(String msg) {
+        TextComponent message = new TextComponent(msg);
+
+        this.components.add(message);
     }
 
-    public Clickable hover(HoverEvent.Action action, String hover) {
-        this.textComponent.setHoverEvent(new HoverEvent(action,
-                new ComponentBuilder(Color.translate(hover)).create()));
-
-        return this;
+    public Clickable(String msg, String hoverMsg, String clickString) {
+        this.add(msg, hoverMsg, clickString);
     }
 
-    public Clickable clickEvent(ClickEvent.Action action, String click) {
-        if (action == ClickEvent.Action.RUN_COMMAND && !click.substring(0, 1).equalsIgnoreCase("/"))
-            click = "/" + click;
-        this.textComponent.setClickEvent(new ClickEvent(action, click));
+    public TextComponent add(String msg, String hoverMsg, String clickString) {
+        TextComponent message = new TextComponent(msg);
 
-        return this;
+        if (hoverMsg != null) {
+            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMsg).create()));
+        }
+
+        if (clickString != null) {
+            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, clickString));
+        }
+
+        this.components.add(message);
+
+        return message;
     }
 
-    public TextComponent get() {
-        return textComponent;
+    public void add(String message) {
+        this.components.add(new TextComponent(message));
+    }
+
+    public void sendToPlayer(Player player) {
+        player.sendMessage(this.asComponents());
+    }
+
+    public TextComponent[] asComponents() {
+        return this.components.toArray(new TextComponent[0]);
     }
 
 }

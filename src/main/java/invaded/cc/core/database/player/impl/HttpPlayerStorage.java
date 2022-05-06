@@ -16,7 +16,7 @@ import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Color;
 import jodd.http.HttpResponse;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

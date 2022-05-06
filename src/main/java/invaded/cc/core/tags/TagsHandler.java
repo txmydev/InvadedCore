@@ -7,8 +7,9 @@ import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.util.CC;
 import jodd.http.HttpResponse;
 import lombok.Getter;
-import net.minecraft.util.com.google.common.reflect.TypeToken;
+import com.google.common.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class TagsHandler {
 
     private TagStorage storage;
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
     private final String lunarPrefix = CC.GRAY + "[" + CC.AQUA + "Lunar" + CC.GRAY + "] " + CC.RESET;
 
     public TagsHandler(TagStorage storage) {

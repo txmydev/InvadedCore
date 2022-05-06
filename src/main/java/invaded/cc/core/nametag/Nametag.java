@@ -3,7 +3,8 @@ package invaded.cc.core.nametag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_7_R4.PacketPlayOutScoreboardTeam;
+import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
+import net.minecraft.server.v1_8_R3.ScoreboardTeamBase;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -28,25 +29,25 @@ public final class Nametag {
 
     public PacketPlayOutScoreboardTeam createTeamPacket() {
         PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();
-        packet.a = team;
-        packet.f = 0;
-        packet.b = team;
-        packet.c = prefix;
-        packet.d = suffix;
+        packet.name = team;
+        packet.action = 0;
+        packet.displayName = team;
+        packet.prefix = prefix;
+        packet.suffix = suffix;
 
         if (!visible) {
-//            packet.setNameTagVisibility(EnumNameTagVisibility.NEVER);
+            packet.nameTagVisibility = ScoreboardTeamBase.EnumNameTagVisibility.NEVER.e;
         }
 
-        packet.g = 1;
+        packet.optionData = 1;
         return packet;
     }
 
     public PacketPlayOutScoreboardTeam addPlayerPacket(Player player) {
         PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();
-        packet.a = team;
-        packet.f = 3;
-        packet.e.addAll(Collections.singletonList(player.getName()));
+        packet.name = team;
+        packet.action = 3;
+        packet.playerNames.addAll(Collections.singletonList(player.getName()));
         return packet;
     }
 }

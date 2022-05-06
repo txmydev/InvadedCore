@@ -6,7 +6,7 @@ import invaded.cc.core.database.tags.TagStorage;
 import invaded.cc.core.manager.RequestHandler;
 import invaded.cc.core.tags.Tag;
 import jodd.http.HttpResponse;
-import net.minecraft.util.com.google.common.reflect.TypeToken;
+import com.google.common.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;

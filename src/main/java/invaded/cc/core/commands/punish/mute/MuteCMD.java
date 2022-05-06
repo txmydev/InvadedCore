@@ -62,8 +62,7 @@ public class MuteCMD extends BasicCommand {
                 return;
             }
             if (silent.get()) Common.broadcastMessage(PermLevel.STAFF,
-                    new Clickable("&7[Silent] " + executor + " &ahas permanently muted " + targetData.getColoredName())
-                            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
+                    new Clickable("&7[Silent] " + executor + " &ahas permanently muted " + targetData.getColoredName(),  "&bReason&7: &f" + reason.toString(), null).asComponents());
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas permanently muted " + targetData.getColoredName());
 

@@ -71,7 +71,7 @@ public class UnBlacklistCMD extends BasicCommand {
 
             if (silent.get())
                 Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + targetData.getColoredName()
-                        + " &awas unblacklisted by " + executor).get());
+                        + " &awas unblacklisted by " + executor, null ,null).asComponents());
             else
                 Common.broadcastMessage(PermLevel.STAFF, targetData.getColoredName() + " &awas unblacklisted by " + executor);
 

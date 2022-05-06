@@ -77,8 +77,8 @@ public class TemporalBanCMD extends BasicCommand {
             }
 
             if (silent.get())
-                Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + executor + " &ahas temporary banned " + targetData.getColoredName())
-                        .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString()).get());
+                Common.broadcastMessage(PermLevel.STAFF, new Clickable("&7[Silent] " + executor + " &ahas temporary banned " + targetData.getColoredName(),
+                        "&bReason&7: &f" + reason.toString(), null).asComponents());
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas temporary banned " + targetData.getColoredName());
 

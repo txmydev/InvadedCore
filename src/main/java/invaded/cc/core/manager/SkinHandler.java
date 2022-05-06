@@ -7,11 +7,11 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.util.*;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import javax.imageio.ImageIO;

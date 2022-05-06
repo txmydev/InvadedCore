@@ -69,11 +69,27 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>rip.battle.spigot</groupId>
-            <artifactId>battlespigot-server</artifactId>
-            <version>1.7.10-R0.1-SNAPSHOT</version>
+            <groupId>dev.cobblesword.nachospigot</groupId>
+            <artifactId>nachospigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>ViaVersion</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dependencies/ViaVersion-4.2.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>ViaRewind</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dependencies/ViaRewind-2.0.2.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>net.skulluhc</groupId>
             <artifactId>Log4jExploitFixer</artifactId>

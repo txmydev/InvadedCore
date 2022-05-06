@@ -21,10 +21,10 @@ import invaded.cc.core.tasks.CheckPremiumTask;
 import invaded.cc.core.util.*;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -173,7 +173,7 @@ public class PlayerListener implements Listener {
         PermissibleInjector.unInject(player);
         profileHandler.getProfiles().remove(player.getUniqueId());
 
-        Task.async(() -> profileHandler.save(profile));;
+        Task.async(() -> profileHandler.save(profile));
     }
 
     @EventHandler(priority = EventPriority.LOW)

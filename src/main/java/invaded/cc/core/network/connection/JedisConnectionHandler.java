@@ -40,10 +40,13 @@ public class JedisConnectionHandler extends ConnectionHandler {
         String packetId = jsonObject.get("packet-id").getAsString();
         if(Spotify.getInstance().getNetworkHandler() == null) return;
 
-        Map<String, PacketListener> map = Spotify.getInstance().getNetworkHandler().getPacketListenerMap();
+        for (PacketListener listener : Spotify.getInstance().getNetworkHandler().getPacketListenerSet()) {
+            if(listener.getPacket().equalsIgnoreCase(packetId)) {
+                listener.onReceivePacket(jsonObject);
+                break;
+            }
+        }
 
-        if (map.containsKey(packetId))
-            map.get(packetId).onReceivePacket(jsonObject);
     }
 
     @Override

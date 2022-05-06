@@ -1,6 +1,7 @@
 package invaded.cc.core.util;
 
 import com.google.common.base.Strings;
+import com.viaversion.viaversion.ViaVersionPlugin;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.network.packet.PacketJoinServer;
 import invaded.cc.core.profile.Profile;
@@ -8,12 +9,14 @@ import invaded.cc.core.punishment.Punishment;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_8_R3.Packet;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import javax.imageio.ImageIO;
@@ -51,6 +54,9 @@ public class Common {
         return colors[ThreadLocalRandom.current().nextInt(colors.length - 1)];
     }
 
+    public static final String SERVER_NAME = "PloverUHC";
+    public static final String TEAMSPEAK_IP = "ts.ploveruhc.club";
+
     public static String getDisallowedReason(Punishment punishment) {
         if (punishment.getType().name().contains("MUTE")
                 || punishment.getType().name().contains("WARN")) return "?";
@@ -60,24 +66,24 @@ public class Common {
         if (punishment.getType() == Punishment.Type.TEMPORARY_BAN) {
             long left = punishment.getExpire() - System.currentTimeMillis();
 
-            info.add("&cYour account has been temporary suspended from SkullUHC");
+            info.add("&cYour account has been temporary suspended from " + SERVER_NAME);
             info.add("&e");
             info.add("&cThis punishment will be removed in " + DateUtils.formatTime(left));
             if(!punishment.getReason().equals("")) info.add("&cYou have been banned for " + punishment.getReason());
             info.add("&2");
-            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
+            info.add("&7You can appeal by going to our teamspeak &b" + TEAMSPEAK_IP + "&7.");
 
             return StringUtils.join(formatList(info), "\n");
         } else if (punishment.getType() == Punishment.Type.BAN) {
-            info.add("&cYour account has been permanently suspended from SkullUHC.");
+            info.add("&cYour account has been permanently suspended from " + SERVER_NAME);
             info.add("&e");
             if(!punishment.getReason().equals("")) info.add("&cYou have been banned for " + punishment.getReason());
             info.add("&7");
-            info.add("&7You can appeal by going to our teamspeak &bts.skulluhc.club&7.");
+            info.add("&7You can appeal by going to our teamspeak &b" + TEAMSPEAK_IP + "&7.");
 
             return StringUtils.join(formatList(info), "\n");
         } else if (punishment.getType() == Punishment.Type.BLACKLIST) {
-            info.add("&cYour account has been blacklisted from SkullUHC.");
+            info.add("&cYour account has been blacklisted from " + SERVER_NAME + ".");
             info.add("&e");
             info.add("&7You cannot appeal this punishment.");
 
@@ -108,6 +114,16 @@ public class Common {
     }
 
 
+    public static void broadcastMessage(PermLevel permLevel, TextComponent[] messages) {
+        getOnlinePlayers().forEach(player -> {
+            if (!Permission.test(player, permLevel)) return;
+
+            player.spigot().sendMessage(messages);
+        });
+
+        Bukkit.getConsoleSender().sendMessage(Color.translate(org.apache.commons.lang3.StringUtils.join(Arrays.stream(messages).map(TextComponent::getText).toArray(), "\n")));
+    }
+
     public static void broadcastMessage(PermLevel permLevel, TextComponent message) {
         getOnlinePlayers().forEach(player -> {
             if (!Permission.test(player, permLevel)) return;
@@ -116,6 +132,19 @@ public class Common {
         });
 
         Bukkit.getConsoleSender().sendMessage(Color.translate(message.getText()));
+    }
+
+    public static void broadcastMessage(PermLevel permLevel, ComponentBuilder message) {
+        getOnlinePlayers().forEach(player -> {
+            if (!Permission.test(player, permLevel)) return;
+
+            player.spigot().sendMessage(message.create());
+        });
+
+        for (BaseComponent baseComponent : message.create()) {
+            Bukkit.getConsoleSender().sendMessage(Color.translate(baseComponent.toPlainText()));
+        }
+
     }
 
     public static void broadcastMessage(PermLevel permLevel, Predicate<Player> predicate, String message) {
@@ -253,6 +282,6 @@ public class Common {
     }
 
     public static int getVersion(Player player) {
-        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion();
+        return ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player);
     }
 }

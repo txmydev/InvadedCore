@@ -7,20 +7,20 @@ import invaded.cc.core.event.PlayerUnDisguiseEvent;
 import invaded.cc.core.util.Common;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_7_R4.*;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerHealthChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import txmy.dev.events.PlayerHealthChangeEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,7 +82,7 @@ public final class NametagManager extends Thread implements Listener {
         packet.a = player.getName();
         packet.b = "PlayerHealth";
         packet.c = ((int) Math.ceil(player.getHealth() + craftPlayer.getHandle().getAbsorptionHearts()));
-        packet.d = 0;
+        packet.d = PacketPlayOutScoreboardScore.EnumScoreboardAction.CHANGE;
         return packet;
     }
 
@@ -134,7 +134,7 @@ public final class NametagManager extends Thread implements Listener {
                                 name += target.getName();
                             }
 
-                            PacketPlayOutPlayerInfo packet = PacketPlayOutPlayerInfo.updateDisplayName(craftTarget.getHandle());
+                            PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
                            // packet.username = ChatColor.translateAlternateColorCodes('&', name + nametag.getSuffix());
                             //packet.getData().add(new PacketPlayOutPlayerInfo.PlayerInfoData(craftTarget.getProfile(), 1, WorldSettings.EnumGamemode.SURVIVAL, new ChatMessage(ChatColor.translateAlternateColorCodes('&', name + nametag.getSuffix()))));
                             Common.sendPacket(player, packet);

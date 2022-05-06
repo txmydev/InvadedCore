@@ -2,7 +2,7 @@ package invaded.cc.core.tablist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfile;
 
 @AllArgsConstructor
 public class TabEntry {

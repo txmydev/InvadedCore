@@ -4,9 +4,9 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.network.ConnectionHandler;
 import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.network.SpotifyPacket;
-import net.minecraft.util.com.google.common.io.ByteArrayDataInput;
-import net.minecraft.util.com.google.common.io.ByteArrayDataOutput;
-import net.minecraft.util.com.google.common.io.ByteStreams;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import invaded.cc.common.library.gson.JsonObject;
 import invaded.cc.common.library.gson.JsonParser;
 import org.bukkit.Bukkit;
@@ -22,11 +22,16 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
         output.writeUTF(packet.toJson().toString());
         byte[] data = output.toByteArray();
+        String packetId = packet.getPacketId();
 
-        Map<String, PacketListener> map = Spotify.getInstance().getNetworkHandler().getPacketListenerMap();
+        Spotify.getInstance().getNetworkHandler().getPacketListenerSet()
+                .forEach(listener ->
+                {
+                    if(listener.getPacket().equalsIgnoreCase(packetId)) {
+                        listener.onSendPacket(packet);
+                    }
 
-        if(map.containsKey(packet.getPacketId()))
-            map.get(packet.getPacketId()).onSendPacket(packet);
+                });
 
         Bukkit.getOnlinePlayers().stream().findAny().ifPresent(player -> player.sendPluginMessage(Spotify.getInstance(), "invaded-network", data));
     }
@@ -34,10 +39,12 @@ public class BungeeConnectionHandler extends ConnectionHandler implements Plugin
     @Override
     public void receivePacket(JsonObject jsonObject) {
         String packetId = jsonObject.get("packet-id").getAsString();
-        Map<String, PacketListener> map = Spotify.getInstance().getNetworkHandler().getPacketListenerMap();
-
-        if(map.containsKey(packetId))
-            map.get(packetId).onReceivePacket(jsonObject);
+        for (PacketListener listener : Spotify.getInstance().getNetworkHandler().getPacketListenerSet()) {
+            if(listener.getPacket().equalsIgnoreCase(packetId)) {
+                listener.onReceivePacket(jsonObject);
+                break;
+            }
+        }
     }
 
     @Override

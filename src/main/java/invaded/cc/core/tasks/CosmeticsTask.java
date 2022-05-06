@@ -2,7 +2,8 @@ package invaded.cc.core.tasks;
 
 import invaded.cc.core.trails.Trail;
 import invaded.cc.core.util.Common;
-import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -36,14 +37,14 @@ public class CosmeticsTask extends BukkitRunnable {
     }
 
     private void display(Location location, Trail trail) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(trail.getId(),
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(trail.getParticle(), true,
                 (float) location.getX(),
                 (float) location.getY(),
                 (float) location.getZ(),
                 0.1f,
                 0.1f,
                 0.1f,
-                0,
+                1.0f,
                 1);
 
         Common.getOnlinePlayers().forEach(player -> Common.sendPacket(player, packet));

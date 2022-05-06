@@ -10,6 +10,8 @@ import invaded.cc.core.util.Common;
 import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,7 +44,11 @@ public class PacketReportPlayer extends SpotifyPacket {
                 .get();
     }
 
+    @Getter
     public static class Listener extends PacketListener {
+        public Listener(String packet) {
+            super(packet);
+        }
 
         @Override
         public void onReceivePacket(JsonObject packet) {

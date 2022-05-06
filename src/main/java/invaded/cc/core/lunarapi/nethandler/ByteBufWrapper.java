@@ -1,7 +1,7 @@
 package invaded.cc.core.lunarapi.nethandler;
 
 
-import net.minecraft.util.io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;

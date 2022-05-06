@@ -33,6 +33,10 @@ public class PacketStaffJoin extends SpotifyPacket {
 
     public static class Listener extends PacketListener {
 
+        public Listener(String packet) {
+            super(packet);
+        }
+
         @Override
         public void onReceivePacket(JsonObject packet) {
             String name = packet.get("name").getAsString();

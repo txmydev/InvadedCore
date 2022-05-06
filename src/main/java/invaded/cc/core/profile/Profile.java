@@ -14,7 +14,7 @@ import invaded.cc.core.util.Cooldown;
 import invaded.cc.core.util.Skin;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

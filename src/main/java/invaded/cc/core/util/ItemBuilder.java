@@ -1,7 +1,9 @@
 package invaded.cc.core.util;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -17,16 +19,29 @@ public class ItemBuilder {
     private String name;
     private List<String> lore;
 
+    private ItemStack stack;
+
+    public ItemBuilder(Material material) {
+        this();
+
+        type(material);
+    }
+
+
     public ItemBuilder() {
         this.mat = Material.AIR;
         this.amount = 1;
         this.data = -1;
         this.lore = new ArrayList<>();
         this.name = "";
+
+        this.stack = new ItemStack(mat, amount);
+
     }
 
     public ItemBuilder type(Material mat) {
         this.mat = mat;
+        this.stack.setType(mat);
         return this;
     }
 
@@ -48,25 +63,40 @@ public class ItemBuilder {
 
     public ItemBuilder data(int data) {
         this.data = data;
+
+        if(data != -1) stack.setDurability((short) data);
+
         return this;
     }
 
     public ItemBuilder amount(int amount) {
         this.amount = amount;
+
+        stack.setAmount(amount);
         return this;
     }
 
     public ItemStack build() {
-        ItemStack item;
-        if (data == -1)
-            item = new ItemStack(mat, amount);
-        else
-            item = new ItemStack(mat, amount, (short) data);
-        ItemMeta meta = item.getItemMeta();
+        ItemMeta meta = stack.getItemMeta();
         meta.setDisplayName(Color.translate(name));
         meta.setLore(lore);
-        item.setItemMeta(meta);
-        return item;
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public ItemBuilder enchantment(Enchantment enchantment, int level) {
+        ItemMeta meta = stack.getItemMeta();
+        if(stack.getType() == Material.ENCHANTED_BOOK) {
+            EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) meta;
+            storageMeta.addStoredEnchant(enchantment, level, false);
+
+            stack.setItemMeta(storageMeta);
+            return this;
+        } else {
+            meta.addEnchant(enchantment, level, false);
+            stack.setItemMeta(meta);
+            return this;
+        }
     }
 
 

@@ -1,6 +1,6 @@
 package invaded.cc.core.util;
 
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 
 import java.util.*;

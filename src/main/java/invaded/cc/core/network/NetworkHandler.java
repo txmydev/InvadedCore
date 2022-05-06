@@ -7,20 +7,19 @@ import invaded.cc.core.network.packet.*;
 import lombok.Getter;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class NetworkHandler {
 
-    private final Map<String, PacketListener> packetListenerMap;
+    private final Set<PacketListener> packetListenerSet;
     private final ConnectionHandler connectionHandler;
     private final boolean networkMode;
 
     public NetworkHandler(Spotify plugin) {
-        this.packetListenerMap = new HashMap<>();
         this.connectionHandler = Spotify.getInstance().getRedisDatabase().isRedisMode() ? new JedisConnectionHandler() : new BungeeConnectionHandler();
         this.networkMode = plugin.getMainConfig().get().getBoolean("network-mode", false);
+        this.packetListenerSet = new HashSet<>();
 
         this.registerPacketReaders();
         this.registerChannels();
@@ -38,17 +37,18 @@ public class NetworkHandler {
     }
 
     private void registerPacketReaders() {
-        packetListenerMap.put("packet-staff-join", new PacketStaffJoin.Listener());
-        packetListenerMap.put("packet-staff-leave", new PacketStaffLeave.Listener());
-        packetListenerMap.put("packet-staffchat", new PacketStaffChat.Listener());
-        packetListenerMap.put("packet-staff-switch", new PacketStaffSwitch());
-        packetListenerMap.put("packet-server-information", new PacketServerInformation.Listener());
-        packetListenerMap.put("packet-request-help", new PacketRequestHelp.Listener());
-        packetListenerMap.put("packet-report-player", new PacketReportPlayer.Listener());
+        packetListenerSet.addAll(
+                Arrays.asList(new PacketStaffJoin.Listener("packet-staff-join"),
+                        new PacketStaffLeave.Listener("packet-staff-leave"),
+                        new PacketStaffChat.Listener("packet-staffchat"),
+                        new PacketStaffSwitch("packet-staff-switch"),
+                        new PacketServerInformation.Listener("packet-server-information"),
+                        new PacketRequestHelp.Listener("packet-request-help"),
+                        new PacketReportPlayer.Listener("packet-report-player"))
+        );
     }
 
     public void sendPacket(SpotifyPacket packet) {
-
         connectionHandler.sendPacket(packet);
     }
 }

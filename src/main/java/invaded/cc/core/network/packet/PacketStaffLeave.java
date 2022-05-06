@@ -7,6 +7,7 @@ import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
 import lombok.Getter;
 import invaded.cc.common.library.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 public class PacketStaffLeave extends SpotifyPacket {
@@ -30,6 +31,11 @@ public class PacketStaffLeave extends SpotifyPacket {
     }
 
     public static class Listener extends PacketListener {
+
+
+        public Listener(String packet) {
+            super(packet);
+        }
 
         @Override
         public void onReceivePacket(JsonObject packet) {

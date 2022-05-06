@@ -32,10 +32,11 @@ public final class ScoreboardManager extends Thread implements Listener {
 
     @Override
     public void run() {
-        try {
-            while (true) {
+        while (true) {
+            try {
+
                 scoreboards.forEach((uniqueId, scoreboard) -> {
-                    if(provider != null)
+                    if (provider != null)
                         scoreboard.update();
                 });
 
@@ -44,10 +45,11 @@ public final class ScoreboardManager extends Thread implements Listener {
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+            }
     }
 
     public void setProvider(ScoreboardProvider provider) {

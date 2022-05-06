@@ -47,33 +47,14 @@ public class HelpOpCommand extends BasicCommand {
 
         profile.setHelpOpCooldown(new Cooldown(50_000));
 
-        /*new JedisPoster(JedisAction.HELPOP)
-                .addInfo("profileId", profile.getId().toString())
-                .addInfo("message", builder.toString())
-                .post();*/
-
-        PacketRequestHelp helpRequest = new PacketRequestHelp(profile, builder.toString(), Spotify.SERVER_NAME);
-        Spotify.getInstance().getNetworkHandler().sendPacket(helpRequest);
-
-        /*String message = builder.toString();
-
-        Clickable clickable = new Clickable("&9[Helpop] " + profile.getColoredName()
-                + " &7requested help with: &9" + message)
-                .hover(HoverEvent.Action.SHOW_TEXT, "&bClick to be teleported to him ");
-
-        clickable.clickEvent(ClickEvent.Action.RUN_COMMAND,
-                "/tp " + profile.getName());
-
-        Common.broadcastMessage(PermLevel.STAFF, clickable.get());*/
-
         player.sendMessage(Color.translate("&aWe received your request."));
 
         if(RedisFailingCommand.FAILING) {
             ComponentBuilder componentBuilder = new ComponentBuilder(CC.BLUE + "[Helpop] " + CC.GRAY + "[" + Spotify.SERVER_NAME + "] " + CC.AQUA + name + CC.GRAY + " asked for help: ");
             ComponentBuilder reasonBuilder = new ComponentBuilder("   " +CC.BLUE + "Reason: " + CC.GRAY + builder.toString());
 
-                componentBuilder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + name));
-                componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(CC.GREEN + "Click to teleport to " + name).create()));
+            componentBuilder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + name));
+            componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(CC.GREEN + "Click to teleport to " + name).create()));
             Common.getOnlinePlayers().forEach(other -> {
                 if(Permission.test(other, PermLevel.STAFF)) {
                     other.spigot().sendMessage(componentBuilder.create());
@@ -81,6 +62,11 @@ public class HelpOpCommand extends BasicCommand {
                 }
             });
             Bukkit.getConsoleSender().sendMessage(TextComponent.toPlainText(componentBuilder.create()));
+            return;
         }
+
+        PacketRequestHelp helpRequest = new PacketRequestHelp(profile, builder.toString(), Spotify.SERVER_NAME);
+        Spotify.getInstance().getNetworkHandler().sendPacket(helpRequest);
+
     }
 }

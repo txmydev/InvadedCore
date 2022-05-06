@@ -2,7 +2,7 @@ package invaded.cc.core.tablist;
 
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.Common;
-import net.minecraft.util.com.mojang.authlib.UserType;
+import com.mojang.authlib.UserType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

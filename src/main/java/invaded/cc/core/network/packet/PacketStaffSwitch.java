@@ -5,8 +5,17 @@ import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.common.library.gson.JsonObject;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
 public class PacketStaffSwitch extends PacketListener {
+
+
+    public PacketStaffSwitch(String packet) {
+        super(packet);
+    }
+
     @Override
     public void onReceivePacket(JsonObject packet) {
         String name = packet.get("name").getAsString();

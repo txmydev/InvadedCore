@@ -8,6 +8,7 @@ import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
 import lombok.Getter;
 import invaded.cc.common.library.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.potion.PotionEffectType;
 
@@ -34,7 +35,13 @@ public class PacketStaffChat extends SpotifyPacket {
                 .get();
     }
 
+    @Getter
     public static class Listener extends PacketListener {
+
+
+        public Listener(String packet) {
+            super(packet);
+        }
 
         @Override
         public void onReceivePacket(JsonObject packet) {

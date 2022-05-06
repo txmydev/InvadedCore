@@ -19,6 +19,7 @@ import invaded.cc.core.database.punishments.impl.MongoPunishmentStorage;
 import invaded.cc.core.database.tags.TagStorage;
 import invaded.cc.core.database.tags.impl.HttpTagStorage;
 import invaded.cc.core.database.tags.impl.MongoTagStorage;
+import invaded.cc.core.freeze.FreezeHandler;
 import invaded.cc.core.grant.GrantHandler;
 import invaded.cc.core.listener.*;
 import invaded.cc.core.lunarapi.LunarAPIHandler;
@@ -65,7 +66,7 @@ public class Spotify extends JavaPlugin {
     @Getter
     private static Spotify instance;
 
-    private ConfigFile mainConfig, databaseConfig, announcesConfig;
+    private ConfigFile mainConfig, databaseConfig, announcesConfig, hologramConfig;
 
     private RedisDatabase redisDatabase;
 
@@ -90,6 +91,7 @@ public class Spotify extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
     private SettingsHandler settingsHandler;
     private PollHandler pollHandler;
+    private FreezeHandler freezeHandler;
 
     private MongoDatabase mongoDatabase;
 
@@ -100,6 +102,7 @@ public class Spotify extends JavaPlugin {
         this.mainConfig = new ConfigFile("config.yml", null, false);
         this.databaseConfig = new ConfigFile("database.yml", null, false);
         this.announcesConfig = new ConfigFile("announces.yml", null, false);
+        this.hologramConfig = new ConfigFile("holograms.yml", null, false);
 
         this.setServerName();
 
@@ -163,6 +166,7 @@ public class Spotify extends JavaPlugin {
         scoreboardManager = new ScoreboardManager(this);
         settingsHandler = new SettingsHandler();
         pollHandler = new PollHandler(this);
+        freezeHandler = new FreezeHandler();
     }
 
     private void loadPunishmentHandler() {
@@ -248,6 +252,7 @@ public class Spotify extends JavaPlugin {
         pm.registerEvents(new SignListener(), this);
         pm.registerEvents(new MotdListener(), this);
         pm.registerEvents(new ServerListener(this), this);
+        pm.registerEvents(new FreezeListener(), this);
 
         if(pm.isPluginEnabled("Log4JExploitFix")) {
             pm.registerEvents(new ExploitListener(), this);

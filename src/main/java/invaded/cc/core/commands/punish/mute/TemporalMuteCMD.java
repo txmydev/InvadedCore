@@ -61,8 +61,7 @@ public class TemporalMuteCMD extends BasicCommand {
             if (targetData == null) targetData = profileHandler.load(offlinePlayer.getUniqueId(), args[0]);
 
             if (silent.get()) Common.broadcastMessage(PermLevel.STAFF,
-                    new Clickable("&7[Silent] " + executor + " &ahas temporary muted " + targetData.getColoredName())
-                            .hover(HoverEvent.Action.SHOW_TEXT, "&bReason&7: &f" + reason.toString() + "\n&bLength&7: &f" + DateUtils.formatTime(time - System.currentTimeMillis())).get());
+                    new Clickable("&7[Silent] " + executor + " &ahas temporary muted " + targetData.getColoredName(), "&bReason&7: &f" + reason.toString() + "\n&bLength&7: &f" + DateUtils.formatTime(time - System.currentTimeMillis()), null).asComponents());
             else
                 Common.broadcastMessage(PermLevel.DEFAULT, executor + " &ahas temporary muted " + targetData.getColoredName());
 

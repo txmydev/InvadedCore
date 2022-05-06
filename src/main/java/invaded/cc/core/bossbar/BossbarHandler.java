@@ -4,7 +4,7 @@ import invaded.cc.core.Spotify;
 import invaded.cc.core.tasks.BossBarThread;
 import invaded.cc.core.util.Common;
 import lombok.Getter;
-import net.minecraft.server.v1_7_R4.*;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -139,7 +139,7 @@ public class BossbarHandler {
         dataWatcher.a(0, (byte) 0x20 & ~(1 << 5));
         dataWatcher.a(6, (float) 0);
 
-        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(this.adapter.getEntityId(), dataWatcher.c(), false);
+        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(this.adapter.getEntityId(), dataWatcher, false);
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(this.adapter.getEntityId());
 
         Common.sendPacket(player, metadata);

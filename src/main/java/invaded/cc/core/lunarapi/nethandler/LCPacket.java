@@ -9,8 +9,8 @@ import invaded.cc.core.lunarapi.nethandler.shared.LCNetHandler;
 import invaded.cc.core.lunarapi.nethandler.shared.LCPacketEmoteBroadcast;
 import invaded.cc.core.lunarapi.nethandler.shared.LCPacketWaypointAdd;
 import invaded.cc.core.lunarapi.nethandler.shared.LCPacketWaypointRemove;
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 import java.io.IOException;
 import java.util.HashMap;

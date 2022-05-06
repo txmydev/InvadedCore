@@ -1,17 +1,19 @@
 package invaded.cc.core.tablist;
 
+import com.viaversion.viaversion.ViaVersionPlugin;
+import com.viaversion.viaversion.api.command.ViaVersionCommand;
+import de.gerrygames.viarewind.ViaRewind;
 import invaded.cc.core.util.Common;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_7_R4.PacketPlayOutScoreboardTeam;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
+import net.minecraft.server.v1_8_R3.*;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -23,7 +25,7 @@ public class Tablist {
    // private TabEntry[] entries;
 
     public void setup() {
-        Bukkit.getOnlinePlayers().forEach(other -> Common.sendPacket(player, PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) other).getHandle())));
+        Bukkit.getOnlinePlayers().forEach(other -> Common.sendPacket(player, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) other).getHandle())));
         names = new String[81];
       //  entries = new TabEntry[isLegacy() ? 61 : 81];
 
@@ -47,29 +49,30 @@ public class Tablist {
     }
 
     public boolean isLegacy() {
-        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion() <= 5;
+        return ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player) <= 5;
     }
+
 
     private void create(int index) {
         String name = getTeamName(index);
 
-        PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+        PacketPlayOutPlayerInfo playerInfo = new PacketPlayOutPlayerInfo();
         GameProfile profile = new GameProfile(UUID.randomUUID(), name);
-
+        PacketPlayOutPlayerInfo.PlayerInfoData packet = new PacketPlayOutPlayerInfo.PlayerInfoData(null, -1, null, null);
         if(isLegacy()) {
-            packet.username = profile.getName();
-            packet.action = 1;
-            packet.player = profile;
-            packet.gamemode = -1;
+            packet.d = profile;
+            playerInfo.a = PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
+            packet.e = IChatBaseComponent.ChatSerializer.a(profile.getName());
+            packet.c = WorldSettings.EnumGamemode.NOT_SET;
         } else {
-            packet.username = profile.getName();
+            packet.e = IChatBaseComponent.ChatSerializer.a(profile.getName());
             profile.getProperties().removeAll("textures");
             profile.getProperties().put("textures", new Property("textures", "eyJ0aW1lc3RhbXAiOjE0MTEyNjg3OTI3NjUsInByb2ZpbGVJZCI6IjNmYmVjN2RkMGE1ZjQwYmY5ZDExODg1YTU0NTA3MTEyIiwicHJvZmlsZU5hbWUiOiJsYXN0X3VzZXJuYW1lIiwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg0N2I1Mjc5OTg0NjUxNTRhZDZjMjM4YTFlM2MyZGQzZTMyOTY1MzUyZTNhNjRmMzZlMTZhOTQwNWFiOCJ9fX0=", "u8sG8tlbmiekrfAdQjy4nXIcCfNdnUZzXSx9BE1X5K27NiUvE1dDNIeBBSPdZzQG1kHGijuokuHPdNi/KXHZkQM7OJ4aCu5JiUoOY28uz3wZhW4D+KG3dH4ei5ww2KwvjcqVL7LFKfr/ONU5Hvi7MIIty1eKpoGDYpWj3WjnbN4ye5Zo88I2ZEkP1wBw2eDDN4P3YEDYTumQndcbXFPuRRTntoGdZq3N5EBKfDZxlw4L3pgkcSLU5rWkd5UH4ZUOHAP/VaJ04mpFLsFXzzdU4xNZ5fthCwxwVBNLtHRWO26k/qcVBzvEXtKGFJmxfLGCzXScET/OjUBak/JEkkRG2m+kpmBMgFRNtjyZgQ1w08U6HHnLTiAiio3JswPlW5v56pGWRHQT5XWSkfnrXDalxtSmPnB5LmacpIImKgL8V9wLnWvBzI7SHjlyQbbgd+kUOkLlu7+717ySDEJwsFJekfuR6N/rpcYgNZYrxDwe4w57uDPlwNL6cJPfNUHV7WEbIU1pMgxsxaXe8WSvV87qLsR7H06xocl2C0JFfe2jZR4Zh3k9xzEnfCeFKBgGb4lrOWBu1eDWYgtKV67M2Y+B3W5pjuAjwAxn0waODtEn/3jKPbc/sxbPvljUCw65X+ok0UUN1eOwXV5l2EGzn05t3Yhwq19/GxARg63ISGE8CKw="));
-            packet.player = profile;
-            packet.action = 0;
+            packet.d = profile;
+            playerInfo.a = PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER;
         }
 
-        sendPacket(packet);
+        sendPacket(playerInfo);
         sendPacket(getScoreboardPacket(name, "", "", name, 0));
 
         //TabEntry entry = new TabEntry(profile, index, 0);
@@ -126,14 +129,14 @@ public class Tablist {
 
     private PacketPlayOutScoreboardTeam getScoreboardPacket(String name, String prefix, String suffix, String member, int action) {
         PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();
-        packet.a = name;
-        packet.b = name;
-        packet.c = prefix;
-        packet.d = suffix;
-        packet.f = action;
-        packet.g = 3;
+        packet.name = name;
+        packet.displayName = name;
+        packet.prefix = prefix;
+        packet.suffix = suffix;
+        packet.action = action;
+        packet.optionData = 3;
 
-        if(action == 0) packet.e.add(member);
+        if(action == 0) packet.playerNames.add(member);
         return packet;
     }
 

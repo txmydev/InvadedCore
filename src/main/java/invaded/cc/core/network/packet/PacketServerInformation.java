@@ -8,6 +8,7 @@ import invaded.cc.core.network.server.ServerHandler;
 import invaded.cc.core.util.json.JsonChain;
 import lombok.Getter;
 import invaded.cc.common.library.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 
 @Getter
@@ -49,7 +50,13 @@ public class PacketServerInformation extends SpotifyPacket {
                 .get();
     }
 
+    @Getter
     public static class Listener extends PacketListener {
+
+
+        public Listener(String packet) {
+            super(packet);
+        }
 
         @Override
         public void onReceivePacket(JsonObject packet) {

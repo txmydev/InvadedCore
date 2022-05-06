@@ -2,7 +2,7 @@ package invaded.cc.core.scoreboard;
 
 import invaded.cc.core.Spotify;
 import invaded.cc.core.util.CC;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;

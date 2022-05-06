@@ -6,6 +6,7 @@ import invaded.cc.core.commands.coins.CoinsCommand;
 import invaded.cc.core.commands.disguise.DisguiseCheckCommand;
 import invaded.cc.core.commands.disguise.DisguiseCommand;
 import invaded.cc.core.commands.disguise.UnDisguiseCommand;
+import invaded.cc.core.commands.freeze.FreezeCommand;
 import invaded.cc.core.commands.messaging.*;
 import invaded.cc.core.commands.perms.PermissionCommand;
 import invaded.cc.core.commands.player.*;
@@ -89,6 +90,7 @@ public class CommandHandler {
         new SearchCommand();
         new RedisFailingCommand();
         new TeleportWorldCommand();
+        new FreezeCommand();
 
         Spotify plugin = Spotify.getInstance();
 

@@ -1,5 +1,7 @@
 package invaded.cc.core.manager;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import invaded.cc.core.Spotify;
 import invaded.cc.core.event.PlayerDisguiseEvent;
 import invaded.cc.core.event.PlayerUnDisguiseEvent;
@@ -9,12 +11,10 @@ import invaded.cc.core.util.Common;
 import invaded.cc.core.util.Skin;
 import invaded.cc.core.util.Task;
 import lombok.Getter;
-import net.minecraft.server.v1_7_R4.*;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -72,19 +72,19 @@ public class DisguiseHandler {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
-        PacketPlayOutPlayerInfo remove = PacketPlayOutPlayerInfo.removePlayer(entityPlayer);
+        PacketPlayOutPlayerInfo remove = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
 
         Common.getOnlinePlayers().forEach(other -> {
             Common.sendPacket(other, destroy);
             Common.sendPacket(other, remove);
         });
 
-        if(changeProfile) Common.modifyField("i", entityPlayer, gameProfile, true);
+        if (changeProfile) Common.modifyField("bH", entityPlayer, gameProfile, true);
 
         gameProfile.getProperties().clear();
         gameProfile.getProperties().put("textures", new Property("textures", skin.getTexture(), skin.getSignature()));
 
-        PacketPlayOutPlayerInfo addPlayer = PacketPlayOutPlayerInfo.addPlayer(entityPlayer);
+        PacketPlayOutPlayerInfo addPlayer = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer);
         PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
 
         Common.getOnlinePlayers().forEach(other -> {
@@ -115,7 +115,7 @@ public class DisguiseHandler {
     }
 
     public void sendRespawnPacket(Player player, Consumer<?> onFinish) {
-         ItemStack[] contents = player.getInventory().getContents();
+        ItemStack[] contents = player.getInventory().getContents();
         ItemStack[] armor = player.getInventory().getArmorContents();
         double health = player.getHealth();
         int foodLevel = player.getFoodLevel();
@@ -146,10 +146,8 @@ public class DisguiseHandler {
         }, 5L);
 
 
-
         player.setPlayerListName(player.getName());
     }
-
 
 
 }
