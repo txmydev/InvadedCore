@@ -30,6 +30,8 @@ import java.util.function.Predicate;
 
 public class Common {
 
+    public static final String NAMEMC_PREFIX = CC.GREEN + " ✔";
+
     public static Collection<? extends Player> getOnlinePlayers() {
         return Bukkit.getServer().getOnlinePlayers();
     }
@@ -111,6 +113,20 @@ public class Common {
         });
 
         Bukkit.getConsoleSender().sendMessage(Color.translate(message));
+    }
+
+    public static void broadcastMessage(PermLevel permLevel, Clickable... clickables) {
+        getOnlinePlayers().forEach(player -> {
+            if (!Permission.test(player, permLevel)) return;
+
+            for (Clickable clickable : clickables) {
+                clickable.sendToPlayer(player);
+            }
+        });
+
+        for (Clickable clickable : clickables) {
+            Bukkit.getConsoleSender().sendMessage(TextComponent.toPlainText(clickable.asComponents()));
+        }
     }
 
 
@@ -283,5 +299,15 @@ public class Common {
 
     public static int getVersion(Player player) {
         return ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player);
+    }
+
+    public static void broadcastMessage(PermLevel level, BaseComponent[]... components) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(Permission.test(player, level)) {
+                for (BaseComponent[] component : components) {
+                    player.spigot().sendMessage(component);
+                }
+            }
+        });
     }
 }

@@ -21,6 +21,7 @@ import invaded.cc.core.commands.punish.mute.MuteCMD;
 import invaded.cc.core.commands.punish.mute.TemporalMuteCMD;
 import invaded.cc.core.commands.punish.unpunish.UnBanCMD;
 import invaded.cc.core.commands.punish.unpunish.UnMuteCMD;
+import invaded.cc.core.commands.rank.RankCommand;
 import invaded.cc.core.commands.staff.*;
 import invaded.cc.core.commands.tags.TagsCommand;
 import lombok.Getter;
@@ -99,6 +100,8 @@ public class CommandHandler {
         new TestLunarAPICommand(plugin);
         new ServerCommand(plugin);
         new PollCommand(plugin);
+        new NameMcCommand(plugin);
+        new RankCommand(plugin);
     }
 
 }

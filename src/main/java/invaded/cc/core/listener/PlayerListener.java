@@ -23,6 +23,7 @@ import invaded.cc.core.util.perms.PermLevel;
 import invaded.cc.core.util.perms.Permission;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -69,8 +70,7 @@ public class PlayerListener implements Listener {
             event.setKickMessage(Common.getDisallowedReason(ban));
         }
 
-
-        if(Spotify.getInstance().getNetworkHandler().getConnectionHandler() instanceof BungeeConnectionHandler) Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
+        Spotify.getInstance().getNetworkHandler().sendPacket(PacketProfileInformation.createPacket(profile));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -124,6 +124,30 @@ public class PlayerListener implements Listener {
         if(!networkHandler.isNetworkMode() && Permission.test(player, PermLevel.STAFF)) {
             networkHandler.sendPacket(new PacketStaffJoin(profile.getRealColoredName(), Spotify.SERVER_NAME));
         }
+
+        NameMCUtil.isVerified(player, result -> {
+            if(!result) {
+                player.sendMessage(new String[] {
+                        " ",
+                        CC.PRIMARY + "You haven't liked us yet on " + CC.GREEN + "NameMC" +CC.PRIMARY + "!",
+                        CC.PRIMARY + "If you like us, you will have a custom prefix! ",
+                });
+
+                Clickable clickable = new Clickable(CC.GREEN + "[Click Here]", CC.YELLOW + "Click to open the link to vote us!", "https://es.namemc.com/server/play.ploveruhc.com", ClickEvent.Action.OPEN_URL);
+                clickable.sendToPlayer(player);
+
+                player.sendMessage(" ");
+            } else {
+                profile.setNamemcVerified(true);
+
+                player.sendMessage(new String[] {
+                        " ",
+                        CC.PRIMARY + "Thank you for liking us on " + CC.GREEN + "NameMC" + CC.PRIMARY + "!",
+                        CC.PRIMARY + "When you speak you will have your " + CC.GREEN + Common.NAMEMC_PREFIX +CC.PRIMARY + "!",
+                        " "
+                });
+            }
+        });
 
         CosmeticsHandler cosmeticsHandler = Spotify.getInstance().getCosmeticsHandler();;
         if (cosmeticsHandler.getGlobalMultiplier() > 0.0) player.sendMessage(Color.translate("&a&lThere's a &e&lGlobal Coin Multiplier &a&lwhich gives you &b&l" + cosmeticsHandler.getGlobalMultiplier() + "x" + "&a&lmore coins, enjoy it!"));
@@ -232,7 +256,7 @@ public class PlayerListener implements Listener {
             Common.broadcastMessage(PermLevel.STAFF, filter);
         }
 
-        String format = profile.getChatFormat() + "&f: ";
+        String format = profile.getChatFormat() + (profile.isNamemcVerified() ? Common.NAMEMC_PREFIX : "") + "&f: ";
         event.setFormat(Color.translate(format + "%2$s"));
     }
 

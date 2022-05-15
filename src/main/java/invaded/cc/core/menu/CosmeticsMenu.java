@@ -32,7 +32,7 @@ public class CosmeticsMenu extends Menu {
         if (event.getSlot() == 29) openTrailMenu(player);
         if (event.getSlot() == 33) handleDisguiseAccess(player);
         if (event.getSlot() == 15) openTagsMenu(player);
-        if (event.getSlot() == 22) openRankBuyMenu(player);
+        // if (event.getSlot() == 22) openRankBuyMenu(player);
 
     }
 
@@ -121,10 +121,7 @@ public class CosmeticsMenu extends Menu {
         inventory.setItem(22, new ItemBuilder().type(Material.DIAMOND_BLOCK)
                 .name("&eBuy Ranks!")
                 .lore(Common.getLine(40),
-                        "&b&lNEW FEATURE!",
-                        "&7You can now buy ranks by using",
-                        "&7your coins which are earned by",
-                        "&7playing our UHC Games!",
+                        "&cThis feature is disabled.",
                         Common.getLine(40)).build());
 
         inventory.setItem(40, new ItemBuilder().type(Material.GOLD_NUGGET).name("&bYour Coins&7: &6" + profile.getCoins() + " ©").build());

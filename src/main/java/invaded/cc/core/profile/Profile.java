@@ -39,7 +39,7 @@ public class Profile {
     private Punishment mute;
 
     private List<Grant> grants;
-    private Set<String> permissions;
+    private Set<String> permissions = new HashSet<>();
 
     private boolean loaded;
 
@@ -50,8 +50,8 @@ public class Profile {
     private Set<String> ignoreList = new HashSet<>();
     private ChatColor chatColor = null;
     private boolean italic = false, spaceBetweenRank = false;
-    private boolean messages;
-    private boolean messagesSound, buildMode;
+    private boolean messages = true;
+    private boolean messagesSound= true, buildMode;
     private boolean bossBar = true, lunarBorder;
 
     private boolean staffChat = false;
@@ -61,6 +61,7 @@ public class Profile {
     private boolean staffAlerts = true;
     private boolean socialSpy;
     private boolean lunarPrefix;
+    private boolean namemcVerified;
 
     private Tag activePrefix;
     private Tag activeSuffix;

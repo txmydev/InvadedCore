@@ -2,8 +2,10 @@ package invaded.cc.core.rank;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.Document;
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,7 +14,7 @@ public class Rank {
 
     private final String name;
     private String prefix = "", suffix = "";
-    private List<String> permissions;
+    private List<String> permissions = new ArrayList<>();
     private ChatColor color = ChatColor.WHITE;
     private boolean defaultRank;
     private boolean italic = false, bold = false;
@@ -22,6 +24,18 @@ public class Rank {
 
     public Rank(String name) {
         this.name = name;
+    }
+
+    public Document toDocument() {
+        return new org.bson.Document("name", name)
+                .append("priority", priority)
+                .append("defaultRank", defaultRank)
+                .append("prefix", prefix)
+                .append("suffix", suffix)
+                .append("permissions", permissions)
+                .append("color", color.toString())
+                .append("italic", italic)
+                .append("bold", bold);
     }
 
     public String getColoredName() {
@@ -36,4 +50,6 @@ public class Rank {
         return name.equalsIgnoreCase("Twitch") || name.equalsIgnoreCase("Youtube")
                 || name.equalsIgnoreCase("Partner");
     }
+
+
 }

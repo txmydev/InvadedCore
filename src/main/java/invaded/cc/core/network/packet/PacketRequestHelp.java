@@ -6,6 +6,7 @@ import invaded.cc.core.network.PacketListener;
 import invaded.cc.core.network.SpotifyPacket;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.util.CC;
+import invaded.cc.core.util.Clickable;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.json.JsonChain;
 import invaded.cc.core.util.perms.PermLevel;
@@ -52,31 +53,16 @@ public class PacketRequestHelp extends SpotifyPacket {
 
         @Override
         public void onReceivePacket(JsonObject packet) {
-            System.out.println("recevied packet " + packet.toString());
-
             String server = packet.get("server").getAsString();
-            String id = packet.get("id").getAsString();
             String name = packet.get("name").getAsString();
             String message = packet.get("message").getAsString();
+            boolean sameServer = Spotify.SERVER_NAME.equalsIgnoreCase(server);
 
-            ComponentBuilder builder = new ComponentBuilder(CC.BLUE + "[Helpop] " + CC.GRAY + "[" + server + "] " + CC.AQUA + name + CC.GRAY + " asked for help: ");
-            ComponentBuilder reasonBuilder = new ComponentBuilder("   " +CC.BLUE + "Reason: " + CC.GRAY + message);
+            Clickable first = new Clickable(CC.BLUE + "[Helpop] " + CC.GRAY + "[" + server + "] " + CC.AQUA + name + CC.GRAY + " asked for help: ", sameServer ? CC.GREEN + "Click to teleport to " + name : CC.BLUE + "Click to be sent to " + server + "\n " +
+                    CC.BD_RED + "    Warning: This will switch your server.", sameServer ? "/tp " + name : "/join " + server);
+            Clickable second = new Clickable("   " +CC.BLUE + "Reason: " + CC.GRAY + message, null, null);
 
-            if(Spotify.SERVER_NAME.equalsIgnoreCase(server)) {
-                builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + name));
-                builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(CC.GREEN + "Click to teleport to " + name).create()));
-            } else {
-                builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/join " + server));
-                builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(CC.BLUE + "Click to be sent to " + server + "\n  " + CC.BD_RED + "Warning:" + CC.RED + " This will switch your server!").create()));
-            }
-
-            Common.getOnlinePlayers().forEach(player -> {
-                if(Permission.test(player, PermLevel.STAFF)) {
-                    player.spigot().sendMessage(builder.create());
-                    player.spigot().sendMessage(reasonBuilder.create());
-                }
-            });
-            Bukkit.getConsoleSender().sendMessage(TextComponent.toPlainText(builder.create()));
+            Common.broadcastMessage(PermLevel.STAFF, first, second);
         }
     }
 

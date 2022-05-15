@@ -4,6 +4,6 @@ timezone:
   set-from-here: false
   zone: America/Buenos_Aires
 network-mode: false
+namemc-verifier-rank: 'Verified'
 motd:
-  - 'Panda es re trolo'
-  - 'xd'
+  - 'a motd'

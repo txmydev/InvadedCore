@@ -3,19 +3,24 @@ package invaded.cc.core;
 import invaded.cc.common.library.gson.Gson;
 import invaded.cc.common.library.gson.GsonBuilder;
 import invaded.cc.core.alts.AltHandler;
+import invaded.cc.core.assemble.Assemble;
+import invaded.cc.core.assemble.AssembleAdapter;
 import invaded.cc.core.bossbar.BossbarHandler;
 import invaded.cc.core.database.MongoDatabase;
 import invaded.cc.core.database.MongoSettings;
+import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.database.grant.GrantStorage;
 import invaded.cc.core.database.grant.impl.HttpGrantStorage;
 import invaded.cc.core.database.grant.impl.MongoGrantStorage;
 import invaded.cc.core.database.player.PlayerStorage;
-import invaded.cc.core.database.RedisDatabase;
 import invaded.cc.core.database.player.impl.HttpPlayerStorage;
 import invaded.cc.core.database.player.impl.MongoPlayerStorage;
 import invaded.cc.core.database.punishments.PunishmentStorage;
 import invaded.cc.core.database.punishments.impl.HttpPunishmentStorage;
 import invaded.cc.core.database.punishments.impl.MongoPunishmentStorage;
+import invaded.cc.core.database.ranks.HttpRankStorage;
+import invaded.cc.core.database.ranks.MongoRankStorage;
+import invaded.cc.core.database.ranks.RankStorage;
 import invaded.cc.core.database.tags.TagStorage;
 import invaded.cc.core.database.tags.impl.HttpTagStorage;
 import invaded.cc.core.database.tags.impl.MongoTagStorage;
@@ -31,16 +36,14 @@ import invaded.cc.core.permission.PermissionHandler;
 import invaded.cc.core.poll.PollHandler;
 import invaded.cc.core.profile.Profile;
 import invaded.cc.core.profile.ProfileHandler;
-import invaded.cc.core.settings.SettingsHandler;
 import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
-import invaded.cc.core.scoreboard.ScoreboardManager;
+import invaded.cc.core.settings.SettingsHandler;
 import invaded.cc.core.tablist.TablistHandler;
 import invaded.cc.core.tags.Tag;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.tasks.AnnounceTask;
-import invaded.cc.core.tasks.CosmeticsTask;
 import invaded.cc.core.tasks.MenuTask;
 import invaded.cc.core.util.Common;
 import invaded.cc.core.util.ConfigFile;
@@ -88,7 +91,7 @@ public class Spotify extends JavaPlugin {
     private AltHandler altHandler;
     private TablistHandler tablistHandler;
     private LunarAPIHandler lunarHandler;
-    private ScoreboardManager scoreboardManager;
+    private Assemble scoreboardManager;
     private SettingsHandler settingsHandler;
     private PollHandler pollHandler;
     private FreezeHandler freezeHandler;
@@ -152,8 +155,9 @@ public class Spotify extends JavaPlugin {
         this.loadProfileHandler();
         this.loadPunishmentHandler();
         this.loadTagHandler();
+        this.loadRankHandler();
 
-        rankHandler = new RankHandler();
+
         cosmeticsHandler = new CosmeticsHandler();
         networkHandler = new NetworkHandler(this);
         serverHandler = new ServerHandler();
@@ -163,16 +167,39 @@ public class Spotify extends JavaPlugin {
         tablistHandler = new TablistHandler(this);
         // altHandler = new AltHandler(this);
         lunarHandler = new LunarAPIHandler(this);
-        scoreboardManager = new ScoreboardManager(this);
         settingsHandler = new SettingsHandler();
         pollHandler = new PollHandler(this);
         freezeHandler = new FreezeHandler();
     }
 
+
+
+    public void setScoreboardProvider(AssembleAdapter adapter) {
+        if (this.scoreboardManager == null) {
+            this.scoreboardManager = new Assemble(this, adapter);
+            this.scoreboardManager.setTicks(2L);
+        }
+        else this.scoreboardManager.setAdapter(adapter);
+    }
+
+    public void setScoreboardTicks(long ticks) {
+        if (this.scoreboardManager == null) return;
+        this.scoreboardManager.setTicks(ticks);
+    }
+
+    private void loadRankHandler() {
+        RankStorage storage;
+
+        if (!isMongo()) storage = new HttpRankStorage();
+        else storage = new MongoRankStorage(mongoDatabase);
+
+        rankHandler = new RankHandler(storage);
+    }
+
     private void loadPunishmentHandler() {
         PunishmentStorage storage;
 
-        if(!isMongo()) storage = new HttpPunishmentStorage();
+        if (!isMongo()) storage = new HttpPunishmentStorage();
         else storage = new MongoPunishmentStorage(mongoDatabase);
 
         punishmentHandler = new PunishmentHandler(storage);
@@ -181,7 +208,7 @@ public class Spotify extends JavaPlugin {
     private void loadGrantHandler() {
         GrantStorage storage;
 
-        if(!isMongo()) storage = new HttpGrantStorage();
+        if (!isMongo()) storage = new HttpGrantStorage();
         else storage = new MongoGrantStorage(mongoDatabase);
 
         grantHandler = new GrantHandler(storage);
@@ -190,12 +217,11 @@ public class Spotify extends JavaPlugin {
     private void loadTagHandler() {
         TagStorage storage;
 
-        if(!isMongo()) storage = new HttpTagStorage();
+        if (!isMongo()) storage = new HttpTagStorage();
         else storage = new MongoTagStorage(mongoDatabase);
 
         tagsHandler = new TagsHandler(storage);
     }
-
 
 
     public boolean isMongo() {
@@ -205,13 +231,14 @@ public class Spotify extends JavaPlugin {
     private void loadProfileHandler() {
         PlayerStorage storage;
 
-        if(!isMongo()) storage = new HttpPlayerStorage();
+        if (!isMongo()) storage = new HttpPlayerStorage();
         else storage = new MongoPlayerStorage(mongoDatabase);
 
         profileHandler = new ProfileHandler(storage);
     }
+
     public void connectMongo() {
-        if(!isMongo()) return;
+        if (!isMongo()) return;
 
         ConfigTracker configTracker = new ConfigTracker(databaseConfig, "mongo");
         MongoSettings mongoSettings = new MongoSettings(
@@ -225,9 +252,10 @@ public class Spotify extends JavaPlugin {
 
         mongoDatabase = new MongoDatabase(mongoSettings);
     }
+
     private void setupTasks() {
         new MenuTask();
-    //    new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
+        //    new CosmeticsTask().runTaskTimerAsynchronously(this, 0L, 1L);
         new AnnounceTask(this).runTaskTimerAsynchronously(this, 100L, announcesConfig.getInt("period-time") * 60L * 20L);
 
         bossbarHandler.start();
@@ -254,7 +282,7 @@ public class Spotify extends JavaPlugin {
         pm.registerEvents(new ServerListener(this), this);
         pm.registerEvents(new FreezeListener(), this);
 
-        if(pm.isPluginEnabled("Log4JExploitFix")) {
+        if (pm.isPluginEnabled("Log4JExploitFix")) {
             pm.registerEvents(new ExploitListener(), this);
         }
     }
@@ -274,7 +302,7 @@ public class Spotify extends JavaPlugin {
         this.serverHandler.shutdown();
         this.tablistHandler.shutdown();
 
-        if(!Spotify.SERVER_NAME.contains("hub")) {
+        if (!Spotify.SERVER_NAME.contains("hub")) {
             Bukkit.getOnlinePlayers().forEach(player -> Common.joinServer(player, "na-hub-01"));
         }
 

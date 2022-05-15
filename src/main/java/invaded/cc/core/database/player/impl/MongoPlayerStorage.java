@@ -41,8 +41,8 @@ public class MongoPlayerStorage implements PlayerStorage {
                 profile.setChatColor(document.getString("color").equals("none") ? null : ChatColor.valueOf(document.getString("color")));
 
             profile.setItalic(document.getBoolean("italic", false));
-            profile.setMessages(document.getBoolean("privateMessages", false));
-            profile.setMessagesSound(document.getBoolean("privateMessagesSound", false));
+            profile.setMessages(document.getBoolean("privateMessages", true));
+            profile.setMessagesSound(document.getBoolean("privateMessagesSound", true));
             profile.setAllowDisguise(document.getBoolean("allowDisguise", false));
 
             profile.setIgnoreList(new HashSet<>(document.getList("ignoreList", String.class, new ArrayList<>())));
