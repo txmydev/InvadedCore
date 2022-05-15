@@ -8,6 +8,7 @@ import invaded.cc.core.database.MongoDatabase;
 import invaded.cc.core.rank.Rank;
 import lombok.Getter;
 import org.bson.Document;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,7 +38,22 @@ public class MongoRankStorage implements RankStorage {
         collection.find()
                 .forEach((Consumer<? super Document>)
                         document -> {
-                            Rank rank = Spotify.GSON.fromJson(document.toJson(), Rank.class);
+                            Rank rank = new Rank(document.getString("name"));
+                            rank.setPriority(document.getInteger("priority"));
+                            rank.setDefaultRank(document.getBoolean("defaultRank"));
+                            rank.setPrefix(document.getString("prefix"));
+                            rank.setSuffix(document.getString("suffix"));
+                            rank.setPermissions(document.getList("permissions", String.class));
+                            try {
+                                rank.setColor(ChatColor.valueOf(document.getString("color")));
+                            }catch(Exception ex) {
+                                ex.printStackTrace();
+                                rank.setColor(ChatColor.WHITE);
+                            }
+
+                            rank.setItalic(document.getBoolean("italic"));
+                            rank.setBold(document.getBoolean("bold"));
+
                             ranks.add(rank);
                             plugin.getLogger().info("Gotten rank " + rank.getName() + " from json "
                                     + document.toJson());
