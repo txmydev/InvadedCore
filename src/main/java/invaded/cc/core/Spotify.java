@@ -40,7 +40,7 @@ import invaded.cc.core.punishment.PunishmentHandler;
 import invaded.cc.core.rank.Rank;
 import invaded.cc.core.rank.RankHandler;
 import invaded.cc.core.settings.SettingsHandler;
-import invaded.cc.core.tablist.TablistHandler;
+import invaded.cc.core.tablist.TablistManager;
 import invaded.cc.core.tags.Tag;
 import invaded.cc.core.tags.TagsHandler;
 import invaded.cc.core.tasks.AnnounceTask;
@@ -89,7 +89,7 @@ public class Spotify extends JavaPlugin {
     private SocialSpyHandler socialSpyHandler;
     private NametagManager nametagHandler;
     private AltHandler altHandler;
-    private TablistHandler tablistHandler;
+    private TablistManager tablistHandler;
     private LunarAPIHandler lunarHandler;
     private Assemble scoreboardManager;
     private SettingsHandler settingsHandler;
@@ -164,7 +164,7 @@ public class Spotify extends JavaPlugin {
         socialSpyHandler = new SocialSpyHandler(this);
         bossbarHandler = new BossbarHandler();
         nametagHandler = new NametagManager(this);
-        tablistHandler = new TablistHandler(this);
+        tablistHandler = new TablistManager();
         // altHandler = new AltHandler(this);
         lunarHandler = new LunarAPIHandler(this);
         settingsHandler = new SettingsHandler();
@@ -300,7 +300,6 @@ public class Spotify extends JavaPlugin {
         this.redisDatabase.shutdown();
         this.bossbarHandler.stop();
         this.serverHandler.shutdown();
-        this.tablistHandler.shutdown();
 
         if (!Spotify.SERVER_NAME.contains("hub")) {
             Bukkit.getOnlinePlayers().forEach(player -> Common.joinServer(player, "na-hub-01"));

@@ -145,11 +145,6 @@ public class API {
         return Spotify.getInstance().getProfileHandler().getProfile(player).isLunarBorder();
     }
 
-    public void setTabAdapter(TabAdapter adapter) {
-        Spotify.getInstance().getTablistHandler().setAdapter(adapter);
-    }
-
-
     public Server getServer(String serverId) {
         return Spotify.getInstance().getServerHandler().getServer(serverId);
     }

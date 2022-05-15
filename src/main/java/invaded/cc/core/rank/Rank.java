@@ -15,7 +15,7 @@ public class Rank {
     private final String name;
     private String prefix = "", suffix = "";
     private List<String> permissions = new ArrayList<>();
-    private ChatColor color;
+    private ChatColor color = ChatColor.WHITE;
     private boolean defaultRank;
     private boolean italic = false, bold = false;
     private int priority;
