@@ -7,7 +7,7 @@ public class TablistManager {
 
     private TabElementHandler adapter;
     private TabHandler handler;
-    private long ticks = 5L;
+    private long ticks = 50L;
 
     public void setAdapter(TabElementHandler adapter) {
         this.adapter = adapter;
